@@ -1,0 +1,341 @@
+﻿
+@using Newtonsoft.Json;
+
+
+@{
+    var numberMap = ViewBag.numberMap;
+    var latStart = ViewBag.latStart;
+    var lngStart = ViewBag.lngStart;
+    var lngEnd = ViewBag.lngEnd;
+    var latEnd = ViewBag.latEnd;
+    var listSelectType = ViewBag.listSelectType as List<SelectListItem>;
+}
+<style>
+    #map {
+        width: 100%;
+        height: @(ViewBag.height)px;
+    }
+    html,
+    @{
+        var latOld = Html.Raw(ViewBag.latOld);
+        var lngOld = Html.Raw(ViewBag.lngOld);
+    }
+</style>
+
+
+
+
+<div style="display: flex; justify-content: space-between;">
+
+    @*@if (@ViewBag.typeChooseCheck)
+        {
+            <div style="margin-bottom: 10px; width: 30%;">
+                <select id="listSelectType" name="listSelectType">
+                    <option value="">--Chọn điểm--</option>
+                    @foreach (var item in listSelectType)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        }*@
+
+
+    <div style="margin-bottom: 10px; width: 30%;">
+        <select id="listSelectType" name="listSelectType">
+            <option value="">--Chọn điểm--</option>
+            <option value="START">Điểm đầu</option>
+            <option value="END">Điểm cuối</option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <button style="padding: 7px; background-color: #2980b9; outline: none; border: none; color: white; border-radius: 5px; " id="draw">Chỉ đường</button>
+    </div>
+
+
+</div>
+
+
+
+<div id="map"></div>
+
+
+
+
+<script>
+
+
+
+    var latold = parseFloat("@latOld".replace(',', '.'));
+    var lngold = parseFloat("@lngOld".replace(',', '.'));
+
+
+
+    var latStartP = parseFloat("@latStart".replace(',', '.'));
+    var lngStartP = parseFloat("@lngStart".replace(',', '.'));
+    var latEndP = parseFloat("@latEnd".replace(',', '.'));
+    var lngEndP = parseFloat("@lngEnd".replace(',','.'))
+
+
+    var clickedLat, clickedLng;
+    var myLatlng = { lat: parseFloat("@ViewBag.lat".replace(',', '.')), lng:parseFloat("@ViewBag.lng".replace(',', '.')) };
+   
+
+    var map;
+    var marker = null;
+    var choose = ["start", "end"]
+    var markercheck = [];
+
+    var mks = [];
+    var indexOverLay;
+
+
+
+
+    var iconBase ="https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+    //Promise.all(ajaxRequests)
+    //    .then(() => {
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: myLatlng,
+                    zoom: @ViewBag.ZoomLevel,
+                    mapTypeControl: false
+                });
+
+                removeMarkers();
+                IconCenter = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    icon: {
+                        url: '/Uploads/IconMarker/CenterPoint.png',
+                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                    }
+                });
+                markers.push(IconCenter);
+                map.setZoom(12)
+
+                const wmsLayer = getWMSLayer(map, WMS_UrlMap.layers_BaseMap, '', 1.0);
+
+                map.overlayMapTypes.push(wmsLayer);
+
+
+
+                indexOverLay = -1;
+                for (let inover = 0; inover < map.overlayMapTypes.length; inover++) {
+                    indexOverLay = map.overlayMapTypes.length;
+                    if (map.overlayMapTypes.getAt(inover)) {
+                        indexOverLay = inover;
+                        break;
+                    }
+                }
+
+                if (latStartP || lngStartP || lngEndP || latEndP ) {
+                    var newStart = new google.maps.Marker({
+                        position: {
+                            lat: latStartP,
+                            lng: lngStartP
+                        },
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/start.png',
+                            scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                        }
+                    })
+                    var newEnd = new google.maps.Marker({
+                        position: {
+                            lat: latEndP,
+                            lng: lngEndP
+                        },
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/end.png',
+                            scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                        }
+                    })
+                    markercheck[0] = newStart
+                    markercheck[1] = newEnd
+
+                    mks[0] = `${latStartP},${lngStartP}`;
+                    mks[1] = `${latEndP},${lngEndP}`;
+
+                    markers.push(newStart)
+                    markers.push(newEnd)
+                }
+
+                if (latold != null && lngold != null) {
+                    // Marker generated by Db
+                    const uluru = { lat: latold, lng: lngold };
+                    const contentString =
+                        '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        "</div>" +
+                        '<h1 id="firstHeading" class="firstHeading">Điểm đã chọn</h1>' +
+                        "</div>" +
+                        "</div>";
+                    const infowindow = new google.maps.InfoWindow({
+                        content: contentString,
+                        ariaLabel: "Uluru",
+                    });
+                    marker = new google.maps.Marker({
+                        position: uluru,
+                        map,
+                        title: "Uluru (Ayers Rock)",
+                    });
+
+                    marker.addListener("click", () => {
+                        infowindow.open({
+                            anchor: marker,
+                            map,
+                        });
+                    });
+                }
+                // Add a click event listener to the map
+
+                map.addListener("click", (event) => {
+                    let typechoose = $('#listSelectType').val();
+                    // Retrieve the latitude and longitude coordinates
+                    const clickedLatLng = event.latLng;
+                    clickedLat = formatToWGS84(clickedLatLng.lat());
+                    clickedLng = formatToWGS84(clickedLatLng.lng());
+                    setLatLng(typechoose);
+                    // Remove the previous marker, if it exists
+                    if (@numberMap > 1) {
+                        if (markercheck.length < 2) {
+                            if (typechoose == "" || typechoose == "START") {
+                                if (markercheck[0] != null) {
+                                    markercheck[0].setMap(null)
+                                }
+                                var startmarker = new google.maps.Marker({
+                                    position: event.latLng,
+                                    map: map,
+                                    icon: {
+                                        url: '/Uploads/IconMarker/start.png',
+                                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                                    }
+                                });
+
+                                mks[0] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;
+                                markercheck[0] = startmarker;
+                            } else {
+                                if (markercheck[1] != null) {
+                                    markercheck[1].setMap(null)
+                                }
+                                var endmarker = new google.maps.Marker({
+                                    position: event.latLng,
+                                    map: map,
+                                    icon: {
+                                        url: '/Uploads/IconMarker/end.png',
+                                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                                    }
+                                });
+                                mks[1] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;
+                                markercheck[1] = endmarker;
+                            }
+                        } else {
+                            if (typechoose == "" || typechoose == "START") {
+                                if (markercheck[0] != null) {
+                                    markercheck[0].setMap(null)
+                                }
+                                var startmarker = new google.maps.Marker({
+                                    position: event.latLng,
+                                    map: map,
+                                    icon: {
+                                        url: '/Uploads/IconMarker/start.png',
+                                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                                    }
+                                });
+                                mks[0] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;
+
+                                markercheck[0] = startmarker;
+                            } else {
+                                if (markercheck[1] != null) {
+                                    markercheck[1].setMap(null)
+                                }
+                                var endmarker = new google.maps.Marker({
+                                    position: event.latLng,
+                                    map: map,
+                                    icon: {
+                                        url: '/Uploads/IconMarker/end.png',
+                                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                                    }
+                                });
+                                mks[1] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;
+
+                                markercheck[1] = endmarker;
+                            }
+                        }
+
+                    }
+
+                    
+                });
+
+                if (latStartP != null && latEndP != null && lngStartP != null && lngEndP != null) {
+                    debugger
+                    startP = { lat: latStartP, lng: lngStartP };
+                    endP = { lat: latEndP, lng: lngEndP };
+                    drawRoute(startP, endP);
+                }
+
+    }
+
+    function drawRoute(startPoint, endPoint) {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        var request = {
+            origin: startPoint,
+            destination: endPoint,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            }
+        });
+    }
+
+
+    document.getElementById('draw').addEventListener("click", function (e) {
+        e.preventDefault();
+        drawRoute(mks[0], mks[1])
+    })
+
+
+     window.initMap = initMap;
+        //})
+        //.catch((error) => {
+        //    console.error(error);
+        //});
+
+    var markers = [];
+
+    // Function to remove all markers from the map
+    function removeMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers.length = 0; // Clear the markers array
+    }
+
+
+    function removeMarkersCheck() {
+        for (let i = 0; i < markercheck.length; i++) {
+            markercheck[i].setMap(null);
+        }
+        markercheck.length = 0; // Clear the markers array
+    }
+
+    function removeOverLay(map, indexOverLay) {
+        if (indexOverLay != -1) {
+            map.overlayMapTypes.removeAt(indexOverLay);
+        }
+    }
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly"
+        defer></script>

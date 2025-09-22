@@ -1,0 +1,100 @@
+﻿@using Hinet.Service.Common;
+@using System.Globalization
+@using Newtonsoft.Json
+@using CommonHelper.String
+@using Hinet.Web.Areas.SmartReportArea.Models;
+@using Hinet.Service.Constant;
+@model List<Hinet.Model.MongoEntities.SmartReportMDB>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+    ViewBag.ModuleCode = "Dashboard_SmartReport";
+}
+
+<div class="smart-report-dashboard">
+
+    @{
+        var tabs = Model.GroupBy(x => x.Tab).ToList();
+        bool first = true;
+    }
+
+    @section ReportTab{
+        @if (tabs.Count > 1)
+        {
+            first = true;
+        <ul class="nav nav-tabs" id="myTab3">
+            @foreach (var item in tabs)
+                {
+            <li class="@(first ? "active":"") ">
+                <a data-toggle="tab" href="#@(StringUtilities.RemoveUnicode(item.Key.Replace(" ","-")))" aria-expanded="false">
+                    @item.Key
+                </a>
+            </li>
+                    first = false;
+                }
+        </ul>
+        }
+
+    }
+    <div class="tab-content">
+        @{ first = true;}
+        @foreach (var tab in tabs)
+        {
+        <div id="@StringUtilities.RemoveUnicode(tab.Key.Replace(" ","-"))" class="tab-pane @(first ? "active":"")">
+            @foreach (var item in tab)
+                {
+                    if (item.isStatic)
+                    {
+                        var url = item.Url.Split('/').Reverse().ToList();
+                        var action = url.ElementAtOrDefault(0);
+                        var controler = url.ElementAtOrDefault(1);
+                        var area = url.ElementAtOrDefault(2);
+            <div class="@(item.ClassCol ?? "col-sm-4")">
+                @Html.Action("LoginHCM", controler, new { @area = area });
+            </div>
+
+                    }
+
+                    else if (BDTypeConstant.IsBoxCount(item.Type))
+                    {
+            <div class=" box-baocao-count @(item.ClassCol ?? "col-sm-4")">
+                <iframe src="/SmartReportArea/SmartReport/ViewChart?id=@item.Id" frameborder="0" style="width:100%; height:100%"></iframe>
+            </div>
+                    }
+                    else
+                    {
+            <div class="box-baocao @(item.ClassCol ?? "col-sm-4")">
+                <div class="drag"></div>
+                <div class="resize-able">
+                    <iframe src="/SmartReportArea/SmartReport/ViewChart?id=@item.Id" frameborder="0" style="width:100%; height:100%"></iframe>
+                    <div class="namereport">
+                        <a href="javascript:OpenModal('/SmartReportArea/SmartReport/DetailPartial?id=@item.Id', 'post')">
+                            @item.Name
+                        </a>
+                    </div>
+                </div>
+            </div>
+                    }
+                }
+        </div>
+            first = false;
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //$("#Tab-1").css("position", "relative");
+        //return $("#Tab-1").gridly({
+        //    base: 60,
+        //    gutter: 20,
+        //    columns: 12,
+        //    draggable: {
+        //        zIndex: 800,
+        //        selector: "> *",
+        //    },
+        //});
+        //$('.box-baocao').draggable().resizable();
+        //$('.box-baocao-count').draggable().resizable();
+
+    })
+</script>

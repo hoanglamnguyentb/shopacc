@@ -1,0 +1,25 @@
+﻿@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/assets/plugins/bootstrap/js/bootstrap.bundle.js"></script>
+    <link href="~/assets/plugins/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/assets/css/home.css" rel="stylesheet" />
+    @RenderSection("css", false)
+    <title>Hệ thống báo cáo</title>
+    <style>
+    </style>
+</head>
+<body>
+    @Html.Partial("~/Views/Shared/Components/_HeaderPartial.cshtml")
+    @RenderBody()
+    @Html.Partial("~/Views/Shared/Components/_FooterPartial.cshtml")
+    <script src="~/assets/plugins/jquery/jquery.min.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

@@ -1,0 +1,366 @@
+@font-face {
+    font-family: "Roboto-Black";
+    src: url("../fonts/Roboto-Black.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-BlackItalic";
+    src: url("../fonts/Roboto-BlackItalic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-Bold";
+    src: url("../fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-BoldCondensed";
+    src: url("../fonts/Roboto-BoldCondensed.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-Condensed";
+    src: url("../fonts/Roboto-Condensed.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-Medium";
+    src: url("../fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto-Thin";
+    src: url("../fonts/Roboto-Thin.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoCondensed-Bold";
+    src: url("../fonts/RobotoCondensed-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoCondensed-Regular";
+    src: url("../fonts/RobotoCondensed-Regular.ttf") format("truetype");
+}
+
+header {
+    padding-bottom: 20px;
+    display: block;
+    width: 100%;
+    background-color: white;
+    padding-top: 20px;
+}
+
+    header h1, header h2 {
+        font-weight: bold;
+    }
+
+    header h1 {
+        font-size: 40px;
+        line-height: 1;
+        color: #2980b9;
+        font-family: Roboto-Bold;
+    }
+
+    header h2 {
+        font-size: 35px;
+        color: #0085b6;
+        line-height: 1.2;
+        /*font-family: Roboto-Condensed;*/
+    }
+
+.page-content {
+    /*background-image: url("../assets/images/backgound.png");*/
+    /*background-image: url('../assets/images/bg-baodaibieu.png');*/
+    background-color: white;
+    background-size: auto;
+    height: 100vh;
+}
+
+.wrap-login-form {
+    margin-top: 50px;
+}
+    /*.wrap-login-form .login-form-brand {
+  margin-top: -10px;
+  margin-left: -50px;
+}*/
+    .wrap-login-form .login-form-brand #logo-brand {
+        display: block;
+        width: 250px;
+        height: 250px;
+        margin: 0 auto;
+        background-image: url("../Content/Img/process_hr.png");
+        background-size: cover;
+        background-position: center;
+    }
+
+    .wrap-login-form .login-form-brand #logo-content {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        color: #f2fff7;
+        font-family: Roboto-Condensed;
+    }
+
+        .wrap-login-form .login-form-brand #logo-content .title {
+            text-align: center;
+            font-size: 1.9em;
+            font-weight: bold;
+        }
+
+            .wrap-login-form .login-form-brand #logo-content .title h3 {
+                font-size: 0.8em;
+                font-family: Roboto-Condensed !important;
+            }
+
+        .wrap-login-form .login-form-brand #logo-content .diachi {
+            text-align: center;
+            font-family: Roboto-Condensed;
+        }
+
+            .wrap-login-form .login-form-brand #logo-content .diachi span {
+                font-weight: bold;
+            }
+
+            .wrap-login-form .login-form-brand #logo-content .diachi a {
+                color: #fff;
+            }
+
+.login-form-form {
+    margin-left: 50px;
+    border-radius: 10px;
+    /*padding-left: 30px;
+  padding-right: 30px;*/
+    background-color: #00aeef;
+    -webkit-box-shadow: 0px 0px 15px -2px #616161;
+    -moz-box-shadow: 0px 0px 15px -2px #616161;
+    box-shadow: 0px 0px 15px -2px #616161;
+}
+
+    .login-form-form hr {
+        height: 1px;
+        color: #0066B8;
+        background-color: #0066B8;
+        border: none;
+    }
+
+    .login-form-form h2 {
+        text-align: center;
+        color: #ffffff;
+        font-family: Roboto-Condensed;
+        line-height: 0.5;
+        margin-top: 20px;
+    }
+
+    .login-form-form label {
+        font-size: 1.3em;
+        font-family: Roboto-Condensed;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .login-form-form .submit {
+        text-align: center;
+    }
+
+    .login-form-form input[type=submit] {
+        width: 100%;
+        font-size: 1.3em;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+        line-height: 35px;
+        background-color: #1779e3 !important;
+    }
+
+        .login-form-form input[type=submit]:hover {
+            background-color: #fa4b5f !important;
+        }
+
+    .login-form-form input[type=checkbox] {
+        display: none;
+    }
+
+    .login-form-form .checkbox {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .login-form-form .checkmark {
+        margin-top: 2px;
+        position: absolute;
+        top: 4px;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #eee;
+    }
+
+    .login-form-form .checkbox input:checked ~ .checkmark {
+        background-color: #fa4b5f;
+    }
+
+    .login-form-form .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .login-form-form .checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .login-form-form .checkbox .checkmark:after {
+        left: 7px;
+        top: 2px;
+        width: 7px;
+        height: 15px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .login-form-form .login-form-brand {
+        height: 300px;
+    }
+
+    .login-form-form a {
+        color: #ffffff !important;
+        font-size: 1.2em;
+    }
+
+@media (min-width: 320px) and (max-width: 480px) {
+    header {
+        padding-bottom: 10px;
+        height: auto;
+    }
+
+        header h1 {
+            font-size: 25px;
+            line-height: 1em;
+        }
+
+        header h2 {
+            margin-top: 0px;
+            font-size: 17px;
+            line-height: 1em;
+        }
+
+    .wrap-login-form .login-form-brand #logo-content .title {
+        font-size: 1.5em;
+        line-height: 0.1em;
+    }
+
+    .wrap-login-form {
+        margin-top: -26px;
+    }
+
+        .wrap-login-form .login-form-brand #logo-brand {
+            width: 70px;
+            height: 70px;
+        }
+
+    .login-form-form {
+        margin-left: unset;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .wrap-login-form .login-form-brand {
+        margin-top: 52px;
+        margin-left: unset;
+    }
+
+    .login-form-form hr {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+}
+
+@media (min-width: 481) and (max-width: 767px) {
+    .wrap-login-form {
+        margin-top: -26px;
+    }
+
+    .page-content {
+        height: 85px;
+    }
+
+    .wrap-login-form .login-form-brand #logo-brand {
+        width: 70px;
+        height: 70px;
+    }
+
+    .login-form-form {
+        margin-left: unset;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .wrap-login-form .login-form-brand {
+        margin-left: unset;
+        margin-top: 40px;
+    }
+
+        .wrap-login-form .login-form-brand #logo-content .title {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+    header h2 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    header {
+        padding-bottom: 5px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    header h1 {
+        font-size: 5vh;
+        line-height: 1em;
+        margin-bottom: 12px;
+    }
+
+    header h2 {
+        margin-bottom: 0px;
+        font-size: 4vh;
+        line-height: 1em;
+    }
+
+    .login-form-form {
+        margin-left: unset;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .wrap-login-form .login-form-brand {
+        margin-left: unset;
+    }
+
+        .wrap-login-form .login-form-brand #logo-brand {
+            width: 150px;
+            height: 150px;
+        }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .login-form-form {
+        margin-left: unset;
+        padding-left: unset;
+        padding-right: unset;
+    }
+
+    .wrap-login-form .login-form-brand {
+        margin-left: unset;
+    }
+}
+
+/*# sourceMappingURL=BlankLayoutCss.css.map */

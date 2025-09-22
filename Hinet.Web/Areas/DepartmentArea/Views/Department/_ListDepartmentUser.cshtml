@@ -1,0 +1,38 @@
+﻿@using Hinet.Web.Areas.DepartmentArea.Models;
+@model ListDepartmentUserViewModel
+
+<div class="hntbl-cover">
+    <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Tên tài khoản</th>
+                <th>Họ và tên</th>
+                <th>Email</th>
+                <th>Số điện thoại</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.ListUser.Count > 0)
+            {
+                int i = 0;
+                foreach (var item in Model.ListUser)
+                {
+            <tr>
+                <td>@(++i)</td>
+                <td>@item.UserName</td>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+            </tr>
+                }
+            }
+            else
+            {
+            <tr>
+                <td colspan="5">Không có dữ liệu</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

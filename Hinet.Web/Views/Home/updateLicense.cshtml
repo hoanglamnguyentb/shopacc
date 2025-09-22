@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "updateLicense";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+        <div class="row" style="text-align:center">
+            <div class="col-sm-12">
+                <div class="text-center error-box">
+                    <h1 class="error-text-2 bounceInDown animated" style="color:#c0392b"> CẬP NHẬT LICENSE <span class="particle particle--c"></span><span class="particle particle--a"></span><span class="particle particle--b"></span></h1>
+                    <form action="/home/updatelicense" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <div class="row" style="text-align:left;">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Chọn file License<span style="color:red;">*</span></label>
+                                    <div>
+                                        <input type="file" class="form-control" name="FileLicense" />
+                                        <div style="color:red; font-style:italic">
+                                            @Html.ValidationMessage("FileLicense")
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Áp dụng</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <br>
+                    <p class="lead">
+                        Thông tin License vui lòng liên hệ ADMIN để biết thêm thông tin.
+                    </p>
+                    @*<p class="font-md">
+                            <b><a href="/DashboardArea/Dashboard">Quay lại trang chủ</a></b>
+                        </p>*@
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end row -->
+</div>

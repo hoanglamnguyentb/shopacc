@@ -1,0 +1,375 @@
+﻿@using Hinet.Web.Models;
+@using Hinet.Service.Constant;
+@using CommonHelper.String
+@using Newtonsoft.Json
+@*@model HomeViewModel*@
+@{
+    ViewBag.Title = "Trang chủ";
+    ViewBag.Active = "TrangChu";
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+
+<script src="~/assets/js/jquery-3.7.1.min.js"></script>
+<script src="~/Scripts/Common.js"></script>
+<script src="~/Scripts/table-export.js"></script>
+
+
+<style>
+    .table_component {
+        overflow: auto;
+        width: 100%;
+    }
+
+        .table_component table {
+            border: 1px solid #dededf;
+            height: 100%;
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            border-spacing: 1px;
+            text-align: left;
+        }
+
+        .table_component caption {
+            caption-side: top;
+            text-align: left;
+        }
+
+        .table_component th {
+            border: 1px solid #dededf;
+            background-color: #eceff1;
+            color: #000000;
+            padding: 5px;
+        }
+
+        .table_component td {
+            border: 1px solid #dededf;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 5px;
+        }
+
+    .table_component {
+        /*margin: 24px 0;*/
+    }
+
+    .box-mst-main {
+        padding: 0 20px;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    .item_mst:hover td {
+        background-color: #f2f2f2;
+    }
+
+    a:hover {
+        color: #212b36;
+    }
+
+    .baocao-header > div > div:first-child,
+    .baocao-header > div > div:last-child {
+        display: none;
+    }
+
+    .baocao-header > div > div:nth-child(2) {
+        width: 100%;
+    }
+
+    /* Định dạng loading */
+    #loading {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+    }
+
+    /* Tạo hiệu ứng xoay */
+    .spinner {
+        border: 8px solid #f3f3f3; /* Màu nền của spinner */
+        border-top: 8px solid #212b36; /* Màu viền xoay */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+    /* Hiệu ứng xoay */
+    @@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .tbl-BCCP-01 tr td:nth-child(3) {
+        display: none;
+    }
+
+    .tbl-BCCP-01 tr td:nth-child(2) {
+        width: 100px;
+    }
+
+    .table_component {
+        overflow: hidden;
+    }
+
+    .baocao-header {
+        margin-bottom: 20px
+    }
+
+        .baocao-header p {
+            margin: 0 !important;
+        }
+
+    .tree a:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div id="loading" style="display: none;">
+    <div class="spinner"></div>
+</div>
+
+<div class="banner">
+    <img class="w-100" src="~/assets/images/banner.png" style="object-fit: cover" />
+</div>
+
+<div class="container-fluid">
+    <div class="container">
+        <!--Bưu chính-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">LĨNH VỰC BƯU CHÍNH</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('BCCP-01', this)">
+                                    Tổng hợp địa bàn số lượng doanh nghiệp bưu chính do sở TT&TT cấp phép
+                                </a>
+                            </div>
+                            <div class="tree">
+                                <a onclick="handleClick('BCCP-02B.1', this)">
+                                    Tổng hợp địa bàn số lượng lao động, điểm phục vụ, phương tiện vận chuyển sản lượng, doanh thu dịch vụ bưu chính
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Bưu chính-->
+        <!--Viễn thông-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">LĨNH VỰC VIỄN THÔNG</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('VT-03', this)">
+                                    SỐ NHÂN LỰC, HẠ TẦNG, THUÊ BAO, DOANH THU VIỄN THÔNG THEO ĐỊA BÀN TỈNH/THÀNH PHỐ TRỰC THUỘC TRUNG ƯƠNG
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Viễn thông-->
+        <!--Công nghệ thông tin, điện tử viễn thông-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">LĨNH VỰC CNTT, ĐTVT</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('CNTT-02.1', this)">
+                                    Tổng hợp địa bàn tình hình phát triển công nghiệp công nghệ thông tin, điện tử - viễn thông
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Công nghệ thông tin, điện tử viễn thông-->
+        <!--Hoạt động phát thanh, truyền hình và thông tin điện tử-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">HOẠT ĐỘNG PHÁT THANH, TRUYỀN HÌNH VÀ THÔNG TIN ĐIỆN TỬ</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('PTTH4-01', this)">
+                                    Tổng hợp đại bàn số lượng giấy phép thiết lập trang TTĐT tổng hợp do sở TT&TT cấp
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Hoạt động phát thanh, truyền hình và thông tin điện tử-->
+        <!--Hoạt động xuất bản, in và phát hành-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">HOẠT ĐỘNG XUẤT BẢN, IN VÀ PHÁT HÀNH</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('XB3-01', this)">
+                                    Số lượng cơ sở / doanh nghiệp phát hành xuất bản phẩm do sở TT&TT xác nhận đăng ký hoạt động
+                                </a>
+                            </div>
+                            <div class="tree ">
+                                <a onclick="handleClick('XB2-01', this)">
+                                    Số lượng cơ sở/ doanh nghiệp in do sở TT&TT cấp giấy phép, cấp đăng ký hoạt động
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Hoạt động xuất bản, in và phát hành-->
+        <!--Hoạt động thông tin cơ sớ-->
+        <div class="my-3">
+            <div class="card-home" style="width: 100%;">
+                <h5 class="py-3 px-2 mb-0" style="background-color: #2F6EDF99; color: #fff">Hoạt động thông tin cơ sở</h5>
+                <div class="row baocao">
+                    <div class="col-sm-3">
+                        <div class="h-100" style="border-right: 1px solid #2F6EDF99">
+                            <div class="tree active">
+                                <a onclick="handleClick('TTCS-02.1', this)">
+                                    Tổng hợp địa bàn một số kết quả hoạt động truyền thanh - truyền hình cấp huyện
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        @{Html.RenderPartial("~/Views/Shared/_FilterBaoCaoPartial.cshtml");}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Hoạt động thông tin cơ sớ-->
+    </div>
+</div>
+
+<script src="~/assets/plugins/jquery/jquery.min.js"></script>
+<script>
+
+    // Hàm lấy bộ lọc báo cáo
+    function GetFilterBaoCao(MaBieu, htmlTag) {
+        $.ajax({
+            url: '/Home/GetFilterBaoCao',
+            type: 'post',
+            data: { MaBieu: MaBieu },
+            success: function (rs) {
+                if (htmlTag) htmlTag.html(rs);
+            },
+            error: function () {
+
+            }
+        })
+    }
+
+    // Hàm lấy báo cáo
+    function GetBaoCao(reportName, type, quarter, year, enterprise, htmlTag) {
+        var loading = $(htmlTag).prev();
+        loading.show();
+        $.ajax({
+            url: '/Home/GetBaoCao',
+            type: 'post',
+            data: { reportName: reportName, type: type, quarter: quarter, year: year, IdDoanhNghiep: enterprise },
+            success: function (rs) {
+                loading.hide();
+                if (htmlTag) htmlTag.html(rs);
+            },
+            error: function () {
+                loading.hide();
+            }
+        })
+    }
+
+    // Hàm lấy html filter and dataTable
+    function handleClick(MaBieu, ele) {
+
+        const divBaoCao = $(ele).closest(`.baocao`);
+        if (divBaoCao.length <= 0) return;
+
+        // render lại filter
+        let tagFilter = divBaoCao.find('.classNameFilter');
+        if (tagFilter.length > 0) GetFilterBaoCao(MaBieu, tagFilter);
+
+        // render lại data table
+        let type = "";
+        let quarter = 0;
+        let year = 0;
+        let enterprise = null;
+
+        let tagDaTa = divBaoCao.find('.classNameDataTable');
+        if (tagDaTa.length > 0) GetBaoCao(MaBieu, type, quarter, year, enterprise, tagDaTa);
+
+    }
+
+    // Hàm lấy html dataTable
+    var handleChange = function (MaBieu, ele) {
+        const divBaoCao = $(ele).closest(`.baocao`);
+        if (divBaoCao.length <= 0) return;
+
+        // render lại data table
+        let type = divBaoCao.find('.periodReport').val() || "";
+        let quarter = divBaoCao.find('.quarterReport').val() || 0;
+        let year = divBaoCao.find('.yearReport').val() || 0;
+
+        let tagDaTa = divBaoCao.find('.classNameDataTable');
+
+        if (MaBieu == "VT-03") {
+            let enterprise = divBaoCao.find('.enterpriseReport').val() || null;
+            if (tagDaTa) GetBaoCao(MaBieu, type, quarter, year, enterprise, tagDaTa);
+        } else {
+            if (tagDaTa) GetBaoCao(MaBieu, type, quarter, year, null, tagDaTa);
+        }
+    }
+
+    $(".tree a").click(function () {
+        $(this).parent().parent().find(".tree").removeClass("active");
+        $(this).closest(".tree").toggleClass("active");
+    })
+
+    $(document).ready(function () {
+        const activeTags = $('.active a');
+        if (activeTags.length <= 0) return;
+        activeTags.each(function () {
+            $(this).click();
+        })
+    })
+
+</script>

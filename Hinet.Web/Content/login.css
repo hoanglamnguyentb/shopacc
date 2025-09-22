@@ -1,0 +1,357 @@
+﻿body {
+    background-repeat: no-repeat;
+    padding-top: 9vh;
+    padding-bottom: 20px;
+    /* background: rgb(0,62,205); */
+    /* background: linear-gradient(52deg, rgba(0,62,205,1) 0%, rgba(17,120,241,1) 24%, rgba(0,136,214,1) 55%, rgba(0,212,255,1) 100%); */
+    background-image: url(Img/new_bca_bg.jpg);
+    background-size: cover;
+}
+
+div.main-container:before {
+    display: block;
+    content: "";
+    position: absolute;
+    z-index: -2;
+    width: 100%;
+    max-width: inherit;
+    bottom: 0;
+    top: 0;
+    background-color: transparent !important;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.bgrLogin {
+    background-image: url(Img/bgrhospital.jpeg);
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    background-size: cover;
+}
+
+.page-content {
+    background-color: transparent !important;
+    max-width: 100%;
+}
+
+div.login-form-form {
+    margin: 0 auto;
+    background: #fff;
+    height: 80vh;
+    width: 100%;
+}
+
+.content-form,
+.content-form > div {
+    height: 100%;
+}
+
+.content-form {
+    display: table;
+}
+
+    .content-form > div {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .content-form h2 {
+        TEXT-ALIGN: CENTER;
+        font-size: 25px;
+        font-family: Roboto;
+        margin-bottom: 0px;
+        /*margin-top: 55px;*/
+        font-weight: bold;
+    }
+
+.col-form {
+    width: 70% !important;
+    margin: auto;
+    text-align: center;
+    float: unset !important;
+}
+
+    .col-form img {
+        width: 90px;
+    }
+
+#loginForm h2 {
+    text-align: center;
+    font-size: 30px;
+    font-family: roboto;
+    margin-top: 30px;
+    margin-bottom: 30px !important;
+    color: #2980b9;
+    text-transform: uppercase;
+}
+
+#loginForm .form-horizontal .control-label {
+    float: left;
+    margin-bottom: 10px;
+}
+
+#loginForm input {
+    border-radius: 14px !important;
+    padding-left: 15px;
+}
+
+    #loginForm input[type=submit] {
+        border-radius: 30px !important;
+        padding: 5px 25px !important;
+        background-color: #0093e8 !important;
+        border-color: #0093e8;
+    }
+
+.margin-top-col {
+    width: 100%;
+    padding-top: 15px;
+    padding: 0px;
+    display: table;
+    clear: both;
+}
+
+.margin-img {
+    padding: 0px 10px 0px 0px;
+    margin-top: 15px;
+}
+
+.text-size-h5 {
+    font-size: 11px;
+    margin-bottom: 0px;
+}
+
+.text-size-p {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.dc-border {
+    display: table-cell;
+    vertical-align: middle;
+    border-left: 2px solid #0f0f89;
+    margin-top: 10px;
+}
+
+.img-anh {
+    vertical-align: middle;
+    width: 100px;
+    display: table-cell;
+}
+
+@media screen and (min-width:1366px) {
+    .content-form h2 {
+        font-size: 24px;
+    }
+
+    .col-form {
+        margin: auto;
+        text-align: center;
+        float: unset !important;
+    }
+
+    .margin-img {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .text-size-p {
+        margin-left: 12px;
+        margin-top: 5px;
+    }
+
+    .text-size-h5 {
+        font-size: 13px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:1355px) and (min-width:992px) {
+    .content-form h2 {
+        font-size: 24px;
+    }
+
+    .col-form {
+        margin: auto;
+        text-align: center;
+        float: unset !important;
+    }
+
+    .img-anh {
+        width: 22%;
+    }
+
+    .margin-img {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .text-size-p {
+        margin-left: 10px;
+        margin-top: 5px;
+    }
+
+    .text-size-h5 {
+        font-size: 11px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:1024px) and (min-width:992px) {
+    .content-form {
+        width: 50% !important;
+        padding-top: 0 !important;
+    }
+
+    .bgrLogin {
+        width: 50% !important;
+    }
+
+    .img-anh {
+        width: 20%;
+    }
+
+    .margin-img {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .text-size-p {
+        margin-left: 10px;
+        margin-top: 8px;
+    }
+
+    .text-size-h5 {
+        font-size: 11px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:991px) and (min-width:769px) {
+    div.login-form-form {
+        padding: 20px 0;
+        height: unset !important;
+    }
+
+    .content-form h2 {
+        font-size: 24px;
+    }
+
+    .content-form {
+        width: 100% !important;
+        padding-top: 0 !important;
+    }
+
+    .bgrLogin {
+        display: none;
+    }
+
+    .col-form {
+        width: 60% !important;
+        margin: auto;
+        text-align: center;
+        float: unset !important;
+    }
+
+    .margin-img {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .text-size-p {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .text-size-h5 {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:768px) and (min-width:481px) {
+    div.login-form-form {
+        padding: 20px 0;
+        height: unset !important;
+    }
+
+    .content-form h2 {
+        font-size: 24px;
+    }
+
+    .content-form {
+        width: 100% !important;
+        padding-top: 0 !important;
+    }
+
+    .bgrLogin {
+        display: none;
+    }
+
+    .col-form {
+        width: 70% !important;
+        margin: auto;
+        text-align: center;
+        float: unset !important;
+    }
+
+    .img-anh {
+        width: 15%;
+    }
+
+    .margin-img {
+        padding: 0px 0px 0px 0px;
+        margin-top: 10px;
+        width: 90%;
+    }
+
+    .text-size-p {
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .text-size-h5 {
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width:480px) {
+    div.login-form-form {
+        padding: 20px 0;
+        height: unset !important;
+    }
+
+    .content-form h2 {
+        font-size: 24px;
+    }
+
+    .content-form {
+        width: 100% !important;
+        padding-top: 0 !important;
+    }
+
+    .bgrLogin {
+        display: none;
+    }
+
+    .col-form {
+        width: 100% !important;
+        margin: auto;
+        text-align: center;
+        float: unset !important;
+    }
+
+    .img-anh {
+        display: none;
+        clear: both;
+    }
+
+    .dc-border {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+}

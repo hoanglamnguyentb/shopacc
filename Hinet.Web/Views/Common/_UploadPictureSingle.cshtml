@@ -1,0 +1,35 @@
+﻿@model Hinet.Web.Models.UpLoadFileSingle
+@{
+    string imgSrc = "/assets/images/giay-phep-buu-chinh.png";
+    string fancySrc = "javascript:void(0)";
+    string type = Model.Type.ToLower();
+    if (!string.IsNullOrEmpty(Model.FilePath))
+    {
+        imgSrc = Model.FilePath.StartsWith("/") ? Model.FilePath : ("/" + Model.FilePath);
+    }
+    var fancybox = (type == "detail" || type == "edit") ? "data-fancybox = gallery" : "";
+}
+@if (!string.IsNullOrEmpty(fancybox))
+{
+    <link href="~/assets/plugins/fancybox/jquery.fancybox.min.css" rel="stylesheet" />
+    <script src="~/assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+    fancySrc = imgSrc;
+}
+
+<div style="width: 100%">
+    <a href="@fancySrc" @fancybox>
+        <img src="@imgSrc" id="imgPreview_@Model.Name" class="imgPreview" 
+             style="width: 100%; height: 345px; object-fit: contain" />
+    </a>
+</div>
+<input type="file" name="@Model.Name" id="@Model.Name" class="form-control" accept="@Model.FileExtension" style="display:none;" />
+@if (Model.Type.ToLower() != "detail")
+{
+    <label for="@Model.Name" class="btn btn-xs btn-default" style="margin-top: 10px">File đính kèm</label>
+}
+<script>
+    $("input[name='@Model.Name']").change(function (e) {
+        let imgURL = URL.createObjectURL(e.target.files[0]);
+        $("#imgPreview_@Model.Name").attr("src", imgURL);
+    });
+</script>

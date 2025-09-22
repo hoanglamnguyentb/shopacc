@@ -1,0 +1,465 @@
+﻿@using Hinet.Service.DotBaoCaoService.Dto
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Constant
+@model IndexSoTTTTVM
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+    ViewBag.ModuleName = "Dashboard";
+    ViewBag.PageName = "Báo cáo thống kê";
+    var soLinhVuc = Model.ListLinhVuc.Count();
+    var linhVuc = (string)ViewBag.LinhVuc;
+    var param = (string)ViewBag.Param;
+}
+
+<style>
+    .card-custom {
+        --border-radius: 0.75rem;
+        --primary-color: #2F6EDF80;
+        --secondary-color: #3c3852;
+        /*width: 25rem;*/
+        height: auto;
+        background: #fff;
+        border-radius: 4px;
+        padding: 1.5rem;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0px 0px 18px -2px #d9d9d9;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .card-custom .card-img-holder {
+            width: 100%;
+            height: auto;
+            position: relative;
+        }
+
+            .card-custom .card-img-holder img {
+                width: 100%;
+                height: auto;
+                max-height: 15rem;
+                object-fit: cover;
+                border-radius: 1.5rem;
+            }
+
+        .card-custom .blog-title {
+            color: #CE172C;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .card-custom .description {
+            padding: 1rem 0;
+            color: #22215B80;
+        }
+
+        .card-custom .blog-time {
+            font-size: .8rem;
+            color: #22215B;
+        }
+
+        .card-custom .options {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+        }
+
+            .card-custom .options span {
+                font-weight: 600;
+                color: #22215B;
+            }
+
+        .card-custom .btn {
+            /*font-size: 1rem;*/
+            padding: .5rem 1rem;
+            border-radius: .5rem;
+            font-weight: 400;
+            background: #EEF7FE;
+            color: #22215B;
+            cursor: pointer;
+        }
+
+    .card-list-custom {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+    }
+
+    .card-custom .card__arrow {
+        position: absolute;
+        background: var(--primary-color);
+        padding: 0.4rem;
+        border-top-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        bottom: 0;
+        right: 0;
+        transition: 0.2s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* hover */
+    .card-custom:hover .card__title {
+        color: var(--primary-color);
+        text-decoration: underline;
+    }
+
+    .card-custom:hover .card__arrow {
+        background: #212b36;
+    }
+
+        .card-custom:hover .card__arrow svg {
+            transform: translateX(3px);
+        }
+
+    .button-wrap {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+        align-items: center;
+    }
+
+    .secondary-cta {
+        background-color: transparent;
+        border: none;
+        font-weight: 400;
+        color: #666;
+        cursor: pointer;
+    }
+
+    .primary-cta {
+        background-color: transparent;
+        font-weight: 600;
+        color: #22215B;
+        border: none;
+        border-radius: 1.5em;
+        cursor: pointer;
+    }
+
+    .badges {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem; /* 16px */
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .badges > button {
+            font-size: 0.875rem; /* 14px */
+            line-height: 1.25rem; /* 20px */
+            padding: 2px .5rem; /* 8px*/
+            cursor: pointer;
+            border: none;
+            border-radius: 0.375rem; /* 6px */
+            outline: none;
+        }
+
+        .badges .blue {
+            background-color: rgba(59, 130, 246, 0.10);
+            color: rgb(59 130 246);
+            border: 1px rgb(59 130 246) solid;
+        }
+
+        .badges .yellow {
+            background-color: rgba(234, 179, 8, 0.10);
+            color: rgb(234 179 8);
+            border: 1px rgb(234 179 8) solid;
+        }
+
+        .badges .green {
+            background-color: rgba(34, 197, 94, 0.10);
+            color: rgb(34 197 94);
+            border: 1px rgb(34 197 94) solid;
+        }
+
+        .badges .red {
+            background-color: rgba(239, 68, 68, 0.10);
+            color: rgb(239 68 68);
+            border: 1px rgb(239 68 68) solid;
+        }
+
+    .tree-card.tree {
+        margin: unset;
+        height: 220px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
+        .tree-card.tree:before {
+            left: 0;
+        }
+
+        .tree-card.tree li {
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+            .tree-card.tree li a {
+                color: #393939;
+            }
+
+            .tree-card.tree li:before {
+                content: '';
+                display: block;
+                width: 7px;
+                position: absolute;
+                z-index: 1;
+                left: -9px;
+                top: 9px;
+                border: 1px dotted;
+                border-width: 1px 0 0;
+                border-color: #212b36;
+            }
+
+    .blog-title {
+        margin: 10px 0;
+    }
+
+    .tab-custom {
+        display: grid;
+        grid-template-columns: repeat(@soLinhVuc, 1fr);
+    }
+
+    .tab-content {
+        border: none;
+        padding: 0;
+        position: relative;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    .table-report span {
+         white-space: normal !important;
+    }
+</style>
+
+<ul class="tab-custom">
+    @foreach (var item in Model.ListLinhVuc)
+    {
+        var active = Model.ListLinhVuc.IndexOf(item) == 0 ? "active" : "";
+        <li class="@active" data-tab="@item.MaLinhVuc">
+            <a data-toggle="tab" href="#@item.MaLinhVuc">@item.TenLinhVuc</a>
+        </li>
+    }
+</ul>
+
+<div class="tab-content">
+    @foreach (var item in Model.ListLinhVuc)
+    {
+        var active = Model.ListLinhVuc.IndexOf(item) == 0 ? "active" : "";
+        <div id="@item.MaLinhVuc" class="tab-pane fade in @active">
+            <section class="stats">
+                @foreach (var tieuChi in item.ListTieuChiThongKe)
+                {
+                    var bgColor = tieuChi.Color + "20";
+                    <div class="stat-box" style="background-color: @bgColor ">
+                        <p class="stat-box-title">
+                            <span>@tieuChi.TenTieuChi</span>
+                            <span style="color: @tieuChi.Color; font-size: 15px;">@Html.Raw(tieuChi.Icon)</span>
+                        </p>
+                        <h2>@tieuChi.NoiDungHienThiTren</h2>
+                        <span>@tieuChi.NoiDungHienThiDuoi</span>
+                    </div>
+                }
+
+                <div class="stat-box">
+                    <p class="stat-box-title">
+                        <span>Số doanh nghiệp @item.TenLinhVuc.ToLower()</span>
+                        <span sstyle="font-size: 15px;"><i class="bi bi-buildings"></i></span>
+                    </p>
+                    <h2>@(item.MaLinhVuc != LinhVucConstant.VIENTHONG ? item.SoDoanhNghiep -1 : item.SoDoanhNghiep) doanh nghiệp</h2>
+                    @*<span>@NoiDungDuoiDoanhNghiep(item.SoDoanhNghiepTangGiamTrongNam)</span>*@
+                </div>
+            </section>
+
+            <section class="reports">
+                <div class="report-item">
+                    <h2>Báo cáo Sở TT&TT cần làm</h2>
+                    <table class="table-report">
+                        <thead>
+                            <tr>
+                                <th>Biểu mẫu</th>
+                                <th>Nhóm</th>
+                                <th>Nội dung</th>
+                                <th>Thời hạn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (item.ListDotBaoCao.Any(x => x.DanhMucBieuMau.DonViBaoCao == LoaiDNConstant.SOTTTT))
+                            {
+                                var groupedReports = item.ListDotBaoCao
+                                    .Where(x => x.DanhMucBieuMau.DonViBaoCao == LoaiDNConstant.SOTTTT)
+                                    .GroupBy(x => new
+                                    {
+                                        x.DanhMucBieuMau.TenNhomDanhMucBieuMau,
+                                        x.DanhMucBieuMau.MaBieu,
+                                        x.DanhMucBieuMau.TenBieu
+                                    });
+
+                                foreach (var reportGroup in groupedReports)
+                                {
+                                    <tr>
+                                        <td>@reportGroup.Key.MaBieu</td>
+                                        <td>@reportGroup.Key.TenNhomDanhMucBieuMau</td>
+                                        <td>@reportGroup.Key.TenBieu</td>
+                                        <td>
+                                            @foreach (var report in reportGroup)
+                                            {
+                                                <div>
+                                                    <a href="javascript:void(0)"
+                                                       onclick="EditAction('@report.DanhMucBieuMau.LinkCreate@report.IdDotBaoCaoSoTTTT')">
+                                                        + @report.DanhMucBieuMau.StrThoiHanNop
+                                                    </a>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-danger center">
+                                        Chưa có báo cáo cần làm
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="report-item">
+                    <h2>Báo cáo doanh nghiệp cần gửi</h2>
+                    <table class="table-report">
+                        <thead>
+                            <tr>
+                                <th>Biểu mẫu</th>
+                                <th>Nhóm</th>
+                                <th>Nội dung</th>
+                                <th>Thời hạn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (item.ListDotBaoCao.Any(x => x.DanhMucBieuMau.DonViBaoCao != LoaiDNConstant.SOTTTT))
+                            {
+                                var groupedReports = item.ListDotBaoCao
+                                    .Where(x => x.DanhMucBieuMau.DonViBaoCao != LoaiDNConstant.SOTTTT)
+                                    .GroupBy(x => new
+                                    {
+                                        x.DanhMucBieuMau.TenNhomDanhMucBieuMau,
+                                        x.DanhMucBieuMau.MaBieu,
+                                        x.DanhMucBieuMau.TenBieu
+                                    });
+
+                                foreach (var reportGroup in groupedReports)
+                                {
+                                    //Đoạn này check lại đợt báo cáo
+                                    <tr data-param="DotBaoCao_@reportGroup.FirstOrDefault().Id">
+                                        <td>@reportGroup.Key.MaBieu</td>
+                                        <td>@reportGroup.Key.TenNhomDanhMucBieuMau</td>
+                                        <td>@reportGroup.Key.TenBieu @Html.Raw(reportGroup.First().TinhTrangHtml)</td>
+                                        <td>
+                                            @foreach (var report in reportGroup)
+                                            {
+                                                <div>
+                                                    <a href="javascript:void(0)"
+                                                       onclick="EditAction('/DotBaoCaoArea/DotBaoCao/IndexDoanhNghiepTrongDotBaoCao/@report.Id')">
+                                                        + @report.DanhMucBieuMau.StrThoiHanNop
+                                                    </a>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            @foreach (var dotBaoCaoDong in Model.ListBaoCaoDong.Where(x => x.LinhVuc == item.MaLinhVuc))
+                            {
+                                <tr data-param="DotBaoCaoDong_@dotBaoCaoDong.Id">
+                                    <td>_@dotBaoCaoDong.BieuMauBaoCaoTxt</td>
+                                    <td>Báo cáo cần làm gấp</td>
+                                    <td>
+                                        @dotBaoCaoDong.TenDotBaoCao  @Html.Raw(dotBaoCaoDong.TinhTrangHtml)
+                                        <button class="lab red">
+                                            <span class="badge-live">
+                                                <i class="dot"></i>
+                                            </span>
+                                            Cần làm ngay
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)"
+                                           onclick="EditAction('/QLDotBaoCaoDongArea/QLDotBaoCaoDong/IndexDoanhNghiepTrongDotBaoCao/@dotBaoCaoDong.Id')">
+                                            + Trước ngày @dotBaoCaoDong.NgayKetThuc.Value.ToString("dd/MM/yyyy")
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    }
+</div>
+
+<script>
+    let linhVuc = '@linhVuc'.toUpperCase();
+    let currentTab = linhVuc ? linhVuc : localStorage.getItem("activeTab");
+    let param = '@param';
+
+    if (currentTab) {
+        ActiveTab(currentTab);
+    } else {
+        let firstTab = $('.tab-custom li').first().data('tab');
+        ActiveTab(firstTab);
+    }
+
+    $('.tab-custom li').click(function () {
+        let tabName = $(this).data('tab');
+        localStorage.setItem("activeTab", tabName);
+        ActiveTab(tabName);
+    });
+
+    function ActiveTab(tabName) {
+        $('.tab-custom li').removeClass('active');
+        $('.tab-custom li[data-tab="' + tabName + '"]').addClass('active');
+        $('.tab-pane').removeClass('active in');
+        $('#' + tabName).addClass('active in');
+        //Kích hoạt Param
+
+        if (param) {
+            let  elementTarget = $(`tr[data-param='${param}']`);
+            $('.page-content').animate({
+                scrollTop: elementTarget.offset().top - $('.page-content').offset().top + $('.page-content').scrollTop() - 100
+            }, 500);
+            elementTarget.addClass('active-tab');
+            setTimeout(function () {
+                elementTarget.removeClass('active-tab remove-active-tab');
+            }, 5000);
+            param = null;
+        }
+    }
+</script>
+
+@*@helper NoiDungDuoiDoanhNghiep(int SoDoanhNghiepTangGiamTrongNam)
+{
+    if (SoDoanhNghiepTangGiamTrongNam > 0)
+    {
+        <span>Tăng @SoDoanhNghiepTangGiamTrongNam doanh nghiệp</span>
+    }
+    else
+    {
+        <span>Giảm @SoDoanhNghiepTangGiamTrongNam doanh nghiệp</span>
+
+    }
+}*@

@@ -1,0 +1,9 @@
+#container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#table-div {
+    max-width: 400px;
+    margin: 3em auto;
+}

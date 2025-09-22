@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Danh sách tìm kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Newtonsoft.Json;
+@using Hinet.Service.Common;
+@using Hinet.Service.WebsiteInfoService.Dto;
+@using Hinet.Web.Models
+@model SearchWebsiteAppResultVM
+
+<div class="">
+    <div class="bre-index">
+        <div class="bre-1">
+            <span>
+                <a href="/"> Trang chủ</a>
+            </span>
+        </div>
+        <div class="bre-2">
+            <span>
+                <a href="#">Tra cứu website/ ứng dụng</a>
+            </span>
+        </div>
+    </div>
+    <div class="title-section" style="margin-bottom:10px;">
+        <h1 style="padding-bottom:8px">Tra cứu website/ ứng dụng</h1>
+    </div>
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { }))
+    {
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Tên Website/ Tên ứng dụng</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="DomainNameSearch" value="@Model.searchVM.DomainNameSearch" placeholder="Tên miền đăng ký, Tên ứng dụng">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Tên Thương nhân/ Tổ chức</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="CompanySearch" value="@Model.searchVM.CompanySearch" placeholder="Thương nhân/ Tổ chức">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Mã số thuế</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="TaxSearch" value="@Model.searchVM.TaxSearch" placeholder="Mã số thuế">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Điện thoại</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="PhoneSearch" value="@Model.searchVM.PhoneSearch" placeholder="Điện thoại">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label col-sm-4">Email</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" name="EmailSearch" value="@Model.searchVM.EmailSearch" placeholder="Email">
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="text-center" style="margin-top:20px;">
+            <button type="submit" class="btn btn-primary btn-lg no-radius">Tìm kiếm</button>
+        </div>
+    </div>
+
+    }
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Danh sách website</h4>
+        </div>
+        <table class="table table-hover table-bordered table-striped" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên website</th>
+                    <th>Tên miền</th>
+                    <th>Tên thương nhân</th>
+                    <th>Mã số thuế</th>
+                    <th>Điện thoại</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                @foreach (var item in Model.websiteResults)
+                {
+                <tr>
+                    <td>
+                        @(Model.websiteResults.IndexOf(item) + 1)
+                    </td>
+                    <td><a href="/Home/WebsiteDetail/@item.Id"></a>@item.Name</td>
+                    <td>@item.Domain</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.CompanyTaxCode</td>
+                    <td>@item.CompanyPhone</td>
+                </tr>
+                }
+                @if (Model.websiteResults==null || !Model.websiteResults.Any())
+                {
+                <tr><td colspan="6" class="text-danger text-center">Không có kết quả phù hợp</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>Danh sách ứng dụng</h4>
+        </div>
+        <table class="table table-hover table-bordered table-striped" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Tên ứng dụng</th>
+                    <th>Tên thương nhân</th>
+                    <th>Mã số thuế</th>
+                    <th>Điện thoại</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                @foreach (var item in Model.appResults)
+                {
+                <tr>
+                    <td>
+                        @(Model.websiteResults.IndexOf(item) + 1)
+                    </td>
+                    <td>@item.Name</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.CompanyTaxCode</td>
+                    <td>@item.CompanyPhone</td>
+                </tr>
+                }
+                @if (Model.appResults == null || !Model.appResults.Any())
+                {
+                <tr><td colspan="5" class="text-danger text-center">Không có kết quả phù hợp</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

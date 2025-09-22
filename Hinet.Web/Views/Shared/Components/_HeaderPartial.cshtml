@@ -1,0 +1,36 @@
+﻿@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+<div class="container-fluid">
+    <div class="container">
+        <div class="header">
+            <div class="home-logo">
+                <img src="~/assets/images/Logotinhbacgiang.png" />
+            </div>
+            <div class="title">
+                <h1>HỆ THỐNG BÁO CÁO</h1>
+                <p>CHUYÊN NGÀNH THÔNG TIN & TRUYỀN THÔNG TỈNH BẮC GIANG</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid bg-primary">
+    <div class="container">
+        <nav class="navbar">
+            <ul class="d-flex w-100">
+                <li class="@(ViewBag.Active == "TrangChu" ? "active" : "" )"><a href="/">Trang chủ</a></li>
+                <li class="me-auto @(ViewBag.Active == "BaoCaoThongKe" ? "active" : "" )"><a href="/Home/BaoCaoThongKe">Báo cáo thống kê</a></li>
+                <li class="opacity-75">
+                    @if (currentUser != null)
+                    {
+                        <a href="/DashboardArea/Dashboard/">Dashboard</a>
+                    }
+                    else
+                    {
+                        <a href="/AccountAdmin/Login">Đăng nhập</a>
+                    }
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,184 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.UserArea.Models
+<style>
+</style>
+@model CreateVM
+@{
+    var listDeparment = ViewBag.listDeparment as List<SelectListItem>;
+    var listJobPosition = ViewBag.listJobPosition as List<SelectListItem>;
+    var TinhDropdownData = ViewBag.ListTinh as List<SelectListItem>;
+    var LinhVucDropdownData = ViewBag.LinhVucDropdownData as List<SelectListItem>;
+    var ListTypeDashBoard = ViewBag.ListTypeDashBoard as List<SelectListItem>;
+    var LoaiDonViBaoCao = ViewBag.LoaiDonViBaoCao as List<SelectListItem>;
+}
+
+<div class="modal-dialog" id="demo">
+    @using (Ajax.BeginForm("Create", "User", new { @area = "UserArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "createForm" }))
+    {
+    @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    @Html.HiddenFor(m=>m.IdDoiTuong)
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Tạo mới tài khoản</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Tài khoản <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Họ tên <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Email <span class="red"></span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+            <label class="control-label col-sm-4">Facebook</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Facebook, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Facebook, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Yahoo</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Yahoo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Yahoo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Skype</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Skype, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Skype, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Điện thoại</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Ngày sinh </label>
+                    <div class="col-sm-8">
+                        @Html.DatePickerFor(m => m.BirthDay, "autoclose=true", "todayBtn=true", "todayHighlight=true")
+                        @Html.ValidationMessageFor(m => m.BirthDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Giới tính</label>
+                    <div class="col-sm-8">
+
+                        <label>
+                            <input type="radio" name="Gender" value="1" checked />Nam
+                        </label>
+                        <label>
+                            <input type="radio" name="Gender" value="2" />Nữ
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Địa chỉ</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Phòng, ban, đơn vị</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.IdDepartment, listDeparment, "--Chọn phòng, ban, đơn vị--", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(m => m.IdDepartment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Loại đơn vị báo cáo</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.TypeAccount, LoaiDonViBaoCao, "--Chọn loại đơn vị báo cáo--", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(m => m.TypeAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+            <label class="control-label col-sm-4">Chức vụ</label>
+            <div class="col-sm-8">
+                @Html.DropDownListFor(m => m.IdChucVu, listJobPosition, "--Chọn chức vụ--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(m => m.IdChucVu, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                @*<div class="form-group">
+            <label class="control-label col-sm-4">Là cộng tác viên</label>
+            <div class="col-sm-8">
+                <label><input type="checkbox" value="true" name="IsCongTacVien" id="IsCongTacVien" /></label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-4">Là trưởng phòng</label>
+            <div class="col-sm-8">
+                <label><input type="checkbox" value="true" name="IsTruongPhongDepartment" id="IsTruongPhongDepartment" /></label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Dashboard <span class="red">*</span></label>
+            <div class="col-sm-8">
+                @Html.DropDownListFor(m => m.TypeDashboard, ListTypeDashBoard, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TypeDashboard, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary btn-sm">Hoàn thành</button>
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+
+<script>
+
+    $("#IdDepartment").select2();
+    $("#IdChucVu").select2();
+    $("#TypeAccount").select2();
+        // validation
+        //$('#my-form').validate({
+        //    errorPlacement: function (error, element) {
+        //        console.log("placement");
+        //        if (element.is("select.chosen-select")) {
+        //            console.log("placement for chosen");
+        //            // placement for chosen
+        //            element.next("div.chzn-container").append(error);
+        //        } else {
+        //            // standard placement
+        //            error.insertAfter(element);
+        //        }
+        //    }
+    //});
+</script>
+@Scripts.Render("~/bundles/jqueryval")

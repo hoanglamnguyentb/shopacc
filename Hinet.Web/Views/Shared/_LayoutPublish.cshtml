@@ -1,0 +1,647 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@ViewBag.Description" />
+    @Html.Partial("~/Views/Shared/_SEOPartial.cshtml")
+    <title>@ViewBag.Title</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/assets/EndUserCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/assets/EndUserjs")
+    @Scripts.Render("~/bundles/datepicker")
+    @Styles.Render("~/Content/datepicker")
+    <link href="~/Content/EndUser/css/styleHome.css" rel="stylesheet" />
+    <link href="~/Content/EndUser/css/khaithac.css" rel="stylesheet" />
+    <link href="~/Content/EndUser/css/khaithac.responsive.css" rel="stylesheet" />
+    <link href="~/Scripts/slick-1.8.1/slick/slick.css" rel="stylesheet" />
+    <link href="~/Scripts/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
+    <script src="~/Scripts/slick-1.8.1/slick/slick.min.js"></script>
+    <script src="~/Content/EndUser/js/jquery.smartmenus.min.js"></script>
+    <script src="~/Content/EndUser/js/jquery.smartmenus.js"></script>
+    <link href="~/Content/EndUser/css/sm-blue.css" rel="stylesheet" />
+    <link href="~/Content/EndUser/css/responsive.css" rel="stylesheet" />
+    @RenderSection("HeadIncludes", required: false)
+</head>
+@using Hinet.Service.AppUserService.Dto
+@using Hinet.Service.CommonConfigurationService.DTO
+@using Hinet.Service.Constant
+@using Microsoft.AspNet.Identity
+@{
+    var userInfo = SessionManager.GetUserInfo() as UserDto;
+    var CompanyInfomation = SessionManager.GetCompanyOWNInfo() as CompanyInfomationDto;
+
+}
+<body>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/locales/vi_VN.js"></script>
+    <style>
+        .chartdiv {
+            width: 100%;
+            height: 500px;
+            float: left;
+        }
+
+        .box-table .table-tool-bar {
+            background: hsl(30.66deg 95.8% 71.96%);
+        }
+
+        .box-table .table-custom thead tr th, .hinet-table thead tr th {
+            color: #990000;
+        }
+
+        /*.box-table .pagination > .active > a,
+        .box-table .pagination > .active > a:focus,
+        .box-table .pagination > .active > a:hover,
+        .box-table .pagination > .active > span,
+        .box-table .pagination > .active > span:focus,
+        .box-table .pagination > .active > span:hover {
+            background-color: #990000;
+            border-color: #990000;
+        }*/
+
+        .box-table .table-custom .table-tool-bar .btn, .box-table .hntbl-cover .table-tool-bar .btn {
+            background-color: #990000 !important;
+            border-color: #990000 !important;
+        }
+
+        .box-table .well {
+            background: #fff;
+            margin: 10px 0;
+        }
+    </style>
+
+    <div id="hinet-preloader" style="position: absolute;z-index: 20000;width: 100%;height: 100%;display:none;">
+        <div style="background-color: #ffffff;padding: 10px 30px;width: 200px;border-radius: 10px;border: 2px solid #2980b9;position: fixed;
+                    top: 40%;left: 50%;margin-left: -100px;-webkit-box-shadow: 4px 7px 25px -7px  rgba(0,0,0,0.75);-moz-box-shadow:4px 7px 25px -7px  rgba(0,0,0,0.75);box-shadow: 4px 7px 25px -7px  rgba(0,0,0,0.75);">
+            <p style="text-align: center;margin-top: 10px;font-weight: bold;color: #2980b9;font-size: 1.2em;">Đang xử lý...</p><p></p>
+            <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+            <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" viewBox="0 0 128 16" xml:space="preserve"><rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF" /><path fill="#949494" fill-opacity="0.42" d="M6.4,4.8A3.2,3.2,0,1,1,3.2,8,3.2,3.2,0,0,1,6.4,4.8Zm12.8,0A3.2,3.2,0,1,1,16,8,3.2,3.2,0,0,1,19.2,4.8ZM32,4.8A3.2,3.2,0,1,1,28.8,8,3.2,3.2,0,0,1,32,4.8Zm12.8,0A3.2,3.2,0,1,1,41.6,8,3.2,3.2,0,0,1,44.8,4.8Zm12.8,0A3.2,3.2,0,1,1,54.4,8,3.2,3.2,0,0,1,57.6,4.8Zm12.8,0A3.2,3.2,0,1,1,67.2,8,3.2,3.2,0,0,1,70.4,4.8Zm12.8,0A3.2,3.2,0,1,1,80,8,3.2,3.2,0,0,1,83.2,4.8ZM96,4.8A3.2,3.2,0,1,1,92.8,8,3.2,3.2,0,0,1,96,4.8Zm12.8,0A3.2,3.2,0,1,1,105.6,8,3.2,3.2,0,0,1,108.8,4.8Zm12.8,0A3.2,3.2,0,1,1,118.4,8,3.2,3.2,0,0,1,121.6,4.8Z" /><g><path fill="#2980b9" fill-opacity="1" d="M-42.7,3.84A4.16,4.16,0,0,1-38.54,8a4.16,4.16,0,0,1-4.16,4.16A4.16,4.16,0,0,1-46.86,8,4.16,4.16,0,0,1-42.7,3.84Zm12.8-.64A4.8,4.8,0,0,1-25.1,8a4.8,4.8,0,0,1-4.8,4.8A4.8,4.8,0,0,1-34.7,8,4.8,4.8,0,0,1-29.9,3.2Zm12.8-.64A5.44,5.44,0,0,1-11.66,8a5.44,5.44,0,0,1-5.44,5.44A5.44,5.44,0,0,1-22.54,8,5.44,5.44,0,0,1-17.1,2.56Z" /><animateTransform attributeName="transform" type="translate" values="23 0;36 0;49 0;62 0;74.5 0;87.5 0;100 0;113 0;125.5 0;138.5 0;151.5 0;164.5 0;178 0" calcMode="discrete" dur="1170ms" repeatCount="indefinite" /></g></svg>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="container">
+            <div id="header-desktop">
+                <div class="head-left">
+                    <h3>
+                        Ứng dụng công nghệ GIS trong quản lý cơ sở hạ tầng bưu chính, viễn thông và truyền thanh cơ sở
+                    </h3>
+                    <h3 class="font-bold">TỈNH BẮC GIANG</h3>
+                </div>
+                <div class="head-right">
+                    <div class="head-right-top">
+                        <div class="box-search">
+                            <input type="text" class="input-search" placeholder="Từ khoá tìm kiếm..." />
+                        </div>
+                        <div class="box-info">
+                            <img src="~/Content/images/icon-user.png" />
+                            <a href="/AccountAdmin/Login">Đăng nhập</a>
+                        </div>
+                    </div>
+                    <div class="head-right-bottom">
+                        <ul>
+                            <li><a href="/">Trang chủ</a></li>
+                            <li><a href="/gioi-thieu">Giới thiệu</a></li>
+                            <li><a href="/cong-nghiep">Công nghiệp</a></li>
+                            <li><a href="/thuong-mai">Thương mại</a></li>
+                            <li><a href="/nang-luong">Năng lượng</a></li>
+                            <li><a href="/Commondashboard/Map">Bản đồ số</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="header-mobile">
+            <!-- /#sidebar-wrapper -->
+            <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="button-menu">
+                    <span href="#menu-toggle" id="menu-toggle">
+                        &#9776;
+                    </span>
+                </div>
+                <div class="header-title">
+                    <h3>
+                        CƠ SỞ DỮ LIỆU NGHÀNH CÔNG THƯƠNG
+                    </h3>
+                    <h3>TỈNH BẮC GIANG</h3>
+                </div>
+            </div>
+            <!-- Underlined text header -->
+        </div>
+        <!-- /#page-content-wrapper -->
+        <div id="wrapper" class="toggled">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <div class="sidebar-nav">
+                    <div class="box-info">
+                        <img src="~/Content/images/icon-user.png" />
+                        <a href="/">Đăng nhập</a>
+                    </div>
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/gioi-thieu">Giới thiệu</a></li>
+                        <li><a href="/cong-nghiep">Công nghiệp</a></li>
+                        <li><a href="/thuong-mai">Thương mại</a></li>
+                        <li><a href="/nang-luong">Năng lượng</a></li>
+                        <li><a href="/danh-muc-cap-phep">Danh mục cấp phép</a></li>
+                        <li>
+                            <div class="box-search">
+                                <input type="text" class="input-search" placeholder="Từ khoá tìm kiếm..." aria-autocomplete="list" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-banner">
+        <img src="~/Content/images/banner.png" />
+    </div>
+    <div class="body-content">
+        <div class="container">
+            <div class="box-content">
+                <div class="box-header">
+                    <div class="box-header-left">
+                        <h3>Lĩnh vực công nghiệp</h3>
+                    </div>
+                </div>
+                @*<div class="box-category">
+                        <ul>
+                            <li>
+                                <a href="/khu-cong-nghiep">Khu công nghiệp</a>
+                            </li>
+                            <li>
+                                <a href="/cum-cong-nghiep">Cụm công nghiệp</a>
+                            </li>
+                            <li>
+                                <a href="/doanh-nghiep">Doanh nghiệp</a>
+                            </li>
+                            <li>
+                                <a href="/co-so-san-xuat-cong-nghiep">Cơ sở sản xuất công nghiệp</a>
+                            </li>
+                            <li>
+                                <a href="/quy-hoach-khu">Quy hoạch khu, cụm công nghiệp</a>
+                            </li>
+                        </ul>
+                    </div>*@
+                <div class="box-data">
+                    <div class="box-data-left">
+                        <ul>
+                            <li class="active-category">
+
+                                <b><a class="thongke-nangluong" href="javascript:void(0)" onclick="onShowThongKe()">Cụm khu công nghiệp</a></b>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   onclick="onShowThongKeKhuCongNghiep()">Khu công nghiệp</a>
+                            </li>
+
+                            <li>
+                                <b><a class="thongke-nangluong" href="javascript:void(0)" onclick="onShowThongKeDN()">Doanh nghiệp</a></b>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeCoSosanXuatCongNghiepPartial"
+                                   data-target="cumCongNghiep">Cơ sở sản xuất công nghiệp</a>
+                            </li>
+                            @*<li>
+                                    <b>Sản phẩm công nghiệp</b>
+                                </li>
+                                <li>
+                                    <b>Sản phẩm công nghiệp của cơ sở sản xuất</b>
+                                </li>*@
+                            <li id="SanPhamCongNghiepTD">
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeCongNghiep/GetQuyHoachCumCN"
+                                   data-target="cumCongNghiep">Quy hoạch khu cụm công nghiệp</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeCSSXPartial"
+                                   data-target="cumCongNghiep">HTX, DN, CSSX KD ngành công thương</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/Home/GetThongKeSanPhamTrongDiem"
+                                   data-target="cumCongNghiep">Sản phẩm công nghiệp trọng điểm</a>
+                            </li>
+                            <li>
+                                <b><a class="thongke-nangluong" href="javascript:void(0)" onclick="GetDuAnTrenDiaBan()">Dự án đầu tư trên địa bàn thuộc lĩnh vực công nghiệp</a></b>
+                            </li>
+                            <li>
+                                <b><a class="thongke-nangluong" href="javascript:void(0)" onclick="GetSanPhamCongNghiepNongThonTieuBieu()">Sản phẩm công nghiệp nông thôn tiêu biểu, sản phẩm ocop, sản phẩm đặc trưng</a></b>
+                            </li>
+                            @*<li>
+                                    <b>Sản phẩm công nghiệp tiêu biểu theo năm</b>
+                                </li>*@
+                        </ul>
+                    </div>
+                    <div class="box-data-right">
+                        <div id="cumCongNghiep">
+                            @{ Html.RenderAction("ThongKeCumCongNghiepPartial", "ThongKeCongNghiep");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-content">
+                <div class="box-header">
+                    <div class="box-header-left">
+                        <h3>Lĩnh vực năng lượng</h3>
+                    </div>
+                    <div class="box-header-right fix-input">
+                    </div>
+                </div>
+                <div class="box-category">
+                </div>
+                <div class="box-data">
+                    <div class="box-data-left">
+                        <ul>
+                            <li class="active-category">
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeTramDienPartial"
+                                   data-target="divNangLuong">Trạm điện</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeTinhHinhSanXuatDienPartial"
+                                   data-target="divNangLuong">Tình hình sản xuất điện</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeTinhHinhTieuThuDienPartial"
+                                   data-target="divNangLuong">Tình hình tiêu thụ điện</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeTramXangDauPartial"
+                                   data-target="divNangLuong">Trạm xăng dầu, cửa hàng xăng dầu</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeDonViCungCapXangDauPartial" data-target="divNangLuong">Đơn vị cung cấp xăng dầu</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeDonViSanXuatNangLuongTaiTaoPartial" data-target="divNangLuong">Năng lượng tái tạo</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeThonBanChuaCoDienPartial" data-target="divNangLuong">Thôn bản chưa có điện</a>
+                            </li>
+
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeMucTieuThuXangDauPartial" data-target="divNangLuong">Mức tiêu thụ xăng dầu</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box-data-right">
+                        <div class="box-table">
+                            <div id="divNangLuong">
+                                @{ Html.RenderAction("ThongKeTramDienPartial", "ThongKeNangLuong");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-content">
+                <div class="box-header">
+                    <div class="box-header-left">
+                        <h3>Lĩnh vực thương mại</h3>
+                    </div>
+                    @*<div class="box-header-right fix-input">
+                            <select>
+                                <option>Chọn địa điểm</option>
+                            </select>
+                            <select>
+                                <option>Chọn sản phẩm</option>
+                            </select>
+                            <button class="button-search">Tìm kiếm</button>
+                        </div>*@
+                </div>
+
+                <div class="box-data">
+                    <div class="box-data-left">
+                        <ul>
+                            <li class="active-category">
+                                @*<b>Sản phẩm công nghiệp trọng điểm</b>*@
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/Home/GetThongKeNhaPhanPhoiMatHangThietYeu"
+                                   data-target="Content_ThuongMai">Thông tin nhà phân phối mặt hàng thiết yếu</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeSieuThiPartial"
+                                   data-target="Content_ThuongMai">Siêu thị</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeTrungTamThuongMaiPartial"
+                                   data-target="Content_ThuongMai">Trung tâm thương mại</a>
+                            </li>
+                            <li>
+                                <b><a href="javascript:void(0)">Mặt hàng thiết yếu</a></b>
+                            </li>
+                            @*<li>
+                                    <b>Sản phẩm mặt hàng thiết yếu dự trữ</b>
+                                </li>*@
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/Home/ThongKeSoLuongMatHangThietYeu"
+                                   data-target="Content_ThuongMai">Số lượng mặt hàng thiết yếu dự trữ</a>
+                            </li>
+                            @*@*<li class="active-category">
+                                    <a class="thongke-nangluong" href="javascript:void(0)"
+                                       data-action="/Home/ChartSoLuongMatHang"
+                                       data-target="Content_ThuongMai"> ChartSố lượng mặt hàng thiết yếu dự trữ</a>
+                                </li>*@
+                            @*<li>
+                                    <b>Nhà phân phối mặt hàng thiết yếu</b>
+                                </li>
+                                <li>
+                                    <b>Web thương mại điện tử bán hàng</b>
+                                </li>*@
+                            <li>
+                                <b><a class="thongke-nangluong" href="javascript:void(0)" onclick="onShowCapPhepBuonBan()">Cấp phép buôn bán sản phẩm</a> </b>
+                            </li>
+                            @*<li>
+                                    <b>Cấp xác nhận đăng ký bán hàng đa cấp</b>
+                                </li>
+                                <li>
+                                    <b>Đơn vị xuẩt nhập khẩu hàng hoá</b>
+                                </li>*@
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKeNangLuong/ThongKeCuaHangBanLeLPGPartial"
+                                   data-target="Content_ThuongMai">Cửa hàng bán lẻ LPG</a>
+                            </li>
+                            <li>
+                                <a class="thongke-nangluong" href="javascript:void(0)"
+                                   data-action="/ThongKe/GetThongKeHoiChoTrienLam"
+                                   data-target="Content_ThuongMai">Hội chợ triển lãm thương mại</a>
+                            </li>
+                            <li style="padding:0;border:0;">
+                                <img src="~/Content/images/map.png" style="max-width:100%;" />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="box-data-right">
+                        <div id="Content_ThuongMai"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="BgWhite">
+        @RenderBody()
+    </div>
+    <footer>
+        <div class="footer-content container">
+            <div class="footer-left">
+                <p>
+                    Ứng dụng công nghệ GIS trong quản lý cơ sở hạ tầng bưu chính, viễn thông và truyền thanh cơ sở
+                </p>
+                <p>Địa chỉ: Số 82 Hùng Vương - TP. Bắc Giang - Tỉnh Bắc Giang</p>
+                <p>
+                    <div class="left50 text-center">Điện thoại: (0204) 3.829.003</div>
+                    <div class="right50 text-center">Email: banbientap@bacgiang.gov.vn</div>
+                </p>
+            </div>
+            <div class="footer-right">
+                <img src="~/Content/images/googleplay-icon.png" />
+                <img src="~/Content/images/appstore.png" />
+            </div>
+        </div>
+    </footer>
+    <div class="scroll" onclick="scrolltop()">
+        <img src="~/Content/EndUser/img/back-to-top.png" width="50" alt="" />
+    </div>
+    <div id="MasterModal4" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static" style="z-index:1051">
+
+        <script>
+            function RenderTTNhaPhanPhoi() {
+                $.ajax({
+                    url: `/Home/GetThongKeNhaPhanPhoiMatHangThietYeu`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#Content_ThuongMai').html(rs)
+                    }
+                })
+            }
+            if ($('#Content_ThuongMai').html() == '') {
+                RenderTTNhaPhanPhoi();
+            }
+            function GetCoSoSanXuatCongNghiep() {
+                $.ajax({
+                    url: `/ThongKe/GetCoSoSanXuatCongNghiep`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+
+            function GetKhuCongNghiep() {
+                $.ajax({
+                    url: `/KhuCongNghiep/GetKhuCongNghiep`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+
+            function GetDuAnTrenDiaBan() {
+                $.ajax({
+                    url: `/ThongKe/GetDuAnTenDiaBanThuocLinhVucCongNghiep`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+            function GetSanPhamCongNghiepNongThonTieuBieu() {
+                $.ajax({
+                    url: `/ThongKe/GetSanPhamCongNghiepNongThonTieuBieu`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+
+            function GetSieuThi() {
+                $.ajax({
+                    url: `/ThongKeNangLuong/ThongKeSieuThiPartial`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#Content_ThuongMai').html(rs)
+                    }
+                })
+            }
+
+            function GetQuyHoachCumCN() {
+                $.ajax({
+                    url: `/ThongKe/GetQuyHoachCumCN`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+        </script>
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+
+            $().ready(function () {
+                $(".dropdown-toggle").mouseenter(function () {
+                    $(this).find(".dropdown-menu").css("display", "block");
+                });
+                $(".dropdown-toggle").mouseleave(function () {
+                    $(this).find(".dropdown-menu").css("display", "none");
+                });
+            });
+
+            $(document).ajaxStart(function () {
+                $("#hinet-preloader").css("display", "block");
+            }).ajaxStop(function () {
+                $("#hinet-preloader").css("display", "none");
+            });
+
+            $(document).ready(function () {
+                $(".xdl-f-upload-input").on("change", function (e) {
+                    var value = $(this).val();
+                    $(this).parent().find(".xdl-f-upload-content").html(value);
+                });
+
+                //cấu hình năng lượng
+                $('.thongke-nangluong').on('click', function () {
+                    var href = $(this).data('action');
+                    var target = $(this).data('target');
+
+                    var box = $(this).closest('.box-data-left');
+                    var li = $(this).closest('li');
+
+                    AjaxCall(href, 'post', null, function (result) {
+                        $('#' + target).html(result);
+                        box.find('li').removeClass('active-category');
+                        li.addClass('active-category');
+                    })
+                });
+
+            });
+            $(document).on("click", "#search-header", function () {
+
+                $(".ButtonSearch > .form-control").toggleClass("hienthi");
+            })
+            $(".datetimepicker").datepicker({
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                autoclose: true,
+                changeYear: true, yearRange: "-50:+20",
+                showWeek: false, weekHeader: "Tuần",
+                language: 'vi',
+                prevText: '<i class="fa fa-chevron-left"></i>',
+                nextText: '<i class="fa fa-chevron-right"></i>',
+                onSelect: function (date) {
+
+                }
+            });
+            function onShowThongKe() {
+                $.ajax({
+                    url: `/ThongKeCongNghiep/ThongKeCumCongNghiepPartial`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+
+            }
+
+            function onShowThongKe() {
+                $.ajax({
+                    url: `/ThongKeCongNghiep/ThongKeCumCongNghiepPartial`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+
+            }
+
+            function onShowThongKeDN() {
+                $.ajax({
+                    url: `/ThongKeCongNghiep/ThongKeDoanhNghiepPartial`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+            }
+
+            function onShowThongKeKhuCongNghiep() {
+                $.ajax({
+                    url: `/ThongKeCongNghiep/ThongKeKhuCongNghiepPartial`,
+                    method: 'get',
+                    success: function (rs) {
+                        $('#cumCongNghiep').html(rs)
+                    }
+                })
+
+            }
+
+            function ThongTinCho() {
+                $.ajax({
+                    type: "get",
+                    url: "/ThongKe/GetThongTinCho",
+                    success: function (rs) {
+                        $("#Content_ThuongMai").html(rs);
+                    }, error: function (er) {
+                        console.log(er);
+                    }
+                })
+            }
+            function onShowCapPhepBuonBan() {
+                $.ajax({
+                    type: "get",
+                    url: "/ThongKeCongNghiep/ThongKeCapPhepBuonBanPartial",
+                    success: function (rs) {
+                        $("#Content_ThuongMai").html(rs);
+                    }, error: function (er) {
+                        console.log(er);
+                    }
+                })
+            }
+
+            function modalLayout4(url) {
+                AjaxCall(url, 'get', null, function (rs) {
+                    $("#MasterModal4").html(rs);
+                    $("#MasterModal4").modal("show");
+                    if ($('#MasterModal4 .modal-dialog.fixed-right').length > 0) {
+                        $(".modal-backdrop").css('display', 'none');
+                        $(".modal").css('pointer-events', 'none');
+                        $("button[data-dismiss=modal]").on('click', function () {
+                            $(".modal-backdrop").css('display', 'none');
+                            $(".modal").css('pointer-events', 'auto');
+                        });
+                    } else {
+                    }
+                })
+            }
+        </script>
+
+        @RenderSection("scripts", required: false)
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+﻿@using Web.Models;
+@model LicenseDetail
+@{
+    ViewBag.Title = "LicenseDetail";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+        <div class="row" style="text-align:center">
+            <div class="col-sm-12">
+                <div class="text-center error-box">
+                    <h1 class="error-text-2 bounceInDown animated" style="color:#c0392b"> Thông tin bản quyền <span class="particle particle--c"></span><span class="particle particle--a"></span><span class="particle particle--b"></span></h1>
+                    <h2 class="font-xl" style="color:#2c3e50">
+
+                        @if (Model.HasLicense)
+                        {
+                        <strong class="text-success"><i class="fa fa-fw fa-check fa-lg "></i> License</strong>
+
+                        }
+                        else
+                        {
+                        <strong class="text-warning"><i class="a fa-fw fa-warning fa-lg "></i> No License</strong>
+                        }
+                    </h2>
+                    <br>
+                </div>
+                @if (Model.HasLicense)
+                {<div class="row">
+                    <div class="col-sm-offset-4 col-sm-4" style="text-align:left">
+                        <div class="well well-sm">
+                            <h3>Thông tin</h3>
+                            <ul>
+                                <li>Ngày hết hạn: <strong>@Model.NgayHetHan.Value.ToString("dd/MM/yyyy")</strong></li>
+
+                                <li>
+                                    Danh sách chức năng: @(Model.lstChucNang == null || !Model.lstChucNang.Any() ? "<strong>Không có</strong>" : "")
+                                    <ol>
+                                        @if (Model.lstChucNang != null & (Model.lstChucNang.Any()))
+                                        {
+                                            foreach (var item in Model.lstChucNang)
+                                            {
+                                        <li>@item</li>
+                                            }
+                                        }
+                                    </ol>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                }
+                <p class="lead center">
+                    Vui lòng liên hệ ADMIN để biết thêm thông tin.
+                </p>
+                <p class="font-md">
+                    <b><a href="/QLThongKeArea/QLThongKe">Quay về trang chủ</a></b>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+</div>

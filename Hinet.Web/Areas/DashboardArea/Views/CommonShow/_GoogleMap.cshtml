@@ -1,0 +1,101 @@
+﻿@using Newtonsoft.Json;
+
+<style>
+    #map {
+        width: 100%;
+        height: @(ViewBag.height)px;
+    }
+    html,
+    @{
+        var latOld = Html.Raw(ViewBag.latOld);
+        var lngOld = Html.Raw(ViewBag.lngOld);
+    }
+</style>
+<div id="map"></div>
+<script>
+
+    var latold = parseFloat("@latOld".replace(',', '.'));
+    var lngold = parseFloat("@lngOld".replace(',', '.'));
+
+    var myLatlng = { lat: parseFloat("@ViewBag.lat".replace(',', '.')), lng:parseFloat("@ViewBag.lng".replace(',', '.')) };
+    var map;
+    var marker = null;
+    var choose = ["start", "end"]
+    var markercheck = [];
+    var markers = [];
+    var iconBase = "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+
+        function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: myLatlng,
+                    zoom: @ViewBag.ZoomLevel,
+                    mapTypeControl: false
+                });
+
+                removeMarkers();
+
+                createMarker();
+
+
+            const wmsLayer = getWMSLayer(map, WMS_UrlMap.layers_BaseMap, '', 1.0);
+
+                // Add the WMS layer to the map
+                map.overlayMapTypes.push(wmsLayer);
+
+
+                // Add a click event listener to the map
+                map.addListener("click", (event) => {
+                    // Remove the previous marker, if it exists
+
+                    if (marker) {
+                        marker.setMap(null);
+                    }
+
+                    // Create a new marker at the clicked location
+                    marker = new google.maps.Marker({
+                        position: event.latLng,
+                        map: map,
+                    });
+
+                    // Retrieve the latitude and longitude coordinates
+                    const clickedLatLng = event.latLng;
+                    clickedLat = clickedLatLng.lat();
+                    clickedLng = clickedLatLng.lng();
+                    setLatLng();
+
+                });
+            var callback = window['initmapdone'];
+            if (typeof (callback) == 'function') {
+                callback();
+            }
+    }
+
+    function createMarker() {
+        var IconCenter = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            icon: {
+                url: '/Uploads/IconMarker/CenterPoint.png',
+                scaledSize: new google.maps.Size(32, 32)
+            }
+        });
+        markers.push(IconCenter);
+        IconCenter.setMap(map);
+    }
+
+    // Function to remove all markers from the map
+    function removeMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers.length = 0; // Clear the markers array
+    }
+
+    $(document).ready(function () {
+        window.initMap = initMap;
+    })
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly"
+        defer></script>

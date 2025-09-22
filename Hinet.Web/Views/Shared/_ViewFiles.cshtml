@@ -1,0 +1,119 @@
+﻿@using Hinet.Model.Entities;
+@using Hinet.Service.AppUserService.Dto;
+@model IEnumerable<TaiLieuDinhKem>
+@{
+    var userInfo = (UserDto)SessionManager.GetUserInfo();
+
+}
+@if (Model != null && Model.Any())
+{
+    //group file theo tên
+    var groupFiles = Model.GroupBy(x => new { x.TenTaiLieu, x.DuongDanFile })
+        .Select(x => x.FirstOrDefault()).ToList();
+
+<ul class="attachfile">
+    @foreach (var item in groupFiles)
+        {
+    <li class="attachfile__thaotac Loaitl-@item.LoaiTaiLieu" id="attachment-@item.LoaiTaiLieu">
+        @if (item.DinhDangFile != null)
+                {
+                    if (item.DinhDangFile.Contains("image"))
+                    {
+        <i class="fa fa-image" style="color:#009f17"></i>
+                    }
+                    else if (item.DinhDangFile.Contains("word"))
+                    {
+        <i class="fa fa-file-word-o" style="color:#0078ce;"></i>
+                    }
+                    else if (item.DinhDangFile.Contains("sheet"))
+                    {
+        <i class="fa fa-file-excel-o" style="color:#008513;"></i>
+                    }
+                    else if (item.DinhDangFile.Contains("pdf"))
+                    {
+        <i class="fa fa-file-pdf-o" style="color:#dd0000"></i>
+                    }
+                    else
+                    {
+        <i class="fa fa-file-archive-o"></i>
+                    }
+                }
+                else
+                {
+        <i class="fa fa-file-archive-o"></i>
+                }
+
+        <a onclick="onDownLoadFile(@item.Id)" href="javascript:void(0)" style="padding:0px" class="btn btn-sm dowDocx" title="Tải tài liệu">
+            <span> @item.TenTaiLieu</span>    <i class="fa fa fa-cloud-download"></i>
+        </a>
+        @if (item.DinhDangFile != null)
+                {
+                    if (item.DinhDangFile.Contains("image") || item.DinhDangFile.Contains("word") || item.DinhDangFile.Contains("pdf"))
+                    {
+        <input type="hidden" value="@item.Id" id="idFile" />
+        <a href="javascript:void(0)" style="padding:0px" class="btn btn-sm viewDocx" title="Xem tài liệu" onclick="onPreview(@item.Id)">
+            <i class="fa fa-eye"></i>
+        </a>
+        <input type="hidden" value="1" class="TYPEVIEW_DOC" />
+                    }
+                }
+    </li>
+        }
+</ul>
+}
+else
+{
+<center class="text-danger">
+    <p> KHÔNG CÓ TÀI LIỆU</p>
+</center>
+}
+
+<script>
+    $(document).ready(function () {
+
+    });
+
+    function onPreview(id) {
+        //$.browser.safari = ($.browser.webkit && !(/chrome/.test(navigator.userAgent.toLowerCase())));
+        //if ($.browser.safari) {
+        //    var callBack = function (result) {
+        //        window.location.href = result;
+        //    }
+        //    var type = $("#viewdetail_doc .TYPEVIEW_DOC").val();
+        //    AjaxCall('/Common/GetLinkFile', 'post', { id: id, type: type }, callBack);
+        //} else {
+
+        //}
+
+        var callBack = function (result) {
+            if (result) {
+                $("#MasterModal").html(result);
+                $("#MasterModal").modal('show');
+            }
+        }
+
+        var type = $("#viewdetail_doc .TYPEVIEW_DOC").val();
+        AjaxCall('/Common/PreviewFile', 'post', { id: id, type: type }, callBack)
+    }
+
+    @*function onConfirmDeleteAttachment(id, entityName) {
+        var callBack = function () {
+            if ('@deleteCallBack' !== '' && typeof window['@deleteCallBack'] === 'function') {
+                window['@deleteCallBack'](id);
+            }
+        }
+        onConfirmDelete('/Common/DeleteFile', { id: id }, entityName, callBack)
+    }*@
+
+    function onDownLoadFile(id) {
+        //$.browser.safari = ($.browser.webkit && !(/chrome/.test(navigator.userAgent.toLowerCase())));
+        var callBack = function (result) {
+            if (result) {
+                window.open(result, '_blank');
+            } else {
+                NotiError('Tài liệu không tồn tại');
+            }
+        }
+        AjaxCall('/Common/GetLinkFile', 'post', { id: id } , callBack)
+    }
+</script>

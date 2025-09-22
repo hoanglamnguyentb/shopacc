@@ -1,0 +1,115 @@
+﻿@using Newtonsoft.Json
+
+<style>
+    #map {
+        width: 100%;
+        height: 600px;
+    }
+    html,
+    @{
+        var lstData = Html.Raw(JsonConvert.SerializeObject(ViewBag.points));
+    }
+</style>
+
+<div id="map"></div>
+
+<script>
+
+    var map;
+
+    function tinhTamDaGiac(vertices) {
+        // Kiểm tra nếu đa giác không có đỉnh nào
+        if (vertices.length === 0) {
+            return null;
+        }
+
+        // Khởi tạo tổng các tọa độ x và y
+        let sumX = 0;
+        let sumY = 0;
+
+        // Tính tổng các tọa độ x và y
+        for (let i = 0; i < vertices.length; i++) {
+            sumX += vertices[i].lat; // Tọa độ x của đỉnh thứ i
+            sumY += vertices[i].lng; // Tọa độ y của đỉnh thứ i
+        }
+
+        // Tính tọa độ x và y của tâm
+        const tamX = sumX / vertices.length;
+        const tamY = sumY / vertices.length;
+
+        // Trả về tọa độ của tâm dưới dạng một mảng [tamX, tamY]
+        return [tamX, tamY];
+    }
+
+    function tinhKichThuocDaGiac(vertices) {
+        let minX = Number.POSITIVE_INFINITY;
+        let minY = Number.POSITIVE_INFINITY;
+        let maxX = Number.NEGATIVE_INFINITY;
+        let maxY = Number.NEGATIVE_INFINITY;
+
+        // Tìm tọa độ x và y lớn nhất và nhỏ nhất
+        for (let i = 0; i < vertices.length; i++) {
+            minX = Math.min(minX, vertices[i].lat);
+            minY = Math.min(minY, vertices[i].lng);
+            maxX = Math.max(maxX, vertices[i].lat);
+            maxY = Math.max(maxY, vertices[i].lng);
+        }
+
+        // Tính toán kích thước theo chiều rộng và chiều cao
+        const width = maxX - minX;
+        const height = maxY - minY;
+
+        // Trả về kích thước dưới dạng một object
+        return { width, height };
+    }
+    function tinhDoZoom(kichThuoc) {
+        // Tính toán độ zoom dựa trên kích thước của đa giác
+        const maxDim = Math.max(kichThuoc.width, kichThuoc.height);
+        // Điều chỉnh zoom theo kích thước của đa giác hoặc thêm điều kiện tùy chỉnh
+        return Math.floor(Math.log2(256*4 / maxDim));
+    }
+
+    // lấy dữ liệu từ controller gửi sang
+    var points;
+    var tam = [19.730697, 105.802269];
+    var doZoom = 14;
+    if (@lstData != null) {
+        points = eval(@lstData);
+        if (points!= null && points.length > 0 ) {
+            tam = tinhTamDaGiac(points);
+            doZoom = tinhDoZoom(tinhKichThuocDaGiac(points));
+        }
+    }
+    //Vẽ bản đồ
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: doZoom,
+            center: { lat: tam[0], lng: tam[1]},
+            mapTypeId: "terrain",
+        });
+
+        const wmsLayer = getWMSLayer(map, WMS_UrlMap.layers_BaseMap, '', 1.0);
+
+        // Add the WMS layer to the map
+        map.overlayMapTypes.push(wmsLayer);
+
+        const vungcamBTS = new google.maps.Polygon({
+            paths: points,
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 3,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+        });
+
+        vungcamBTS.setMap(map);
+
+    }
+
+    window.initMap = initMap;
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly"
+        defer></script>
+

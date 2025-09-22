@@ -1,0 +1,42 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.QLLogXuLyArea.Models
+
+@model EditVM
+@{
+
+}
+<div class="modal-dialog">
+    @using (Ajax.BeginForm("Edit", "QLLogXuLy", new { @area = "QLLogXuLyArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editQLLogXuLyForm",enctype= "multipart/form-data" }))
+    {
+    @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Cập nhật Quản lý log xử lý</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @Html.HiddenFor(x=>x.Id)
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+<script>
+</script>
+@Scripts.Render("~/bundles/jqueryval")

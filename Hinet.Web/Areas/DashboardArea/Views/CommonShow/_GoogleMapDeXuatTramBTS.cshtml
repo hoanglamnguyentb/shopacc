@@ -1,0 +1,599 @@
+﻿
+@using Newtonsoft.Json
+@using Hinet.Web.Areas.DeXuatTramBTSArea.Models
+
+
+<style>
+    #map {
+        width: 100%;
+        height: 500px;
+    }
+
+    @{
+        var ListVungCam = Html.Raw(JsonConvert.SerializeObject(ViewBag.ListVungCam));
+        var listTram = Html.Raw(Json.Encode(ViewBag.listTram));
+    }
+    .title {
+        font-weight: bold;
+        font-size: 14px;
+        text-align: left;
+        padding: 2px;
+    }
+    .title-hople {
+        color: blue;
+    }
+    .title-kohople {
+        color: red;
+    }
+
+    .sub-info {
+        color: #70757a;
+        text-align: left;
+        padding: 2px;
+    }
+
+    .lat-lng {
+        color: #1a73e8;
+        font-size: 14px;
+        text-align: left;
+        padding: 2px;
+    }
+
+    .xem-chi-tiet {
+        font-size: 14px;
+        color: blue;
+    }
+    .xem-chi-tiet:hover {
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .myModal {
+        top: 50% !important;
+    }
+    .gm-style-iw-ch {
+        display: none;
+    }
+    .gm-style .gm-style-iw-c {
+        flex-direction: row-reverse !important;
+    }
+
+    .gm-ui-hover-effect span {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .gm-ui-hover-effect {
+        width: 36px !important;
+        height: 36px !important;
+        top: -10px !important;
+    }
+
+    .gm-style-iw-d {
+        padding: 5px 2px;
+    }
+
+    .labelMarker {
+        margin-top: -40px;
+        /*font-weight: bold;*/
+        color: blue;
+    }
+
+</style>
+
+<div id="map"></div>
+
+<div class="myModal modalDetail modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btn-close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center">Thông tin chi tiết vùng cấm</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var listTram = eval(@listTram);
+    var map;
+    var ListMarker = [];
+    var ListVungCam;
+    var ListToaDo = [];
+    var ListPolygon = [];
+    var tam = [19.8067, 105.7966];
+    var doZoom = 12;
+    var khoangCach;
+    var currentInfoWindow = null;
+    var currentMarker = null;
+    var editLat;
+    var editLng;
+    var editLatLng;
+    var VungCamType = {
+        VungCamTrienKhai: "VungCamTrienKhai",
+        VungHanCheDoCao: "VungHanCheDoCao",
+    };
+
+    if (!$("#editLat").val() && !$("#editLng").val()) {
+
+    } else {
+        editLat = parseFloat($("#editLat").val().replace(",", "."));
+        editLng = parseFloat($("#editLng").val().replace(",", "."));
+        editLatLng = { lat: formatValue(editLat), lng: formatValue(editLng) };
+    }
+
+    // Hàm lấy tọa độ VN2000
+    function GetVN2000() {
+        const lat =  $("#latitudeWGS84").val();
+        const lng = $("#longtitudeWGS84").val();
+        AjaxCall("/DeXuatTramBTSArea/DeXuatTramBTS/ConvertVN2000", "GET", { lat: lat == undefined ? null : lat, lng: lng == undefined ? null : lng }, (rs) => {
+            $("#VN2000X").val(formatValue2(rs[0]));
+            $("#VN2000Y").val(formatValue2(rs[1]));
+        })
+    }
+
+    // Hàm lấy thông tin tiết của Vùng Cấm
+    function getDetailPolygon(Id) {
+        if (!Id) {
+            NotiError("Không tìm thấy thông tin vùng cấm");
+            return;
+        }
+        $.ajax({
+            url: '/VungCamTrienKhaiBTSArea/VungCamTrienKhaiBTS/GetDetail',
+            type: 'GET',
+            data: { Id: Id },
+            success: function (data) {
+                $('.myModal .modal-body').html(data);
+                $('.myModal').modal('show');
+            },
+            error: function (xhr) {
+                NotiError("Có lỗi xảy ra", xhr.responseText);
+            },
+        })
+    }
+
+    //Lấy listToaDoVungCam chỉ có lat và lng
+    function getListToaDo(ListVungCam) {
+        ListToaDo = [];
+        ListVungCam.forEach(item => {
+            let listPoint = [];
+            item.listToaDo.forEach(point => {
+                listPoint.push({ lat: point.latitudeWGS84, lng: point.longtitudeWGS84 })
+            })
+            ListToaDo.push({ Id: item.Id, listToaDo: listPoint, LoaiVungCam: item.LoaiVungCam, DoCaoHanChe: item.DoCaoHanChe });
+        })
+    }
+
+    // Hàm vẽ model edit
+    function drawEditModel() {
+
+        const marker = new google.maps.Marker({
+            position: editLatLng,
+            map: map
+        });
+
+        currentMarker = marker;
+
+        var service = new google.maps.places.PlacesService(map);
+        var request = {
+            location: editLatLng,
+            radius: '50'
+        };
+        service.nearbySearch(request, function (results, status) {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                var placeId = results[0].place_id;
+
+                service.getDetails({ placeId: placeId }, function (place, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        var diaChi = place.formatted_address
+                        var infoWindow = new google.maps.InfoWindow();
+                        if ($('#isHopLe').val() == 1) {
+                            var contentString = '<div id="content">' +
+                                '<div class="title title-hople">Điểm xây dựng hợp lệ</div>' +
+                                '<div class="sub-info">' + diaChi + '</div>' +
+                                '<div class="lat-lng">' + editLatLng.lat + ' , ' + editLatLng.lng + '</div>' +
+                                '</div>';
+                        } else {
+                            var contentString = '<div id="content">' +
+                                '<div class="title title-kohople">Điểm xây dựng không hợp lệ </div>' +
+                                '<div class="sub-info">' + diaChi + '</div>' +
+                                '<div class="lat-lng">' + editLatLng.lat + ' , ' + editLatLng.lng + '</div>' +
+                                '</div>';
+                        }
+
+                        infoWindow.setContent(contentString);
+                        infoWindow.setPosition(editLatLng);
+                        infoWindow.open(map, marker);
+                        currentInfoWindow = infoWindow;
+                    }
+                });
+            }
+        });
+    }
+
+    // Hàm lấy màu sắc cho polygon
+    function getColorForPolygon(LoaiVungCam) {
+
+        // Màu của vùng cấm khoảng cách
+        if (VungCamType.VungCamTrienKhai == LoaiVungCam) return "red";
+
+        // Màu của vùng cấm độ cao
+        if (VungCamType.VungHanCheDoCao == LoaiVungCam) return "orange";
+
+    }
+
+    // Hàm vẽ các polygons
+    function getListPolygon(ListToaDo) {
+        ListToaDo.forEach((item) => {
+            var polygon = new google.maps.Polygon({
+                paths: item.listToaDo,
+                strokeOpacity: 0.8,
+                strokeWeight: 1,
+                fillColor: getColorForPolygon(item.LoaiVungCam),
+                fillOpacity: 0.8,
+                clickable: true,
+            });
+
+            // Sự kiện với polygon
+
+            let polygonInfor = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(polygon, 'mouseover', function (event) {
+                const latlng = event.latLng;
+                polygonInfor.setContent('<div onclick="getDetailPolygon('+ item.Id +')" class="xem-chi-tiet">Xem chi tiết<div>');
+                polygonInfor.setPosition(latlng);
+                polygonInfor.open(map);
+            });
+
+            google.maps.event.addListener(polygon, 'mouseout', function (event) {
+                polygonInfor.close();
+            });
+
+            google.maps.event.addListener(polygon, 'click', function (event) {
+
+                // click trong polygon mặc định ko hợp lệ với vùng cấm theo khoảng cách
+
+                var clickedLatLng = event.latLng;
+                var lat = formatValue(clickedLatLng.lat());
+                var lng = formatValue(clickedLatLng.lng());
+                $("#latitudeWGS84").val(lat);
+                $("#longtitudeWGS84").val(lng);
+
+                if (currentMarker) {
+                    currentMarker.setMap(null);
+                }
+                if (currentInfoWindow) {
+                    currentInfoWindow.close();
+                }
+                var marker = new google.maps.Marker({
+                    position: clickedLatLng,
+                    map: map
+                });
+                currentMarker = marker;
+                var service = new google.maps.places.PlacesService(map);
+                var request = {
+                    location: clickedLatLng,
+                    radius: '50'
+                };
+
+                service.nearbySearch(request, function (results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        var placeId = results[0].place_id;
+                        service.getDetails({ placeId: placeId }, function (place, status) {
+                            if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                var diaChi = place.formatted_address
+                                var infoWindow = new google.maps.InfoWindow();
+
+                                let contentString = '';
+                                if (item.LoaiVungCam == VungCamType.VungHanCheDoCao) {
+                                    const DoCao = $('#DoCao').val();
+                                    if (!DoCao || !item.DoCaoHanChe) {
+                                        $('#isHopLe').val(1);
+                                        contentString = '<div id="content">' +
+                                            '<div class="title title-hople">Điểm xây dựng hợp lệ</div>' +
+                                            '<div class="sub-info">' + diaChi + '</div>' +
+                                            '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                            '</div>';
+                                    } else {
+                                        if (DoCao <= item.DoCaoHanChe) {
+                                            $('#isHopLe').val(1);
+                                            contentString = '<div id="content">' +
+                                                '<div class="title title-hople">Điểm xây dựng hợp lệ</div>' +
+                                                '<div class="sub-info">' + diaChi + '</div>' +
+                                                '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                                '</div>';
+                                        } else {
+                                            $('#isHopLe').val(0);
+                                            contentString = '<div id="content">' +
+                                                '<div class="title title-kohople">Điểm xây dựng không hợp lệ</div>' +
+                                                '<div class="sub-info">' + diaChi + '</div>' +
+                                                '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                                '</div>';
+                                        }
+                                    }
+                                } else {
+                                    $('#isHopLe').val(0);
+                                     contentString = '<div id="content">' +
+                                        '<div class="title title-kohople">Điểm xây dựng không hợp lệ</div>' +
+                                        '<div class="sub-info">' + diaChi + '</div>' +
+                                        '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                        '</div>';
+                                }
+
+                                infoWindow.setContent(contentString);
+                                infoWindow.setPosition(clickedLatLng);
+                                infoWindow.open(map, marker);
+                                currentInfoWindow = infoWindow;
+                            }
+                        });
+                    }
+                });
+            });
+
+            polygon.setMap(map);
+
+        });
+    }
+
+    // Hàm kiểm tra một điểm có nằm trong bất kỳ vùng nào không
+    function checkValidPoint(point) {
+        for (let item of ListToaDo) {
+            if (item.LoaiVungCam == VungCamType.VungHanCheDoCao) return false;
+            if (isCircleIntersectPolygons(point, item.listToaDo)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Hàm format giá trị latlng
+    function formatValue(value) {
+        return parseFloat(value.toFixed(6));
+    }
+    // Hàm format giá trị vn2000
+    function formatValue2(value) {
+        return parseFloat(value.toFixed(2));
+    }
+
+    // Hàm kiểm tra xem một điểm có nằm trong một vùng hay không
+    function isCircleIntersectPolygons(center, polygonPath) {
+        var point = new google.maps.LatLng(center);
+        var polygon = new google.maps.Polygon({
+            paths: polygonPath,
+        })
+
+        if (google.maps.geometry.poly.containsLocation(point, polygon)) {
+            return true;
+        }
+        for (var i = 0; i < polygonPath.length; i++) {
+            var lineStart = polygonPath[i];
+            var lineEnd = polygonPath[((i + 1) % polygonPath.length)];
+            var distance = distanceToLineSegment(center, lineStart, lineEnd);
+            if (distance <= khoangCach) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Hàm để tính khoảng cách từ một điểm đến một đoạn thẳng
+    function distanceToLineSegment(point, lineStart, lineEnd) {
+        var dX = lineEnd.lat - lineStart.lat;
+        var dY = lineEnd.lng - lineStart.lng;
+        var length = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+        var u = ((point.lat - lineStart.lat) * dX + (point.lng - lineStart.lng) * dY) / (length * length);
+
+        var intersectionPoint;
+        if (u < 0) {
+            intersectionPoint = new google.maps.LatLng(lineStart.lat, lineStart.lng);
+        } else if (u > 1) {
+            intersectionPoint = new google.maps.LatLng(lineEnd.lat, lineEnd.lng);
+        } else {
+            intersectionPoint = new google.maps.LatLng(lineStart.lat + u * dX, lineStart.lng + u * dY);
+        }
+
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(point, intersectionPoint);
+        return distance;
+    }
+
+    // Hàm vẽ trạm bts
+    function drawBTSMap(listBTS) {
+        if (!listBTS || listBTS.length < 0) return;
+        listBTS.map(item => {
+            const center = {
+                lat: item.lat,
+                lng: item.lng,
+            }
+
+            let radius = item.BanKinhPhatSong;
+            if (item.DonViTinhPhuSong) {
+                if (item.DonViTinhPhuSong.toLowerCase() == 'km') {
+                    radius = radius * 1000;
+                }
+            }
+
+            if (radius) {
+                let btsCircle = new google.maps.Circle({
+                    center: center,
+                    radius: radius,
+                    map: map,
+                    fillOpacity: 0.35,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#0000FF",
+                    strokeColor: "#0000FF",
+                    clickable: false,
+                });
+                let icon = {
+                    url: '/Uploads/IconMarker/markerAnten.png',
+                    scaledSize: new google.maps.Size(40, 40),
+                };
+
+                let marker = new google.maps.Marker({
+                    map,
+                    position: center,
+                    title: item.TenTram,
+                    animation: google.maps.Animation.DROP,
+                    icon: icon,
+                })
+                ListMarker.push(marker);
+            }
+
+        })
+    }
+
+    // Vẽ map
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: doZoom,
+            center: { lat: tam[0], lng: tam[1] },
+            mapTypeId: "terrain",
+        });
+
+        if (editLatLng) {
+            map.setCenter(editLatLng);
+        }
+        // Lấy ra list vùng cấm
+        if (@ListVungCam != null) {
+            ListVungCam = eval(@ListVungCam);
+        }
+        //Lấy ra list tọa độ
+        getListToaDo(ListVungCam);
+        // Vẽ polygons
+        getListPolygon(ListToaDo);
+
+        drawEditModel();
+
+        // Sự kiện khi click vào bản đồ
+        map.addListener("click", (event) => {
+            var clickedLatLng = event.latLng;
+            var lat = formatValue(clickedLatLng.lat());
+            var lng = formatValue(clickedLatLng.lng());
+            $("#latitudeWGS84").val(lat);
+            $("#longtitudeWGS84").val(lng);
+
+            GetVN2000();
+
+            if (currentMarker) {
+                currentMarker.setMap(null);
+            }
+            if (currentInfoWindow) {
+                currentInfoWindow.close();
+            }
+
+            var marker = new google.maps.Marker({
+                position: clickedLatLng,
+                map: map
+            });
+
+            currentMarker = marker;
+
+            var point = { lat: lat, lng: lng };
+            var checkPoint = checkValidPoint(point);
+
+            var service = new google.maps.places.PlacesService(map);
+            var request = {
+                location: clickedLatLng,
+                radius: '50'
+            };
+            service.nearbySearch(request, function (results, status) {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    var placeId = results[0].place_id;
+
+                    service.getDetails({ placeId: placeId }, function (place, status) {
+                        if (status === google.maps.places.PlacesServiceStatus.OK) {
+                            var diaChi = place.formatted_address
+                            var infoWindow = new google.maps.InfoWindow();
+                            if (!checkPoint) {
+                                $('#isHopLe').val(1);
+                                var contentString = '<div id="content">' +
+                                    '<div class="title title-hople">Điểm xây dựng hợp lệ</div>' +
+                                    '<div class="sub-info">' + diaChi + '</div>' +
+                                    '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                    '</div>';
+                            } else {
+                                $('#isHopLe').val(0);
+                                var contentString = '<div id="content">' +
+                                    '<div class="title title-kohople">Điểm xây dựng không hợp lệ</div>' +
+                                    '<div class="sub-info">' + diaChi + '</div>' +
+                                    '<div class="lat-lng">' + lat + ' , ' + lng + '</div>' +
+                                    '</div>';
+                            }
+
+                            infoWindow.setContent(contentString);
+                            infoWindow.setPosition(clickedLatLng);
+                            infoWindow.open(map, marker);
+                            currentInfoWindow = infoWindow;
+                        }
+                    });
+                }
+            });
+
+        });
+
+        // lắng nghe sự kiện thay đổi độ zoom
+        map.addListener('zoom_changed', function () {
+            const zoom = map.getZoom();
+            if (ListMarker) {
+                ListMarker.forEach((item) => {
+                    if (zoom > 12) {
+                        item.setLabel({
+                            text: item.getTitle(),
+                            className: 'labelMarker',
+                            color: 'black',
+                        })
+
+                    } else {
+                        item.setLabel(null);
+                    }
+                })
+            }
+        })
+
+
+        // Add the WMS layer to the map
+        const wmsLayer = getWMSLayer(map, WMS_UrlMap.layers_BaseMap, '', 1.0);
+        map.overlayMapTypes.push(wmsLayer);
+
+        // Vẽ trạm BTS
+        drawBTSMap(listTram);
+    }
+
+    
+
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '/DeXuatTramBTSArea/DeXuatTramBTS/GetKhoangCach',
+            type: 'GET',
+            success: function (rs) {
+                if (rs != null) {
+                    khoangCach = parseFloat(rs);
+                    $('input[name=khoangCach]').val(khoangCach);
+                }
+            },
+            error: function (xhr, status, error) {
+                NotiError("Có lỗi", xhr.responseText);
+            }
+        });
+        window.initMap = initMap;
+
+        $("#btn-close").on('click', function (event) {
+            event.stopPropagation();
+            $(".myModal").modal('hide');
+        });
+
+    })
+
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly&libraries=places"
+        defer></script>
+
+@Scripts.Render("~/bundles/jqueryval")

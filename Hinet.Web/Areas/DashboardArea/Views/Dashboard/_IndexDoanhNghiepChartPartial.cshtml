@@ -1,0 +1,116 @@
+﻿@model List<Hinet.Service.TieuChiThongKeService.Dto.TieuChiThongKeChartDto>
+
+<style>
+    #chartdiv {
+        width: 100%;
+        height: 350px;
+    }
+</style>
+
+<!-- Resources -->
+<script src="~/assets/plugins/amcharts5/index.js"></script>
+<script src="~/assets/plugins/amcharts5/xy.js"></script>
+<script src="~/assets/plugins/amcharts5/themes/Animated.js"></script>
+
+<div id="chartdiv"></div>
+<!-- Chart code -->
+<script>
+    am5.ready(function () {
+
+        // Lấy dữ liệu từ Razor Model
+        var rawData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        // Chuyển đổi dữ liệu thành định dạng biểu đồ
+        var chartData = rawData.map((item, index) => ({
+            "TenTieuChi": item.TenTieuChi + " #" + (index + 1),
+            "GiaTriTruoc": item.GiaTriTruoc,
+            "GiaTriSau": item.GiaTriSau,
+            "ChenhLechPhanTram": item.ChenhLechPhanTram
+        }));
+
+        // Create root element
+        var root = am5.Root.new("chartdiv");
+
+        root._logo.dispose();
+
+        // Set themes
+        root.setThemes([
+            am5themes_Animated.new(root)
+        ]);
+
+        // Create chart
+        var chart = root.container.children.push(am5xy.XYChart.new(root, {
+            panX: false,
+            panY: false,
+            layout: root.verticalLayout
+        }));
+
+        // Add X Axis
+        var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+            categoryField: "TenTieuChi",
+            renderer: am5xy.AxisRendererX.new(root, {
+                cellStartLocation: 0.1,
+                cellEndLocation: 0.9
+            })
+        }));
+
+        // Add Y Axis
+        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+            renderer: am5xy.AxisRendererY.new(root, {})
+        }));
+
+        // Add series for "GiaTriTruoc"
+        var series1 = chart.series.push(am5xy.ColumnSeries.new(root, {
+            name: "Kỳ trước",
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueYField: "GiaTriTruoc",
+            categoryXField: "TenTieuChi",
+            tooltip: am5.Tooltip.new(root, {
+                labelText: "{name}: {valueY}"
+            })
+        }));
+
+        series1.columns.template.setAll({
+            tooltipText: "{name}: {valueY}",
+            width: am5.percent(90)
+        });
+
+        // Add series for "GiaTriSau"
+        var series2 = chart.series.push(am5xy.ColumnSeries.new(root, {
+            name: "Kỳ này",
+            xAxis: xAxis,
+            yAxis: yAxis,
+            valueYField: "GiaTriSau",
+            categoryXField: "TenTieuChi",
+            tooltip: am5.Tooltip.new(root, {
+                labelText: "{name}: {valueY}"
+            })
+        }));
+
+        series2.columns.template.setAll({
+            tooltipText: "{name}: {valueY}",
+            width: am5.percent(90)
+        });
+
+        // Add legend
+        var legend = chart.children.push(
+            am5.Legend.new(root, {
+                centerX: am5.percent(50),
+                x: am5.percent(50)
+            })
+        );
+
+        legend.data.push(series1);
+        legend.data.push(series2);
+
+        // Add chart data
+        xAxis.data.setAll(chartData);
+        series1.data.setAll(chartData);
+        series2.data.setAll(chartData);
+
+        // Add animations
+        chart.appear(1000, 100);
+
+    }); // end am5.ready()
+</script>

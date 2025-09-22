@@ -1,0 +1,204 @@
+﻿@using Newtonsoft.Json;
+@using Hinet.Service.Common;
+@using Hinet.Service.TramBTSService.Dto;
+@model PageListResultBO<TramBTSDto>
+@{
+    var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
+}
+
+<style>
+    .tinhtrang {
+        width: 160px;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+
+<div class="modal-dialog" style="width:80%">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close btn-close-modal" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Danh sách Trạm BTS sắp hết hạn</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="">
+                @Html.Partial("_SearchPartial")
+            </div>
+
+            <div id="tbl-TramBTS" class="hntbl-cover table-scroll">
+                <div class="table-wrap">
+                    <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th class="fixed-side">#</th>
+                                <th>Ngày hết hạn</th>
+                                <th>Đến hết hạn còn</th>
+                                <th>Mã trạm/Tên trạm</th>
+                                <th>Huyện</th>
+                                <th>Xã</th>
+                                <th>Công nghệ phát sóng</th>
+                                <th>Bán kính phát sóng</th>
+                                <th>Ngày phát sóng</th>
+                                <th>Tình trạng hoạt động</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer center">
+            <button type="button" class="btn btn-default btn-close-modal" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var lstData = eval(@lstData);
+    var moduleTableSelector="#tbl-TramBTS";
+    function pagefunction(){
+        var conf=[
+            {
+                tdClass:"center width50 fixed-side",
+                isSort:false,
+                nameModel: "",
+                isCounter:true,
+                content: function (data) {
+                    return "<input type='checkbox' />"
+                }
+            },
+            {
+                isSort: true,
+                nameModel: 'NgayHetHan',
+                content: function (data) {
+                    return ToDate(data.NgayHetHan)
+                }
+            },
+            {
+                isSort: true,
+                nameModel: 'NgayHetHan',
+                content: function (data) {
+                    let date = data.NgayHetHan;
+                    if (data.NgayHetHan.includes("/Date")) {
+                        let timestamp = parseInt(data.NgayHetHan.match(/\d+/)[0]);
+                        date = new Date(timestamp);
+                    }
+
+                    var ngayhethan = new Date(date);
+                    var currentDate = new Date();
+                    var dayDiff = Math.abs(Math.floor((ngayhethan - currentDate) / (1000 * 60 * 60 * 24)) + 1);
+                    return `<div class="yellowColor">${dayDiff} ngày</div>`;
+                }
+            },
+			{
+				isSort:true,
+				nameModel:'MaTram_TenTram',
+				content: function (data) {
+				return data.MaTram_TenTram
+			}
+            },
+
+            {
+                isSort: true,
+                nameModel: 'Huyen',
+                content: function (data) {
+                    return data.TenHuyen
+                }
+            },
+            {
+                isSort: true,
+                nameModel: 'Xa',
+                content: function (data) {
+                    return data.TenXa
+                }
+            },
+			{
+                isSort: true,
+                tdClass: 'center',
+				nameModel:'CongNghePhatSong',
+                content: function (data) {
+                    return data.CongNghePhatSong;
+			}
+			},
+			{
+				isSort:true,
+                tdClass: "right",
+                nameModel: 'BanKinhPhatSong',
+                content: function (data) {
+                    return data.BanKinhPhatSong + data.DonViTinhPhuSong
+			}
+			},
+			{
+				isSort:true,
+                nameModel: 'NgayPhatSong',
+                tdClass: "center",
+				content: function (data) {
+				return ToDate(data.NgayPhatSong)
+			}
+            },
+
+            {
+                isSort: true,
+                nameModel: 'TinhTrangHoatDong',
+                tdClass: "center",
+                content: function (data) {
+                    return data.TrangThaiHoatDong
+                }
+            },
+        ];
+
+        var getdatafunc = function (page, sortQuery, pageSize) {
+            var strSearch = $('#input-search').val();
+            $.ajax({
+                url: '/QLCanhBao/CanhBao/getDataTramBTSSapHetHan',
+                type: 'get',
+                cache: false,
+                data: { "indexPage": page, "sortQuery": sortQuery, "pageSize": pageSize, "strSearch": strSearch },
+                success: function (data) {
+                    $(moduleTableSelector).hinetTable("data",{
+                        pageSize:pageSize!=-1?pageSize:data.Count,
+                        pageIndex:page,
+                        pagecount: data.TotalPage,
+                        recordCount: data.Count,
+                        listItem: data.ListItem,});
+                },
+                error: function (err) {
+                    CommonJS.alert(xhr.responseText);
+                }
+            });
+
+        }
+
+        var tblData=$("#tbl-TramBTS").hinetTable("init",{
+            pageSizeList:{size:[20,50,100,-1],label:['20','50','100','Tất cả']},
+            pagecount: @Model.TotalPage,
+            recordCount: @Model.Count,
+            actionToolBar:'',
+            getData:getdatafunc,
+            listItem:lstData,
+            config:conf
+        });
+
+    }
+
+    function AfterSussessActionAjaxform(){
+        $(moduleTableSelector).hinetTable("reload");
+    }
+    function AjaxSearchSuccess(rs) {
+        $(moduleTableSelector).hinetTable("data", {
+            pageIndex: 1,
+            pagecount: rs.TotalPage,
+            recordCount: rs.Count,
+            listItem: rs.ListItem,
+        });
+    }
+    pagefunction();
+</script>

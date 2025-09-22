@@ -1,0 +1,163 @@
+﻿@using Hinet.Service.AppUserService.Dto
+@using Hinet.Service.CommonConfigurationService.DTO
+@using Hinet.Service.Constant
+@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="@ViewBag.Description" />
+    @Html.Partial("~/Views/Shared/_SEOPartial.cshtml")
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/assets/EndUserCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/assets/EndUserjs")
+    @Scripts.Render("~/bundles/datepicker")
+    @Styles.Render("~/Content/datepicker")
+    <link href="~/Content/EndUser/css/style.css" rel="stylesheet" />
+    <link href="~/Content/EndUser/css/styleHome.css" rel="stylesheet" />
+    <link href="~/Scripts/slick-1.8.1/slick/slick.css" rel="stylesheet" />
+    <link href="~/Scripts/slick-1.8.1/slick/slick-theme.css" rel="stylesheet" />
+    <script src="~/Scripts/slick-1.8.1/slick/slick.min.js"></script>
+    <script src="~/Content/EndUser/js/jquery.smartmenus.min.js"></script>
+    <script src="~/Content/EndUser/js/jquery.smartmenus.js"></script>
+    <link href="~/Content/EndUser/css/sm-blue.css" rel="stylesheet" />
+    <link href="~/Content/EndUser/css/responsive.css" rel="stylesheet" />
+    @*<script src="~/assets/ckeditor/ckeditor.js"></script>*@
+    @RenderSection("HeadIncludes", required: false)
+
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .phan-anh-container {
+            height: 42rem;
+            overflow: auto;
+        }
+
+        .footer-map {
+            width: 100% !important;
+            position: fixed !important;
+            bottom: 0 !important;
+            height: 120px;
+        }
+
+        .navbar-back {
+            margin-top: 1%;
+            display: flex;
+            align-items: center;
+        }
+
+        #myNavbar {
+            display: flex !important;
+            justify-content: space-between;
+        }
+
+            #myNavbar .navbar-nav {
+                float: none;
+                flex: 1;
+            }
+
+                #myNavbar .navbar-nav:nth-child(1) {
+                    justify-content: center;
+                }
+
+                #myNavbar .navbar-nav:nth-child(2) {
+                    justify-content: flex-end;
+                }
+    </style>
+</head>
+
+@{
+    var userInfo = SessionManager.GetUserInfo() as UserDto;
+    var CompanyInfomation = SessionManager.GetCompanyOWNInfo() as CompanyInfomationDto;
+    var TenTinh = ViewBag.TenTinh;
+}
+
+<body>
+    <div class="header-desk">
+        <nav class="navbar navbar-inverse" style="background-color: #39b102 !important; border-color: #39b102 !important; }">
+            <div class="container-fluid container-fake row">
+                <div class="navbar-header header-desk-left header-map" style="margin: 15px 0;">
+                    <a href="/DashboardArea/Dashboard/" class="img-quochuy">
+                        <img style="width:50px!important" src="~/Content/EndUser/img/logo_sdi.png" />
+                    </a>
+                    <span class="text-change">Ứng dụng công nghệ GIS trong quản lý cơ sở hạ tầng bưu chính, viễn thông và truyền thanh cơ sở</span>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        @*<li class="">
+                                <a href="#">Trang chủ</a>
+                            </li>*@
+                        @*<li class="">
+                                <a href="#">Quản lý cây xanh</a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Báo cáo thống kê
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Công cụ import dữ liệu
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/CommonDashboard/PhanAnh">Phản ánh</a>
+                            </li>*@
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        @*<li>
+                                <a href="#">
+                                    <i class="fa fa-pencil"></i> Đăng ký
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">|</a>
+                            </li>*@
+                        <li>
+                            <a href="/AccountAdmin/Login">
+                                <i class="fa fa-user"></i> Đăng nhập
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="BgWhite">
+        @RenderBody()
+    </div>
+    <div id="MasterModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static" style="z-index:1051">
+    </div>
+
+    @*@{ Html.RenderAction("GetMapFooter", "CommonDashboard");}*@
+    <script>
+        $().ready(function () {
+            $(".dropdown-toggle").mouseenter(function () {
+                $(this).find(".dropdown-menu").css("display", "block");
+            });
+            $(".dropdown-toggle").mouseleave(function () {
+                $(this).find(".dropdown-menu").css("display", "none");
+            });
+        });
+
+        $().ready(function () {
+            $(".xdl-f-upload-input").on("change", function (e) {
+                var value = $(this).val();
+                $(this).parent().find(".xdl-f-upload-content").html(value);
+            });
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
