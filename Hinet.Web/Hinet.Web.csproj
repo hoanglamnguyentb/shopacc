@@ -14516,22 +14516,7 @@
     <Content Include="Views\Errors\InternalServer.cshtml" />
     <Content Include="Views\Errors\NotFound.cshtml" />
     <Content Include="Views\Errors\TimeOutSession.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\License.cshtml" />
-    <Content Include="Views\Home\LicenseAccept.cshtml" />
-    <Content Include="Views\Home\LicenseDetail.cshtml" />
-    <Content Include="Views\Home\LicensePartial.cshtml" />
-    <Content Include="Views\Home\NotFound.cshtml" />
-    <Content Include="Views\Home\QuickLogin.cshtml" />
-    <Content Include="Views\Home\Search.cshtml" />
-    <Content Include="Views\Home\SearchCommon.cshtml" />
-    <Content Include="Views\Home\TimeOutSession.cshtml" />
-    <Content Include="Views\Home\UnAuthor.cshtml" />
-    <Content Include="Views\Home\UnAuthorPartial.cshtml" />
-    <Content Include="Views\Home\updateLicense.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\EndUserChangePassword.cshtml" />
@@ -14552,6 +14537,10 @@
     <Content Include="Views\Shared\_LayoutAce.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Shared\_TopRightBarPartial.cshtml" />
+    <Content Include="Views\Home\Recharge.cshtml" />
+    <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\Home\Services.cshtml" />
+    <Content Include="Views\Home\Accounts.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
