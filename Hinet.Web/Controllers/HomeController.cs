@@ -38,46 +38,31 @@ namespace Hinet.Web.Controllers
 			return View();
 		}
 
+
+		//nạp thẻ
 		[AllowAnonymous]
-		public ActionResult UnAuthor()
+		public ActionResult Recharge()
 		{
 			return View();
 		}
-
+		//tài khoản
 		[AllowAnonymous]
-		public PartialViewResult UnAuthorPartial()
-		{
-			return PartialView("UnAuthorPartial");
-		}
-
-		[AllowAnonymous]
-		public PartialViewResult TimeOutSession()
-		{
-			return PartialView("TimeOutSession");
-		}
-
-		[AllowAnonymous]
-		public ActionResult NotFound()
+		public ActionResult Accounts()
 		{
 			return View();
 		}
-
+		//dịch vụ
 		[AllowAnonymous]
-		public ActionResult License()
+		public ActionResult Services()
 		{
 			return View();
 		}
-
+		//tin tức
 		[AllowAnonymous]
-		public ActionResult LicensePartial()
+		public ActionResult News()
 		{
 			return View();
 		}
-
-		[AllowAnonymous]
-		public ActionResult Error()
-		{
-			return View();
-		}
-	}
+        
+    }
 }
