@@ -386,6 +386,12 @@
     <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucImportDto.cs" />
     <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucSearchDTO.cs" />
     <Compile Include="DM_NhomDanhmucService\IDM_NhomDanhmucService.cs" />
+    <Compile Include="GameService\Dto\GameDto.cs" />
+    <Compile Include="GameService\Dto\GameExportDto.cs" />
+    <Compile Include="GameService\Dto\GameImportDto.cs" />
+    <Compile Include="GameService\Dto\GameSearchDto.cs" />
+    <Compile Include="GameService\GameService.cs" />
+    <Compile Include="GameService\IGameService.cs" />
     <Compile Include="ModuleService\DTO\ModuleDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleMenuDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleSearchDTO.cs" />
@@ -406,6 +412,10 @@
     <Compile Include="RoleService\DTO\RoleSearchDTO.cs" />
     <Compile Include="RoleService\IRoleService.cs" />
     <Compile Include="RoleService\RoleService.cs" />
+    <Compile Include="TaiKhoanService\Dto\TaiKhoanDto.cs" />
+    <Compile Include="TaiKhoanService\Dto\TaiKhoanSearchDto.cs" />
+    <Compile Include="TaiKhoanService\ITaiKhoanService.cs" />
+    <Compile Include="TaiKhoanService\TaiKhoanService.cs" />
     <Compile Include="TaiLieuDinhKemService\ITaiLieuDinhKemService.cs" />
     <Compile Include="TaiLieuDinhKemService\TaiLieuDinhKemService.cs" />
     <Compile Include="UserOperationService\Dto\UserOperationDto.cs" />

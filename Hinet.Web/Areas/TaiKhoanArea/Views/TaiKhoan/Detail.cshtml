@@ -1,0 +1,48 @@
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ";
+    ViewBag.PageName = "Thông tin ";
+    ViewBag.ModuleCode = "TaiKhoan_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.TaiKhoanArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/TaiKhoanArea/TaiKhoan/Index')" class="btn btn-primary btn-sm">Quay lại</a>
+}
+
+<div class="row">
+     <div class="col-sm-12">
+           <table class="table-info">
+           	
+<tr><td>Mã</td><td>@Model.objInfo.Code</td></tr>
+<tr><td>GameId</td><td>@Model.objInfo.GameId</td></tr>
+<tr><td>Trạng thái</td><td>@Model.objInfo.TrangThai</td></tr>
+<tr><td>Tên đăng nhập</td><td>@Model.objInfo.UserName</td></tr>
+<tr><td>Mật khẩu</td><td>@Model.objInfo.Password</td></tr>
+<tr><td>Giá gốc</td><td>@Model.objInfo.GiaGoc</td></tr>
+<tr><td>Giá khuyến mãi</td><td>@Model.objInfo.GiaKhuyenMai</td></tr>
+<tr><td>Mô tả</td><td>@Model.objInfo.Mota</td></tr>
+<tr><td>Vị trí</td><td>@Model.objInfo.ViTri</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.IsDelete</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteTime</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteId</td></tr>
+
+           </table>
+     </div>
+    
+</div>
+
+<script>
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,144 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.TaiKhoanArea.Models
+
+@model CreateVM
+@{
+
+}
+
+<div class="modal-dialog">
+    @using (Html.BeginForm("Create", "TaiKhoan", FormMethod.Post,
+        new { area = "TaiKhoanArea", id = "createTaiKhoanForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Tạo mới </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mã <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">GameId <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GameId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GameId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Trạng thái </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.TrangThai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Tên đăng nhập </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mật khẩu </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Giá gốc <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaGoc, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaGoc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Giá khuyến mãi </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaKhuyenMai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaKhuyenMai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mô tả </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Mota, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Mota, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Vị trí <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.ViTri, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ViTri, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Ảnh </label>
+                        <div class="col-sm-12">
+                            <div class="multiple-uploader" id="multiple-uploader">
+                                <div class="mup-msg">
+                                    <span class="mup-main-msg">click to upload images.</span>
+                                    <span class="mup-msg" id="max-upload-number">Upload up to 10 images</span>
+                                    <span class="mup-msg">Only images, pdf and psd files are allowed for upload</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    let multipleUploader = new MultipleUploader('#multiple-uploader').init({
+        maxUpload: 20,
+        maxSize: 5,
+        filesInpName: 'images',
+        formSelector: '#createTaiKhoanForm',
+    });
+
+    $("#createTaiKhoanForm").submit(function (e) {
+    e.preventDefault();
+        var formData = new FormData(this);
+
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+    $.ajax({
+        url: this.action,
+        type: this.method,
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            AjaxFormSuccess(res);
+        },
+        error: function (err) {
+            AjaxFormError(err);
+        }
+    });
+});
+</script>
+@Scripts.Render("~/bundles/jqueryval")

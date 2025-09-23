@@ -29,6 +29,8 @@ namespace Hinet.Model
 		public DbSet<UserRole> UserRole { get; set; }
 		public DbSet<Notification> Notification { get; set; }
 		public DbSet<UserOperation> UserOperation { get; set; }
+		public DbSet<Game> Game { get; set; }
+		public DbSet<TaiKhoan> TaiKhoan { get; set; }
 
 		public static DbContext Create()
 		{

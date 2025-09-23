@@ -73,6 +73,8 @@
     <Compile Include="DM_DulieuDanhmucRepository\IDM_DulieuDanhmucRepository.cs" />
     <Compile Include="DM_NhomDanhmucRepository\DM_NhomDanhmucRepository.cs" />
     <Compile Include="DM_NhomDanhmucRepository\IDM_NhomDanhmucRepository.cs" />
+    <Compile Include="GameRepository\GameRepository.cs" />
+    <Compile Include="GameRepository\IGameRepository.cs" />
     <Compile Include="ModuleRepository\IModuleRepository.cs" />
     <Compile Include="ModuleRepository\ModuleRepository.cs" />
     <Compile Include="NotificationRepository\INotificationRepository.cs" />
@@ -83,6 +85,8 @@
     <Compile Include="RoleOperationRepository\RoleOperationRepository.cs" />
     <Compile Include="RoleRepository\IRoleRepository.cs" />
     <Compile Include="RoleRepository\RoleRepository.cs" />
+    <Compile Include="TaiKhoanRepository\ITaiKhoanRepository.cs" />
+    <Compile Include="TaiKhoanRepository\TaiKhoanRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\ITaiLieuDinhKemRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\TaiLieuDinhKemRepository.cs" />
     <Compile Include="UserOperationRepository\IUserOperationRepository.cs" />

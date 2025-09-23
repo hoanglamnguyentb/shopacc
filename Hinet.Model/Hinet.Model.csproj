@@ -59,6 +59,8 @@
     <Compile Include="Common\ShowKeyValueModel.cs" />
     <Compile Include="Common\UnitOfWork.cs" />
     <Compile Include="Entities\Audit.cs" />
+    <Compile Include="Entities\TaiKhoan.cs" />
+    <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\DM_DulieuDanhmuc.cs" />
     <Compile Include="Entities\DM_NhomDanhmuc.cs" />
     <Compile Include="Entities\History.cs" />
@@ -77,6 +79,14 @@
     <Compile Include="Migrations\202509221658121_init-database.cs" />
     <Compile Include="Migrations\202509221658121_init-database.Designer.cs">
       <DependentUpon>202509221658121_init-database.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509231402422_add_tbl_Game.cs" />
+    <Compile Include="Migrations\202509231402422_add_tbl_Game.Designer.cs">
+      <DependentUpon>202509231402422_add_tbl_Game.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.cs" />
+    <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.Designer.cs">
+      <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -115,6 +125,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202509221658121_init-database.resx">
       <DependentUpon>202509221658121_init-database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509231402422_add_tbl_Game.resx">
+      <DependentUpon>202509231402422_add_tbl_Game.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509231557116_add_tbl_TaiKhoan.resx">
+      <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

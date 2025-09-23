@@ -509,6 +509,12 @@
     <Compile Include="Areas\DmNhomDanhmucArea\Models\CreateVM.cs" />
     <Compile Include="Areas\DmNhomDanhmucArea\Models\EditVM.cs" />
     <Compile Include="Areas\DmNhomDanhmucArea\Models\ImportVM.cs" />
+    <Compile Include="Areas\GameArea\Controllers\GameController.cs" />
+    <Compile Include="Areas\GameArea\GameAreaAreaRegistration.cs" />
+    <Compile Include="Areas\GameArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\GameArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\GameArea\Models\EditVM.cs" />
+    <Compile Include="Areas\GameArea\Models\ImportVM.cs" />
     <Compile Include="Areas\ModuleArea\Controllers\ModuleController.cs" />
     <Compile Include="Areas\ModuleArea\Models\ChuyenModuleVM.cs" />
     <Compile Include="Areas\ModuleArea\Models\ModuleViewModel.cs" />
@@ -526,6 +532,11 @@
     <Compile Include="Areas\RoleArea\Models\ConfigProvinceVm.cs" />
     <Compile Include="Areas\RoleArea\Models\RoleViewModel.cs" />
     <Compile Include="Areas\RoleArea\RoleAreaAreaRegistration.cs" />
+    <Compile Include="Areas\TaiKhoanArea\Controllers\TaiKhoanController.cs" />
+    <Compile Include="Areas\TaiKhoanArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\TaiKhoanArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\TaiKhoanArea\Models\EditVM.cs" />
+    <Compile Include="Areas\TaiKhoanArea\TaiKhoanAreaAreaRegistration.cs" />
     <Compile Include="Areas\UserArea\Controllers\UserAPIController.cs" />
     <Compile Include="Areas\UserArea\Controllers\UserController.cs" />
     <Compile Include="Areas\UserArea\Models\CreateLyLichVM.cs" />
@@ -8642,11 +8653,7 @@
     <Content Include="assets\images\avatars\uploadAvatar.png" />
     <Content Include="assets\images\avatars\user.jpg" />
     <Content Include="assets\images\avatars\userNew.png" />
-    <Content Include="assets\images\backgound.png" />
-    <Content Include="assets\images\background.jpg" />
-    <Content Include="assets\images\BackgroundGov.png" />
     <Content Include="assets\images\banner.png" />
-    <Content Include="assets\images\bg-baodaibieu.png" />
     <Content Include="assets\images\bootstrap-colorpicker\alpha-horizontal.png" />
     <Content Include="assets\images\bootstrap-colorpicker\alpha.png" />
     <Content Include="assets\images\bootstrap-colorpicker\hue-horizontal.png" />
@@ -8673,25 +8680,16 @@
     <Content Include="assets\images\gallery\thumb-4.jpg" />
     <Content Include="assets\images\gallery\thumb-5.jpg" />
     <Content Include="assets\images\gallery\thumb-6.jpg" />
-    <Content Include="assets\images\giay-phep-buu-chinh.png" />
-    <Content Include="assets\images\giay-phep-default.png" />
-    <Content Include="assets\images\giay-phep-default_simple.png" />
     <Content Include="assets\images\hospital.png" />
     <Content Include="assets\images\logo.ico" />
     <Content Include="assets\images\logo.png" />
-    <Content Include="assets\images\LogoQuocHuy.png" />
-    <Content Include="assets\images\Logotinhbacgiang.png" />
     <Content Include="assets\images\notfoundimage.png" />
     <Content Include="assets\images\package.png" />
     <Content Include="assets\images\placeholder\165x90.png" />
     <Content Include="assets\images\placeholder\255x150.png" />
     <Content Include="assets\images\placeholder\530x270.png" />
     <Content Include="assets\images\placeholder\550x280.png" />
-    <Content Include="assets\images\Preloader_2 %282%29.gif" />
-    <Content Include="assets\images\Preloader_2.gif" />
     <Content Include="assets\images\product.png" />
-    <Content Include="assets\images\quochuy.png" />
-    <Content Include="assets\images\quoc_huy.png" />
     <Content Include="assets\images\send.png" />
     <Content Include="assets\images\send2.png" />
     <Content Include="assets\images\smartphone.png" />
@@ -11166,6 +11164,9 @@
     <Content Include="assets\plugins\jquery\jquery.min.js" />
     <Content Include="assets\plugins\jquery\jquery.slim.js" />
     <Content Include="assets\plugins\jquery\jquery.slim.min.js" />
+    <Content Include="assets\plugins\multiple-image-uploader\css\main.css" />
+    <Content Include="assets\plugins\multiple-image-uploader\js\multiple-uploader.js" />
+    <Content Include="assets\plugins\multiple-image-uploader\js\util.js" />
     <Content Include="assets\plugins\quill\quill.bubble.css" />
     <Content Include="assets\plugins\quill\quill.bubble.min.css" />
     <Content Include="assets\plugins\quill\quill.core.css" />
@@ -13292,6 +13293,22 @@
     <Content Include="assets\wwwroot\js\validate.js.download" />
     <Content Include="assets\wwwroot\js\vi.js.download" />
     <Content Include="assets\wwwroot\js\wNumb.min.js.download" />
+    <Content Include="Areas\GameArea\Views\Game\CheckImport.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\Detail.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\Import.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\Index.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\_CreatePartial.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\_EditPartial.cshtml" />
+    <Content Include="Areas\GameArea\Views\Game\_SearchPartial.cshtml" />
+    <Content Include="Areas\GameArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\GameArea\Views\web.config" />
+    <Content Include="Areas\TaiKhoanArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\Detail.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\Index.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\_CreatePartial.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\_EditPartial.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\_SearchPartial.cshtml" />
+    <Content Include="Areas\TaiKhoanArea\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -13683,7 +13700,6 @@
     <Content Include="assets\fonts\TIMESBI.TTF" />
     <Content Include="assets\fonts\TIMESI.TTF" />
     <Content Include="assets\images\avatars\userNew.png.old" />
-    <Content Include="assets\images\backgound.png.old" />
     <Content Include="assets\plugins\amcharts5\CHANGELOG.md" />
     <Content Include="assets\plugins\amcharts5\deps\markerjs2.js.map" />
     <Content Include="assets\plugins\amcharts5\deps\pdfmake.js.map" />
@@ -14596,6 +14612,7 @@
       <Name>Hinet.Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

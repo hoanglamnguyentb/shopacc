@@ -7,19 +7,11 @@ using System.Web.Configuration;
 
 namespace Hinet.Web
 {
-    public partial class Startup
-    {
-        public void Configuration(IAppBuilder app)
-        {
-            ConfigureAuth(app);
-            app.MapSignalR();
-            var configDB = WebConfigurationManager.AppSettings["HangFireDB"];
-            if (!string.IsNullOrEmpty(configDB))
-            {
-                GlobalConfiguration.Configuration.UseSqlServerStorage(configDB);
-                app.UseHangfireDashboard();
-                app.UseHangfireServer();
-            }
-        }
-    }
+	public partial class Startup
+	{
+		public void Configuration(IAppBuilder app)
+		{
+			ConfigureAuth(app);
+		}
+	}
 }
