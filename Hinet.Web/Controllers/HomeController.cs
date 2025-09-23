@@ -79,17 +79,5 @@ namespace Hinet.Web.Controllers
 		{
 			return View();
 		}
-
-		[AllowAnonymous]
-		public ActionResult AppDetailsOld(long DocId)
-		{
-			return RedirectToAction("AppDetails", new { id = DocId });
-		}
-
-		[AllowAnonymous]
-		public ActionResult WebsiteBlacklist()
-		{
-			return View();
-		}
 	}
 }

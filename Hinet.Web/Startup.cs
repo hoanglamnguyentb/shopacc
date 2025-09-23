@@ -20,8 +20,6 @@ namespace Hinet.Web
                 app.UseHangfireDashboard();
                 app.UseHangfireServer();
             }
-
-            //RecurringJob.AddOrUpdate<JobProvider>("CacheDashboardNhaDauTu", x => x.CacheDashboardNhaDauTu(), Cron.HourInterval(6), TimeZoneInfo.Local);
         }
     }
 }
