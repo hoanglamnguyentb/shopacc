@@ -59,6 +59,9 @@
     <Compile Include="Common\ShowKeyValueModel.cs" />
     <Compile Include="Common\UnitOfWork.cs" />
     <Compile Include="Entities\Audit.cs" />
+    <Compile Include="Entities\Banner.cs" />
+    <Compile Include="Entities\DichVu.cs" />
+    <Compile Include="Entities\TinTuc.cs" />
     <Compile Include="Entities\TaiKhoan.cs" />
     <Compile Include="Entities\Game.cs" />
     <Compile Include="Entities\DM_DulieuDanhmuc.cs" />
@@ -87,6 +90,14 @@
     <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.cs" />
     <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.Designer.cs">
       <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509241421204_add_tbl_banner_dichvu.cs" />
+    <Compile Include="Migrations\202509241421204_add_tbl_banner_dichvu.Designer.cs">
+      <DependentUpon>202509241421204_add_tbl_banner_dichvu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509241713333_add_tbl_tintuc.cs" />
+    <Compile Include="Migrations\202509241713333_add_tbl_tintuc.Designer.cs">
+      <DependentUpon>202509241713333_add_tbl_tintuc.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -131,6 +142,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202509231557116_add_tbl_TaiKhoan.resx">
       <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509241421204_add_tbl_banner_dichvu.resx">
+      <DependentUpon>202509241421204_add_tbl_banner_dichvu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509241713333_add_tbl_tintuc.resx">
+      <DependentUpon>202509241713333_add_tbl_tintuc.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

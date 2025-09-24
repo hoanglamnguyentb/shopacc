@@ -6,6 +6,7 @@ using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GameService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Service.TaiKhoanService.Dto;
+using Hinet.Service.TaiLieuDinhKemService;
 using Hinet.Web.Areas.TaiKhoanArea.Models;
 using Hinet.Web.Filters;
 using log4net;
@@ -31,17 +32,19 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 		private readonly ITaiKhoanService _TaiKhoanService;
 		private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
 		private readonly IGameService _gameService;
+		private readonly ITaiLieuDinhKemService _taiLieuDinhKemService;
 
 		public TaiKhoanController(ITaiKhoanService TaiKhoanService, ILog Ilog,
 			IDM_DulieuDanhmucService dM_DulieuDanhmucService,
 			IMapper mapper,
-			IGameService gameService)
+			IGameService gameService, ITaiLieuDinhKemService taiLieuDinhKemService)
 		{
 			_TaiKhoanService = TaiKhoanService;
 			_Ilog = Ilog;
 			_mapper = mapper;
 			_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
 			_gameService = gameService;
+			_taiLieuDinhKemService = taiLieuDinhKemService;
 		}
 
 		// GET: TaiKhoanArea/TaiKhoan
@@ -125,6 +128,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 							});
 						}
 					}
+					_taiLieuDinhKemService.InsertRange(listTaiLieu);
 				}
 			}
 			catch (Exception ex)

@@ -28,18 +28,43 @@
             <div class="accordion-body"></div>
         </div>
 
-        @if (listMenu != null && listMenu.Any())
+        @foreach (var module in listMenu)
         {
-            foreach (var module in listMenu)
-            {
-                var isactive = module.ListOperation != null && module.ListOperation.Any(x => x.Code == ViewBag.ModuleCode) ? "active" : "";
-                var isOpen = isactive == "active" ? "open" : "";
-                var isShow = isactive == "active" ? "nav-show" : "";
-                if (module.IsShow)
-                {
-                    if (module.ListOperation != null && module.ListOperation.Any(x => x.IsShow))
-                    {
+            var isactive = module.ListOperation != null && module.ListOperation.Any(x => x.Code == ViewBag.ModuleCode) ? "active" : "";
+            var isOpen = isactive == "active" ? "open" : "";
+            var isShow = isactive == "active" ? "nav-show" : "";
 
+            if (module.IsShow)
+            {
+                var childOps = module.ListOperation != null
+                    ? module.ListOperation.Where(x => x.IsShow).ToList()
+                    : new List<Hinet.Model.Entities.Operation>();
+
+                if (childOps.Any())
+                {
+                    // Nếu chỉ có 1 child thì render thẳng link cho cha
+                    if (childOps.Count == 1)
+                    {
+                        var operation = childOps.First();
+                        <div class="accordion @isactive">
+                            <a class="accordion-header" href="@operation.URL">
+                                <div class="accordion-main-icon">
+                                    @if (string.IsNullOrEmpty(module.ClassCss))
+                                    {
+                                        <i class="bi bi-emoji-smile"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="@module.ClassCss"></i>
+                                    }
+                                </div>
+                                <div class="accordion-title">@module.Name</div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        // Nhiều child thì render accordion như cũ
                         <div class="accordion @isactive @isOpen">
                             <div class="accordion-header">
                                 <div class="accordion-main-icon">
@@ -51,7 +76,6 @@
                                     {
                                         <i class="@module.ClassCss"></i>
                                     }
-                                    @*<img src="/@module.Icon" onerror="this.src = '/Uploads/CommonIcons/function-icon-default.jpg'" />*@
                                 </div>
                                 <div class="accordion-title">@module.Name</div>
                                 <div class="accordion-icon">
@@ -60,19 +84,21 @@
                             </div>
                             <div class="accordion-body">
                                 <div class="panel tree">
-                                    @foreach (var operation in module.ListOperation.Where(x => x.IsShow).ToList())
+                                    @foreach (var operation in childOps)
                                     {
-                                        <a href="@operation.URL" class="@(operation.Code==ViewBag.ModuleCode?"active":"")">@operation.Name</a>
+                                        <a href="@operation.URL" class="@(operation.Code==ViewBag.ModuleCode?"active":"")">
+                                            @operation.Name
+                                        </a>
                                     }
                                 </div>
                             </div>
                         </div>
                     }
-
                 }
             }
-
         }
+
+
     </div>
 </div>
 

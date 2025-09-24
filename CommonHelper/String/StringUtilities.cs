@@ -1620,31 +1620,6 @@ namespace CommonHelper.String
             return result.ToString();
         }
 
-        public static string DanhMucVietTat(this string obj)
-        {
-            //Công ty viết tắt
-            obj = obj.Replace("Tổ Chức", "TC");
-            obj = obj.Replace("tổ chức", "TC");
-            obj = obj.Replace("Công Ty", "CT");
-            obj = obj.Replace("công ty", "CT");
-            obj = obj.Replace("Trách Nhiệm Hữu Hạn", ".TNHH");
-            obj = obj.Replace("trách nhiệm hữu hạn", ".TNHH");
-            obj = obj.Replace("Một Thành Viên", " 1 TV");
-            obj = obj.Replace("một thành viên", " 1 TV");
-            obj = obj.Replace("Cổ Phần", "CP");
-            obj = obj.Replace("cổ phần", "CP");
-            obj = obj.Replace("Hợp Danh", "HD");
-            obj = obj.Replace("hợp danh", "HD");
-            obj = obj.Replace("Phi Lợi Nhuận", "PLN");
-            obj = obj.Replace("phi lợi nhuận", "PLN");
-            obj = obj.Replace("Tập Đoàn", "TĐ");
-            obj = obj.Replace("tập đoàn", "TĐ");
-            obj = obj.Replace("Tổng Công Ty", "TCT");
-            obj = obj.Replace("tổng công ty", "TCT");
-
-            return obj;
-        }
-
         /// <summary>
         /// Tạo tên đường dẫn cho url
         /// </summary>

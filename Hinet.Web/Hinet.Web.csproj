@@ -484,6 +484,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\BannerArea\BannerAreaAreaRegistration.cs" />
+    <Compile Include="Areas\BannerArea\Controllers\BannerController.cs" />
+    <Compile Include="Areas\BannerArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\BannerArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\BannerArea\Models\EditVM.cs" />
     <Compile Include="Areas\CommonArea\CommonConfigurationAreaAreaRegistration.cs" />
     <Compile Include="Areas\CommonArea\Controllers\CommonController.cs" />
     <Compile Include="Areas\CommonArea\Models\CreateVM.cs" />
@@ -497,6 +502,11 @@
     <Compile Include="Areas\DashboardArea\Models\DetailVM.cs" />
     <Compile Include="Areas\DashboardArea\Models\IndexVM.cs" />
     <Compile Include="Areas\DashboardArea\Models\WebInfoVM.cs" />
+    <Compile Include="Areas\DichVuArea\Controllers\DichVuController.cs" />
+    <Compile Include="Areas\DichVuArea\DichVuAreaAreaRegistration.cs" />
+    <Compile Include="Areas\DichVuArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\DichVuArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\DichVuArea\Models\EditVM.cs" />
     <Compile Include="Areas\DmDulieuDanhmucArea\Controllers\DmDulieuDanhmucController.cs" />
     <Compile Include="Areas\DmDulieuDanhmucArea\DmDulieuDanhmucAreaAreaRegistration.cs" />
     <Compile Include="Areas\DmDulieuDanhmucArea\Models\CreateQuanTriVM.cs" />
@@ -537,6 +547,11 @@
     <Compile Include="Areas\TaiKhoanArea\Models\DetailVM.cs" />
     <Compile Include="Areas\TaiKhoanArea\Models\EditVM.cs" />
     <Compile Include="Areas\TaiKhoanArea\TaiKhoanAreaAreaRegistration.cs" />
+    <Compile Include="Areas\TinTucArea\Controllers\TinTucController.cs" />
+    <Compile Include="Areas\TinTucArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\TinTucArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\TinTucArea\Models\EditVM.cs" />
+    <Compile Include="Areas\TinTucArea\TinTucAreaAreaRegistration.cs" />
     <Compile Include="Areas\UserArea\Controllers\UserAPIController.cs" />
     <Compile Include="Areas\UserArea\Controllers\UserController.cs" />
     <Compile Include="Areas\UserArea\Models\CreateLyLichVM.cs" />
@@ -13309,6 +13324,27 @@
     <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\_EditPartial.cshtml" />
     <Content Include="Areas\TaiKhoanArea\Views\TaiKhoan\_SearchPartial.cshtml" />
     <Content Include="Areas\TaiKhoanArea\Views\web.config" />
+    <Content Include="Areas\BannerArea\Views\Banner\Detail.cshtml" />
+    <Content Include="Areas\BannerArea\Views\Banner\Index.cshtml" />
+    <Content Include="Areas\BannerArea\Views\Banner\_CreatePartial.cshtml" />
+    <Content Include="Areas\BannerArea\Views\Banner\_EditPartial.cshtml" />
+    <Content Include="Areas\BannerArea\Views\Banner\_SearchPartial.cshtml" />
+    <Content Include="Areas\BannerArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\BannerArea\Views\web.config" />
+    <Content Include="Areas\DichVuArea\Views\DichVu\Detail.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\DichVu\Index.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\DichVu\_CreatePartial.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\DichVu\_EditPartial.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\DichVu\_SearchPartial.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\DichVuArea\Views\web.config" />
+    <Content Include="Areas\TinTucArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\Detail.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\Index.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\_CreatePartial.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\_EditPartial.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\_SearchPartial.cshtml" />
+    <Content Include="Areas\TinTucArea\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -14601,7 +14637,9 @@
       <Name>Hinet.Service</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

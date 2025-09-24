@@ -31,6 +31,9 @@ namespace Hinet.Model
 		public DbSet<UserOperation> UserOperation { get; set; }
 		public DbSet<Game> Game { get; set; }
 		public DbSet<TaiKhoan> TaiKhoan { get; set; }
+		public DbSet<DichVu> DichVu { get; set; }
+		public DbSet<Banner> Banner { get; set; }
+		public DbSet<TinTuc> TinTuc { get; set; }
 
 		public static DbContext Create()
 		{

@@ -67,8 +67,12 @@
   <ItemGroup>
     <Compile Include="AppUserRepository\AppUserRepository.cs" />
     <Compile Include="AppUserRepository\IAppUserRepository.cs" />
+    <Compile Include="BannerRepository\BannerRepository.cs" />
+    <Compile Include="BannerRepository\IBannerRepository.cs" />
     <Compile Include="Common\GenericRepository.cs" />
     <Compile Include="Common\IGenericRepository.cs" />
+    <Compile Include="DichVuRepository\DichVuRepository.cs" />
+    <Compile Include="DichVuRepository\IDichVuRepository.cs" />
     <Compile Include="DM_DulieuDanhmucRepository\DM_DulieuDanhmucRepository.cs" />
     <Compile Include="DM_DulieuDanhmucRepository\IDM_DulieuDanhmucRepository.cs" />
     <Compile Include="DM_NhomDanhmucRepository\DM_NhomDanhmucRepository.cs" />
@@ -89,6 +93,8 @@
     <Compile Include="TaiKhoanRepository\TaiKhoanRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\ITaiLieuDinhKemRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\TaiLieuDinhKemRepository.cs" />
+    <Compile Include="TinTucRepository\ITinTucRepository.cs" />
+    <Compile Include="TinTucRepository\TinTucRepository.cs" />
     <Compile Include="UserOperationRepository\IUserOperationRepository.cs" />
     <Compile Include="UserOperationRepository\UserOperationRepository.cs" />
     <Compile Include="UserRoleRepository\IUserRoleRepository.cs" />

@@ -162,6 +162,10 @@
     <Compile Include="AppUserService\Dto\UserDto.cs" />
     <Compile Include="AppUserService\Dto\UserWebAppDto.cs" />
     <Compile Include="AppUserService\IAppUserService.cs" />
+    <Compile Include="BannerService\BannerService.cs" />
+    <Compile Include="BannerService\Dto\BannerDto.cs" />
+    <Compile Include="BannerService\Dto\BannerSearchDto.cs" />
+    <Compile Include="BannerService\IBannerService.cs" />
     <Compile Include="BaseServiceApi\BaseApiService.cs" />
     <Compile Include="BaseServiceApi\IBaseApiService.cs" />
     <Compile Include="CommonModel\GroupKeyDto.cs" />
@@ -372,6 +376,10 @@
     <Compile Include="Constant\UploadFileConstant.cs" />
     <Compile Include="Constant\UserConst.cs" />
     <Compile Include="Constant\UserRoleConstant.cs" />
+    <Compile Include="DichVuService\DichVuService.cs" />
+    <Compile Include="DichVuService\Dto\DichVuDto.cs" />
+    <Compile Include="DichVuService\Dto\DichVuSearchDto.cs" />
+    <Compile Include="DichVuService\IDichVuService.cs" />
     <Compile Include="DM_DulieuDanhmucService\DM_DulieuDanhmucService.cs" />
     <Compile Include="DM_DulieuDanhmucService\DTO\CauHinhHeThong.cs" />
     <Compile Include="DM_DulieuDanhmucService\DTO\DM_DulieuDanhmucDTO.cs" />
@@ -418,6 +426,10 @@
     <Compile Include="TaiKhoanService\TaiKhoanService.cs" />
     <Compile Include="TaiLieuDinhKemService\ITaiLieuDinhKemService.cs" />
     <Compile Include="TaiLieuDinhKemService\TaiLieuDinhKemService.cs" />
+    <Compile Include="TinTucService\Dto\TinTucDto.cs" />
+    <Compile Include="TinTucService\Dto\TinTucSearchDto.cs" />
+    <Compile Include="TinTucService\ITinTucService.cs" />
+    <Compile Include="TinTucService\TinTucService.cs" />
     <Compile Include="UserOperationService\Dto\UserOperationDto.cs" />
     <Compile Include="UserOperationService\Dto\UserOperationSearchDto.cs" />
     <Compile Include="UserOperationService\IUserOperationService.cs" />

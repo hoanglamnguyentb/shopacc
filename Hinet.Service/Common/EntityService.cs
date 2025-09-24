@@ -43,8 +43,6 @@ namespace Hinet.Service
 			{
 				throw new ArgumentNullException("entity");
 			}
-			//_repository.Add(entity);
-			//_unitOfWork.Commit();
 			_repository.Add(entity);
 			_unitOfWork.Commit();
 		}

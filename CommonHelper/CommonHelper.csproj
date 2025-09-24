@@ -116,6 +116,7 @@
     <Compile Include="Excel\ExportExcelSupplier.cs" />
     <Compile Include="Excel\ExportExcelV2Helper.cs" />
     <Compile Include="Excel\ImportExcelHelper.cs" />
+    <Compile Include="File\FileHelper.cs" />
     <Compile Include="Firebase\FcmHelper.cs" />
     <Compile Include="NullConditional\NullConditional.cs" />
     <Compile Include="Number\NumberHelper.cs" />
