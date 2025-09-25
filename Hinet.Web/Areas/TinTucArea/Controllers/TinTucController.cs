@@ -1,7 +1,9 @@
 using AutoMapper;
+using CommonHelper;
 using CommonHelper.String;
 using Hinet.Model.Entities;
 using Hinet.Service.Common;
+using Hinet.Service.Constant;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.TinTucService;
 using Hinet.Service.TinTucService.Dto;
@@ -11,8 +13,6 @@ using log4net;
 using System;
 using System.Web;
 using System.Web.Mvc;
-
-
 
 namespace Hinet.Web.Areas.TinTucArea.Controllers
 {
@@ -30,7 +30,6 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 		private readonly ITinTucService _TinTucService;
 		private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
 
-
 		public TinTucController(ITinTucService TinTucService, ILog Ilog,
 
 		IDM_DulieuDanhmucService dM_DulieuDanhmucService,
@@ -41,14 +40,14 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 			_Ilog = Ilog;
 			_mapper = mapper;
 			_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
-
 		}
+
 		// GET: TinTucArea/TinTuc
 		//[PermissionAccess(Code = permissionIndex)]
 		public ActionResult Index()
 		{
-
 			var listData = _TinTucService.GetDaTaByPage(null);
+			ViewBag.DropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiTinTucConstant>();
 			SessionManager.SetValue(searchKey, null);
 			return View(listData);
 		}
@@ -73,10 +72,11 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 			var data = _TinTucService.GetDaTaByPage(searchModel, indexPage, pageSize);
 			return Json(data);
 		}
+
 		public PartialViewResult Create()
 		{
 			var myModel = new CreateVM();
-
+			ViewBag.DropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiTinTucConstant>();
 			return PartialView("_CreatePartial", myModel);
 		}
 
@@ -85,7 +85,7 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 		[ValidateInput(false)]
 		public JsonResult Create(CreateVM model)
 		{
-			var result = new JsonResultBO(true, "Tạo  thành công");
+			var result = new JsonResultBO(true, "Tạo thành công");
 			try
 			{
 				if (ModelState.IsValid)
@@ -93,11 +93,14 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 					var EntityModel = _mapper.Map<TinTuc>(model);
 					EntityModel.TacGia = CurrentUserInfo.FullName;
 					EntityModel.ThoiGianXuatBan = DateTime.Now;
-					EntityModel.Slug = "HELLO";
-					//EntityModel.Slug.SlugTitleName();
+					EntityModel.Slug = SlugHelper.GenerateSlug(model.TieuDe, 50);
+					ViewBag.Hello = ConstantExtension.GetDropdownData<TrangThaiTinTucConstant>();
+					if (model.FileAnh != null && model.FileAnh.ContentLength > 0)
+					{
+						EntityModel.AnhBia = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/TinTuc");
+					}
 					_TinTucService.Create(EntityModel);
 				}
-
 			}
 			catch (Exception ex)
 			{
@@ -110,19 +113,19 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 		public PartialViewResult Edit(long id)
 		{
 			var myModel = new EditVM();
-
+			ViewBag.DropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiTinTucConstant>();
 			var obj = _TinTucService.GetById(id);
 			if (obj == null)
 			{
 				throw new HttpException(404, "Không tìm thấy thông tin");
 			}
-
 			myModel = _mapper.Map(obj, myModel);
 			return PartialView("_EditPartial", myModel);
 		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
+		[ValidateInput(false)]
 		public JsonResult Edit(EditVM model)
 		{
 			var result = new JsonResultBO(true);
@@ -130,16 +133,20 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-
 					var obj = _TinTucService.GetById(model.Id);
 					if (obj == null)
 					{
 						throw new Exception("Không tìm thấy thông tin");
 					}
-
 					obj = _mapper.Map(model, obj);
-					_TinTucService.Update(obj);
+					obj.Slug = SlugHelper.GenerateSlug(model.TieuDe, 50);
+					if (model.FileAnh != null && model.FileAnh.ContentLength > 0)
+					{
+						FileHelper.DeleteFile(model.AnhBia);
+						obj.AnhBia = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/TinTuc");
+					}
 
+					_TinTucService.Update(obj);
 				}
 			}
 			catch (Exception ex)
@@ -197,15 +204,18 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
 			return Json(result);
 		}
 
-
 		public ActionResult Detail(long id)
 		{
 			var model = new DetailVM();
+
+			var obj = _TinTucService.GetById(id);
+			if (obj == null)
+			{
+				throw new HttpException(404, "Không tìm thấy thông tin");
+			}
+
 			model.objInfo = _TinTucService.GetById(id);
-			return View(model);
+			return PartialView("_DetailPartial", model);
 		}
-
-
-
 	}
 }

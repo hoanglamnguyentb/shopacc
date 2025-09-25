@@ -6,7 +6,7 @@
 @{
 
 }
-<div class="modal-dialog">
+<div class="modal-dialog modal-full">
     @using (Ajax.BeginForm("Edit", "TinTuc", new { @area = "TinTucArea" }, new AjaxOptions()
     {
         HttpMethod = "POST",
@@ -15,7 +15,10 @@
     }, new { id = "editTinTucForm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.AnhBia)
+        @Html.HiddenFor(x => x.ThoiGianXuatBan)
+        @Html.HiddenFor(x => x.TacGia)
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -26,66 +29,78 @@
             </div>
             <div class="modal-body">
                 <div class="form-horizontal">
-                    @Html.HiddenFor(x => x.Id)
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Slug <span class="red">*</span></label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.Slug, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Slug, "", new { @class = "text-danger" })
+                        <label class="control-label col-sm-12">Ảnh </label>
+                        <div class="col-sm-12">
+                            <div class="image-upload-box">
+                                <img id="previewAnh" src="@Model.AnhBia" alt="Preview ảnh" class="image-preview @(string.IsNullOrEmpty(Model.AnhBia) ? "" : "has-image")" />
+                                <p id="uploadText" class="upload-text">+ Chọn ảnh</p>
+                                <input type="file" id="uploadAnh" name="FileAnh" accept="image/*" class="file-input" />
+                            </div>
+                            @Html.HiddenFor(m => m.AnhBia, new { id = "DuongDanAnh" })
+                            @Html.ValidationMessageFor(m => m.AnhBia, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Tiêu đề <span class="red">*</span></label>
-                        <div class="col-sm-8">
+                        <label class="control-label col-sm-12">Tiêu đề <span class="red">*</span></label>
+                        <div class="col-sm-12">
                             @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TieuDe, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Nội dung </label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.NoiDung, new { @class = "form-control" })
+                        <label class="control-label col-sm-12">Nội dung </label>
+                        <div class="col-sm-12">
+                            <div id="editor">
+                                @Html.Raw(Model.NoiDung)
+                            </div>
+                            @Html.HiddenFor(m => m.NoiDung, new { id = "NoiDung" })
                             @Html.ValidationMessageFor(m => m.NoiDung, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Ảnh bìa </label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.AnhBia, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.AnhBia, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Tác giả </label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.TacGia, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.TacGia, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Trạng thái </label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.TrangThai, new { @class = "form-control" })
+                        <label class="control-label col-sm-12">Trạng thái </label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.DropDownList("TrangThai", ViewBag.DropdownListTrangThai as List<SelectListItem>, "-- Tất cả --", new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-4">Thời gian xuất bản <span class="red">*</span></label>
-                        <div class="col-sm-8">
-                            @Html.TextBoxFor(m => m.ThoiGianXuatBan, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.ThoiGianXuatBan, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer center">
-                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+                <button type="submit" class="btn btn-sm btn-primary">Hoàn thành</button>
 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     }
 </div>
+
 <script>
+    if (window.quill) {
+        delete window.quill;
+    }
+    window.quill = new Quill('#editor', { theme: 'snow' });
+    quill.root.innerHTML = '@Html.Raw(Model.NoiDung)';
+
+    $("#editTinTucForm").on("submit", function () {
+        var content = quill.root.innerHTML;
+        $("#NoiDung").val(content);
+    });
+
+    $("#TrangThai").select2();
+
+    $("#uploadAnh").change(function () {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#previewAnh")
+                    .attr("src", e.target.result)
+                    .show();
+            }
+            reader.readAsDataURL(input.files[0]);;
+        }
+    });
 </script>
 @Scripts.Render("~/bundles/jqueryval")

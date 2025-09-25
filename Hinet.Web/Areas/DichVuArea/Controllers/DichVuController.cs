@@ -12,8 +12,6 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 
-
-
 namespace Hinet.Web.Areas.DichVuArea.Controllers
 {
 	public class DichVuController : BaseController
@@ -30,7 +28,6 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 		private readonly IDichVuService _DichVuService;
 		private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
 
-
 		public DichVuController(IDichVuService DichVuService, ILog Ilog,
 
 		IDM_DulieuDanhmucService dM_DulieuDanhmucService,
@@ -41,13 +38,12 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 			_Ilog = Ilog;
 			_mapper = mapper;
 			_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
-
 		}
+
 		// GET: DichVuArea/DichVu
 		//[PermissionAccess(Code = permissionIndex)]
 		public ActionResult Index()
 		{
-
 			var listData = _DichVuService.GetDaTaByPage(null);
 			SessionManager.SetValue(searchKey, null);
 			return View(listData);
@@ -73,6 +69,7 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 			var data = _DichVuService.GetDaTaByPage(searchModel, indexPage, pageSize);
 			return Json(data);
 		}
+
 		public PartialViewResult Create()
 		{
 			var myModel = new CreateVM();
@@ -82,7 +79,6 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
 		public JsonResult Create(CreateVM model)
 		{
 			var result = new JsonResultBO(true, "Tạo  thành công");
@@ -98,7 +94,6 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 					var EntityModel = _mapper.Map<DichVu>(model);
 					_DichVuService.Create(EntityModel);
 				}
-
 			}
 			catch (Exception ex)
 			{
@@ -121,9 +116,9 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 			myModel = _mapper.Map(obj, myModel);
 			return PartialView("_EditPartial", myModel);
 		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
 		public JsonResult Edit(EditVM model)
 		{
 			var result = new JsonResultBO(true);
@@ -131,22 +126,20 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-
 					var obj = _DichVuService.GetById(model.Id);
 					if (obj == null)
 					{
 						throw new Exception("Không tìm thấy thông tin");
 					}
+					obj = _mapper.Map(model, obj);
 
 					if (model.FileAnh != null && model.FileAnh.ContentLength > 0)
 					{
 						FileHelper.DeleteFile(model.DuongDanAnh);
-						model.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/DichVu");
+						obj.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/DichVu");
 					}
 
-					obj = _mapper.Map(model, obj);
 					_DichVuService.Update(obj);
-
 				}
 			}
 			catch (Exception ex)
@@ -201,15 +194,11 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 			return Json(result);
 		}
 
-
 		public ActionResult Detail(int id)
 		{
 			var model = new DetailVM();
 			model.objInfo = _DichVuService.GetById(id);
 			return View(model);
 		}
-
-
-
 	}
 }

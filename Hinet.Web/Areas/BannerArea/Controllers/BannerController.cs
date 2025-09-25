@@ -132,14 +132,14 @@ namespace Hinet.Web.Areas.BannerArea.Controllers
 					{
 						throw new Exception("Không tìm thấy thông tin");
 					}
+					obj = _mapper.Map(model, obj);
 
 					if (model.FileAnh != null && model.FileAnh.ContentLength > 0)
 					{
 						FileHelper.DeleteFile(model.DuongDanAnh);
-						model.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/Banner");
+						obj.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/Banner");
 					}
 
-					obj = _mapper.Map(model, obj);
 					_BannerService.Update(obj);
 				}
 			}

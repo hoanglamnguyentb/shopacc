@@ -405,57 +405,6 @@ function AfterEditAction() {
     console.log("AfterEditAction");
 }
 
-function GetXa(htmlXa, maHuyen) {
-    AjaxCall("/XAArea/Xa/GetXaDropdownOfHuyen", 'post', { id: maHuyen }, function (rs) {
-        var html = "<option value=''>-- Chọn xã--</option>";
-        if (rs) {
-            $.each(rs, function (index, element) {
-                html += "<option value='" + element.Value + "'>" + element.Text + "</option>";
-            })
-        }
-        $("#" + htmlXa).html(html);
-    })
-}
-
-function GetXa_V2(htmlXa, maHuyen) {
-    AjaxCall("/XAArea/Xa/GetXaDropdownOfHuyen", 'post', { id: maHuyen }, function (rs) {
-        var html = "<option value=''>-- Tất cả xã --</option>";
-        if (rs) {
-            $.each(rs, function (index, element) {
-                html += "<option value='" + element.Value + "'>" + element.Text + "</option>";
-            })
-        }
-
-        $("#" + htmlXa).html(html);
-    })
-}
-
-function GetXa_V3(htmlXa, maHuyen) {
-    AjaxCall("/XAArea/Xa/GetXaDropdownOfHuyen", 'post', { id: maHuyen }, function (rs) {
-        var html = "<option value='' >-- Chọn xã --</option>";
-        if (rs) {
-            $.each(rs, function (index, element) {
-                html += "<option value='" + element.Value + "'>" + element.Text + "</option>";
-            })
-        }
-
-        $("#" + htmlXa).html(html);
-    })
-}
-
-function GetHuyen(htmlHuyen, maTinh) {
-    AjaxCall("/HUYENArea/HUYEN/GetHuyenDropdownOfTinh", 'post', { id: maTinh }, function (rs) {
-        var html = "<option value='' >-- Chọn huyện --</option>";
-        if (rs) {
-            $.each(rs, function (index, element) {
-                html += "<option value='" + element.Value + "'>" + element.Text + "</option>";
-            })
-        }
-
-        $("#" + htmlHuyen).html(html);
-    })
-}
-
 $(document).on('hidden.bs.modal', '.modal', function () {
     $('body').toggleClass('modal-open', $('.modal').hasClass('in'));
 });

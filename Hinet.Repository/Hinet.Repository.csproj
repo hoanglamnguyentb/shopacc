@@ -79,6 +79,8 @@
     <Compile Include="DM_NhomDanhmucRepository\IDM_NhomDanhmucRepository.cs" />
     <Compile Include="GameRepository\GameRepository.cs" />
     <Compile Include="GameRepository\IGameRepository.cs" />
+    <Compile Include="GiaoDichRepository\GiaoDichRepository.cs" />
+    <Compile Include="GiaoDichRepository\IGiaoDichRepository.cs" />
     <Compile Include="ModuleRepository\IModuleRepository.cs" />
     <Compile Include="ModuleRepository\ModuleRepository.cs" />
     <Compile Include="NotificationRepository\INotificationRepository.cs" />

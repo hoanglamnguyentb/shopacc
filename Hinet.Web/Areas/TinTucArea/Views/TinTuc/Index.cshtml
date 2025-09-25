@@ -33,14 +33,9 @@
         <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th class="fixed-side"></th>
                     <th class="fixed-side">#</th>
-
                     <th class="fixed-side">Thao tác</th>
-                    <th>Slug</th>
                     <th>Tiêu đề</th>
-                    <th>Nội dung</th>
-                    <th>Ảnh bìa</th>
                     <th>Tác giả</th>
                     <th>Trạng thái</th>
                     <th>Thời gian xuất bản</th>
@@ -60,7 +55,7 @@
         function pagefunction(){
             var conf=[
                 {
-                    tdClass:"center width50 fixed-side",
+                    tdClass:"center width50 fixed-side w-0",
                     isSort:false,
                     nameModel: "",
                     isCounter:true,
@@ -72,7 +67,7 @@
                    {
                        isSort:false,
                        nameModel:"",
-                       tdClass:"center fixed-side",
+                       tdClass:"center fixed-side w-0",
                        content: function (data) {
                            var result = `<div class="btn-group">
                                <button data-toggle="dropdown" class="btn btn-xs btn-primary btn-white dropdown-toggle" aria-expanded="false">Thao tác<i class="ace-icon fa fa-angle-down icon-on-right"></i>
@@ -80,6 +75,7 @@
 
                                <ul class="dropdown-menu">`;
                            result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/TinTucArea/TinTuc/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='glyphicon glyphicon-edit'> </i> Sửa thông tin</a> </li>";
+                           result += "<li><a href='javascript:void(0)' onclick='DetailFormAction(\"/TinTucArea/TinTuc/Detail/" + data.Id + "\")'   title = 'Xem trước'><i class='bi bi-eye'></i> Xem trước</a> </li>";
                            result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/TinTucArea/TinTuc/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' glyphicon glyphicon-remove' style='color:red'> </i> Xóa</a></li>";
                            result += "</ul></div>";
                            return result;
@@ -87,30 +83,15 @@
                    },
 				{
 					isSort:true,
-					nameModel:'Slug',
+					nameModel:'Tiêu đề',
 					content: function (data) {
-					return data.Slug
-				}
-				},
-				{
-					isSort:true,
-					nameModel:'TieuDe',
-					content: function (data) {
-					return data.TieuDe
-				}
-				},
-				{
-					isSort:true,
-					nameModel:'NoiDung',
-					content: function (data) {
-					return data.NoiDung
-				}
-				},
-				{
-					isSort:true,
-					nameModel:'AnhBia',
-					content: function (data) {
-					return data.AnhBia
+                        return `<div>
+                                <div>${data.TieuDe}</div>
+                                <div>${data.Slug}</div>
+                                <div class="image-upload-box aspect-video" style="width: 200px; padding: 2px">
+                                    <img src="${data.AnhBia}" alt="" class="image-preview has-image mb-0 aspect-video h-full object-cover" />
+                                </div>
+                            </div>`
 				}
 				},
 				{
@@ -124,7 +105,7 @@
 					isSort:true,
 					nameModel:'TrangThai',
 					content: function (data) {
-					return data.TrangThai
+					return data.TrangThaiTxt
 				}
 				},
 				{
@@ -134,8 +115,6 @@
 					return ToDate(data.ThoiGianXuatBan)
 				}
 				},
-
-
             ];
 
 

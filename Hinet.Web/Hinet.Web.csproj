@@ -525,6 +525,11 @@
     <Compile Include="Areas\GameArea\Models\DetailVM.cs" />
     <Compile Include="Areas\GameArea\Models\EditVM.cs" />
     <Compile Include="Areas\GameArea\Models\ImportVM.cs" />
+    <Compile Include="Areas\GiaoDichArea\Controllers\GiaoDichController.cs" />
+    <Compile Include="Areas\GiaoDichArea\GiaoDichAreaAreaRegistration.cs" />
+    <Compile Include="Areas\GiaoDichArea\Models\CreateVM.cs" />
+    <Compile Include="Areas\GiaoDichArea\Models\DetailVM.cs" />
+    <Compile Include="Areas\GiaoDichArea\Models\EditVM.cs" />
     <Compile Include="Areas\ModuleArea\Controllers\ModuleController.cs" />
     <Compile Include="Areas\ModuleArea\Models\ChuyenModuleVM.cs" />
     <Compile Include="Areas\ModuleArea\Models\ModuleViewModel.cs" />
@@ -577,7 +582,6 @@
     <Compile Include="Common\ICommonConfigProvider.cs" />
     <Compile Include="Common\IUpdatePhepProvider.cs" />
     <Compile Include="Common\PageListResultBO.cs" />
-    <Compile Include="Common\UIHelpers.cs" />
     <Compile Include="Common\UploadFileSingle.cs" />
     <Compile Include="Common\WordHelper.cs" />
     <Compile Include="Controllers\AccountAdminController.cs" />
@@ -13345,6 +13349,14 @@
     <Content Include="Areas\TinTucArea\Views\TinTuc\_EditPartial.cshtml" />
     <Content Include="Areas\TinTucArea\Views\TinTuc\_SearchPartial.cshtml" />
     <Content Include="Areas\TinTucArea\Views\web.config" />
+    <Content Include="Areas\TinTucArea\Views\TinTuc\_DetailPartial.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\GiaoDich\Detail.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\GiaoDich\Index.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\GiaoDich\_CreatePartial.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\GiaoDich\_EditPartial.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\GiaoDich\_SearchPartial.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\GiaoDichArea\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1758,4 +1758,15 @@ input:checked + .slider:before {
 .object-cover {
     object-fit: cover
 }
+
+.aspect-video {
+    aspect-ratio: 16 / 9;
+}
 /*Tailwind*/
+/*Others*/
+
+.w-full-select2 .select2-container {
+    width: 100% !important;
+}
+
+/*Others*/

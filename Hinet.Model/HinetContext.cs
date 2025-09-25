@@ -34,6 +34,7 @@ namespace Hinet.Model
 		public DbSet<DichVu> DichVu { get; set; }
 		public DbSet<Banner> Banner { get; set; }
 		public DbSet<TinTuc> TinTuc { get; set; }
+		public DbSet<GiaoDich> GiaoDich { get; set; }
 
 		public static DbContext Create()
 		{

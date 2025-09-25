@@ -1,0 +1,90 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "GiaoDich", new { Area = "GiaoDichArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Người giao dịch</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="UserIdFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Đối tượng</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="DoiTuongIdFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Loại đối tượng</div>
+			<div class="col-md-8">
+				@Html.DropDownList("LoaiDoiTuongFilter",ViewBag.dropdownListLoaiDoiTuong as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Loại giao dịch</div>
+			<div class="col-md-8">
+				@Html.DropDownList("LoaiGiaoDichFilter",ViewBag.dropdownListLoaiGiaoDich as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Trạng thái</div>
+			<div class="col-md-8">
+				@Html.DropDownList("TrangThaiFilter",ViewBag.dropdownListTrangThai as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Phương thức thanh toán</div>
+			<div class="col-md-8">
+				@Html.DropDownList("PhuongThucThanhToanFilter",ViewBag.dropdownListPhuongThucThanhToan as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ngày giao dịch</div>
+			<div class="col-md-8">
+				<input type="text" class="form-control width100" name="NgayGiaoDichFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ngày thanh toán</div>
+			<div class="col-md-8">
+				<input type="text" class="form-control width100" name="NgayThanhToanFilter" />
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

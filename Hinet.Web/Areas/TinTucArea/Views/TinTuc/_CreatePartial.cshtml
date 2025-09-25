@@ -56,25 +56,29 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-12">Trạng thái </label>
-                        <div class="col-sm-12">
-                            @Html.TextBoxFor(m => m.TrangThai, new { @class = "form-control" })
+                        <div class="col-sm-12  w-full-select2">
+                            @Html.DropDownList("TrangThai", ViewBag.DropdownListTrangThai as List<SelectListItem>, "-- Tất cả --", new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer center">
-                <button type="submit" class="btn btn-primary">Hoàn thành</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="submit" class="btn btn-sm btn-primary">Hoàn thành</button>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     }
 </div>
 
 <script>
-    const quill = new Quill('#editor', {
-        theme: 'snow'
-    });
+    if (window.quill) {
+        $("#editor").html(""); // hoặc xoá node cũ
+        delete window.quill;
+    }
+    window.quill = new Quill('#editor', { theme: 'snow' });
+
+    $("#TrangThai").select2();
 
     $("#createTinTucForm").on("submit", function () {
         var content = quill.root.innerHTML;
