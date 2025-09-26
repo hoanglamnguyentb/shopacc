@@ -1,4 +1,5 @@
 using AutoMapper;
+using CommonHelper;
 using Hinet.Model;
 using Hinet.Model.Entities;
 using Hinet.Service.Common;
@@ -13,6 +14,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -111,12 +113,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 						var file = files[i];
 						if (file != null && file.ContentLength > 0)
 						{
-							var fileName = Path.GetFileNameWithoutExtension(file.FileName);
-							var ext = Path.GetExtension(file.FileName);
-							var uniqueName = $"{fileName}_{Guid.NewGuid()}{ext}";
-							var savePath = Path.Combine(Server.MapPath("~/Uploads/TaiKhoan"), uniqueName);
-							Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-							file.SaveAs(savePath);
+							var relativeFolder = $"~/Uploads/TaiKhoan/{entity.Id}";
+							var filePath = FileHelper.SaveUploadedFile(file, relativeFolder);
 
 							listTaiLieu.Add(new TaiLieuDinhKem
 							{
@@ -124,7 +122,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 								LoaiTaiLieu = nameof(TaiKhoan),
 								Item_ID = entity.Id,
 								MoTa = string.Empty,
-								DuongDanFile = "/Uploads/TaiKhoan/" + uniqueName
+								DuongDanFile  = filePath
+
 							});
 						}
 					}
@@ -150,6 +149,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 			}
 
 			myModel = _mapper.Map(obj, myModel);
+			myModel.TaiLieuDinhKemList = _taiLieuDinhKemService.GetListTaiLieuAllByType(nameof(TaiKhoan), id);
+
 			return PartialView("_EditPartial", myModel);
 		}
 

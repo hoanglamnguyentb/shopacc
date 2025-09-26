@@ -72,11 +72,7 @@
 </div>
 
 <script>
-    if (window.quill) {
-        $("#editor").html(""); // hoặc xoá node cũ
-        delete window.quill;
-    }
-    window.quill = new Quill('#editor', { theme: 'snow' });
+    quill = new Quill('#editor', { theme: 'snow' });
 
     $("#TrangThai").select2();
 

@@ -7,6 +7,7 @@
 
 }
 
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 <div class="modal-dialog">
     @using (Html.BeginForm("Create", "TaiKhoan", FormMethod.Post,
         new { area = "TaiKhoanArea", id = "createTaiKhoanForm", enctype = "multipart/form-data" }))
@@ -90,20 +91,13 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4">Ảnh </label>
                         <div class="col-sm-12">
-                            <div class="multiple-uploader" id="multiple-uploader">
-                                <div class="mup-msg">
-                                    <span class="mup-main-msg">click to upload images.</span>
-                                    <span class="mup-msg" id="max-upload-number">Upload up to 10 images</span>
-                                    <span class="mup-msg">Only images, pdf and psd files are allowed for upload</span>
-                                </div>
-                            </div>
+                            <input type="file" class="filepond" name="files" multiple />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer center">
                 <button type="submit" class="btn btn-sm btn-primary">Hoàn thành</button>
-
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
@@ -111,34 +105,11 @@
 </div>
 
 <script>
-    let multipleUploader = new MultipleUploader('#multiple-uploader').init({
-        maxUpload: 20,
-        maxSize: 5,
-        filesInpName: 'images',
-        formSelector: '#createTaiKhoanForm',
+    FilePond.create(document.querySelector('.filepond'), {
+        allowMultiple: true,
+        maxFiles: 10,
+        maxFileSize: '5MB',
+        acceptedFileTypes: ['image/*']
     });
-
-    $("#createTaiKhoanForm").submit(function (e) {
-    e.preventDefault();
-        var formData = new FormData(this);
-
-        for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1]);
-        }
-
-    $.ajax({
-        url: this.action,
-        type: this.method,
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function (res) {
-            AjaxFormSuccess(res);
-        },
-        error: function (err) {
-            AjaxFormError(err);
-        }
-    });
-});
 </script>
 @Scripts.Render("~/bundles/jqueryval")

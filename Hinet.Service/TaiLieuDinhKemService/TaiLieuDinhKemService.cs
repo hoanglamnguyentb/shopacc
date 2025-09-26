@@ -40,25 +40,6 @@ namespace Hinet.Service.TaiLieuDinhKemService
 			return query;
 		}
 
-		public List<TaiLieuDinhKem> GetListTaiLieuAllByType4(string LoaiTaiLieu, long itemId)
-		{
-			var query = _taiLieuDinhKemRepository.GetAllAsQueryable()
-				.Where(x => x.Item_ID == itemId && x.LoaiTaiLieu == LoaiTaiLieu)
-				.OrderByDescending(x => x.Id)
-				.Take(4)
-				.ToList();
-			return query;
-		}
-
-		public List<TaiLieuDinhKem> GetListTaiLieuAllByTypeContains(string LoaiTaiLieu, long itemId)
-		{
-			var query = _taiLieuDinhKemRepository.GetAllAsQueryable()
-				.Where(x => x.Item_ID == itemId && x.LoaiTaiLieu.Contains(LoaiTaiLieu))
-				.OrderByDescending(x => x.Id)
-				.ToList();
-			return query;
-		}
-
 		public TaiLieuDinhKem GetTaiLieuFirstByType(string LoaiTaiLieu, long itemId)
 		{
 			var query = _taiLieuDinhKemRepository.GetAllAsQueryable().Where(x => x.Item_ID == itemId && x.LoaiTaiLieu == LoaiTaiLieu).OrderByDescending(x => x.CreatedDate).FirstOrDefault();
@@ -214,5 +195,7 @@ namespace Hinet.Service.TaiLieuDinhKemService
 
 			return result;
 		}
+
+
 	}
 }

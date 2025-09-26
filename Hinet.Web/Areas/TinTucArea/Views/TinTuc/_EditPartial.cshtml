@@ -77,10 +77,7 @@
 </div>
 
 <script>
-    if (window.quill) {
-        delete window.quill;
-    }
-    window.quill = new Quill('#editor', { theme: 'snow' });
+    quill = new Quill('#editor', { theme: 'snow' });
     quill.root.innerHTML = '@Html.Raw(Model.NoiDung)';
 
     $("#editTinTucForm").on("submit", function () {
