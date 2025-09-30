@@ -1,0 +1,83 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "TinTuc", new { Area = "TinTucArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Slug</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="SlugFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Tiêu đề</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="TieuDeFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Nội dung</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="NoiDungFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ảnh bìa</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="AnhBiaFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Tác giả</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="TacGiaFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Trạng thái</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="TrangThaiFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Thời gian xuất bản</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="ThoiGianXuatBanFilter" />
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

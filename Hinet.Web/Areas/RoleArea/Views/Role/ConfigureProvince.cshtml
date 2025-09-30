@@ -1,0 +1,155 @@
+﻿@using Hinet.Web.Areas.RoleArea.Models
+@model RoleViewModel.RoleOperationConfigViewModel
+@{
+    ViewBag.Title = "Quản lý thao tác";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý vai trò";
+    ViewBag.PageName = "Phân quyền vai trò";
+
+    var TinhDropdown = ViewBag.TinhDropdown as List<SelectListItem>;
+}
+@section ActionBarRight{
+    <a href="/RoleArea/Role/Index" class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Quay lại</a>
+}
+<style>
+    .panel-body {
+        padding: 0;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+</style>
+<div id="accordion" class="accordion-style1 panel-group">
+    <div class="form-horizontal">
+
+        <input type="hidden" name="ROLE_ID" value="@Model.ConfigureData.RoleId" />
+        @{
+            int index = 0;
+        }
+        <table class="table table-bordered table-striped table-hover" id="tableProvince">
+            <thead>
+
+                <tr>
+                    <th>STT</th>
+                    <th>Chức năng</th>
+                    <th style="width: 300px">Tỉnh</th>
+                    <th style="width: 300px">Huyện</th>
+                    <th style="width: 300px">Xã</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var module in Model.ConfigureData.GroupModules)
+                {
+                <tr class="tr-configure-province" id="@("Function-" + module.Id)" data-chucnangid="@module.Id">
+                    <td class="width50px">@(++index)</td>
+                    <td>@module.Name</td>
+                    <td><div class="@("dl-" + module.Id)" id="@("dl-i0-" + index)">@Html.DropDownList("TinhDrop-" + module.Id, Model.Tinh, new { @class = "form-control dropdown-list dropdown-list-tinh", @multiple = "multiple" })</div></td>
+                    <td><div class="@("dl-" + module.Id)" id="@("dl-i1-" + index)">@Html.DropDownList("HuyenDrop-" + module.Id, Model.Huyen, new { @class = "form-control dropdown-list dropdown-list-huyen", @multiple = "multiple" })</div></td>
+                    <td><div class="@("dl-" + module.Id)" id="@("dl-i2-" + index)">@Html.DropDownList("XaDrop-" + module.Id, Model.Xa, new { @class = "form-control dropdown-list dropdown-list-xa", @multiple = "multiple" })</div></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="clearfix"></div>
+        <center>
+            <button class="btn btn-primary btn-sm" id="save">
+                <i class="fa fa-save"></i>&nbsp;Lưu lại
+            </button>
+        </center>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")
+@section scripts{
+    <!--DROPDOWNLIST-->
+    <script>
+
+        $(".dropdown-list-tinh").on("change", function () {
+            var tinh_id = $(this).attr("id");
+            var huyen_id = tinh_id.replace("Tinh", "Huyen");
+                var get_list = $(this).val();
+                renderDropdownListSelect2('/Role/GetHuyenDropdownOfTinh/' + get_list, huyen_id);
+                //$("#" + huyen_id).val("All").trigger("change");
+
+            var data = $("#" + tinh_id).val();
+            //console.log(data);
+        });
+        $(".dropdown-list-huyen").on("change", function () {
+            var huyen_id = $(this).attr("id");
+            var xa_id = huyen_id.replace("Huyen", "Xa");
+            var get_list = $(this).val();
+            renderDropdownListSelect2('/Role/GetXaDropdownOfHuyen/' + get_list, xa_id);
+        });
+        $(".dropdown-list-xa").on("change", function () {
+            var xa_id = $(this).attr("id");
+        });
+
+        var list_tinh = document.getElementsByClassName("dropdown-list-tinh");
+        Array.prototype.forEach.call(list_tinh, function (item) {
+            var item_id = item.getAttribute("id");
+            $("#" + item_id).select2({
+                placeholder: "Chưa chọn"
+            });
+        });
+        var list_huyen = document.getElementsByClassName("dropdown-list-huyen");
+        Array.prototype.forEach.call(list_huyen, function (item) {
+            var item_id = item.getAttribute("id")
+            $("#" + item_id).select2({
+                placeholder: "Chưa chọn"
+            });
+        });
+        var list_xa = document.getElementsByClassName("dropdown-list-xa");
+        Array.prototype.forEach.call(list_xa, function (item) {
+            var item_id = item.getAttribute("id");
+            $("#" + item_id).select2({
+                placeholder: "Chưa chọn"
+            });
+        });
+
+        function AfterSussessActionAjaxform() {
+
+        }
+
+        $("input.checkAll").change(function () {
+
+            var check = $(this).prop("checked");
+            $(this).parents("table").find("input.checkItem").each(function () {
+                $(this).prop("checked", check);
+            })
+        })
+
+        function createJsonData() {
+            var listobj = [];
+            $(".tr-configure-province").each(function () {
+                var vaitroId = $("input[name=ROLE_ID]").val();
+                var chucnangId = $(this).attr("data-chucnangid");
+                var tinhId = $(this).find("select.dropdown-list-tinh").val();
+                var huyenId = $(this).find("select.dropdown-list-huyen").val();
+                var xaId = $(this).find("select.dropdown-list-xa").val();
+                listobj.push({ "VaiTroId": vaitroId, "ChucNangId": chucnangId, "MaTinh": tinhId, "MaHuyen": huyenId, "MaXa": xaId });
+            })
+            return listobj;
+        }
+
+        $("#save").on("click", function () {
+            var data1 = createJsonData();
+            //console.log(data1);
+            $.ajax({
+                url: '/RoleArea/Role/ConfigureProvince',
+                type: 'post',
+                cache: false,
+                data: JSON.stringify(data1),
+                contentType: 'application/json',
+                dataType: 'json',
+
+                success: function (data) {
+                    NotiSuccess("Thành công", "Bạn cập nhật phân quyền thành công!");
+                },
+                error: function (err) {
+                    CommonJS.alert(xhr.responseText);
+                }
+            });
+        });
+    </script>
+}

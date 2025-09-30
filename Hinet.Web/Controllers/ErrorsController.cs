@@ -1,0 +1,39 @@
+﻿using System.Web.Mvc;
+
+namespace Hinet.Web.Controllers
+{
+    public class ErrorsController : Controller
+    {
+        // GET: Errors
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult NotFound()
+        {
+            return View();
+        }
+
+        public ActionResult InternalServer()
+        {
+            return View();
+        }
+
+        public ActionResult BadRequest()
+        {
+            return View();
+        }
+
+        public PartialViewResult TimeOutSession()
+        {
+            return PartialView();
+        }
+
+        public ActionResult EndUserdetention()
+        {
+            return View();
+        }
+    }
+}

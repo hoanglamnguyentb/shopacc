@@ -1,0 +1,1172 @@
+﻿@using Hinet
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Newtonsoft.Json
+@using Hinet.Web.Core
+@using CommonHelper.String
+@using Hinet.Service.AppUserService.Dto
+@model IndexVM
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    //ViewBag.ModuleName = "Trang chủ";
+    //ViewBag.PageName = "Thống kê nhanh";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+
+    //var dropdownListFilter = ViewBag.dropdownListFilter as List<SelectListItem>;
+}
+
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<style>
+    div.dashboardTitle {
+        top: 0;
+        margin-bottom: 0;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    #LichThead, #LichTbody #LichTr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    #LichTbody {
+        height: 200px !important;
+        display: block;
+        overflow-y: scroll;
+    }
+
+    #LichThead tr th:first-child {
+        width: 5%;
+    }
+
+    #LichThead tr th:last-child {
+        width: 50%;
+    }
+
+    #LichTbody #LichTr td:first-child {
+        width: 5%;
+    }
+
+    #LichTbody #LichTr td:last-child {
+        width: 50%;
+    }
+
+    .liststatus__dashboard_box__content {
+        display: flex;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+        margin-bottom: 10px;
+    }
+
+        .liststatus__dashboard_box__content:last-child {
+            border-bottom: none;
+        }
+
+    .liststatus__dashboard_box__content_item {
+        width: 30px;
+    }
+
+        .liststatus__dashboard_box__content_item:first-child {
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .liststatus__dashboard_box__content_item:last-child {
+            text-align: right;
+        }
+
+    .liststatus__dashboard_box__content_item {
+        margin-bottom: 0;
+    }
+
+    .dashboard_cvcanhan table thead tr th {
+        background-color: #212b36 !important;
+        color: #fff !important;
+    }
+
+    .liststatus__dashboard_box__content h5 {
+        font-size: 13px !important;
+        margin: 0 !important;
+    }
+
+    .liststatus__dashboard__title {
+        padding: 10px 20px;
+        background-color: #2679B5;
+        color: #fff;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+        .liststatus__dashboard__title h4 {
+            margin: 0;
+        }
+
+            .liststatus__dashboard__title h4 i {
+                float: right;
+            }
+
+    .ctnBox_Top:nth-child(1) {
+        padding-right: 30px;
+    }
+
+    .ctnBox_Top:nth-child(2) {
+        margin-top: 0;
+        padding: 0 !important;
+    }
+
+    .ctnBox_Top:nth-child(3) {
+        padding-left: 30px;
+    }
+
+    .noti-container, .noti-container-cmnsn {
+        overflow: auto !important;
+    }
+
+    .title-bar .noti-title {
+        margin: 5px;
+        font-size: 16px;
+        padding: 0;
+        line-height: 2;
+        height: 30px;
+        font-family: Roboto-BoldCondensed;
+    }
+
+    .title-bar .bell-icon {
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    .headerBox-NhanSu:last-child {
+        /*background-image: url('../../../../Content/Img/bgrsn.png');*/
+        height: 300px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding-right: 0 !important;
+        background-position: center;
+    }
+
+    .cnt_thongbao .noti-container {
+        margin-top: 0;
+        padding-top: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .cnt_thongbao .title-bar {
+        border-radius: 0 !important;
+    }
+
+    .headerBox-NhanSu h4.title-birtday {
+        font-size: 16px;
+        padding: 0 10px;
+        line-height: 2.5;
+        height: 40px;
+        font-family: Roboto-BoldCondensed;
+        color: #fff;
+        top: 0;
+        margin: 0 !important;
+        background-color: #212b36;
+    }
+
+    .headerBox-NhanSu .noti-container {
+        border: 1px solid #ddd;
+        margin: 0;
+        padding: 5px 10px;
+    }
+
+    .ctnBox_sinhnhat h4 {
+        font-family: 'Roboto Slab';
+        color: #2679B5;
+        font-weight: bold;
+        text-align: center;
+        font-size: 22px;
+        margin-top: 0;
+    }
+
+    .iconBell {
+        font-size: 20px;
+        color: #2679B5;
+        padding: 0 10px;
+    }
+
+    #headerBox-NhanSu {
+        height: 265px;
+        padding: 0px;
+        margin: 0;
+        overflow: hidden !important;
+    }
+
+    .headerBox-NhanSu.ctnBox_sinhnhat img {
+        position: absolute;
+        width: 60px;
+        bottom: 15px;
+    }
+
+    .listNhansu .ul-item-birtday {
+        padding-left: 8px;
+    }
+
+    .listNhansu .img-cong img {
+        width: 50px;
+        height: auto !important;
+    }
+
+    #headerBox-NhanSu p {
+        padding-top: 20px;
+    }
+
+    .cnt_thongbao .user-icon {
+        padding: 5px 0 !important;
+        font-size: 20px;
+    }
+
+    .itemNotification {
+        margin-bottom: 12px;
+    }
+
+    .listNhansu .style-birtday li {
+        margin-top: 8px !important;
+        margin-bottom: 0px !important;
+    }
+
+        .listNhansu .style-birtday li span i {
+            color: #f00;
+            font-size: 12px;
+        }
+
+    .page-header {
+        /*position: absolute;*/
+        /*top: 0;*/
+        border-bottom: 1px solid;
+        padding-top: 12px;
+        z-index: 999;
+    }
+
+    .itemNotification {
+        color: #393939 !important;
+    }
+
+    .page-header h1 small i {
+        /*display: none !important;*/
+    }
+
+    .table-info tr td, .table-info tr th {
+        padding: 7px;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    .indexHome h2 {
+        font-size: 18px !important;
+        color: #fff;
+        background: #0781c7;
+        text-transform: uppercase;
+        padding: 10px;
+        font-weight: bold;
+        border-left: 15px solid #ede100;
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .indexHome .xemtatca {
+        padding: 6px 10px;
+        height: 39.2px;
+        border-left: 15px solid #ede100;
+        display: flex;
+        justify-content: space-between;
+        background: #0781c7;
+        color: #fff;
+    }
+
+        .indexHome .xemtatca span {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 18px !important;
+        }
+
+        .indexHome .xemtatca a {
+            font-style: italic;
+            font-size: 14px !important;
+            text-decoration: none;
+            padding-top: 3px;
+        }
+
+    .indexHome .table-custom tbody tr td, .indexHome .hinet-table tbody tr td {
+        font-size: 13px;
+        padding: 8.5px;
+    }
+
+    .dashboardTitle h2 {
+        margin-top: 0;
+    }
+
+    .box-sinhnhat {
+        background: #fbfdff;
+        border: 1px solid #e6e6e6;
+    }
+
+        .box-sinhnhat .imgSinhnhat img {
+            max-width: 60%;
+        }
+
+        .box-sinhnhat .imageGridNhanSu {
+            border-radius: 50%;
+        }
+
+        .box-sinhnhat ol li {
+            float: left;
+            width: 50%;
+            margin-bottom: 10px;
+        }
+
+    .ct-ifoBirthday {
+        display: flex;
+    }
+
+    .tableBirthday ol {
+        list-style: none;
+        margin-left: 5px !important;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .pdl10 {
+        padding-left: 10px;
+    }
+
+    .infoUserBirthday {
+        text-align: center;
+    }
+
+    .mrgt0 {
+        margin-top: 0 !important;
+    }
+
+    .thongkedaotao h3 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .gachchan {
+        border-bottom: 1px solid;
+        padding-bottom: 10px;
+    }
+
+    .thongke {
+        height: 136px !important;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #backButton {
+        border-radius: 4px;
+        padding: 8px;
+        border: none;
+        font-size: 16px;
+        background-color: #2eacd1;
+        color: white;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    .invisible {
+        display: none;
+    }
+
+    .acction {
+        border-bottom: 1px solid black;
+        padding-top: 1px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .row {
+        margin-top: 2%;
+    }
+
+    .filter-date {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .txt-picker {
+        margin-right: 2%;
+    }
+
+    .filter {
+        margin-right: 2%;
+        width: max-content;
+    }
+
+    .btn {
+        border-radius: 7px !important
+    }
+
+    .canhbao {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .navbar .navbar-toggle.pull-left {
+        margin: 0 !important;
+    }
+
+    .page-content {
+        background-color: #f1f1f1;
+    }
+
+    .box {
+        border-radius: 0px !important;
+        background-color: #fff;
+    }
+
+    .TenBieuBaoCao {
+        font-size: large;
+        color: #2980b9;
+        font-weight: bold;
+    }
+
+    .rowTong > td {
+        background: #36e298;
+    }
+
+    .colTong {
+        background: #f4c320 !important;
+    }
+</style>
+<div class="content-dashboard ">
+    <div class="row d-flex" style="margin-top:0px !important; padding-left: 5px">
+        <div class="col-sm-6 ">
+            <div class="content-1-left">
+                <div class="content-total-2 box-first row box" style="padding: 10px;margin-top:0px!important;">
+                    <div class="col-sm-6 hinet-icon">
+                        <div class="img-icon">
+                            <img src="~/Uploads/Anh/icon-total.jpg" alt="" />
+                        </div>
+
+                        <div class="text-icon">
+                            <p>Tổng giá trị gia tăng</p>
+                            <strong>GRDP</strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 hinet-text">
+                        <div class="">
+                            <div class="text-tydo">
+                                <strong>7.741</strong>
+                                <span>Tỷ đồng</span>
+                            </div>
+                            <div class="text-achieve"><span>Đạt</span> <span> 98.6% </span><span>kế hoạch đề ra</span></div>
+                            <div class="text-increase"><span>Tăng</span><span> 3.73% </span> <span>so với năm 2021</span></div>
+                            <div class="icon-arrow"><div class="img-icon-arrow"><img src="~/Uploads/Anh/icon-arrow.jpg" alt="#" /></div><span class="text-arrow"><a href="#">Xem chi tiết</a></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-total-2 row">
+                    <div class="col-sm-4 fix_h-274">
+                        <div class="content-3 box">
+                            <div class="img-icon-price">
+                                <img src="~/Uploads/Anh/icon-price.jpg" alt="Alternate Text" />
+                                <div class="icon-text-price">
+                                    <span><strong>Đóng góp </strong></span>
+                                    <span><strong>ngân sách nhà nước</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-text">
+                            <div class="text-price-tydo">
+                                <p><strong>2.500</strong></p>
+                                <span><strong>Tỷ đồng</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4  fix_h-274">
+                        <div class="content-3 box">
+                            <div class="img-icon-price">
+                                <img src="~/Uploads/Anh/icon-setting.jpg" alt="Alternate Text" />
+                                <div class="icon-text-price">
+                                    <span><strong>Tổng số dự án </strong></span>
+                                    <span><strong>Công nghiệp đầu tư</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-text">
+                            <div class="text-price-tydo">
+                                <p><strong>6.800</strong></p>
+                                <span><strong>Dự án</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 fix_h-274">
+                        <div class="content-3 box">
+                            <div class="img-icon-price">
+                                <img src="~/Uploads/Anh/icon-treePrice.jpg" alt="Alternate Text" />
+                                <div class="icon-text-price">
+                                    <span><strong>Tổng số vốn </strong></span>
+                                    <span><strong>Đầu tư công nghiệp &nbsp;</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-text">
+                            <div class="text-price-tydo">
+                                <p><strong>560.240</strong></p>
+                                <span><strong>Tỷ đồng</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 tbale-thongke">
+            <div class="contetn_1-right-box">
+                <div class="content_right-title">
+                    <h2>Thống kê cơ sở sản xuất công nghiệp theo loại hình</h2>
+                    <div class="icon-box">
+                        <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-option-vertical" style="top:-2px"></i>
+                    </div>
+                </div>
+                <div class="content_right-img">
+
+                    <div id="chartdivCSSX"></div>
+                    <div class="col-sm-12 text-center">
+                        <select class="form-control" style="width: 320px;margin: 0 auto;">
+                            <option>Lựa chọn lĩnh vực sản xuất</option>
+                        </select>
+                    </div>
+                    <script>
+
+                        // Create root and chart
+                        var root = am5.Root.new("chartdivCSSX");
+                        root._logo.dispose();
+                        root.setThemes([
+                            am5themes_Animated.new(root)
+                        ]);
+
+                        var chart = root.container.children.push(
+                            am5percent.PieChart.new(root, {})
+                        );
+
+                        // Define data
+                        var data = [{
+                            country: "Doanh nghiệp",
+                            sales: 100000,
+                            "settings": { fill: "#ff6666", stroke:"#ff6666" }
+                        }, {
+                            country: "Hợp tác xã",
+                            sales: 60000,
+                                "settings": { fill: "#66cccc", stroke:"#66cccc" }
+                        }, {
+                            country: "Cơ sở kinh tế cá thể",
+                            sales: 80000,
+                                "settings": { fill: "#ff9933", stroke:"#ff9933" }
+                        }];
+
+                        // Create series
+                        var series = chart.series.push(
+                            am5percent.PieSeries.new(root, {
+                                name: "Series",
+                                valueField: "sales",
+                                categoryField: "country",
+                                alignLabels: false
+                            })
+                        );
+                        //series.labels.template.setAll({
+                        //    //fontSize: 12,
+                        //    //value: "sales",
+                        //    //text: "{valuePercentTotal.formatNumber('0.00')}%",
+                        //    templateField: "settings",
+                        //    //textType: "radial",
+                        //    //radius: 0,
+                        //    //centerX: am5.percent(100),
+                        //    fill: am5.color(0xffffff)
+                        //});
+
+                        series.slices.template.setAll({
+                            templateField: "settings",
+                        });
+
+                        series.labels.template.setAll({
+                            text: "{valuePercentTotal.formatNumber('0.00')}%",
+                            //textType: "circular",
+                            //centerX: am5.percent(50),
+                            fontSize: 20,
+                            //paddingTop: 100,
+                            textType: "circular",
+                            inside: true,
+                            fill: am5.color(0xffffff),
+                            //x: am5.percent(50),
+                            //y: am5.percent(70),
+
+                            //fontSize: 12,
+                            //value: "sales",
+                            //text: "{valuePercentTotal.formatNumber('0.00')}%",
+                            //textType: "radial",
+                            //radius: 0,
+                            //centerX: am5.percent(100),
+                            //fill: am5.color(0xffffff)
+                        });
+
+                        series.data.setAll(data);
+                        var legendFirst = chart.children.push(am5.Legend.new(root, {
+                            centerX: am5.percent(50),
+                            centerY: am5.percent(100),
+                            x: am5.percent(50),
+                            y: am5.percent(100),
+                            marginTop: 30,
+                            marginBottom: 15,
+                        }));
+
+                        legendFirst.data.setAll(series.dataItems);
+
+                        legendFirst.markerRectangles.template.setAll({
+                            cornerRadiusTL: 10,
+                            cornerRadiusTR: 10,
+                            cornerRadiusBL: 10,
+                            cornerRadiusBR: 10
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content_2">
+        <div class="content_2-box">
+            <div class="row content_2-title-box box-2-content">
+                <div class="col-lg-6 content_2-left-title">
+                    <h2>Công nghiệp</h2>
+                </div>
+                <div class="col-lg-6 content_2-title content_3-title">
+
+                    <select>
+                        <option>Từ ngày</option>
+                    </select>
+                    <select>
+                        <option>Đến ngày</option>
+                    </select>
+                    <select>
+                        <option>Loại báo cáo</option>
+                    </select>
+                    <div class="contetn_2-title-find">
+                        <button onclick="getBaoCaoXangDau()">Tìm kiếm</button>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-option-vertical" style="top:-2px"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4 class="tit-mobile">Biểu đồ báo cáo</h4>
+                <div id="chart_congnghiep"></div>
+                <script>
+                    am5.ready(function () {
+
+                        // Create root element
+                        // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                        var root = am5.Root.new("chart_congnghiep");
+                        root._logo.dispose();
+
+                        // Set themes
+                        // https://www.amcharts.com/docs/v5/concepts/themes/
+                        root.setThemes([
+                            am5themes_Animated.new(root)
+                        ]);
+
+                        // Create chart
+                        // https://www.amcharts.com/docs/v5/charts/xy-chart/
+                        var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                            //panX: false,
+                            //panY: false,
+                            //wheelX: "panX",
+                            //wheelY: "zoomX",
+                            layout: root.verticalLayout
+                        }));
+
+                        // Add legend
+                        // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+                        var legend = chart.children.push(
+                            am5.Legend.new(root, {
+                                //centerX: am5.p50,
+                                centerX: am5.percent(50),
+                                x: am5.p50
+                            })
+                        );
+
+                        var data = [{
+                            "year": "CNKTM",
+                            "europe": 2.5,
+                            "namerica": 2.5,
+                            "asia": 2.1,
+                            "lamerica": 1,
+                            "meast": 0.8,
+                            "africa": 0.4
+                        }, {
+                            "year": "CNCBCT",
+                            "europe": 2.6,
+                            "namerica": 2.7,
+                            "asia": 2.2,
+                            "lamerica": 0.5,
+                            "meast": 0.4,
+                            "africa": 0.3
+                        }, {
+                            "year": "CNSXPP",
+                            "europe": 2.8,
+                            "namerica": 2.9,
+                            "asia": 2.4,
+                            "lamerica": 0.3,
+                            "meast": 0.9,
+                            "africa": 0.5
+                        }]
+
+                        // Create axes
+                        // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+                        var xRenderer = am5xy.AxisRendererX.new(root, {
+                            cellStartLocation: 0.1,
+                            cellEndLocation: 0.9
+                        })
+
+                        var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                            categoryField: "year",
+                            renderer: xRenderer,
+                            tooltip: am5.Tooltip.new(root, {})
+                        }));
+
+                        xRenderer.grid.template.setAll({
+                            location: 1
+                        })
+
+                        xAxis.data.setAll(data);
+
+                        var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                            renderer: am5xy.AxisRendererY.new(root, {
+                                strokeOpacity: 0.1
+                            })
+                        }));
+
+                        // Add series
+                        // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+                        function makeSeries(name, fieldName, color) {
+                            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                                name: name,
+                                xAxis: xAxis,
+                                yAxis: yAxis,
+                                fill: color,
+                                valueYField: fieldName,
+                                categoryXField: "year"
+                            }));
+
+                            series.columns.template.setAll({
+                                tooltipText: "{name}, {categoryX}:{valueY}",
+                                width: am5.percent(90),
+                                tooltipY: 0,
+                                strokeOpacity: 0
+                            });
+
+                            series.data.setAll(data);
+
+                            // Make stuff animate on load
+                            // https://www.amcharts.com/docs/v5/concepts/animations/
+                            series.appear();
+
+                            series.bullets.push(function () {
+                                return am5.Bullet.new(root, {
+                                    locationY: 0,
+                                    sprite: am5.Label.new(root, {
+                                        text: "{valueY}",
+                                        fill: root.interfaceColors.get("alternativeText"),
+                                        centerY: 0,
+                                        centerX: am5.p50,
+                                        populateText: true
+                                    })
+                                });
+                            });
+
+                            legend.data.push(series);
+                        }
+
+                        makeSeries("Công nghiệp khai thác mỏ", "europe", "#ff9966");
+                        makeSeries("Công nghiệp chế biến, chế tạo", "namerica", "#ffcc66");
+                        makeSeries("Công nghiệp sản xuất phân phối điện, gas", "asia", "#33ccff");
+
+                        // Make stuff animate on load
+                        // https://www.amcharts.com/docs/v5/concepts/animations/
+                        chart.appear(1000, 100);
+
+                    }); // end am5.ready()
+                </script>
+            </div>
+            <div class="col-sm-6">
+                <h4 class="tit-mobile">Báo cáo chỉ số sản xuất công nghiệp tháng 12/2022</h4>
+                <table class="table-common">
+                    <tr>
+                        <th>Chỉ tiêu</th>
+                        <th>Tháng 12/2022 so với tháng 11/2022</th>
+                        <th>Tháng 12 so với cùng kỳ năm trước</th>
+                        <th>Lũy kễ đến Tháng 12 so với cùng kỳ năm trước</th>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp khai thác mỏ</td>
+                        <td>100.79</td>
+                        <td>110.2</td>
+                        <td>103.2</td>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp chế biến, chế tạo</td>
+                        <td>103.4</td>
+                        <td>116.2</td>
+                        <td>110.4</td>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp sản xuất, phân phối điện, gas</td>
+                        <td>101.0</td>
+                        <td>114.8</td>
+                        <td>106.8</td>
+                    </tr>
+                    <tr>
+                        <td>Cung cấp nước, quản lý và xử lý nước thải, rác thải</td>
+                        <td>101.0</td>
+                        <td>114.8</td>
+                        <td>106.8</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="content_2">
+        <div class="content_2-box">
+            <div class="row content_2-title-box box-2-content box-nangluong">
+                <div class="col-lg-7 content_2-left-title">
+                    <h2>Năng lượng</h2>
+                </div>
+                <div class="col-lg-5 content_2-title content_3-title">
+                    <select>
+                        <option>Chọn huyện</option>
+                    </select>
+                    <select>
+                        <option>Phân loại</option>
+                    </select>
+                    <div class="contetn_2-title-find">
+                        <button onclick="getBaoCaoXangDau()">Tìm kiếm</button>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-option-vertical" style="top:-2px"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin:0;">
+            <div class="col-sm-6 div_nangluong">
+                <div id="chart_nangthuong"></div>
+                <div class="col-sm-12 text-center">
+                    <select class="form-control" style="width: 320px;margin: 0 auto;">
+                        <option>Nhà máy nhiệt điện đang vận hành</option>
+                    </select>
+                </div>
+                <script>
+                    var root = am5.Root.new("chart_nangthuong");
+                    root._logo.dispose();
+
+                    // Set themes
+                    // https://www.amcharts.com/docs/v5/concepts/themes/
+                    root.setThemes([
+                        am5themes_Animated.new(root)
+                    ]);
+
+                    // Create chart
+                    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+                    var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                        layout: root.verticalLayout,
+                        innerRadius: am5.percent(50)
+                    }));
+
+                    // Create series
+                    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+                    var series = chart.series.push(am5percent.PieSeries.new(root, {
+                        valueField: "value",
+                        categoryField: "category",
+
+                        alignLabels: false
+                    }));
+
+                    series.slices.template.setAll({
+                        templateField: "settings",
+                    });
+
+                    series.labels.template.setAll({
+                        text: "{value}",
+                        textType: "circular",
+                        centerX: am5.percent(50),
+                        fontSize: 20,
+                        paddingTop: 100,
+                        inside: true,
+                        fill: am5.color(0xffffff),
+                        x: am5.percent(50),
+                        y: am5.percent(70),
+                    });
+
+                    // Set data
+                    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+                    series.data.setAll([
+                        { value: 235, category: "Thủy điện", settings: { fill: "#66cc99", stroke: "#66cc99", centerY: am5.percent(50), marginTop: 50 } },
+                        { value: 120, category: "Nhiệt điện", settings: { fill: "#ff99cc", stroke: "#ff99cc", centerY: am5.percent(50), marginTop: 50 } },
+                        { value: 150, category: "Điện gió", settings: { fill: "#9999cc", stroke: "#9999cc", centerY: am5.percent(50), marginTop: 50 } },
+                        { value: 200, category: "Khác", settings: { fill: "#ff9966", stroke: "#ff9966", centerY: am5.percent(50), marginTop: 50 } },
+                    ]);
+
+                    // Create legend
+                    // https://www.amcharts.com/docs/v5/charts/percent-charts/legend-percent-series/
+                    var legend = chart.children.push(am5.Legend.new(root, {
+                        centerX: am5.percent(50),
+                        x: am5.percent(50),
+                        marginTop: 0,
+                        marginBottom: 15,
+                    }));
+
+                    legend.data.setAll(series.dataItems);
+
+                    legend.markerRectangles.template.setAll({
+                        cornerRadiusTL: 10,
+                        cornerRadiusTR: 10,
+                        cornerRadiusBL: 10,
+                        cornerRadiusBR: 10
+                    });
+
+                    let labe1 = series.children.push(am5.Label.new(root, {
+                        text: "[#f00][bold]{valueSum}[/]",
+                        //text: "[red]{valueSum}[/] nhà máy phát điện",
+                        fontSize: 40,
+                        centerX: am5.percent(50),
+                        centerY: am5.percent(70),
+                        textAlign: "center",
+                        populateText: true
+                    }));
+                    let labe2 = series.children.push(am5.Label.new(root, {
+                        text: " [/]",
+                        //text: "[red]{valueSum}[/] nhà máy phát điện",
+                        centerX: am5.percent(50),
+                        centerY: am5.percent(10),
+                        textAlign: "center",
+                        populateText: true
+                    }));
+                    let label = series.children.push(am5.Label.new(root, {
+                        text: "nhà máy phát điện",
+                        //text: "[red]{valueSum}[/] nhà máy phát điện",
+                        fontSize: 15,
+                        centerX: am5.percent(50),
+                        centerY: am5.percent(20),
+                        textAlign: "center",
+                        populateText: true
+                    }));
+
+                    // Play initial series animation
+                    // https://www.amcharts.com/docs/v5/concepts/animations/#Animation_of_series
+                    series.appear(1000, 100);
+                </script>
+            </div>
+            <div class="col-sm-6">
+                <h4>Danh sách nhà máy điện đang vận hành</h4>
+                <table class="table-common">
+                    <tr>
+                        <th>STT</th>
+                        <th>Nhà máy</th>
+                        <th>Chủ đầu tư</th>
+                        <th>Công suất</th>
+                        <th>Huyện</th>
+                        <th>Phân loại</th>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp khai thác mỏ</td>
+                        <td>100.79</td>
+                        <td>110.2</td>
+                        <td>103.2</td>
+                        <td>Huyện Na Rì</td>
+                        <td>Thủy điện</td>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp chế biến, chế tạo</td>
+                        <td>103.4</td>
+                        <td>116.2</td>
+                        <td>110.4</td>
+                        <td>Huyện Na Rì</td>
+                        <td>Thủy điện</td>
+                    </tr>
+                    <tr>
+                        <td>Công nghiệp sản xuất, phân phối điện, gas</td>
+                        <td>101.0</td>
+                        <td>114.8</td>
+                        <td>106.8</td>
+                        <td>Huyện Na Rì</td>
+                        <td>Thủy điện</td>
+                    </tr>
+                    <tr>
+                        <td>Cung cấp nước, quản lý và xử lý nước thải, rác thải</td>
+                        <td>101.0</td>
+                        <td>114.8</td>
+                        <td>106.8</td>
+                        <td>Huyện Na Rì</td>
+                        <td>Thủy điện</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="content_2">
+        <div class="content_2-box">
+            <div class="row content_2-title-box box-2-content">
+                <div class="col-lg-6 content_2-left-title">
+                    <h2>Thương mại</h2>
+                </div>
+                <div class="col-lg-6 content_2-title content_3-title">
+                    <select>
+                        <option>Chọn địa điểm</option>
+                    </select>
+                    <select>
+                        <option>Phân loại</option>
+                    </select>
+                    <select>
+                        <option>Lĩnh vực</option>
+                    </select>
+                    <div class="contetn_2-title-find">
+                        <button onclick="getBaoCaoXangDau()">Tìm kiếm</button>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-option-vertical" style="top:-2px"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin:0">
+            <div class="col-sm-6">
+                <div id="chart_thuongmai"></div>
+                <script>
+                    am5.ready(function () {
+
+                        // Create root element
+                        // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+                        var root = am5.Root.new("chart_thuongmai");
+                        root._logo.dispose();
+
+                        // Set themes
+                        // https://www.amcharts.com/docs/v5/concepts/themes/
+                        root.setThemes([
+                            am5themes_Animated.new(root)
+                        ]);
+
+                        // Create chart
+                        // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+                        // start and end angle must be set both for chart and series
+                        var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                            startAngle: 180,
+                            endAngle: 360,
+                            layout: root.verticalLayout,
+                            innerRadius: am5.percent(50)
+                        }));
+
+                        // Create series
+                        // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+                        // start and end angle must be set both for chart and series
+                        var series = chart.series.push(am5percent.PieSeries.new(root, {
+                            startAngle: 180,
+                            endAngle: 360,
+                            valueField: "value",
+                            categoryField: "category",
+                            alignLabels: false
+                        }));
+
+                        series.states.create("hidden", {
+                            startAngle: 180,
+                            endAngle: 180
+                        });
+
+                        series.slices.template.setAll({
+                            cornerRadius: 5
+                        });
+
+                        series.ticks.template.setAll({
+                            forceHidden: true
+                        });
+                        series.slices.template.setAll({
+                            templateField: "settings",
+                        });
+
+                        // Set data
+                        // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
+                        series.data.setAll([
+                            { value: 1250, category: "Sản phẩm OCOP", settings: { fill: "#336633", color: "#333", stroke: "#336633" } },
+                            { value: 1590, category: "Cửa hàng xăng dầu", settings: { fill: "#cc99cc", stroke: "#cc99cc" } },
+                            { value: 2350, category: "Nhà phân phối Mặt hàng thiết yếu", settings: { fill: "#ffcc99", stroke: "#ffcc99" } },
+                            { value: 2600, category: "Cơ sở Kinh doanh Thương mại", settings: { fill: "#ffff99", stroke: "#ffff99" } },
+                        ]);
+
+                        series.appear(1000, 100);
+
+                        series.labels.template.setAll({
+                            fontSize: 30,
+                            maxWidth: 150,
+                            textType: "circular",
+                            oversizedBehavior: "wrap",
+                            text: "{value}",
+                            textAlign: "center",
+                            centerX: am5.percent(50),
+                            centerY: am5.percent(50),
+                            inside: true,
+                            color: "#333"
+                        });
+
+                        chart.children.unshift(am5.Label.new(root, {
+                            text: "Tháng 11/2022 Tổng kim nghạch vượt mức[#f00]500 tỷ USD[/] ước đạt 558,62 tỷ USD tăng 15,1% (so với năm trước)",
+                            fontSize: 15,
+                            fontWeight: "500",
+                            textAlign: "center",
+                            x: am5.percent(50),
+                            y: am5.percent(70),
+                            centerX: am5.percent(50),
+                            centerY: am5.percent(0),
+                            oversizedBehavior: "wrap",
+                            maxWidth: 200,
+                            paddingTop: 0,
+                            paddingBottom: 0
+                        }));
+                    }); // end
+                </script>
+            </div>
+            <div class="col-sm-6">
+                <h4 class="mtop30 tit-map">
+                    Bản đồ địa điểm của hàng bán sản phẩm OCOP
+                    <span class="tit-more text-right float-right">
+                        <a href="/"> Xem chi tiết <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    </span>
+                </h4>
+
+                <img class="img-common" src="~/Content/images/map-thuong-mai.png" />
+            </div>
+        </div>
+    </div>
+</div>

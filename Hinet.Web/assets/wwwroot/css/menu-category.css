@@ -1,0 +1,37 @@
+.menu-category li{
+    list-style: none;
+    background: white;
+}
+
+.menu-list a{
+    transition: .2s;
+    /*line-height: 60px;*/
+}
+
+.menu-category a .active{
+    background-color: var(--disable-switch-color);
+
+}
+.menu-category span{
+    color: var(--primary-color);
+}
+
+.menu-category a:hover div{
+    transition: .2s;
+    background-color: var(--disable-switch-color);
+}
+.menu-list .menu-category{
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+.menu-category ul{
+    margin: auto;
+}
+.menu-category .menu-category_fixm{
+    margin-left: -8px;
+    margin-right: -8px;
+}
+#servicemobile .menu-category .menu-category-item img{
+    width: 32px;
+}

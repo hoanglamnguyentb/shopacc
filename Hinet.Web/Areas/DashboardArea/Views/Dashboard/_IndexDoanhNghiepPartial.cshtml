@@ -1,0 +1,305 @@
+﻿@using Hinet
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Hinet.Service.DotBaoCao_DoanhNghiepService.Dto
+@using Hinet.Service.QLDotBaoCaoDong_DoanhNghiepService.Dto
+
+@{
+    var doanhNghiep = Model.DoanhNghiep;
+    var listBaoCaoDoanhNghiep = Model.ListBaoCaoDoanhNghiep;
+    var listBaoCaoDongDoanhNghiep = Model.ListBaoCaoDong;
+    var param = ViewBag.Param;
+    var userID = ViewBag.userID ?? 0;
+    List<string> listDoanhNghiepKhongDuocCapNhatThongTin = new List<string>
+{
+    LoaiDNConstant.XA,
+    LoaiDNConstant.HUYEN,
+};
+}
+
+@model IndexDoanhNghiepVM
+
+<style>
+    .min-content {
+        max-width: 200px;
+    }
+</style>
+
+<section class="main-dn-content">
+    <div class="left-panel">
+        <!--Khác xã huyện mới hiển thị thông tin này-->
+        @if (!listDoanhNghiepKhongDuocCapNhatThongTin.Contains(doanhNghiep.LoaiDoanhNghiep))
+        {
+            <div class="company-info">
+                <h2 style="display: flex; justify-content: space-between; align-items: flex-start">
+                    <span><i class="bi bi-buildings"></i> Thông tin doanh nghiệp</span>
+                    <span>
+                        <button onclick="OpenModelEdit(@doanhNghiep.Id)" class="action-btn" style="margin: 0"><i class="bi bi-pencil-square"></i> Chỉnh sửa</button>
+                        @if (doanhNghiep.LoaiDoanhNghiep == LoaiDNConstant.DOANHNGHIEPXBP)
+                        {
+                            <button onclick="EditAction('/DoanhThu_ChuyenDoiSoBaoChiArea/DoanhThu_ChuyenDoiSoBaoChi/Index/' + '@userID')" class="action-btn" style="margin: 0"><i class="bi bi-book"></i> Cập nhật số lượng xuất bản phẩm</button>
+                        }
+                        @if (doanhNghiep.LoaiDoanhNghiep == LoaiDNConstant.DOANHNGHIEPIN)
+                        {
+                            <button onclick="EditAction('/SoLuongInArea/SoLuongIn/Index/' + '@userID')" class="action-btn" style="margin: 0"><i class="bi bi-book"></i> Cập nhật số lượng In</button>
+                        }
+                        @if (doanhNghiep.LoaiDoanhNghiep == LoaiDNConstant.COQUANBAOCHI)
+                        {
+                            <button onclick="EditAction('/DoanhThu_ChuyenDoiSoBaoChiArea/DoanhThu_ChuyenDoiSoBaoChi/Index/' + '@userID')" class="action-btn" style="margin: 0"><i class="bi bi-book"></i> Cập nhật doanh thu - tình hình cds</button>
+                        }
+                    </span>
+                </h2>
+                <p><strong>Tên doanh nghiệp:</strong> @doanhNghiep.TenDoanhNghiep</p>
+                <p><strong>Địa chỉ:</strong> @doanhNghiep.DiaChi</p>
+                <p><strong>Mã số thuế:</strong> @doanhNghiep.MaSoThue</p>
+                <p><strong>Số điện thoại:</strong> @doanhNghiep.SoDienThoai</p>
+            </div>
+        }
+
+        @if (Model.ListGiayCapPhepDoanhNghiep.Any())
+        {
+            <div class="warning-chart">
+                <h2><i class="bi bi-newspaper"></i> Cảnh báo</h2>
+                @foreach (var item in Model.ListGiayCapPhepDoanhNghiep)
+                {
+                    <div class="alert">
+                        <p>
+                            ⚠ Cảnh báo: Giấy cấp phép
+                            <a href="javascript:void(0)" onclick="EditAction('/GiayCapPhepDoanhNghiepArea/GiayCapPhepDoanhNghiep/Detail/@item.Id')">@item.SoQD</a>
+                            sắp đến hạn (@item.NgayHetHan.Value.ToString("dd/MM")).
+                            Vui lòng cấp lại giấy phép.
+                        </p>
+                    </div>
+                }
+            </div>
+        }
+        <div class="warning-chart">
+            @if (listBaoCaoDongDoanhNghiep.Any())
+            {
+                <!--List báo cáo động-->
+                <table class="table-report">
+                    <thead>
+                        <tr>
+                            <th>Biểu mẫu</th>
+                            <th>Nội dung</th>
+                            <th>Thời hạn</th>
+                            <th style="width: 90px;">Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in listBaoCaoDongDoanhNghiep)
+                        {
+                            var isTuChoi = item.TrangThai == TrangThaiBieuMauBaoCaoConstant.TUCHOI;
+                            <tr data-param="DotBaoCaoDong_@item.Id">
+                                <td style="width: 100px">
+                                    _@item.TenBieuMauBaoCao
+                                </td>
+                                <td>
+                                    <span class="@(isTuChoi ? "text-tuchoi" : "")">
+                                        @item.TenDotBaoCao
+                                        <button class="lab red">
+                                            <span class="badge-live">
+                                                <i class="dot"></i>
+                                            </span>
+                                            Cần làm ngay
+                                        </button>
+                                    </span>
+                                    @if (isTuChoi)
+                                    {
+                                        <span class="text-danger">@item.GhiChu</span>
+                                    }
+                                </td>
+                                <td>@item.NgayKetThuc.Value.ToString("dd/MM/yyyy")</td>
+                                <td style="width: 90px;">@Html.Raw(item.TrangThaiHtml)</td>
+                                <td>
+                                    @checkTrangThaiDong(item)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-danger center"><i>Chưa có báo cáo cần làm gấp</i></div>
+            }
+            <div class="chart">
+                <!-- Placeholder for chart (You can add a chart library like Chart.js here) -->
+                @{Html.RenderAction("IndexDoanhNghiepChartPartial", "Dashboard", new { area = "DashboardArea", id = doanhNghiep.Id }); }
+            </div>
+            <div class="legend legend-indexDoanhNghiep">
+                <span>Các chỉ tiêu biến động mạnh</span>
+            </div>
+        </div>
+    </div>
+
+    <aside class="right-panel">
+        <h2><i class="bi bi-bell"></i> Thông báo mới nhất</h2>
+        <ul class="notifications">
+            @foreach (var item in Model.ListNotification)
+            {
+                // Kiểm tra trạng thái đã đọc và thiết lập HTML tương ứng
+                var isReadHtml = item.IsRead
+                    ? "<div style='color: limegreen; text-align: right'><i class='bi bi-check2-all'></i></div>"
+                    : "<div style='color: limegreen; text-align: right'><i class='bi bi-check2'></i></div>";
+
+                <li data-param="@item.Param" style="cursor: pointer"
+                    onclick="readMessage(this, '/NotificationArea/Notification/ReadNotification/@item.Id')" title="Đánh dấu là đã đọc">
+                    @item.Message @Html.Raw(isReadHtml)
+                </li>
+            }
+
+            @*<li>
+                    🔔 Nhắc nhở báo cáo: Báo cáo BCCP-02 sắp đến hạn. Vui lòng hoàn
+                    thành trước 15/3/2024.
+                </li>
+                <li>
+                    ✅ Báo cáo đã được phê duyệt: Báo cáo BCCP-02B đã được phê duyệt.
+                </li>
+                <li>
+                    📄 Cập nhật biểu mẫu: Biểu mẫu VT-03 đã được cập nhật. Vui lòng kiểm
+                    tra trước khi nộp báo cáo.
+                </li>*@
+        </ul>
+    </aside>
+</section>
+
+<section class="reports">
+    <div class="report-item">
+        <h2>
+            <i class="bi bi-calendar3"></i> Danh sách báo cáo cần làm
+        </h2>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th>Biểu mẫu</th>
+                    <th>Nhóm</th>
+                    <th>Nội dung</th>
+                    <th>Thời hạn</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (listBaoCaoDoanhNghiep.Any())
+                {
+                    foreach (var item in listBaoCaoDoanhNghiep)
+                    {
+                        //var link = (item.TrangThai.Equals(TrangThaiBieuMauBaoCaoConstant.DAGUI) ? item.LinkDetail : item.LinkCreate) + item.Id;
+                        <tr data-param="DotBaoCao_@item.Id">
+                            <td style="width: 100px">@item.DanhMucBieuMau.MaBieu</td>
+                            <td>
+                                @item.TenNhomDanhMucBieuMau
+                            </td>
+                            <td>
+                                @item.DanhMucBieuMau.TenBieu
+                                @if(item.SapDenHan.GetValueOrDefault()) {
+                                <button class="lab red">
+                                    <span class="badge-live">
+                                        <i class="dot"></i>
+                                    </span>
+                                    Sắp đến hạn
+                                </button>
+                                }
+                            </td>
+                            <td>@item.DanhMucBieuMau.StrThoiHanNop</td>
+                            <td>
+                                @Html.Raw(item.TrangThaiHtml)
+                            </td>
+                            <td>
+                                @checkTrangThai(item)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@helper checkTrangThai(DotBaoCao_DoanhNghiepDto item)
+{
+    <div style="display: flex; gap: 5px; width: max-content">
+        @if (item.TrangThai == TrangThaiBieuMauBaoCaoConstant.CHAPNHAN
+            || item.TrangThai == TrangThaiBieuMauBaoCaoConstant.DAGUI)
+        {
+            <button class="action-btn" OnClick="EditAction('@item.LinkDetail@item.Id')"><i class="bi bi-eye"></i> Xem</button>
+            <a class="action-btn" href="javascript:OnDownload('@item.LinkDownload@item.Id')"> <i class="bi bi-download"></i>Tải xuống</a>
+        }
+        else
+        {
+            <button class="action-btn" OnClick="EditAction('@item.LinkCreate@item.Id')"><i class="bi bi-file-earmark-medical"></i> Làm báo cáo</button>
+        }
+    </div>
+}
+
+@helper checkTrangThaiDong(QLDotBaoCaoDong_DoanhNghiepDto item)
+{
+    <div style="display: flex; gap: 5px; width: max-content">
+        @if (item.TrangThai == TrangThaiBieuMauBaoCaoConstant.CHAPNHAN
+            || item.TrangThai == TrangThaiBieuMauBaoCaoConstant.DAGUI)
+        {
+            <button class="action-btn" OnClick="EditAction('/QLBieuMauBaoCaoDongArea/QLBieuMauBaoCaoDong/XemSoLieu/@item.Id')"><i class="bi bi-eye"></i> Xem</button>
+        }
+        else
+        {
+            <button class="action-btn" OnClick="EditAction('/QLBieuMauBaoCaoDongArea/QLBieuMauBaoCaoDong/NhapSoLieu/@item.Id')"><i class="bi bi-file-earmark-medical"></i> Làm báo cáo</button>
+        }
+    </div>
+}
+
+<!-- Include the Quill library -->
+<script src="~/assets/plugins/quill/quill.js"></script>
+
+<script>
+    var param = '@param';
+    var quillInstances = [];
+
+    if (param) {
+        scrollToTargetElement(param);  // Gọi hàm scroll nếu param có giá trị
+    }
+
+    function AfterSussessActionAjaxform() {
+        // Nếu có hành động gì sau khi thành công, thực hiện tại đây
+        //PageReload();
+    };
+
+    function readMessage(element, url) {
+        param = $(element).data("param");
+
+        $.ajax({
+            url: url,
+            success: function (rs) {
+                scrollToTargetElement(param);
+            },
+        });
+    }
+
+    function scrollToTargetElement(param) {
+        if (!param) {
+            console.log("Param is not defined.");
+            return;
+        }
+
+        var elementTarget = $(`tr[data-param='${param}']`);
+        var element = $(`li[data-param='${param}']`);
+
+        if (elementTarget.length > 0) {
+            $(element).find(".bi-check2").removeClass("bi-check2").addClass("bi-check2-all");
+
+            $('.page-content').animate({
+                scrollTop: elementTarget.offset().top - $('.page-content').offset().top + $('.page-content').scrollTop() - 100
+            }, 500);
+
+            elementTarget.addClass('active-tab');
+
+            setTimeout(function () {
+                elementTarget.removeClass('active-tab remove-active-tab');
+            }, 5000);
+        } else {
+            console.log(`Element with param '${param}' not found.`);
+        }
+    }
+</script>

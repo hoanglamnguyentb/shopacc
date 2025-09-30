@@ -1,0 +1,9 @@
+diff a/Source/CommonHelper/CommonHelper.csproj b/Source/CommonHelper/CommonHelper.csproj	(rejected hunks)
+@@ -75,6 +75,7 @@
+   </ItemGroup>
+   <ItemGroup>
+     <Compile Include="CoreModel\JsonResultImportBO.cs" />
++    <Compile Include="CoreModel\ObjectMapDto.cs" />
+     <Compile Include="Excel\ExportExcelHelper.cs" />
+     <Compile Include="Excel\ExportExcelSimple.cs" />
+     <Compile Include="Excel\ExportExcelV2Helper.cs" />

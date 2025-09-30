@@ -1,0 +1,227 @@
+﻿@using Hinet
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Newtonsoft.Json
+@using Hinet.Web.Core
+@using CommonHelper.String
+@using Hinet.Service.AppUserService.Dto
+@using Hinet.Model.Entities
+@using Hinet.Service.GiayCapPhepDoanhNghiepService.Dto
+@using Hinet.Service.DotBaoCao_DoanhNghiepService.Dto
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+    ViewBag.ModuleName = "Dashboard";
+    ViewBag.PageName = "Báo cáo thống kê";
+    var param = ViewBag.Param;
+}
+
+<style>
+    header {
+        background-color: #f0f4ff;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .main-dn-content {
+        display: flex;
+        padding: 20px 0;
+        gap: 20px;
+    }
+
+    .left-panel,
+    .right-panel {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 5px -5px #212b36;
+        padding: 10px;
+    }
+
+    .left-panel {
+        width: 70%;
+    }
+
+    .right-panel {
+        width: 30%;
+    }
+
+    .company-info,
+    .warning-chart {
+        margin-bottom: 20px;
+    }
+
+        .company-info h2,
+        .right-panel h2,
+        .warning-chart h2,
+        .report-list h2 {
+            color: #393939;
+            font-weight: bold;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .company-info p,
+        .company-info button {
+            margin: 5px 0;
+        }
+
+    /*        .company-info button {
+            background-color: #0056dd;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }*/
+
+    .alert {
+        background-color: #ffdce0;
+        padding: 10px;
+        border-radius: 5px;
+        color: #d9534f;
+        margin-bottom: 10px;
+    }
+
+    .chart {
+        height: 350px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 1em;
+    }
+
+    .scheduler-border {
+        margin-top: 12px !important;
+    }
+
+    .legend-indexDoanhNghiep {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.9em;
+    }
+
+    .notifications {
+        list-style-type: none;
+        font-size: 0.9em;
+        color: #555;
+    }
+
+        .notifications li {
+            background-color: #f0f4ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+    .report-list {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 20px;
+    }
+
+    .status.pending {
+        color: #f0ad4e;
+    }
+
+    .status.done {
+        color: #5cb85c;
+    }
+
+    .status.overdue {
+        color: #d9534f;
+    }
+
+    .action-btn {
+        background-color: transparent;
+        color: #393939;
+        padding: 6px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 0 5px;
+        cursor: pointer;
+        font-size: 0.9em;
+        font-size: 12px !important;
+    }
+
+        .action-btn:hover {
+            background-color: #dddddd80;
+        }
+
+    .home-content-left {
+        display: none;
+    }
+
+    .home-content-right {
+        width: 100%;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    .text-tuchoi {
+        text-decoration: line-through;
+        font-style: italic;
+    }
+
+    #IndexDoanhNghiep span {
+        white-space: unset !important;
+    }
+
+</style>
+
+<div id="IndexDoanhNghiep">
+    @{Html.RenderAction("IndexDoanhNghiepPartial", "Dashboard", new {area = "DashboardArea", Param = param });}
+</div>
+
+<script>
+    function PageReload() {
+        $.ajax({
+            url: "/DashboardArea/Dashboard/IndexDoanhNghiepPartial",
+            success: function (rs) {
+                $("#IndexDoanhNghiep").html(rs);
+            }
+        })
+    };
+
+    function AjaxFormSuccess(rs) {
+        if (rs.Status) {
+            NotiSuccess("Thông báo", rs.Message);
+            PageReload();
+        } else {
+            NotiError("Thông báo", rs.Message);
+        }
+    }
+
+    function AjaxFormError() {
+        NotiError("Thông báo", "Thao thác không thực hiện được!");
+    }
+
+    function OpenModelEdit(id) {
+        $.ajax({
+            url: "/DoanhNghiepArea/DoanhNghiep/GetLinkToEdit",
+            type: 'Post',
+            data: {
+                id: id,
+                isDoanhNghiep: true
+            },
+            success: function (rs) {
+                if (rs.Status) {
+                    EditAction(rs.Param);
+                }
+            },
+            error: function (e) {
+                NotiError("Lỗi xử lý");
+            }
+        })
+    };
+
+</script>

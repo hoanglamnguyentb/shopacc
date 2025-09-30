@@ -1,0 +1,127 @@
+﻿@{
+	ViewBag.Title = "Cập nhật hồ sơ tài khoản";
+	Layout = "~/Views/Shared/_LayoutAce.cshtml";
+	ViewBag.ModuleName = "Quản lý hồ sơ tài khoản";
+	ViewBag.PageName = "Chi tiết hồ sơ tài khoản";
+
+}
+
+@using Hinet.Web.Models
+@using Hinet.Service.Constant
+@using Hinet.Web.Areas.UserArea.Models
+@model DetailVM
+
+@section ActionBarRight{
+
+    <a href="javascript:void(0)" onclick="history.back()" class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Quay lại</a>
+}
+@if (TempData["MessageError"] != null)
+{
+<div class="alert alert-block alert-success">
+    <button type="button" class="close" data-dismiss="alert">
+        <i class="ace-icon fa fa-times"></i>
+    </button>
+    <p>
+        <strong>
+            <i class="ace-icon fa fa-check"></i>
+            Có lỗi!
+        </strong>
+        @TempData["MessageError"]
+    </p>
+</div>
+}
+
+<div id="user-profile-1" class="user-profile row">
+    <div class="col-xs-12 col-sm-12">
+
+        <div class="profile-user-info profile-user-info-striped">
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Tài khoản </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@Model.users.UserName</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Tên đầy đủ </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@Model.users.FullName</span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Giới tính </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">@(Model.users.Gender == 1 ? "Nam" : "Nữ")</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Ngày sinh </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@string.Format("{0:dd/MM/yyyy}", Model.users.BirthDay)</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Điện thoại </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@Model.users.PhoneNumber</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Email </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@Model.users.Email</span>
+                </div>
+            </div>
+            @*<div class="profile-info-row">
+                    <div class="profile-info-name"> Phòng, ban, đơn vị </div>
+
+                    <div class="profile-info-value">
+                        <span class="editable">@Model.users.DepartmentName</span>
+                    </div>
+                </div>
+                <div class="profile-info-row">
+                    <div class="profile-info-name"> Chức vụ </div>
+
+                    <div class="profile-info-value">
+                        <span class="editable">@ViewBag.job</span>
+                    </div>
+                </div>*@
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Vai trò </div>
+
+                <div class="profile-info-value">
+
+                    <span class="editable">
+                        @foreach (var item in Model.users.ListRoles)
+						{
+                        @item.Name
+						}
+                    </span>
+                </div>
+            </div>
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Địa chỉ </div>
+
+                <div class="profile-info-value">
+                    <span class="editable">@Model.users.Address</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+		$('.chosen-select').chosen({ allow_single_deselect: true });
+    </script>
+}

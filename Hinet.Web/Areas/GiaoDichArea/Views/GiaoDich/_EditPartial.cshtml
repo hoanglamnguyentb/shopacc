@@ -1,0 +1,110 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.GiaoDichArea.Models
+
+@model EditVM
+@{ 
+	var dropdownListLoaiDoiTuong = ViewBag.dropdownListLoaiDoiTuong as List<SelectListItem>;
+	var dropdownListLoaiGiaoDich = ViewBag.dropdownListLoaiGiaoDich as List<SelectListItem>;
+	var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
+	var dropdownListPhuongThucThanhToan = ViewBag.dropdownListPhuongThucThanhToan as List<SelectListItem>;
+
+}
+<div class="modal-dialog">
+    @using (Ajax.BeginForm("Edit", "GiaoDich", new { @area = "GiaoDichArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editGiaoDichForm" }))
+    {
+        @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Cập nhật </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+ 			@Html.HiddenFor(x=>x.Id)
+				<div class="form-group">
+				<label class="control-label col-sm-4">Người giao dịch <span class="red">*</span></label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.UserId, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.UserId, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Đối tượng <span class="red">*</span></label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.DoiTuongId, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.DoiTuongId, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Loại đối tượng </label>
+				<div class="col-sm-8">
+				@Html.DropDownListFor(m => m.LoaiDoiTuong,dropdownListLoaiDoiTuong, new { @class="form-control"})
+				@Html.ValidationMessageFor(m => m.LoaiDoiTuong, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Loại giao dịch </label>
+				<div class="col-sm-8">
+				@Html.DropDownListFor(m => m.LoaiGiaoDich,dropdownListLoaiGiaoDich, new { @class="form-control"})
+				@Html.ValidationMessageFor(m => m.LoaiGiaoDich, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Trạng thái </label>
+				<div class="col-sm-8">
+				@Html.DropDownListFor(m => m.TrangThai,dropdownListTrangThai, new { @class="form-control"})
+				@Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Phương thức thanh toán </label>
+				<div class="col-sm-8">
+				@Html.DropDownListFor(m => m.PhuongThucThanhToan,dropdownListPhuongThucThanhToan, new { @class="form-control"})
+				@Html.ValidationMessageFor(m => m.PhuongThucThanhToan, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Ngày giao dịch <span class="red">*</span></label>
+				<div class="col-sm-8">
+				@Html.DatePickerFor(m => m.NgayGiaoDich, "autoclose=true", "todayBtn=true", "todayHighlight=true")
+				@Html.ValidationMessageFor(m => m.NgayGiaoDich, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Ngày thanh toán </label>
+				<div class="col-sm-8">
+				@Html.DatePickerFor(m => m.NgayThanhToan, "autoclose=true", "todayBtn=true", "todayHighlight=true")
+				@Html.ValidationMessageFor(m => m.NgayThanhToan, "", new { @class = "text-danger" })
+				</div>
+				</div>
+
+ 
+
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+	$("#LoaiDoiTuong").select2();
+	$("#LoaiGiaoDich").select2();
+	$("#TrangThai").select2();
+	$("#PhuongThucThanhToan").select2();
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

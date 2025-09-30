@@ -1,0 +1,175 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.UserArea.Models
+@using Newtonsoft.Json;
+
+@model EditVM
+@{
+    var listDeparment = ViewBag.listDeparment as List<SelectListItem>;
+    var listJobPosition = ViewBag.listJobPosition as List<SelectListItem>;
+    var listSelected = Html.Raw(JsonConvert.SerializeObject(Model.Province));
+    var LinhVucDropdownData = ViewBag.LinhVucDropdownData as List<SelectListItem>;
+    var LoaiDonViBaoCao = ViewBag.LoaiDonViBaoCao as List<SelectListItem>;
+    var TinhDropdownData = ViewBag.ListTinh as List<SelectListItem>;
+    var ListTypeDashBoard = ViewBag.ListTypeDashBoard as List<SelectListItem>;
+}
+<div class="modal-dialog">
+    @using (Ajax.BeginForm("Edit", "User", new { @area = "UserArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editForm" }))
+    {
+    @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Cập nhật thông tin người dùng</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <input type='hidden' name='Id' value='@Model.Id' />
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Họ tên <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Email </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+            <label class="control-label col-sm-4">Facebook</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Facebook, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Facebook, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Yahoo</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Yahoo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Yahoo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Skype</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.Skype, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Skype, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Điện thoại </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Ngày sinh </label>
+                    <div class="col-sm-8">
+                        @Html.DatePickerFor(m => m.BirthDay, "autoclose=true", "todayBtn=true", "todayHighlight=true")
+                        @Html.ValidationMessageFor(m => m.BirthDay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Giới tính</label>
+                    <div class="col-sm-8">
+
+                        <label>
+                            <input type="radio" name="Gender" value="1" @(Model.Gender == 1 ? "checked" : "") />Nam
+                        </label>
+                        <label>
+                            <input type="radio" name="Gender" value="2" @(Model.Gender == 2 ? "checked" : "") />Nữ
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Địa chỉ</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Phòng, ban, đơn vị</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.IdDepartment, listDeparment, "--Chọn phòng, ban, đơn vị--", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(m => m.IdDepartment, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Loại đơn vị báo cáo</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.TypeAccount, LoaiDonViBaoCao, "--Chọn loại đơn vị báo cáo--", new { @class = "form-control select2" })
+                        @Html.ValidationMessageFor(m => m.TypeAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="form-group">
+            <label class="control-label col-sm-4">Phòng, ban, đơn vị</label>
+            <div class="col-sm-8">
+                @Html.DropDownListFor(m => m.IdDepartment, listDeparment, "--Chọn phòng, ban, đơn vị--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(m => m.IdDepartment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-4">Chức vụ</label>
+            <div class="col-sm-8">
+                @Html.DropDownListFor(m => m.IdChucVu, listJobPosition, "--Chọn chức vụ--", new { @class = "form-control select2" })
+                @Html.ValidationMessageFor(m => m.IdChucVu, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary btn-sm">Hoàn thành</button>
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+<script>
+	$("#IdDepartment").select2();
+    $("#IdChucVu").select2();
+    $("TypeAccount").select2();
+    var ArraySelect = eval(@listSelected);
+    $("#Province").select2();
+	$("#Province").val(ArraySelect).change();
+    $("#lstLinhVuc").select2();
+	if ('@Model.IsCongTacVien' != null && '@Model.IsCongTacVien' === "True") {
+		$('#IsCongTacVien').prop('checked', true);
+	}
+	if ('@Model.IsTruongPhongDepartment' != null && '@Model.IsTruongPhongDepartment' === "True") {
+		$('#IsTruongPhongDepartment').prop('checked', true);
+	}
+	function ClickAllProvine() {
+		if ($("#IsAllProvine:checked").val() == "true") {
+			$(".TinhProvince").addClass("disabledTinhProvince");
+		} else {
+			$(".TinhProvince").removeClass("disabledTinhProvince");
+		}
+	}
+	if ('@Model.IsAllProvine'!= "" && '@Model.IsAllProvine' == "True") {
+		$('#IsAllProvine').prop('checked', true);
+		$(".TinhProvince").addClass("disabledTinhProvince");
+    }
+    function ClickAllLinhVuc() {
+        if ($("#IsAllLinhVuc:checked").val() == "true") {
+            $(".bxLinhVuc").addClass("disabledTinhProvince");
+        } else {
+            $(".bxLinhVuc").removeClass("disabledTinhProvince");
+        }
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

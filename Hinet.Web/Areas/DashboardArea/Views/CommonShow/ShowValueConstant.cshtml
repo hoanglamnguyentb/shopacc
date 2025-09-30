@@ -1,0 +1,54 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.QuyetDinhDuAnArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Newtonsoft.Json
+@model List<SelectListItem>
+
+<div class="modal-dialog" style="width:768px">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Tập giá trị</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="boxFormHeader">
+                <span class="formHeader">1. Danh sách</span>
+            </div>
+            <div>
+                <div id="tbl-giaTriImport" class="hntbl-cover table-scroll">
+                    <div class="table-wrap">
+                        <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+
+                                    <th class="fixed-side">#</th>
+                                    <th>Giá trị nhập</th>
+                                    <th>Mô tả</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@(Model.IndexOf(item)+1)</td>
+                                    <td>@item.Value</td>
+                                    <td>@item.Text</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

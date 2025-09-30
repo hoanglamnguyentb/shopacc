@@ -1,0 +1,2020 @@
+﻿@using Hinet.Service.Constant
+@model Hinet.Web.Models.HomeVM
+    @{ 
+        var listGameTrangChu = Model.ListGame.Where(x => x.ViTriHienThi != ViTriHienThiGameConstant.KHAC).ToList();
+        var listGameKhac = Model.ListGame.Where(x => x.ViTriHienThi == ViTriHienThiGameConstant.KHAC).ToList();
+    }
+
+<div class="content" style="">
+    <div class="container c-container">
+        <div class="ads-banner row c-mt-16 c-mt-md-0 c-pb-12 c-pb-lg-28 banner-top-charge">
+            <div class="content-banner-card col-lg-3 col-md-12">
+                <div class="card h-100">
+                    <div class="c-pt-16 text-center d-flex align-items-center justify-content-center">
+                        <span class="c-pr-5">
+                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/star-top.png"
+                                 alt="" />
+                        </span>
+                        <span class="fz-16 fw-700" style="color: #1b1d29">
+                            TOP NẠP THẺ THÁNG 9
+                        </span>
+                    </div>
+
+                    <div class="content-top-card">
+                        <div class="tab-pane fade show active h-100" id="top_napthe">
+                            <div class="content-banner-card-box">
+                                <div class="content-banner-card-top position-relative"
+                                     style="min-height: 200px">
+                                    <li>
+                                        <p class="bg-content"></p>
+                                        <span>****hanh2013</span><label>5.200.000<sup>đ</sup></label>
+                                    </li>
+                                    <li>
+                                        <p class="bg-content"></p>
+                                        <span>****mhai</span><label>2.800.000<sup>đ</sup></label>
+                                    </li>
+                                    <li>
+                                        <p class="bg-content"></p>
+                                        <span>****46206768...</span><label>2.650.000<sup>đ</sup></label>
+                                    </li>
+                                    <li>
+                                        <p class="text-content">4</p>
+                                        <span>****65661306...</span><label>2.000.000<sup>đ</sup></label>
+                                    </li>
+                                    <li>
+                                        <p class="text-content">5</p>
+                                        <span>****42604430...</span><label>1.800.000<sup>đ</sup></label>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="c-px-15 btn-charge">
+                        <a href="https://shopacc79.com/nap-the" class="">
+                            <div class="text-white btn-nap-the c-py-8 c-px-16 text-center c-mb-12">
+                                Nạp thẻ ngay
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Start Banners -->
+            <div class="banner-slide col-lg-9 col-md-12 swiper-general">
+                <div class="swiper swiper-banner brs-12">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.ListBanner)
+                        {
+                            <div class="swiper-slide">
+                                <a href="@item.Link" target="_blank">
+                                    <img src="@Url.Content(item.DuongDanAnh)"
+                                         alt="@item.Name"
+                                         onerror="imgError(this)" />
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="navigation slider-next"></div>
+                    <div class="navigation slider-prev"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- End Banners -->
+
+        </div>
+        <!-- Start Dịch vụ -->
+        <div class="container c-container d-lg-block d-none">
+            <div class="XhCeW7">
+                @foreach (var item in Model.ListDichVu)
+                {
+                    <a href="@item.Link"
+                       target="_blank">
+                        <div class="kmYTt8" style="width: 100px">
+                            <div class="ssqXYK OyNMA5">
+                                <div class="VcjTix _03TyL4">
+                                    <div class="-1zdvZ y2U2TZ vi-tri-1"
+                                         style="
+                          background-image: url(@item.DuongDanAnh);
+                          background-size: contain;
+                          background-repeat: no-repeat;
+                        "></div>
+                                </div>
+                            </div>
+                            <div class="_8IM+-o vdmlF5 vi-tri-1">
+                                @item.Name
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        <!-- End Dịch vụ -->
+
+        <div class="container c-container d-lg-none">
+            <div class="_74kYXf IX71cF">
+                <div class="PIMNzS hide-scrollbar">
+                    <div class="stardust-horizontal-scroll-view Bqw7e2 hide-scrollbar">
+                        <div class="CcRbu3">
+                            <div class="EvHyb8">
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://shopacc79.com/mua-acc?nick-option=1"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-0">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="NICK LIÊN QUÂN GIÁ RẺ"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/lq tet.png" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-0">
+                                            NICK LIÊN QUÂN GIÁ RẺ
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://shopacc79.com/mua-acc?nick-option=3"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-1">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="NICK FREE FIRE GIÁ RẺ"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/tet.png" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-1">
+                                            NICK FREE FIRE GIÁ RẺ
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://shopacc79.com/mua-acc?nick-option=2"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-2">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="NICK ROBLOX GIÁ RẺ"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/RB TET.png" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-2">NICK ROBLOX GIÁ RẺ</div>
+                                    </a>
+                                </div>
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://shopacc79.com/mua-acc?nick-option=5"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-3">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="NICK GROW A GARDEN GIÁ RẺ"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/tải xuống.jpeg" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-3">
+                                            NICK GROW A GARDEN GIÁ RẺ
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://shopacc79.com/minigame"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-4">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="MINIGAME"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/icons8-game-94.png" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-4">MINIGAME</div>
+                                    </a>
+                                </div>
+                                <div class="PJ2DoG _9Ijo1H">
+                                    <a href="https://discord.gg/a6MQyJKGcr"
+                                       target="_blank"
+                                       class="Oc6R99">
+                                        <div class="RS1UcZ vi-tri-5">
+                                            <img width="invalid-value"
+                                                 height="invalid-value"
+                                                 alt="SEVER DISCORD NHẬN QUÀ"
+                                                 class="Qk2DU- pcsAgk"
+                                                 style="object-fit: contain"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/discord-logo-icon-editorial-free-vector.jpg" />
+                                        </div>
+                                        <div class="+tCIic vi-tri-5">
+                                            SEVER DISCORD NHẬN QUÀ
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="_7m5mUc">
+                        <div class="iyAYMg"
+                             style="width: 9.82336px; transform: translateX(0px)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Kho nick -->
+        @foreach (var item in listGameTrangChu)
+        {
+            <section class="section-related-service c-pt-32 c-mt-lg-6 c-mb-lg-6 media-web">
+                <div class="section-header c-mb-8 c-mb-lg-16 justify-content-between">
+                    <h2 class="section-title fz-lg-15 lh-lg-24">
+                        <i class="icon-title c-mr-8"
+                           style="
+                    --path: url(/assets/wwwroot/images/acc-game.png);
+                  "></i>
+                        @item.Name
+                    </h2>
+                    <a href="/"
+                       class="link arr-right">Xem tất cả</a>
+                </div>
+                <div class="list-category">
+                    @foreach (var dmGame in item.ListDanhMucGame)
+                    {
+                        <div class="item-category c-px-8 c-mb-12 c-px-lg-6">
+                            <div class="card">
+                                <div class="card-body c-p-16 c-p-lg-12 scale-thumb">
+                                    <a href="https://shopacc79.com/mua-acc/nick-free-fire">
+                                        <div class="card-thumb c-mb-8">
+                                            <img onerror="imgError(this)"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/image_26.png"
+                                                 data-src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png"
+                                                 alt=""
+                                                 class="card-thumb-image ls-is-cached lazyloaded" />
+                                        </div>
+                                        <div class="card-attr">
+                                            <div class="text-title fw-700 text-limit limit-1">
+                                                @dmGame.Name
+                                            </div>
+                                            <div class="info-attr">Số tài khoản: @dmGame.SoLuongTaiKhoan</div>
+                                            <div style="height: 40px"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+            <section class="acc-game-v2 media-mobile c-mt-12 c-mt-lg-24 c-mb-12 c-mb-lg-6">
+                <div class="section-header c-mb-24 c-mb-lg-20 justify-content-between">
+                    <h2 class="section-title fz-lg-20 lh-lg-24">
+                        <i class="icon-title c-mr-8"
+                           style="
+                    --path: url(/assets/wwwroot/images/acc-game.png);
+                  "></i>
+                        @item.Name
+                    </h2>
+                    <a href="https://shopacc79.com/mua-acc?nick-option=3"
+                       class="link arr-right">Xem tất cả</a>
+                </div>
+                <div class="list-category content-desc-nick hide">
+                    @foreach (var dmGame in item.ListDanhMucGame)
+                    {
+                        <div class="item-category c-px-8 c-mb-12 c-px-lg-6">
+                            <div class="card">
+                                <div class="card-body c-p-16 c-p-lg-12 scale-thumb">
+                                    <a href="https://shopacc79.com/mua-acc/nick-free-fire">
+                                        <div class="card-thumb c-mb-8">
+                                            <img onerror="imgError(this)"
+                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/no-image.png"
+                                                 data-src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png"
+                                                 alt=""
+                                                 class="lazyload card-thumb-image" />
+                                        </div>
+                                        <div class="card-attr">
+                                            <div class="text-title fw-700 text-limit limit-1">
+                                                @dmGame.Name
+                                            </div>
+                                            <div class="info-attr">Số tài khoản: @dmGame.SoLuongTaiKhoan</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div class="card-footer-nick text-center">
+                    <span class="see-more-nick"
+                          data-content="Xem thêm nội dung"></span>
+                </div>
+            </section>
+            <div class="c-pt-8 border-bottom-destop c-pt-lg-16"></div>
+
+        }
+        <!-- End Kho nick -->
+
+        <!-- Start Kho nick khác -->
+            <section class="section-related-service c-pt-32 c-mt-lg-6 c-mb-lg-6 media-web">
+                <div class="section-header c-mb-8 c-mb-lg-16 justify-content-between">
+                    <h2 class="section-title fz-lg-15 lh-lg-24">
+                        <i class="icon-title c-mr-8"
+                           style="
+                    --path: url(/assets/wwwroot/images/acc-game.png);
+                  "></i>
+                        Kho Nick Game Khác
+                    </h2>
+                    <a href="/"
+                       class="link arr-right">Xem tất cả</a>
+                </div>
+                <div class="list-category">
+                    @foreach (var item in listGameKhac)
+                    {
+                        foreach (var dmGame in item.ListDanhMucGame)
+                        {
+                            <div class="item-category c-px-8 c-mb-12 c-px-lg-6">
+                                <div class="card">
+                                    <div class="card-body c-p-16 c-p-lg-12 scale-thumb">
+                                        <a href="https://shopacc79.com/mua-acc/nick-free-fire">
+                                            <div class="card-thumb c-mb-8">
+                                                <img onerror="imgError(this)"
+                                                     src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/image_26.png"
+                                                     data-src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png"
+                                                     alt=""
+                                                     class="card-thumb-image ls-is-cached lazyloaded" />
+                                            </div>
+                                            <div class="card-attr">
+                                                <div class="text-title fw-700 text-limit limit-1">
+                                                    @dmGame.Name
+                                                </div>
+                                                <div class="info-attr">Số tài khoản: @dmGame.SoLuongTaiKhoan</div>
+                                                <div style="height: 40px"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </section>
+            <section class="acc-game-v2 media-mobile c-mt-12 c-mt-lg-24 c-mb-12 c-mb-lg-6">
+                <div class="section-header c-mb-24 c-mb-lg-20 justify-content-between">
+                    <h2 class="section-title fz-lg-20 lh-lg-24">
+                        <i class="icon-title c-mr-8"
+                           style="
+                    --path: url(/assets/wwwroot/images/acc-game.png);
+                  "></i>
+                        Kho Nick Game Khác
+                    </h2>
+                    <a href="https://shopacc79.com/mua-acc?nick-option=3"
+                       class="link arr-right">Xem tất cả</a>
+                </div>
+                <div class="list-category content-desc-nick hide">
+                    @foreach (var item in Model.ListGame.Where(x => x.ViTriHienThi == ViTriHienThiGameConstant.KHAC))
+                    {
+                        foreach (var dmGame in item.ListDanhMucGame)
+                        {
+                            <div class="item-category c-px-8 c-mb-12 c-px-lg-6">
+                                <div class="card">
+                                    <div class="card-body c-p-16 c-p-lg-12 scale-thumb">
+                                        <a href="https://shopacc79.com/mua-acc/nick-free-fire">
+                                            <div class="card-thumb c-mb-8">
+                                                <img onerror="imgError(this)"
+                                                     src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/no-image.png"
+                                                     data-src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png"
+                                                     alt=""
+                                                     class="lazyload card-thumb-image" />
+                                            </div>
+                                            <div class="card-attr">
+                                                <div class="text-title fw-700 text-limit limit-1">
+                                                    @dmGame.Name
+                                                </div>
+                                                <div class="info-attr">Số tài khoản: @dmGame.SoLuongTaiKhoan</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    </div>
+                <div class="card-footer-nick text-center">
+                    <span class="see-more-nick"
+                          data-content="Xem thêm nội dung"></span>
+                </div>
+            </section>
+            <div class="c-pt-8 border-bottom-destop c-pt-lg-16"></div>
+
+
+        <!-- End Kho nick khác -->
+
+
+        <section class="news c-pt-32 c-pt-lg-24 c-mb-lg-6">
+            <div class="section-header c-mb-24 c-mb-lg-24 justify-content-between">
+                <h2 class="section-title">
+                    <i class="icon-title c-mr-8"
+                       style="
+                    --path: url(/assets/frontend/theme_5/image/png/speaker.png);
+                  "></i>
+                    Tin tức
+                </h2>
+                <a href="https://shopacc79.com/tin-tuc" class="link arr-right">Xem thêm</a>
+            </div>
+            <!-- Desktop -->
+            <div class="swiper js-swiper-news card-list d-none d-lg-block swiper-container-horizontal"
+                 style="cursor: grab">
+                <div class="swiper-wrapper"
+                     style="transform: translate3d(0px, 0px, 0px)">
+                    <div class="swiper-slide swiper-slide-active"
+                         style="width: 296px; margin-right: 16px">
+                        <div class="card news">
+                            <a href="https://shopacc79.com/tin-tuc/giao-acc-free-fire-tan-tay-tai-tp-hcm-chi-co-tai-shopacc79"
+                               class="news-link scale-thumb">
+                                <div class="card-body">
+                                    <div class="news-thumb">
+                                        <img onerror="imgError(this)"
+                                             src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/no-image.png"
+                                             data-src="//static2.mingame89.store/19426957-cdnimage/upload/images/giao%20acc%20sg.png"
+                                             alt=""
+                                             class="lazyload news-thumb-image" />
+                                    </div>
+                                    <div>
+                                        <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
+                                            Giao Acc Free Fire Tận Tay Tại TP.HCM – Chỉ Có Tại
+                                            ShopAcc79!
+                                        </div>
+                                        <div class="datetime">21/05/2025 14:44:25</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide swiper-slide-next"
+                         style="width: 296px; margin-right: 16px">
+                        <div class="card news">
+                            <a href="https://shopacc79.com/tin-tuc/free-fire-ob49-chinh-thuc-ra-mat-cap-nhat-bao-mat-manh-me-nguoi-mua-acc-can-biet-ngay"
+                               class="news-link scale-thumb">
+                                <div class="card-body">
+                                    <div class="news-thumb">
+                                        <img onerror="imgError(this)"
+                                             src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/no-image.png"
+                                             data-src="//static2.mingame89.store/19426957-cdnimage/upload/images/thong%20bao%20ff.png"
+                                             alt=""
+                                             class="lazyload news-thumb-image" />
+                                    </div>
+                                    <div>
+                                        <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
+                                            FREE FIRE OB49 CHÍNH THỨC RA MẮT – CẬP NHẬT BẢO MẬT
+                                            MẠNH MẼ, NGƯỜI MUA ACC CẦN BIẾT NGAY! ?
+                                        </div>
+                                        <div class="datetime">21/05/2025 14:28:06</div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="navigation slider-next swiper-button-disabled"></div>
+                <div class="navigation slider-prev swiper-button-disabled"></div>
+            </div>
+            <!-- End Desktop -->
+            <!-- Mobile -->
+            <ul class="news-list d-block d-lg-none">
+                <li class="news-item">
+                    <a href="https://shopacc79.com/tin-tuc/giao-acc-free-fire-tan-tay-tai-tp-hcm-chi-co-tai-shopacc79"
+                       class="news-link">
+                        <div class="news-article">
+                            <div class="article-thumb-wrap">
+                                <div class="news-thumb">
+                                    <img onerror="imgError(this)"
+                                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/giao acc sg.png"
+                                         alt=""
+                                         class="news-thumb-image" />
+                                </div>
+                            </div>
+                            <div class="news-info">
+                                <div class="news-title text-limit limit-3 fz-lg-13 lh-lg-20 c-mb-4">
+                                    Giao Acc Free Fire Tận Tay Tại TP.HCM – Chỉ Có Tại
+                                    ShopAcc79!
+                                </div>
+                                <div class="datetime">21/05/2025 14:44:25</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li class="news-item">
+                    <a href="https://shopacc79.com/tin-tuc/free-fire-ob49-chinh-thuc-ra-mat-cap-nhat-bao-mat-manh-me-nguoi-mua-acc-can-biet-ngay"
+                       class="news-link">
+                        <div class="news-article">
+                            <div class="article-thumb-wrap">
+                                <div class="news-thumb">
+                                    <img onerror="imgError(this)"
+                                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/thong bao ff.png"
+                                         alt=""
+                                         class="news-thumb-image" />
+                                </div>
+                            </div>
+                            <div class="news-info">
+                                <div class="news-title text-limit limit-3 fz-lg-13 lh-lg-20 c-mb-4">
+                                    FREE FIRE OB49 CHÍNH THỨC RA MẮT – CẬP NHẬT BẢO MẬT MẠNH
+                                    MẼ, NGƯỜI MUA ACC CẦN BIẾT NGAY! ?
+                                </div>
+                                <div class="datetime">21/05/2025 14:28:06</div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- End Mobile -->
+        </section>
+        <div class="c-pt-8 border-bottom-destop"></div>
+
+        <div class="c-mb-16 c-mt-16">
+            <div class="card overflow-hidden detailViewBlock">
+                <div class="card-body c-px-16">
+                    <div class="content-desc hide detailViewBlockContent">
+                        <h1 data-end="224" data-start="135">
+                            <strong data-end="221" data-start="142">
+                                Chào mừng đến với Shopacc79 – Thế giới tài khoản game uy
+                                tín và chất lượng!
+                            </strong>
+                        </h1>
+
+                        <p data-end="585" data-start="226">
+                            Tại
+                            <strong data-end="243" data-start="230">Shopacc79</strong>,
+                            chúng tôi chuyên cung cấp
+                            <strong data-end="304" data-start="271">tài khoản game chất lượng cao</strong>, đặc biệt là các tựa game hot như
+                            <strong data-end="352" data-start="339">Free Fire</strong>,
+                            <strong data-end="367" data-start="354">Liên Quân</strong>,
+                            <strong data-end="379" data-start="369">Roblox</strong>,
+                            <strong data-end="396" data-start="381">Blox Fruits</strong>,
+                            <strong data-end="415" data-start="398">Grow a Garden</strong>
+                            và nhiều game khác. Với kho tài khoản đa dạng, giá cả phải
+                            chăng và cập nhật liên tục, bạn hoàn toàn có thể tìm được
+                            tài khoản phù hợp với nhu cầu và ngân sách của mình.
+                        </p>
+
+                        <p data-end="616" data-start="587">
+                            <strong data-end="616" data-start="590">Cam kết của Shopacc79:</strong>
+                        </p>
+
+                        <ul data-end="866" data-start="617">
+                            <li data-end="676" data-start="617">
+                                <p data-end="676" data-start="619">
+                                    Tài khoản đúng mô tả – đúng game, đúng skin, đúng cấp
+                                    độ.
+                                </p>
+                            </li>
+                            <li data-end="676" data-start="617">
+                                <p data-end="676" data-start="619">
+                                    Các mục nick đa dạng: Nick Liên Quân Trắng Thông Tin,
+                                    Nick BloxFruit Tự Chọn, Nick Grow A Garden Tự Chọn, Nick
+                                    Free Fire Giá Rẻ.
+                                </p>
+                            </li>
+                            <li data-end="717" data-start="677">
+                                <p data-end="717" data-start="679">
+                                    Hỗ trợ đổi trả nếu có lỗi từ hệ thống.
+                                </p>
+                            </li>
+                            <li data-end="820" data-start="718">
+                                <p data-end="820" data-start="720">
+                                    Đội ngũ chăm sóc khách hàng
+                                    <strong data-end="767" data-start="748">nhiệt tình 24/7</strong>, hỗ trợ nhanh chóng qua Fanpage và tin nhắn tự động.
+                                </p>
+                            </li>
+                            <li data-end="866" data-start="821">
+                                <p data-end="866" data-start="823">
+                                    Thanh toán dễ dàng – nhanh chóng – an toàn.
+                                </p>
+                            </li>
+                        </ul>
+
+                        <p data-end="933" data-start="868">
+                            <strong data-end="933" data-start="871">
+                                Bạn chỉ cần chọn tài khoản – việc còn lại để Shopacc79
+                                lo!
+                            </strong>
+                        </p>
+
+                        <p data-end="1033" data-start="935">
+                            Truy cập ngay:
+                            <a href="https://shopacc79.com/"
+                               rel="nofollow"
+                               target="_blank">
+                                <strong data-end="971" data-start="954">shopacc79.com</strong>
+                            </a>&nbsp;để trải nghiệm dịch vụ mua acc game
+                            <strong data-end="1032" data-start="1009">nhanh – rẻ – uy tín</strong>!
+                        </p>
+
+                        <p>&nbsp;</p>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <span class="see-more" data-content="Xem thêm nội dung"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-fix-20 c-container c-pb-24 c-pt-17 section-about">
+            <div class="box-product c-mt-md-18">
+                <div class="swiper-container list-intro swiper-container-horizontal swiper-container-free-mode"
+                     style="cursor: grab">
+                    <div class="swiper-wrapper"
+                         style="transform: translate3d(0px, 0px, 0px)">
+                        <div class="swiper-slide item-about-us c-p-md-16 c-mr-16 h-auto swiper-slide-active"
+                             style="width: 296px; margin-right: 16px">
+                            <div>
+                                <div class="item-intro-img c-pt-16">
+                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/intro1.svg"
+                                         alt="" />
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fz-18 fw-500">
+                                    Sản phẩm, dịch vụ đa dạng, cập nhật thường xuyên
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Hệ thống luôn cung cấp, cập nhật những sản phẩm mới/hot
+                                    nhất của các dòng game trên thị trường.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide item-about-us c-p-md-16 c-mr-16 h-auto swiper-slide-next"
+                             style="width: 296px; margin-right: 16px">
+                            <div>
+                                <div class="item-intro-img c-pt-16">
+                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/intro2.svg"
+                                         alt="" />
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fz-18 fw-500">
+                                    Hàng nghìn khách hàng tin tưởng
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Hơn 260.000 giao dịch thành công mỗi ngày. Chúng tôi
+                                    luôn đặt uy tín, chất lượng dịch vụ lên hàng đầu.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide item-about-us c-p-md-16 c-mr-16 h-auto"
+                             style="width: 296px; margin-right: 16px">
+                            <div>
+                                <div class="item-intro-img c-pt-16">
+                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/intro3.svg"
+                                         alt="" />
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fz-18 fw-500">
+                                    Trung tâm trợ giúp hỗ trợ tư vấn 24/24
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Đội ngũ chăm sóc khách hàng luôn tư vấn và hỗ trợ nhiệt
+                                    tình khi gặp sự cố trong quá trình trải nghiệm sản phẩm.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide item-about-us c-p-md-16 c-mr-16 h-auto"
+                             style="width: 296px; margin-right: 16px">
+                            <div>
+                                <div class="item-intro-img c-pt-16">
+                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/intro4.svg"
+                                         alt="" />
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fz-18 fw-500">
+                                    Giá cả ưu đãi, siêu rẻ trên thị trường
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Cung cấp những sản phẩm với giá cả tốt nhất cùng với đó
+                                    là những ưu đãi vô cùng hấp dẫn.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="step" id="step2">
+        <div class="head-mobile">
+            <a href="https://shopacc79.com/#" class="link-back close-step"></a>
+
+            <p class="head-title text-title">Xác nhận thanh toán</p>
+
+            <a href="https://shopacc79.com/#"
+               class="notify"
+               data-notify="2"></a>
+        </div>
+        <div class="body-mobile">
+            <div class="c-px-16">
+                <div class="history-detail-label c-py-12 fw-500 fz-13 fz-sm-15">
+                    Thông tin mua thẻ
+                </div>
+                <div class="history-detail-info-block brs-12 c-p-16 c-mb-16">
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Loại thẻ</p>
+                        <div class="fw-500 fz-13" id="confirmMobileCard"></div>
+                    </div>
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Mệnh giá</p>
+                        <div class="fw-500 fz-13" id="confirmMobilePrice"></div>
+                    </div>
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Số lượng</p>
+                        <div class="fw-500 fz-13" id="confirmMobileQuantity"></div>
+                    </div>
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Chiết khấu</p>
+                        <div class="fw-500 fz-13" id="confirmMobileDiscount"></div>
+                    </div>
+                    <div class="history-detail-attr d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Thành tiền</p>
+                        <div class="fw-500 fz-13" id="confirmMobileTotal"></div>
+                    </div>
+                </div>
+                <div class="history-detail-info-block brs-12 c-p-16 c-mb-16">
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Phương thức thanh toán</p>
+                        <div class="fw-500 fz-13">Tài khoản Shopbrand</div>
+                    </div>
+                    <div class="history-detail-attr d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Phí thanh toán</p>
+                        <div class="fw-500 fz-13">Miễn phí</div>
+                    </div>
+                </div>
+                <div class="history-detail-info-block brs-12 c-p-16 c-mb-16">
+                    <div class="history-detail-attr d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Số tiền thanh toán</p>
+                        <div class="fw-500 fz-13 detail-primary"
+                             id="totalMobileBill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-mobile group-btn c-px-16 c-pt-16">
+            <button class="btn primary js-step"
+                    id="confirmMobileButton"
+                    type="button">
+                Xác nhận
+            </button>
+        </div>
+    </div>
+
+    <div class="step" id="step3">
+        <div class="head-mobile">
+            <a href="https://shopacc79.com/#" class="link-back close-step"></a>
+
+            <div class="head-title text-title">Mua thẻ thành công</div>
+
+            <a href="https://shopacc79.com/#"
+               class="notify"
+               data-notify="2"></a>
+        </div>
+        <div class="body-mobile">
+            <div class="c-px-16">
+                <div class="history-detail-label c-py-12 fw-500 fz-13 fz-sm-15">
+                    Thông tin mua thẻ
+                </div>
+                <div class="history-detail-info-block brs-12 c-p-16 c-mb-16">
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Loại thẻ</p>
+                        <div class="fw-500 fz-13" id="successMobileCard"></div>
+                    </div>
+                    <div class="history-detail-attr c-mb-8 d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Mệnh giá</p>
+                        <div class="fw-500 fz-13" id="successMobilePrice"></div>
+                    </div>
+                    <div class="history-detail-attr d-flex justify-content-between align-items-center">
+                        <p class="fz-13 fw-400 mb-0">Số lượng</p>
+                        <div class="fw-500 fz-13" id="successMobileQuantity"></div>
+                    </div>
+                </div>
+                <div id="cardList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-big" id="modalConfirmPayment">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content c-p-24">
+                <div class="modal-header">
+                    <p class="modal-title center">Xác nhận nạp thẻ</p>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pl-0 pr-0 c-pt-24 c-pb-24">
+                    <div class="dialog--content__title fw-700 fz-13 c-mb-12 text-title-theme">
+                        Thông tin mua thẻ
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Loại thẻ
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmTitle"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Mệnh giá
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmPrice"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Số lượng
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmQuantity"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Chiết khấu
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmDiscount"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Thành tiền
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmTotal"></div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fz-13 fw-400 text-center">
+                                Phương thức thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                Tài khoản Shopbrand
+                            </div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Phí thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">Miễn phí</div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Tổng thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)"
+                                   class="c-text-primary"
+                                   id="totalBill"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn primary google_buy_charge"
+                            id="confirmSubmitButton">
+                        Xác nhận
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-big" id="modal--success__payment">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content c-p-24">
+                <div class="modal-header">
+                    <p class="modal-title center">
+                        Mua thẻ thành công
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal"></button>
+                    </p>
+                </div>
+                <div class="modal-body pl-0 pr-0 c-pt-24 c-pb-24">
+                    <div class="dialog--content__title fw-700 fz-13 c-mb-12 text-title-theme">
+                        Thông tin thẻ đã mua
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Loại thẻ
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="successCard"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Mệnh giá
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="successPrice"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Số lượng
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="successQuantity"></div>
+                        </div>
+                    </div>
+
+                    <div class="swiper slider--card swiper-container-horizontal swiper-container-free-mode">
+                        <div class="swiper-wrapper"
+                             style="transition-duration: 0ms"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn ghost">Xoá bộ lọc</button>
+                    <a class="btn secondary" data-dismiss="modal">Về trang chủ</a>
+                    <button class="btn primary">Xem kết quả</button>
+                    <button class="btn primary">Xem kết quả</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-small" id="modal--fail__payment">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-16 c-pb-16"
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/thatbai.png"
+                         alt="" />
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 c-mt-12 mb-0 text-title-theme">
+                        Mua thẻ thất bại
+                    </p>
+                    <p class="fw-400 fz-13 c-mt-10 mb-0"
+                       id="message--error--buy"></p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn ghost" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal__buyacount loadModal__acount modal-big"
+         id="noticeModal"
+         style="display: none"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-custom"
+             role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"
+                        style="
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    color: #ff0000;
+                    text-align: center;
+                  ">
+                        Thông báo
+                    </h4>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body"
+                     style="font-family: helvetica, arial, sans-serif"
+                     id="noticeImage">
+                    <blockquote>
+                        <p style="text-align: center">
+                            <a href="https://shopacc79.com/mua-acc/random-100-3-secret-steal-a-brainrot?page=1">
+                                <img alt=""
+                                     height="194"
+                                     src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/3 scercy.png"
+                                     width="350" />
+                            </a>
+                        </p>
+                    </blockquote>
+
+                    <p style="text-align: center">
+                        <a href="https://shopacc79.com/mua-acc/acc-tu-chon-steal-a-brainrot?page=1">
+                            <img alt=""
+                                 height="194"
+                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/tự chọn nao.png"
+                                 width="350" />
+                        </a>
+                    </p>
+
+                    <p>&nbsp;</p>
+
+                    <p style="text-align: center">
+                        <img alt=""
+                             height="194"
+                             src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/rd 20k cui.png"
+                             width="350" />
+                    </p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn secondary"
+                            type="button"
+                            style="width: calc(40% - 6px)"
+                            data-dismiss="modal">
+                        Đóng
+                    </button>
+                    <button class="btn primary openModalNoti"
+                            style="width: calc(60% - 6px)"
+                            data-dismiss="modal">
+                        Tắt trong 1h
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-big modal__buyacount loadModal__acount_home"
+         id="LoadModalHome">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content c-p-24 data__form__random_home"></div>
+        </div>
+    </div>
+    <div class="modal fade modal-small" id="notBuyHome">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-16 c-pb-16"
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/thatbai.png"
+                         alt="" />
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 c-mt-12 mb-0 text-title-theme">
+                        Mua thẻ nick thất bại
+                    </p>
+                    <p class="fw-400 fz-13 c-mt-10 mb-0">
+                        Rất tiếc việc mua nick đã thất bại do tài khoản của bạn không
+                        đủ, vui lòng nạp tiền để tiếp tục giao dịch!
+                    </p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn primary handle-recharge-modal"
+                            data-tab="1"
+                            data-dismiss="modal">
+                        Nạp tiền
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-big"
+         id="rechargeModal"
+         style="overflow: hidden auto">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content p-0">
+                <div class="modal-header c-pl-24 c-pr-24 c-pt-24 c-pb-16"
+                     style="border-bottom: 1px solid #e4e5f0">
+                    <p class="modal-title center">Nạp tiền</p>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            style="right: 24px; top: 36px"></button>
+                </div>
+                <div class="modal-body pl-0 pr-0 c-pt-0 c-pb-24">
+                    <section class="section-category-tab">
+                        <div class="c-mb-16 c-mb-lg-16">
+                            <ul class="nav nav-tabs size-auto"
+                                role="tablist"
+                                style="width: 100%; margin: 0 auto">
+                                <li class="nav-item" role="presentation">
+                                    <a class="tab active"
+                                       data-toggle="tab"
+                                       href="https://shopacc79.com/#charge_card_modal"
+                                       role="tab"
+                                       aria-selected="true">Nạp thẻ cào</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="tab"
+                                       data-toggle="tab"
+                                       href="https://shopacc79.com/#atm_card_modal"
+                                       role="tab"
+                                       aria-selected="false">ATM tự động</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content c-px-24 c-px-lg-16">
+                            <div class="tab-pane fade show active"
+                                 id="charge_card_modal"
+                                 role="tabpanel">
+                                <form class="w-100"
+                                      action="https://shopacc79.com/"
+                                      id="chargeCardModalForm">
+                                    <div class="row content-block">
+                                        <div class="col-12 c-pr-8">
+                                            <div class="money-form-group c-mb-16">
+                                                <label class="text-form fz-13 fw-500 c-mb-4">Nhà cung cấp</label>
+                                                <div class="col-md-12 p-0">
+                                                    <select class="select-form w-100"
+                                                            name="type"
+                                                            id="telecom_modal"
+                                                            style="display: none">
+                                                        <option value="VIETTEL">VIETTEL</option>
+                                                        <option value="MOBIFONE">MOBIFONE</option>
+                                                        <option value="VINAPHONE">VINAPHONE</option>
+                                                        <option value="GARENA">GARENA</option>
+                                                        <option value="ZING">ZING</option>
+                                                    </select>
+                                                    <div class="nice-select select-form w-100"
+                                                         tabindex="0">
+                                                        <span class="current">VIETTEL</span>
+                                                        <ul class="list">
+                                                            <li data-value="VIETTEL"
+                                                                class="option selected">
+                                                                VIETTEL
+                                                            </li>
+                                                            <li data-value="MOBIFONE" class="option">
+                                                                MOBIFONE
+                                                            </li>
+                                                            <li data-value="VINAPHONE" class="option">
+                                                                VINAPHONE
+                                                            </li>
+                                                            <li data-value="GARENA" class="option">
+                                                                GARENA
+                                                            </li>
+                                                            <li data-value="ZING" class="option">
+                                                                ZING
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="money-form-group c-mb-12">
+                                                <label class="text-form fz-13 fw-500 c-mb-8">Chọn mệnh giá</label>
+                                                <div class="col-md-12 p-0">
+                                                    <div class="row m-0 c-mx-n4"
+                                                         id="cardAmountModal">
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   id="recharge_amount_modal_0"
+                                                                   data-ratio="100.0"
+                                                                   value="10000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_0"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">10,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47813"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47814"
+                                                                   id="recharge_amount_modal_1"
+                                                                   data-ratio="100.0"
+                                                                   value="20000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_1"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">20,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47814"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47815"
+                                                                   id="recharge_amount_modal_2"
+                                                                   data-ratio="100.0"
+                                                                   value="30000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_2"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">30,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47815"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47816"
+                                                                   id="recharge_amount_modal_3"
+                                                                   data-ratio="100.0"
+                                                                   value="50000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_3"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">50,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47816"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47817"
+                                                                   id="recharge_amount_modal_4"
+                                                                   data-ratio="100.0"
+                                                                   value="100000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_4"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">100,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47817"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47818"
+                                                                   id="recharge_amount_modal_5"
+                                                                   data-ratio="100.0"
+                                                                   value="200000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_5"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">200,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47818"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47819"
+                                                                   id="recharge_amount_modal_6"
+                                                                   data-ratio="100.0"
+                                                                   value="300000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_6"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">300,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47819"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47820"
+                                                                   id="recharge_amount_modal_7"
+                                                                   data-ratio="100.0"
+                                                                   value="500000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_7"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">500,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47820"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-4 c-px-4 money-radio-form my-auto">
+                                                            <input name="amount"
+                                                                   type="radio"
+                                                                   class="amount_promotion_8211_47821"
+                                                                   id="recharge_amount_modal_8"
+                                                                   data-ratio="100.0"
+                                                                   value="1000000"
+                                                                   hidden="" />
+                                                            <label for="recharge_amount_modal_8"
+                                                                   class="c-py-16 c-px-8 c-mb-8 brs-8 p_recharge_amount">
+                                                                <p class="fw-500 fs-15 mb-0">1,000,000</p>
+                                                                <p class="fw-500 fs-15 mb-0"
+                                                                   style="color: #82869e; font-size: 12px">
+                                                                    Nhận 100%
+                                                                </p>
+                                                                <span class="fw-500 fz-11 mb-0 promotion_lock_charge promotion_lock_charge_8211_47821"></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p style="
+                                margin-bottom: 8px;
+                                color: #da4343;
+                                font-size: 13px;
+                              ">
+                                                *Chú ý: Nạp thẻ sai mệnh giá mất 100% giá trị thẻ.
+                                            </p>
+                                            <div class="money-form-group c-mb-8">
+                                                <label class="text-form fz-13 fw-500 c-mb-4 d-none d-lg-block">Mã số thẻ</label>
+                                                <div class="col-md-12 p-0">
+                                                    <div class="input-group">
+                                                        <input class="input-form w-100"
+                                                               name="pin"
+                                                               type="text"
+                                                               placeholder="Nhập mã số thẻ của bạn" />
+                                                        <p class="text-error c-mb-0 c-mt-4"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="money-form-group c-mb-8">
+                                                <label class="text-form fz-13 fw-500 c-mb-4 d-none d-lg-block">Số sê-ri</label>
+                                                <div class="col-md-12 p-0">
+                                                    <div class="input-group">
+                                                        <input class="input-form w-100"
+                                                               name="serial"
+                                                               type="text"
+                                                               placeholder="Nhập mã số sê-ri trên thẻ" />
+                                                        <p class="text-error c-mb-0 c-mt-4"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="money-form-group captchaShow">
+                                                <label class="text-form fz-13 fw-500 c-mb-4 d-none d-lg-block">Mã bảo vệ</label>
+                                                <div class="input-group">
+                                                    <div class="col-md-12 p-0 d-flex">
+                                                        <div style="flex: 1">
+                                                            <input class="input-form w-100"
+                                                                   name="captcha"
+                                                                   type="text"
+                                                                   placeholder="Nhập mã bảo vệ " />
+                                                        </div>
+                                                        <div class="captcha c-mx-8">
+                                                            <div>
+                                                                <span class="capchaImage">
+                                                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/default" />
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <button class="brs-8"
+                                                                type="button"
+                                                                id="reloadModalCaptcha">
+                                                            <img class="spinImg paused"
+                                                                 src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/captcha_refresh.png"
+                                                                 alt="" />
+                                                        </button>
+                                                    </div>
+                                                    <p class="text-error c-mb-0 c-mt-4"></p>
+                                                </div>
+                                            </div>
+                                            <div class="group-btn c-mt-24 d-flex">
+                                                <button class="btn primary"
+                                                        type="button"
+                                                        onclick="openLoginModal();"
+                                                        data-dismiss="modal">
+                                                    Đăng nhập
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade"
+                                 id="atm_card_modal"
+                                 role="tabpanel">
+                                <div class="row content-block">
+                                    <div class="col-12 col-lg-12">
+                                        <div class="atm-recharge-right c-p-16 brs-8">
+                                            <div class="atm-recharge-guide">
+                                                <img class="w-100 c-mb-16"
+                                                     src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/atm_recharge_guide.png"
+                                                     alt="" />
+                                                <p class="fz-13 fw-400">
+                                                    Để hoàn tất đơn nạp, bạn vui lòng chuyển khoản
+                                                    theo cú pháp sau:
+                                                </p>
+                                            </div>
+                                            <div class="atm-recharge-content c-p-sm-12 brs-sm-8">
+                                                <p style="text-align: center">
+                                                    <span style="font-size: 16px"><strong>*NẠP BẰNG ATM:</strong></span>
+                                                </p>
+
+                                                <table align="center"
+                                                       border="1"
+                                                       cellpadding="1"
+                                                       cellspacing="1">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th colspan="2">
+                                                                <span style="font-size: 22px">
+                                                                    Tên chủ tài khoản: NGUYEN THI TRUC
+                                                                    LY&nbsp;
+                                                                </span>
+                                                            </th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <p style="text-align: center">
+                                                                    <span style="font-size: 22px"><strong>ACB</strong></span>
+                                                                </p>
+                                                            </td>
+                                                            <th>
+                                                                <span style="color: #e74c3c">
+                                                                    <span style="font-size: 18px"><strong>18235841</strong></span>
+                                                                </span>
+                                                            </th>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <p>&nbsp;</p>
+
+                                                <p>&nbsp;</p>
+
+                                                <p>&nbsp;</p>
+
+                                                <p style="text-align: center">
+                                                    <span style="font-size: 16px">
+                                                        Nếu sau 5 phút&nbsp;không được cộng tiền vui
+                                                        lòng&nbsp;liên hệ fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/"
+                                                                                           rel="nofollow"
+                                                                                           target="_blank">
+                                                            <u><strong>Chăm Sóc Khách Hàng</strong></u>
+                                                        </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079"
+                                                                                 rel="nofollow"
+                                                                                 target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để được xử lý.
+                                                    </span>
+                                                </p>
+
+                                                <p style="text-align: center">
+                                                    <span style="font-size: 16px">
+                                                        <strong>
+                                                            *Chú Ý: Chuyển đúng cú pháp, sai nội dung
+                                                            bị chuyển qua ID khác shop không chịu trách
+                                                            nhiệm
+                                                        </strong>
+                                                    </span>
+                                                </p>
+
+                                                <p style="text-align: center">
+                                                    <span style="font-size: 16px"><strong>NỘI DUNG CHUYỂN KHOẢN:</strong></span>
+                                                </p>
+                                                <div class="atm-recharge-attr"
+                                                     style="text-align: center">
+                                                    <p class="fz-14 fw-600 mb-0"
+                                                       style="color: red; max-width: 100% !important">
+                                                        Vui lòng đăng nhập để nhận được nội dung
+                                                        chuyển tiền!
+                                                    </p>
+                                                </div>
+                                                <div style="
+                                  text-align: -webkit-center;
+                                  padding-top: 6px;
+                                ">
+                                                    <button class="btn primary"
+                                                            type="button"
+                                                            onclick="openLoginModal();"
+                                                            data-dismiss="modal">
+                                                        Đăng nhập
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text"
+                               name="promotion_lock_charge"
+                               hidden=""
+                               data-count="0"
+                               value="" />
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.copy-text-vouc').on('click', function () {
+                let text_value = $(this).parent().find('.id-vou').html().trim()
+                navigator.clipboard.writeText(text_value)
+            })
+            tippy('.copy-text-vouc', {
+                // default
+                trigger: 'click',
+                content: 'Đã copy !',
+                placement: 'right',
+            })
+        })
+    </script>
+
+    <div class="modal fade modal-small" id="atmAutoNotifyModal">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-20 c-pb-20"
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/success.png"
+                         alt="" />
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 fz-lg-15 fz-md-14 fz-sm-12 c-mt-12 mb-0 text-title-theme">
+                        Tạo lệnh nạp ATM thành công
+                    </p>
+                    <p class="fw-400 fz-13 fz-lg-13 fz-md-12 fz-sm-11 c-mt-10 mb-0">
+                        Sau khi chuyển khoản thành công hệ thống sẽ xử lí từ 2 giây
+                        tới 2 phút và cộng tiền vào tài khoản của bạn. Nếu sai thông
+                        tin hoặc xảy ra lỗi, vui lòng liên hệ fanpage/ hotline: 1900
+                        8198 để được hỗ trợ.
+                    </p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <a class="btn secondary" href="https://shopacc79.com/">Trang chủ</a>
+                    <button class="btn primary" data-dismiss="modal">
+                        Nạp thêm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- handle bottom sheet -->
+    <div class="bottom-sheet"
+         id="sheet-atm-auto-notify"
+         aria-hidden="true"
+         data-height="60">
+        <div class="layer"></div>
+        <div class="content-bottom-sheet bar-slide">
+            <div class="sheet-header">
+                <p class="text-title center">Tạo lệnh nạp thành công</p>
+                <label for="check-bottom-sheet" class="close"></label>
+            </div>
+            <div class="sheet-body c-p-0">
+                <!-- body -->
+                <div class="sheet-img-notify-block c-py-20 d-flex justify-content-center">
+                    <img class=""
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/success.png"
+                         alt="" />
+                </div>
+                <div class="sheet-notify-detail c-pt-16 c-px-16"
+                     style="bottom: 0px">
+                    Sau khi chuyển khoản thành công hệ thống sẽ xử lí từ 2 giây tới
+                    2 phút và cộng tiền vào tài khoản của bạn. Nếu sai thông tin
+                    hoặc xảy ra lỗi, vui lòng liên hệ fanpage/ hotline: 1900 8198 để
+                    được hỗ trợ.
+                </div>
+                <div class="sheet-footer c-pb-24">
+                    <a href="https://shopacc79.com/" class="btn secondary">Trang chủ</a>
+                    <button class="btn primary">Nạp thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="step" id="chargeConfirmStep">
+        <div class="head-mobile">
+            <a href="javascript:void(0) " class="link-back close-step"></a>
+
+            <p class="head-title text-title">Xác nhận thanh toán</p>
+
+            <a href="https://shopacc79.com/viewed">
+                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/DA-XEM.png"
+                     alt=""
+                     style="
+                  position: absolute;
+                  top: 16px;
+                  right: 16px;
+                  width: 30px;
+                  height: 30px;
+                " />
+            </a>
+        </div>
+        <div class="body-mobile">
+            <div class="body-mobile-content c-p-16">
+                <div class="dialog--content__title fw-700 fz-15 c-mb-12 text-title-theme">
+                    Thông tin nạp thẻ
+                </div>
+                <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12 brs-8 g_mobile-content">
+                    <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Nhà mạng
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500"
+                             id="confirmTitleMobile"></div>
+                    </div>
+                    <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Mệnh giá
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500"
+                             id="confirmPriceMobile"></div>
+                    </div>
+                    <div class="card--attr justify-content-between d-flex text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Chiết khấu
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500"
+                             id="confirmDiscountMobile"></div>
+                    </div>
+                    <div class="card--attr justify-content-between d-flex text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Khuyến mại
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500"
+                             id="confirmPromotionMobile"></div>
+                    </div>
+                </div>
+                <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12 brs-8 g_mobile-content">
+                    <div class="card--attr justify-content-between d-flex text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Phí thanh toán
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500">Miễn phí</div>
+                    </div>
+                </div>
+                <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 brs-8 c-pr-12 g_mobile-content">
+                    <div class="card--attr__total justify-content-between d-flex text-center">
+                        <div class="card--attr__name fw-400 fz-13 text-center text-order">
+                            Số tiền thực nhận
+                        </div>
+                        <div class="card--attr__value fz-13 fw-500">
+                            <a href="javascript:void(0)"
+                               class="c-text-primary"
+                               id="totalBillMobile"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-mobile v2">
+            <div class="group-btn">
+                <button class="btn primary google_buy_charge"
+                        id="confirmSubmitButtonMobile">
+                    Xác nhận
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-big" id="orderCharge">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content c-p-24">
+                <div class="modal-header">
+                    <p class="modal-title center">Xác nhận thanh toán</p>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body pl-0 pr-0 c-pt-24 c-pb-24">
+                    <div class="dialog--content__title fw-700 fz-13 c-mb-12 text-title-theme">
+                        Thông tin nạp thẻ
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Nhà mạng
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmTitle"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Mệnh giá
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmPrice"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Chiết khấu
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmDiscount"></div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Khuyến mại
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500"
+                                 id="confirmPromotion"></div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fz-13 fw-400 text-center">
+                                Phí thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">Miễn phí</div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-8 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Số tiền thực nhận
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)"
+                                   class="c-text-primary"
+                                   id="totalBill"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn primary google_buy_charge"
+                            type="button"
+                            id="confirmSubmitButton">
+                        Xác nhận
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-small" id="modalSuccessPayment">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-20 c-pb-20"
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/success.png"
+                         alt="" />
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 c-mt-12 mb-0 text-title-theme">
+                        Nạp thẻ thành công
+                    </p>
+                    <p class="fw-400 fz-13 c-mt-10 mb-0" id="successMessage"></p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <a href="https://shopacc79.com/" class="btn secondary">Trang chủ</a>
+                    <button class="btn primary handle-recharge-modal"
+                            data-tab="1"
+                            data-dismiss="modal">
+                        Nạp thêm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-small" id="modalFailPayment">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-16 c-pb-16"
+                         src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/thatbai.png"
+                         alt="" />
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 c-mt-12 mb-0 text-title-theme">
+                        Nạp thẻ thất bại
+                    </p>
+                    <p class="fw-400 fz-13 c-mt-10 mb-0" id="failMessage"></p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn ghost" data-dismiss="modal">Thoát</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-small"
+         id="modalRuongQuanHuy"
+         aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="j-img-ruongQuanHuy">
+                    <div class="modal-header justify-content-center">
+                        <img class="c-pt-20 c-pb-20"
+                             src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/success.png"
+                             alt="" />
+                    </div>
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 c-my-12 pt-0 pb-0">
+                    <p class="fw-700 fz-15 fz-lg-15 fz-md-14 fz-sm-12 mb-0 text-title-theme">
+                        Chúc mừng bạn đã mở trúng
+                    </p>
+                    <div class="j-quanhuy content-popup fw-400 fz-13 fz-lg-13 fz-md-12 fz-sm-11 c-mt-10 mb-0"></div>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn primary" data-dismiss="modal">
+                        Chơi tiếp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade login show" id="viewMore" aria-modal="true">
+        <div class="modal-dialog step-tab-panel modal-xl modal-dialog-centered login animated">
+            <!--        <div class="image-login"></div>-->
+            <div class="modal-content">
+                <div class="modal-header p-0" style="border-bottom: 0">
+                    <div class="row marginauto modal-header-order-ct">
+                        <div class="col-12 span__donhang text-center"
+                             style="position: relative">
+                            <span id="detailTitle" class="text-title-bold fz-20"></span>
+                            <div class="close"
+                                 data-dismiss="modal"
+                                 aria-label="Close"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body modal-viewmore-body"
+                     id="detailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- handle bottom sheet -->
+    <div class="bottom-sheet"
+         id="sheet-view-more"
+         aria-hidden="true"
+         data-height="80">
+        <div class="layer"></div>
+        <div class="content-bottom-sheet bar-slide">
+            <div class="sheet-header">
+                <h2 class="text-title center" id="detailTitleSheet"></h2>
+                <label for="check-bottom-sheet" class="close"></label>
+            </div>
+            <div class="sheet-body">
+                <!-- body -->
+                <div id="detailContentSheet"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href
+            name = name.replace(/[\[\]]/g, '\\$&')
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url)
+            if (!results) return null
+            if (!results[2]) return ''
+            return decodeURIComponent(results[2].replace(/\+/g, ' '))
+        }
+
+        var parameterValue = getParameterByName('ref_id')
+        if (parameterValue != '' && parameterValue != null) {
+            openRegisterModal()
+            $('#refId').val(parameterValue)
+        }
+
+        $('.formLogin').submit(function (e) {
+            console.log("DKLJDLKJDFLKJLDKFJLKD");
+            e.preventDefault()
+            import('../assets/frontend/theme_5/lib/fingerprint/fingerprint.js')
+                .then((FingerprintJS) => FingerprintJS.load())
+                .then((fp) => fp.get())
+                .then((result) => {
+                    const visitorId = result.visitorId
+                    continueFormSubmission(visitorId)
+                })
+                .catch((error) => console.error(error))
+            function continueFormSubmission(visitorId) {
+                let url_intended_session = 'https://shopacc79.com'
+                if (width > 992) {
+                    var formSubmit = $('#formLogin')
+                } else {
+                    var formSubmit = $('#formLoginMobile')
+                }
+                var url = formSubmit.attr('action')
+                var btnSubmit = formSubmit.find(':submit')
+
+                let url2 = new URL(window.location.href)
+                $('.modal-loader-container').css('display', 'flex')
+                var return_url = url2.searchParams.get('return_url')
+                var dataLogin = formSubmit.serialize()
+                dataLogin += '&finger=' + visitorId
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    cache: false,
+                    async: true,
+                    data: dataLogin,
+                    beforeSend: function (xhr) { },
+                    success: function (data) {
+                        if (data.status == 1) {
+                            if (
+                                url_intended_session == null ||
+                                url_intended_session == '' ||
+                                url_intended_session == undefined
+                            ) {
+                                if (
+                                    data.return_url == null ||
+                                    data.return_url == '' ||
+                                    data.return_url == undefined
+                                ) {
+                                    window.location.reload()
+                                } else {
+                                    window.location.href = data.return_url
+                                }
+                            } else {
+                                window.location.href = url_intended_session
+                            }
+                        } else {
+                            $('.LoginError').html(data.message)
+                        }
+                    },
+                    error: function (data) {
+                        alert('Kết nối với hệ thống thất bại.Xin vui lòng thử lại')
+                        btnSubmit.text('Đăng nhập')
+                    },
+                    complete: function (data) {
+                        $('#form-login').trigger('reset')
+                        $('.modal-loader-container').css('display', 'none')
+                    },
+                })
+            }
+        })
+        $('.formRegister').submit(function (e) {
+            e.preventDefault()
+            import('../assets/frontend/theme_5/lib/fingerprint/fingerprint.js')
+                .then((FingerprintJS) => FingerprintJS.load())
+                .then((fp) => fp.get())
+                .then((result) => {
+                    const visitorId = result.visitorId
+                    continueFormSubmission(visitorId)
+                })
+                .catch((error) => console.error(error))
+            function continueFormSubmission(visitorId) {
+                if (width > 992) {
+                    var formSubmit = $('#formRegister')
+                } else {
+                    var formSubmit = $('#formRegisterMobile')
+                }
+                var url = formSubmit.attr('action')
+                var btnSubmit = formSubmit.find(':submit')
+                let url2 = new URL(window.location.href)
+                $('.modal-loader-container').css('display', 'flex')
+                var return_url = url2.searchParams.get('return_url')
+
+                var dataRegister = formSubmit.serialize()
+                dataRegister += '&finger=' + visitorId
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    cache: false,
+                    async: true,
+                    data: dataRegister,
+                    success: function (data) {
+                        if (data.status == 1) {
+                            if (
+                                return_url == null ||
+                                return_url == '' ||
+                                return_url == undefined
+                            ) {
+                                if (
+                                    data.return_url == null ||
+                                    data.return_url == '' ||
+                                    data.return_url == undefined
+                                ) {
+                                    window.location.reload()
+                                } else {
+                                    window.location.href = data.return_url
+                                }
+                            } else {
+                                window.location.href = return_url
+                            }
+                        } else {
+                            $('.registError').html(data.message)
+                        }
+                    },
+                    error: function (data) {
+                        alert('Kết nối với hệ thống thất bại.Xin vui lòng thử lại')
+                        btnSubmit.text('Đăng ký')
+                    },
+                    complete: function (data) {
+                        $('#reload').trigger('click')
+                        $('#form-regist').trigger('reset')
+                        $('.modal-loader-container').css('display', 'none')
+                    },
+                })
+            }
+        })
+    </script>
+
+    <div class="c_scroll-top go-to-top">
+        <div class="c_circle">
+            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/c_back-to-top.svg"
+                 alt=""
+                 style="" />
+        </div>
+    </div>
+</div>

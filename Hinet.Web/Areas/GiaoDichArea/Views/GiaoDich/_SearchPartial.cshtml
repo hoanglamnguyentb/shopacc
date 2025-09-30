@@ -1,0 +1,91 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "GiaoDich", new { Area = "GiaoDichArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Người giao dịch</div>
+            <div class="col-md-8">
+                @Html.DropDownList("UserIdFilter", ViewBag.dropdownListNguoiGiaoDich as List<SelectListItem>, "--Chọn người giao dịch--", new { @class = "form-control" })
+            </div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Loại đối tượng</div>
+			<div class="col-md-8">
+				@Html.DropDownList("LoaiDoiTuongFilter",ViewBag.dropdownListLoaiDoiTuong as List<SelectListItem>, "--Chọn loại đối tượng--", new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Loại giao dịch</div>
+			<div class="col-md-8">
+				@Html.DropDownList("LoaiGiaoDichFilter",ViewBag.dropdownListLoaiGiaoDich as List<SelectListItem>, "--Chọn loại giao dịch--", new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Trạng thái</div>
+			<div class="col-md-8">
+				@Html.DropDownList("TrangThaiFilter",ViewBag.dropdownListTrangThai as List<SelectListItem>, "--Chọn trạng thái--", new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Phương thức thanh toán</div>
+			<div class="col-md-8">
+				@Html.DropDownList("PhuongThucThanhToanFilter",ViewBag.dropdownListPhuongThucThanhToan as List<SelectListItem>,"--Chọn phương thức thanh toán--", new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ngày giao dịch</div>
+            <div class="col-md-8">
+                <input type="text" class="form-control width100 datepicker" name="NgayGiaoDichFilter" />
+            </div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ngày thanh toán</div>
+            <div class="col-md-8">
+                <input type="text" class="form-control width100 datepicker" name="" />
+            </div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+<script>
+    $('.datepicker').datepicker({
+        autoclose: true,
+        todayBtn: true,
+        todayHighlight: true
+    });
+</script>
+
+

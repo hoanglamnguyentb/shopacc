@@ -1,0 +1,97 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "TaiKhoan", new { Area = "TaiKhoanArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Mã</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="CodeFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">GameId</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="GameIdFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Trạng thái</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="TrangThaiFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Tên đăng nhập</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="UserNameFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Mật khẩu</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="PasswordFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Giá gốc</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="GiaGocFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Giá khuyến mãi</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="GiaKhuyenMaiFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Mô tả</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="MotaFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Vị trí</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="ViTriFilter" />
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

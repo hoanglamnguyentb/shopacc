@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{47285FC7-3A39-41DB-A30C-BBB386F37636}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hinet.Service</RootNamespace>
+    <AssemblyName>Hinet.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elasticsearch.Net, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elasticsearch.Net.7.17.5\lib\net461\Elasticsearch.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.7.3\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.2.7.3\lib\net45\MongoDB.Driver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.7.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.7.3\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nest, Version=7.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <HintPath>..\packages\NEST.7.17.5\lib\net461\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Proj4Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Proj4Net.1.0.0\lib\Proj4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProjNET, Version=2.0.0.0, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
+      <HintPath>..\packages\ProjNET.2.0.0\lib\netstandard2.0\ProjNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.5.0.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppUserService\AppUserService.cs" />
+    <Compile Include="AppUserService\Dto\AppUserExportDto.cs" />
+    <Compile Include="AppUserService\Dto\AppUserImportDto.cs" />
+    <Compile Include="AppUserService\Dto\AppUserSearchDto.cs" />
+    <Compile Include="AppUserService\Dto\UserDto.cs" />
+    <Compile Include="AppUserService\Dto\UserWebAppDto.cs" />
+    <Compile Include="AppUserService\IAppUserService.cs" />
+    <Compile Include="BannerService\BannerService.cs" />
+    <Compile Include="BannerService\Dto\BannerDto.cs" />
+    <Compile Include="BannerService\Dto\BannerSearchDto.cs" />
+    <Compile Include="BannerService\IBannerService.cs" />
+    <Compile Include="BaseServiceApi\BaseApiService.cs" />
+    <Compile Include="BaseServiceApi\IBaseApiService.cs" />
+    <Compile Include="CommonModel\GroupKeyDto.cs" />
+    <Compile Include="Common\ActionConstant.cs" />
+    <Compile Include="Common\BaseService.cs" />
+    <Compile Include="Common\CacheWapper.cs" />
+    <Compile Include="Common\ChartDto.cs" />
+    <Compile Include="Common\ChartModuleWraper.cs" />
+    <Compile Include="Common\CheckModifyAttribute.cs" />
+    <Compile Include="Common\ColorAttribute.cs" />
+    <Compile Include="Common\Constant.cs" />
+    <Compile Include="Common\ConstantExtension.cs" />
+    <Compile Include="Common\ConstantObj.cs" />
+    <Compile Include="Common\EntityService.cs" />
+    <Compile Include="Common\FilterBaoCao.cs" />
+    <Compile Include="Common\IBaseService.cs" />
+    <Compile Include="Common\IEntityService.cs" />
+    <Compile Include="Common\IMongoService.cs" />
+    <Compile Include="Common\JsonResultBO.cs" />
+    <Compile Include="Common\PageListResultBO.cs" />
+    <Compile Include="Common\SearchAppWebDto.cs" />
+    <Compile Include="Common\SearchBase.cs" />
+    <Compile Include="Common\SearchWebsiteAppDislayDto.cs" />
+    <Compile Include="Common\ShowStatusDto.cs" />
+    <Compile Include="Common\WebsiteHomeSearchVM.cs" />
+    <Compile Include="Constant\ConstantsOld\AccountTypeConstant.cs" />
+    <Compile Include="Constant\ConstantsOld\NotificationTypeConstant.cs" />
+    <Compile Include="Constant\ConstantsOld\PermissionCodeConst.cs" />
+    <Compile Include="Constant\ConstantsOld\RoleConstant.cs" />
+    <Compile Include="Constant\DanhMucConstant.cs" />
+    <Compile Include="Constant\GiaoDichConstant.cs" />
+    <Compile Include="Constant\GameConstant.cs" />
+    <Compile Include="Constant\TinTucConstant.cs" />
+    <Compile Include="Constant\TypeDashboardConstant.cs" />
+    <Compile Include="Constant\UserConst.cs" />
+    <Compile Include="DanhMucGameService\DanhMucGameService.cs" />
+    <Compile Include="DanhMucGameService\Dto\DanhMucGameDto.cs" />
+    <Compile Include="DanhMucGameService\Dto\DanhMucGameSearchDto.cs" />
+    <Compile Include="DanhMucGameService\IDanhMucGameService.cs" />
+    <Compile Include="DanhMucGameTaiKhoanService\DanhMucGameTaiKhoanService.cs" />
+    <Compile Include="DanhMucGameTaiKhoanService\Dto\DanhMucGameTaiKhoanDto.cs" />
+    <Compile Include="DanhMucGameTaiKhoanService\Dto\DanhMucGameTaiKhoanSearchDto.cs" />
+    <Compile Include="DanhMucGameTaiKhoanService\IDanhMucGameTaiKhoanService.cs" />
+    <Compile Include="DichVuService\DichVuService.cs" />
+    <Compile Include="DichVuService\Dto\DichVuDto.cs" />
+    <Compile Include="DichVuService\Dto\DichVuSearchDto.cs" />
+    <Compile Include="DichVuService\IDichVuService.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DM_DulieuDanhmucService.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\CauHinhHeThong.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\DM_DulieuDanhmucDTO.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\DM_DulieuDanhmucSearchDTO.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\DM_QuanTri_DulieuDanhmucDTO.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\DM_QuanTri_DuLieuDanhMucImport.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\DM_QuanTri_DulieuDanhmucSearchDTO.cs" />
+    <Compile Include="DM_DulieuDanhmucService\DTO\ShowValueTableSVM.cs" />
+    <Compile Include="DM_DulieuDanhmucService\IDM_DulieuDanhmucService.cs" />
+    <Compile Include="DM_NhomDanhmucService\DM_NhomDanhmucService.cs" />
+    <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucDTO.cs" />
+    <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucImportDto.cs" />
+    <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucSearchDTO.cs" />
+    <Compile Include="DM_NhomDanhmucService\IDM_NhomDanhmucService.cs" />
+    <Compile Include="GameService\Dto\GameDto.cs" />
+    <Compile Include="GameService\Dto\GameExportDto.cs" />
+    <Compile Include="GameService\Dto\GameImportDto.cs" />
+    <Compile Include="GameService\Dto\GameSearchDto.cs" />
+    <Compile Include="GameService\GameService.cs" />
+    <Compile Include="GameService\IGameService.cs" />
+    <Compile Include="GiaoDichService\Dto\GiaoDichDto.cs" />
+    <Compile Include="GiaoDichService\Dto\GiaoDichSearchDto.cs" />
+    <Compile Include="GiaoDichService\GiaoDichService.cs" />
+    <Compile Include="GiaoDichService\IGiaoDichService.cs" />
+    <Compile Include="ModuleService\DTO\ModuleDTO.cs" />
+    <Compile Include="ModuleService\DTO\ModuleMenuDTO.cs" />
+    <Compile Include="ModuleService\DTO\ModuleSearchDTO.cs" />
+    <Compile Include="ModuleService\IModuleService.cs" />
+    <Compile Include="ModuleService\ModuleService.cs" />
+    <Compile Include="NotificationService\Dto\NotificationDto.cs" />
+    <Compile Include="NotificationService\Dto\NotificationSearchDto.cs" />
+    <Compile Include="NotificationService\INotificationService.cs" />
+    <Compile Include="NotificationService\NotificationService.cs" />
+    <Compile Include="OperationService\DTO\OperationDTO.cs" />
+    <Compile Include="OperationService\DTO\OperationSearchDTO.cs" />
+    <Compile Include="OperationService\IOperationService.cs" />
+    <Compile Include="OperationService\OperationService.cs" />
+    <Compile Include="RoleOperationService\DTO\RoleOperationDTO.cs" />
+    <Compile Include="RoleOperationService\IRoleOperationService.cs" />
+    <Compile Include="RoleOperationService\RoleOperationService.cs" />
+    <Compile Include="RoleService\DTO\RoleDTO.cs" />
+    <Compile Include="RoleService\DTO\RoleSearchDTO.cs" />
+    <Compile Include="RoleService\IRoleService.cs" />
+    <Compile Include="RoleService\RoleService.cs" />
+    <Compile Include="TaiKhoanService\Dto\TaiKhoanDto.cs" />
+    <Compile Include="TaiKhoanService\Dto\TaiKhoanSearchDto.cs" />
+    <Compile Include="TaiKhoanService\ITaiKhoanService.cs" />
+    <Compile Include="TaiKhoanService\TaiKhoanService.cs" />
+    <Compile Include="TaiLieuDinhKemService\ITaiLieuDinhKemService.cs" />
+    <Compile Include="TaiLieuDinhKemService\TaiLieuDinhKemService.cs" />
+    <Compile Include="TinTucService\Dto\TinTucDto.cs" />
+    <Compile Include="TinTucService\Dto\TinTucSearchDto.cs" />
+    <Compile Include="TinTucService\ITinTucService.cs" />
+    <Compile Include="TinTucService\TinTucService.cs" />
+    <Compile Include="UserOperationService\Dto\UserOperationDto.cs" />
+    <Compile Include="UserOperationService\Dto\UserOperationSearchDto.cs" />
+    <Compile Include="UserOperationService\IUserOperationService.cs" />
+    <Compile Include="UserOperationService\UserOperationService.cs" />
+    <Compile Include="UserRoleService\IUserRoleService.cs" />
+    <Compile Include="UserRoleService\UserRoleService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hinet.Service\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonHelper\CommonHelper.csproj">
+      <Project>{68e8b2e8-ed8b-4a15-a2bf-2561023c210a}</Project>
+      <Name>CommonHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hinet.Model\Hinet.Model.csproj">
+      <Project>{afc9d48b-d6fa-41e6-84bc-a43713b5e8b7}</Project>
+      <Name>Hinet.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hinet.Repository\Hinet.Repository.csproj">
+      <Project>{afc7d5ec-1324-49d5-b1e6-7239dc54220b}</Project>
+      <Name>Hinet.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"> -->
+  <!-- <PropertyGroup> -->
+  <!-- <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText> -->
+  <!-- </PropertyGroup> -->
+  <!-- <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" /> -->
+  <!-- <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" /> -->
+  <!-- </Target> -->
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,24 @@
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+
+namespace CommonHelper.Validation
+{
+    public class CustomModelClientValidationRule : ModelClientValidationRule
+    {
+        public CustomModelClientValidationRule(
+            string errorMessage,
+            string pastOnlyValidateType,
+            params KeyValuePair<string, object>[] args)
+        {
+            ValidationType = pastOnlyValidateType;
+            ErrorMessage = errorMessage;
+            if (args != null && args.Length > 0)
+            {
+                foreach (var item in args)
+                {
+                    ValidationParameters.Add(item.Key, item.Value);
+                }
+            }
+        }
+    }
+}

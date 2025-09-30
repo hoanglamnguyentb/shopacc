@@ -1,0 +1,191 @@
+﻿@using Hinet.Web.Core;
+@using Hinet.Service.AppUserService.Dto;
+@using Hinet.Service.ModuleService.DTO;
+@using Hinet.Service.Common;
+@using Hinet.Model.Entities;
+@using Hinet.Service.Constant;
+@using Hinet;
+@{
+    var listMenu = SessionManager.GetListPermistion() as List<ModuleMenuDTO>;
+    var user = SessionManager.GetUserInfo() as UserDto;
+}
+
+<div id="mySidenav" class="sidenav">
+    @*<a class="logo-details" style="padding: 10px !important" href="~/DashboardArea/Dashboard">
+            <img src="~/assets/images/logo.png" style="width: 32px; height: 32px; object-fit: contain" />
+            <span class="logo_name">Tỉnh Bắc Giang</span>
+        </a>*@
+    <div class="sidenav-body">
+        <div class="accordion @(ViewBag.ModuleCode == "DashboardAdmin_Index" ? "active" : "")">
+            <a class="accordion-header" href="/DashboardArea/Dashboard">
+                <div class="accordion-main-icon">
+                    <i class="bi bi-house"></i>
+                    @*<img src="~/assets/images/dashboard-panel.png" onerror="this.src = '/Uploads/CommonIcons/function-icon-default.jpg'" />*@
+                </div>
+                <div class="accordion-title">Dashboard</div>
+                <div class="accordion-icon"></div>
+            </a>
+            <div class="accordion-body"></div>
+        </div>
+
+        @foreach (var module in listMenu)
+        {
+            var isactive = module.ListOperation != null && module.ListOperation.Any(x => x.Code == ViewBag.ModuleCode) ? "active" : "";
+            var isOpen = isactive == "active" ? "open" : "";
+            var isShow = isactive == "active" ? "nav-show" : "";
+
+            if (module.IsShow)
+            {
+                var childOps = module.ListOperation != null
+                    ? module.ListOperation.Where(x => x.IsShow).ToList()
+                    : new List<Hinet.Model.Entities.Operation>();
+
+                if (childOps.Any())
+                {
+                    // Nếu chỉ có 1 child thì render thẳng link cho cha
+                    if (childOps.Count == 1)
+                    {
+                        var operation = childOps.First();
+                        <div class="accordion @isactive">
+                            <a class="accordion-header" href="@operation.URL">
+                                <div class="accordion-main-icon">
+                                    @if (string.IsNullOrEmpty(module.ClassCss))
+                                    {
+                                        <i class="bi bi-emoji-smile"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="@module.ClassCss"></i>
+                                    }
+                                </div>
+                                <div class="accordion-title">@module.Name</div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        // Nhiều child thì render accordion như cũ
+                        <div class="accordion @isactive @isOpen">
+                            <div class="accordion-header">
+                                <div class="accordion-main-icon">
+                                    @if (string.IsNullOrEmpty(module.ClassCss))
+                                    {
+                                        <i class="bi bi-emoji-smile"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="@module.ClassCss"></i>
+                                    }
+                                </div>
+                                <div class="accordion-title">@module.Name</div>
+                                <div class="accordion-icon">
+                                    <i class="fa fa-angle-down"></i>
+                                </div>
+                            </div>
+                            <div class="accordion-body">
+                                <div class="panel tree">
+                                    @foreach (var operation in childOps)
+                                    {
+                                        <a href="@operation.URL" class="@(operation.Code==ViewBag.ModuleCode?"active":"")">
+                                            @operation.Name
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        }
+
+
+    </div>
+</div>
+
+<script>
+    function toggleNav() {
+        var $sidenav = $('#mySidenav');
+        var $mainPanel = $('#mainPanel');
+        var sidenavWidth = $sidenav.css('width');
+        if (sidenavWidth === '250px') {
+            // Sidebar is open, so close it
+            $sidenav.css('width', '60px');
+            $mainPanel.css('margin-left', '60px');
+        } else {
+            // Sidebar is closed, so open it
+            $sidenav.css('width', '250px');
+            $mainPanel.css('margin-left', '250px');
+        }
+
+        $sidenav.toggleClass('mini-menu');
+        // Remove 'open' class from accordions when mini-menu is applied
+        if ($sidenav.hasClass('mini-menu')) {
+            $acc.removeClass('open');
+            $acc.find('.accordion-body').css('max-height', 0);
+        }
+    }
+
+    var $acc = $('.accordion');
+    var $accHeader = $('.accordion-header');
+
+    function closeAllAccordions(exceptThis) {
+        $acc.each(function () {
+            if (this !== exceptThis) {
+                $(this).removeClass('open');
+                $(this).find('.accordion-body').css('max-height', 0);
+            }
+        });
+    }
+
+    $accHeader.on('click', function () {
+        var $thisAcc = $(this).parent();
+        var isOpen = $thisAcc.hasClass('open');
+
+        closeAllAccordions($thisAcc[0]);
+        if (isOpen) {
+            $thisAcc.removeClass('open');
+            $thisAcc.find('.accordion-body').css('max-height', 0);
+        } else {
+            $thisAcc.addClass('open');
+            $thisAcc
+                .find('.accordion-body')
+                .css(
+                    'max-height',
+                    $thisAcc.find('.accordion-body')[0].scrollHeight + 'px'
+                );
+        }
+    });
+
+    // Mở các accordion có class 'open' khi tải trang
+    $acc.each(function () {
+        if ($(this).hasClass('open')) {
+            $(this).addClass('active');
+            $(this)
+                .find('.accordion-body')
+                .css(
+                    'max-height',
+                    $(this).find('.accordion-body')[0].scrollHeight + 'px'
+                );
+        }
+    });
+
+    // Function to handle the media query
+    function handleMediaQuery(x) {
+        var $sidenav = $('#mySidenav');
+        var $mainPanel = $('#mainPanel');
+        if (x.matches) { // If media query matches
+            $sidenav.addClass('mini-menu');
+            $acc.removeClass('open');
+            $acc.find('.accordion-body').css('max-height', 0);
+        } else {
+            $sidenav.removeClass('mini-menu');
+            $sidenav.css('width', '');
+            $mainPanel.css('margin-left', '');
+        }
+    }
+
+    // Also check on document ready
+    $(document).ready(function () {
+        //handleMediaQuery(x);
+    });
+</script>

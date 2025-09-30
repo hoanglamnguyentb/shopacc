@@ -1,0 +1,192 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.TaiKhoanArea.Models
+
+@model EditVM
+@{ 
+    var dropdownListGameId = ViewBag.dropdownListGameId as List<SelectListItem>;
+}
+<div class="modal-dialog modal-full">
+    @using (Ajax.BeginForm("Edit", "TaiKhoan", new { @area = "TaiKhoanArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editTaiKhoanForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Cập nhật </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mã <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Game <span class="red">*</span></label>
+                        <div class="col-sm-8 w-full-select2">
+                            @Html.DropDownListFor(m => m.GameId, dropdownListGameId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GameId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Tag</label>
+                        <div class="col-sm-8 w-full-select2">
+                            @Html.ListBoxFor(m => m.DanhMucGameIds, ViewBag.DropdownListDanhMuc as List<SelectListItem>,
+                                new { @class = "form-control", multiple = "multiple" })
+                            @Html.ValidationMessageFor(m => m.DanhMucGameIds, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Trạng thái </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.TrangThai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Tên đăng nhập </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mật khẩu </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Giá gốc <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaGoc, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaGoc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Giá khuyến mãi </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaKhuyenMai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaKhuyenMai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mô tả </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Mota, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Mota, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Ảnh </label>
+                        <div class="col-sm-12">
+                            <div id="myDropzone" class="dropzone"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-sm btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $("#DanhMucGameIds").select2();
+    $("#GameId").select2();
+
+    Dropzone.autoDiscover = false;
+
+    var myDropzone = new Dropzone("#myDropzone", {
+        url: '@Url.Action("UploadAnh", "TaiKhoan", new { area = "TaiKhoanArea" })',
+        paramName: "file",
+        autoProcessQueue: true,
+        //uploadMultiple: true,
+        parallelUploads: 10,
+        maxFiles: 10,
+        maxFilesize: 5,
+        acceptedFiles: "image/*",
+        dictDefaultMessage: "+ Kéo thả ảnh vào đây hoặc click để chọn",
+        dictRemoveFile: "Xóa ảnh"
+    });
+
+    // Khi upload thành công → thêm hidden input vào form
+    myDropzone.on("success", function (file, response) {
+        if (response.success) {
+            var input = $("<input>").attr({
+                type: "hidden",
+                name: "UploadedFiles",
+                value: response.fileName
+            });
+            $("#createTaiKhoanForm").append(input);
+        }
+    });
+
+    myDropzone.on("error", function (file, errorMessage) {
+        console.log("Error:", errorMessage);
+    });
+
+    // Nếu xóa file → xóa luôn hidden input tương ứng
+    myDropzone.on("removedfile", function (file) {
+        $("input[name='UploadedFiles'][value='" + file.uploadFileName + "']").remove();
+    });
+
+    // ✅ load sẵn file cũ từ Model
+    @foreach (var f in Model.TaiLieuDinhKemList)
+    {
+        var url = Url.Content("~/Uploads/TaiKhoan/" + Model.Id + "/" + f.TenTaiLieu);
+        <text>
+        var mockFile = { name: "@f.TenTaiLieu", size: 12345, uploadedFileName: "@f.TenTaiLieu" };
+        myDropzone.emit("addedfile", mockFile);
+        myDropzone.emit("thumbnail", mockFile, "@url");
+        myDropzone.emit("complete", mockFile);
+        myDropzone.files.push(mockFile);
+
+        // thêm hidden input để giữ lại nếu user không xóa
+        $("#editTaiKhoanForm").append(
+            $("<input>", { type: "hidden", name: "UploadedFiles", value: "@f.TenTaiLieu" })
+        );
+        </text>
+    }
+
+
+    $("#GameId").change(function () {
+        var gameId = $(this).val();
+        var $ddlDanhMuc = $("#DanhMucGameIds");
+
+        $.ajax({
+            url: '@Url.Action("GetDanhMucByGame", "DanhMucGame", new { area = "DanhMucGameArea" })',
+            type: "GET",
+            data: { gameId: gameId },
+            success: function (data) {
+                $ddlDanhMuc.empty();
+                $.each(data, function (i, item) {
+                    $ddlDanhMuc.append($("<option></option>")
+                        .val(item.Value).text(item.Text));
+                });
+                $ddlDanhMuc.val(null).trigger("change");
+            },
+            error: function () {
+                alert("Không load được danh mục game");
+            }
+        });
+    });
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

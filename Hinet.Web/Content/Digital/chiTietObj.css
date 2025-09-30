@@ -1,0 +1,101 @@
+﻿.detail_infor {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.detail_inforImg {
+    position: relative;
+    height: 0;
+    padding-bottom: 66%;
+}
+
+.detail_inforImg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.detail_text {
+    padding: 10px;
+    max-height: 360px !important;
+    overflow-y: auto;
+}
+
+.sub_item p {
+    margin-bottom: 8px;
+}
+
+.sub_item {
+    margin-bottom: 5px;
+}
+
+.title-tuyenduong p {
+    font-size: 17px;
+    font-weight: bolder;
+    font-style: italic;
+    color: blue;
+    text-decoration: underline;
+}
+
+.name_area {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-style: italic;
+}
+
+.onClose {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 12px 6px;
+    cursor: pointer;
+    right: 5%;
+    top: 2%;
+}
+
+    .onClose:hover {
+        font-size: 20px;
+    }
+
+
+.detail-col {
+    padding: 10px 0;
+    border-top: 1px solid #a3a3a3ba;
+    border-bottom: 1px solid #a3a3a3ba;
+}
+
+    .detail-col p {
+        margin-bottom: 5px;
+    }
+
+
+.footer_detail {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+
+
+.useful {
+    font-style: italic;
+    color: #00b9cb;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.text-padding_icon {
+    margin-right: 8px;
+}
+
+
+
+{
+    display: flex;
+    justify-content: space-between;
+}

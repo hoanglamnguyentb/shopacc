@@ -1,0 +1,39 @@
+﻿@using Hinet.Model.Entities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Service.QLLogXuLyService.Dto
+@using Hinet.Service.Common
+@model PageListResultBO<QLLogXuLyDto>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Người xử lý</th>
+            <th>Nội dung</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.ListItem != null && Model.ListItem.Any())
+        {
+            foreach (var item in Model.ListItem)
+            {
+        <tr>
+            <td class="text-center">@(Model.ListItem.IndexOf(item) +1)</td>
+            <td>
+                <div style="float:left">
+                    <img src="/@item.appUser.Avatar" onerror="/content/images/userNew.png" title="@item.appUser.FullName" />
+                </div>
+                <div style="float:left;padding-left:10px">
+                    <span>@item.appUser.FullName</span>
+                    <br />
+                    <span>@string.Format("{0:dd/MM/yyyy HH:mm}", item.CreatedDate)</span>
+                </div>
+            </td>
+            <td>@item.NoiDung</td>
+            <td>@item.GhiChu</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hinet.Model</RootNamespace>
+    <AssemblyName>00</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AnnotationCustom.cs" />
+    <Compile Include="Common\AuditableEntity.cs" />
+    <Compile Include="Common\CandidateSelectionTypeConstant.cs" />
+    <Compile Include="Common\DanhMucConstantBase.cs" />
+    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\IAuditableEntity.cs" />
+    <Compile Include="Common\IEntity.cs" />
+    <Compile Include="Common\IService.cs" />
+    <Compile Include="Common\IUnitOfWork.cs" />
+    <Compile Include="Common\ShowKeyValueModel.cs" />
+    <Compile Include="Common\UnitOfWork.cs" />
+    <Compile Include="Entities\Audit.cs" />
+    <Compile Include="Entities\Banner.cs" />
+    <Compile Include="Entities\DanhMucGame.cs" />
+    <Compile Include="Entities\DichVu.cs" />
+    <Compile Include="Entities\GiaoDich.cs" />
+    <Compile Include="Entities\DanhMucGameTaiKhoan.cs" />
+    <Compile Include="Entities\TinTuc.cs" />
+    <Compile Include="Entities\TaiKhoan.cs" />
+    <Compile Include="Entities\Game.cs" />
+    <Compile Include="Entities\DM_DulieuDanhmuc.cs" />
+    <Compile Include="Entities\DM_NhomDanhmuc.cs" />
+    <Compile Include="Entities\History.cs" />
+    <Compile Include="Entities\Module.cs" />
+    <Compile Include="Entities\Notification.cs" />
+    <Compile Include="Entities\Operation.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\RoleMobile.cs" />
+    <Compile Include="Entities\RoleOperation.cs" />
+    <Compile Include="Entities\ServiceResult.cs" />
+    <Compile Include="Entities\TaiLieuDinhKem.cs" />
+    <Compile Include="Entities\UserOperation.cs" />
+    <Compile Include="Entities\UserRole.cs" />
+    <Compile Include="HinetContext.cs" />
+    <Compile Include="IdentityEntities\AppUser.cs" />
+    <Compile Include="Migrations\202509221658121_init-database.cs" />
+    <Compile Include="Migrations\202509221658121_init-database.Designer.cs">
+      <DependentUpon>202509221658121_init-database.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509231402422_add_tbl_Game.cs" />
+    <Compile Include="Migrations\202509231402422_add_tbl_Game.Designer.cs">
+      <DependentUpon>202509231402422_add_tbl_Game.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.cs" />
+    <Compile Include="Migrations\202509231557116_add_tbl_TaiKhoan.Designer.cs">
+      <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509241421204_add_tbl_banner_dichvu.cs" />
+    <Compile Include="Migrations\202509241421204_add_tbl_banner_dichvu.Designer.cs">
+      <DependentUpon>202509241421204_add_tbl_banner_dichvu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509241713333_add_tbl_tintuc.cs" />
+    <Compile Include="Migrations\202509241713333_add_tbl_tintuc.Designer.cs">
+      <DependentUpon>202509241713333_add_tbl_tintuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509251729559_add_tbl_GiaoDich.cs" />
+    <Compile Include="Migrations\202509251729559_add_tbl_GiaoDich.Designer.cs">
+      <DependentUpon>202509251729559_add_tbl_GiaoDich.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509271924010_alter_tbl_GiaoDich.cs" />
+    <Compile Include="Migrations\202509271924010_alter_tbl_GiaoDich.Designer.cs">
+      <DependentUpon>202509271924010_alter_tbl_GiaoDich.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509300500495_add_tbl_DanhMucGame.cs" />
+    <Compile Include="Migrations\202509300500495_add_tbl_DanhMucGame.Designer.cs">
+      <DependentUpon>202509300500495_add_tbl_DanhMucGame.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509300531321_add_column_STT.cs" />
+    <Compile Include="Migrations\202509300531321_add_column_STT.Designer.cs">
+      <DependentUpon>202509300531321_add_column_STT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509301020379_add_tbl_DanhMucGameTaiKhoan.cs" />
+    <Compile Include="Migrations\202509301020379_add_tbl_DanhMucGameTaiKhoan.Designer.cs">
+      <DependentUpon>202509301020379_add_tbl_DanhMucGameTaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202509301757476_alter_tbl_Game.cs" />
+    <Compile Include="Migrations\202509301757476_alter_tbl_Game.Designer.cs">
+      <DependentUpon>202509301757476_alter_tbl_Game.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="Seed\InitAccountSeed.cs" />
+    <Compile Include="Seed\InitRoleAdminSeed.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EntityFramework">
+      <Version>6.4.4</Version>
+    </PackageReference>
+    <PackageReference Include="log4net">
+      <Version>2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <Version>2.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNet.Mvc">
+      <Version>5.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="MongoDB.Driver">
+      <Version>2.7.3</Version>
+    </PackageReference>
+    <PackageReference Include="Nest">
+      <Version>7.17.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonHelper\CommonHelper.csproj">
+      <Project>{68e8b2e8-ed8b-4a15-a2bf-2561023c210a}</Project>
+      <Name>CommonHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202509221658121_init-database.resx">
+      <DependentUpon>202509221658121_init-database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509231402422_add_tbl_Game.resx">
+      <DependentUpon>202509231402422_add_tbl_Game.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509231557116_add_tbl_TaiKhoan.resx">
+      <DependentUpon>202509231557116_add_tbl_TaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509241421204_add_tbl_banner_dichvu.resx">
+      <DependentUpon>202509241421204_add_tbl_banner_dichvu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509241713333_add_tbl_tintuc.resx">
+      <DependentUpon>202509241713333_add_tbl_tintuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509251729559_add_tbl_GiaoDich.resx">
+      <DependentUpon>202509251729559_add_tbl_GiaoDich.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509271924010_alter_tbl_GiaoDich.resx">
+      <DependentUpon>202509271924010_alter_tbl_GiaoDich.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509300500495_add_tbl_DanhMucGame.resx">
+      <DependentUpon>202509300500495_add_tbl_DanhMucGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509300531321_add_column_STT.resx">
+      <DependentUpon>202509300531321_add_column_STT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509301020379_add_tbl_DanhMucGameTaiKhoan.resx">
+      <DependentUpon>202509301020379_add_tbl_DanhMucGameTaiKhoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202509301757476_alter_tbl_Game.resx">
+      <DependentUpon>202509301757476_alter_tbl_Game.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

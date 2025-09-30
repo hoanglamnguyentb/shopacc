@@ -1,0 +1,87 @@
+﻿@using Hinet.Web.Models
+@using System.Web.Configuration
+@model LoginViewModel
+@{
+    ViewBag.Title = "Đăng nhập hệ thống";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/images/logo.ico">
+    <link href="~/assets/css/login/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link href="~/assets/css/login/login.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div class="d-md-flex half">
+        <div class="bg" style="background-image: url('../../assets/images/bg.jpg');"></div>
+        <div class="contents">
+
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <div class="form-block mx-auto">
+                            <div class="text-center mb-5">
+                                <h3>Đăng <strong>nhập</strong></h3>
+                                <!-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> -->
+                            </div>
+                            @using (Html.BeginForm("Login", "AccountAdmin", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                <div class="form-group first">
+                                    @Html.LabelFor(m => m.UserName)
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Tên đăng nhập của bạn" })
+                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group last mb-3">
+                                    @Html.LabelFor(m => m.Password)
+                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", placeholder = "Mật khẩu của bạn", type = "password" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="d-sm-flex mb-5 align-items-center">
+                                    <label class="control control--checkbox mb-3 mb-sm-0">
+                                        <span class="caption">Ghi nhớ đăng nhập</span>
+                                        @Html.CheckBoxFor(m => m.RememberMe, new { @checked = "checked" })
+                                        <div class="control__indicator"></div>
+                                    </label>
+                                    @*<span class="ml-auto">
+                                            @Html.ActionLink("Quên mật khẩu?", "ForgotPassword", null, new { @class = "forgot-pass" })
+                                        </span>*@
+                                </div>
+
+                                <input type="submit" value="Đăng nhập" class="btn btn-block btn-primary" id="loginButton">
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.querySelector('form');
+            var submitButton = document.getElementById('loginButton');
+
+            form.addEventListener('submit', function () {
+                // Disable the button to prevent multiple clicks
+                submitButton.disabled = true;
+                submitButton.value = "Đang đăng nhập...";
+            });
+        });</script>
+</body>
+</html>

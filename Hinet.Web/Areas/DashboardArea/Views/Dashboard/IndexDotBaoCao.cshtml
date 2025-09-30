@@ -1,0 +1,120 @@
+﻿@using Hinet
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Newtonsoft.Json
+@using Hinet.Web.Core
+@using CommonHelper.String
+@using Hinet.Service.AppUserService.Dto
+@using Hinet.Model.Entities
+@using Hinet.Service.GiayCapPhepDoanhNghiepService.Dto
+@using Hinet.Service.DotBaoCaoService.Dto
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+    ViewBag.ModuleName = "Dashboard";
+    ViewBag.PageName = "Báo cáo thống kê";
+    int stt = 0;
+}
+
+<style>
+    .box-mst-main {
+        padding: 0 20px;
+    }
+
+    .page-header {
+        display: none;
+    }
+
+    .item_mst:hover td {
+        background-color: #f2f2f2;
+    }
+
+    .w100 {
+        width: 100%;
+    }
+</style>
+
+@model PageListResultBO<DotBaoCaoDto>
+
+<div class="row">
+    <div id="items-container">
+        <div class="box-mst-main">
+            <div class="row form-group">
+                <div class="col-sm-12 bc-2">
+                    <div class="bc-header">
+                        <span class="bc-title">Các đợt báo cáo</span>
+                        <a class="" href="" hidden>
+                            Xem tất cả &#8811;
+                        </a>
+                    </div>
+                    <div class="bc-content">
+                        <div class="bc-content-header">
+                            @using (Ajax.BeginForm("searchData", "DotBaoCao", new { Area = "DotBaoCaoArea" },
+                            new AjaxOptions()
+                            {
+                                HttpMethod = "POST",
+                                OnFailure = "AjaxFormError",
+                                //OnSuccess = "AjaxSearchSuccess",
+                                UpdateTargetId = "divDotBaoCao"
+
+                            }, new { @class = "w100" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input name="LoaiDoanhNghiepFilter" type="text" value="@ViewBag.LoaiDoanhNghiep" hidden/>
+                                <div class="col-sm-4" style="display: flex; gap:5px; float: right; padding-right: 0;">
+                                    <div class="custom-select" style="width: 200px;">
+                                        <select name="QuyFilter" class="form-control">
+                                            <option>--Chọn quý--</option>
+                                            <option value="1">Quý 1</option>
+                                            <option value="2">Quý 2</option>
+                                            <option value="3">Quý 3</option>
+                                            <option value="4">Quý 4</option>
+                                        </select>
+                                    </div>
+                                    <div class="custom-select" style="width:100%;">
+                                        @Html.DropDownList("NamFilter", ViewBag.ListYears as List<SelectListItem>, "--Chọn năm báo cáo--", new { @class = "form-control" })
+                                    </div>
+                                    <button type="submit" class="btn btn-xs btn-primary"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                </div>
+                            }
+                        </div>
+                        <div class="bc-content-body">
+                            <div class="table_component" id="divDotBaoCao">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên đợt báo cáo</th>
+                                            <th>Tình trạng nộp báo cáo</th>
+                                            <th>Ngày hết hạn</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model.ListItem)
+                                        {
+                                            stt++;
+                                            <tr class="item_mst">
+                                                <td style="width:45px; text-align:center; align-content:center">@stt</td>
+                                                <td style="align-content:center">
+                                                    <a href="javascript:void(0)"><strong>@item.TenDotBaoCao @Html.Raw(item.IconHtml)</strong></a>
+                                                </td>
+                                                <td style="text-align: center">
+                                                    <a href="javascript:void(0)" onclick="EditAction('/DotBaoCaoArea/DotBaoCao/IndexDoanhNghiepTrongDotBaoCao/@item.Id')">@item.SoDonViDaBaoCao/@item.SoDonViBaoCao</a>
+                                                </td>
+                                                <td style="width:100px; text-align:center; align-content:center">@item.HanNopBaoCao.ToDateVNFormat()</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

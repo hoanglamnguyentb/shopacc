@@ -1,0 +1,51 @@
+﻿@model Hinet.Web.Models.UpLoadFileSingle
+@if (Model.Type.ToLower() == "detail")
+{
+    <div class="drop_box">
+        @if (String.IsNullOrEmpty(Model.FilePath))
+        {
+            <div class="form">
+                <span class="text-danger">Chưa có tệp tải lên</span>
+            </div>
+        }
+        else
+        {
+            <div class="form">
+                <span>@Path.GetFileName(Model.FilePath)</span>
+                <a href="/@Model.FilePath" type="button" class="btn btn-xs btn-success" target="_blank">
+                    <i class="fa fa-download"></i> Tải file
+                </a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="drop_box">
+        @if (String.IsNullOrEmpty(Model.FilePath))
+        {
+            @*<label class="control-label">@Model.Title </label>*@
+            <div>Hỗ trợ file: @Model.FileExtension</div>
+            <input type="file" hidden accept="@Model.FileExtension" id="@Model.Name" name="@Model.Name" style="display:none;"
+                   data-name="@Model.Name"
+                   data-fileextension="@Model.FileExtension">
+            <label for="@Model.Name" class="btn btn-xs btn-success btn-upload"><i class="fa fa-upload"></i> Chọn tệp</label>
+            <progress id="progress-bar-@Model.Name" value="0" max="100" style="display:none; width: 100%;"></progress>
+        }
+        else
+        {
+            <div class="form">
+                <span>@Path.GetFileName(Model.FilePath)</span>
+                <a href="/@Model.FilePath" type="button" class="btn btn-xs btn-success" target="_blank">
+                    <i class="fa fa-download"></i> Tải file
+                </a>
+                <button type="button" class="btn btn-xs btn-danger btn-upload-delete"
+                        data-name="@Model.Name"
+                        data-fileextension="@Model.FileExtension">
+                    <i class="bi bi-trash3-o"></i> Xoá file
+                </button>
+            </div>
+        }
+    </div>
+    <input type="hidden" id="isDeleted_@Model.Name" name="isDeleted_@Model.Name" value="false" />
+}

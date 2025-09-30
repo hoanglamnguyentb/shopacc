@@ -1,0 +1,241 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.UserArea.Models
+@using Hinet.Model.Entities;
+@model RoleHuyenXaVM
+@{
+    var userinfo = ViewBag.UserInfo as AppUser;
+    var ListRole = ViewBag.ListRole as List<Role>;
+    var UserListRole = ViewBag.UserListRole as List<UserRole>;
+    var lstHuyen = ViewBag.lstHuyen as List<SelectListItem>;
+    var lstXa = ViewBag.lstXa as List<SelectListItem>;
+}
+
+<div class="modal-dialog" style="width: 70%">
+    @using (Ajax.BeginForm("SaveSetupRoleHuyenXa", "User", new { @area = "UserArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "setupRoleHuyenXaForm" }))
+    {
+    @Html.AntiForgeryToken()
+    @Html.Hidden("userId", userinfo.Id)
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Phân quyền theo đơn vị hành chính </h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            @*<h3 class="nomargin center red"><strong>Tài khoản : [@userinfo.UserName]</strong></h3>*@
+            <h4 class="headerForm">
+                Phân quyền cho người dùng [@userinfo.UserName]
+            </h4>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <label>Huyện:</label>
+                    @Html.ListBoxFor(m => m.lstHuyenQL, lstHuyen, new { @class = "form-control select2", multiple = "multiple", @id = "lstHuyenQL" })
+                </div>
+                <div class="col-sm-6">
+                    <label>Xã:</label>
+                    @Html.ListBoxFor(m => m.lstXaQL, lstXa, new { @class = "form-control select2", multiple = "multiple" })
+                </div>
+            </div>
+            <div class="row" style="margin-top: 30px ; display:none" id="table-phanquyen">
+                <div style="background-color: #212b36; text-align: center; padding:10px; margin-bottom:10px">
+                    <label style="color:white">Danh sách đơn vị hành chính</label>
+                </div>
+
+                <div class="col-sm-4">
+                    <label> Huyện </label>
+                    <div class="list-group" id="list-tab" role="tablist">
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <label> Xã </label>
+                    <div class="tab-content" id="nav-tabcontent">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary btn-sm">Hoàn thành</button>
+
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+
+<script>
+    console.log($("#lstHuyenQL").val())
+    $(".select2").select2();
+    $(document).ready(function () {
+    // Tự động kích hoạt và hiển thị tab-pane đầu tiên
+    $('#list-tab a:first').tab('show');
+     var firstTabId = $('#list-tab a:first').attr('id');
+
+    // Thêm class "show active" cho tab-pane đầu tiên
+    $('#tab-' + firstTabId).addClass('show active');
+
+});
+
+    $(document).on('change', '#lstHuyenQL', function () {
+
+        var mahuyen = $(this).val();
+        var huyenData = JSON.stringify({ lstHuyen: mahuyen });
+        console.log(huyenData);
+        AjaxCall("/XAArea/XA/GetDropdownOfXabyHuyen", "POST", { lstHuyen: mahuyen },
+            (rs) => {
+                var str = '<option value="">--Chọn Xã--</option>';
+                rs.map(x => {
+                    str += `<option value=${x.Value}>${x.Text}</option>`
+                })
+                $('#lstXaQL').val([]).trigger('change');
+                $("#lstXaQL").html(str);
+            }
+        )
+    })
+     $(document).on('change', '#lstXaQL', function () {
+         updateListTab()
+
+ })
+    function updateListTab() {
+        // Clear existing items in the list-tab list-group
+        $('#list-tab').empty();
+
+        // Clear existing tab content
+        $('#nav-tabcontent').empty();
+
+        // Get the selected items from lstHuyenQL
+        var selectedItems = $('#lstHuyenQL option:selected');
+
+        // Iterate through the selected items and create list items and tab content
+        selectedItems.each(function () {
+            var huyenName = $(this).text();
+            var huyenId = $(this).val();
+            // Create corresponding list item
+            var listItem = $('<a class="list-group-item list-group-item-action"></a>')
+                .attr('data-bs-toggle', 'list')
+                .attr('href', '#' + huyenId)
+                .attr("id",huyenId)
+                .text(huyenName);
+
+            // Append the new list item to the list-tab list-group
+            $('#list-tab').append(listItem);
+
+            // Create corresponding tab content
+            var tabContent = $('<div class="tab-pane"></div>')
+                .attr('id',"tab-" + huyenId)
+                .attr('role', 'tabpanel')
+                .append('<h3>' + huyenName + '</h3>'); // You can customize this part as needed
+
+            // Append the new tab content to the tab-content container
+            $('#nav-tabcontent').append(tabContent);
+        });
+
+        var mahuyen = $('#list-tab a:first').attr('id');
+        var lstmaXa = $('#lstXaQL').val();
+        var lsthuyen = $('#lstHuyenQL').val();
+        if(lsthuyen != null ){
+            $('#table-phanquyen').show();
+        }else {
+            $('#table-phanquyen').hide();
+        }
+        if(lstmaXa != null){
+            $('#nav-tabcontent').show();
+        }else {
+            $('#nav-tabcontent').hide();
+        }
+        console.log(lstmaXa)
+            $.ajax({
+        url: '/XAArea/XA/GetXaQLData',
+        type: 'POST',
+        data: { huyenId: mahuyen, lstxaId : lstmaXa },
+        success: function (xaQLData) {
+            // Update the content of the XaQL tab with the fetched data
+            var xaQLTabContent = $('#tab-' + mahuyen);
+            xaQLTabContent.html(''); // Clear existing content
+
+           for (var i = 0; i <= xaQLData.length; i++) {
+               var xaQLItem = xaQLData[i];
+
+    // Kiểm tra xem xaQLItem tồn tại và có thuộc tính TenXa không
+    if (xaQLItem && xaQLItem.TenXa) {
+        xaQLTabContent.append('<p style="border-bottom: 1px solid #ddd">' + xaQLItem.TenXa + '</p>');
+    } else {
+        console.log('Phần tử không có thuộc tính TenXa:', xaQLItem);
+    }
+
+}
+
+        },
+        error: function (error) {
+            console.log('Error fetching XaQL data:', error);
+        }
+    });
+        // Activate the first tab by default
+        $('#list-tab a:first').tab('show');
+        $('#nav-tabcontent div:first').addClass('active');
+    }
+
+    // Initial population when the document is ready
+    $(document).ready(function () {
+        updateListTab();
+
+        // Event handler for when the selection in lstHuyenQL changes
+        $('#lstHuyenQL').change(function () {
+            updateListTab();
+        });
+
+        // Bootstrap event handler for tab change
+        $('#list-tab').on('click', 'a', function (e) {
+            e.preventDefault(); // Prevent the default behavior
+            $(this).tab('show'); // Activate the clicked tab
+
+            // Highlight the selected tab by adding a class
+            $('#list-tab a').removeClass('active');
+            $(this).addClass('active');
+           var mahuyen = $(this).attr('id');
+            var huyenName = $(this).text();
+             var lstmaXa = $('#lstXaQL').val();
+             console.log(mahuyen)
+             console.log(huyenName)
+
+            $.ajax({
+                url: '/XAArea/XA/GetXaQLData',
+                type: 'POST',
+                data: { huyenId: mahuyen , lstxaId : lstmaXa },
+                success: function (xaQLData) {
+                    // Update the content of the XaQL tab with the fetched data
+                    var xaQLTabContent = $('#tab-' + mahuyen);
+                    xaQLTabContent.html(''); // Clear existing content
+
+                   for (var i = 0; i <= xaQLData.length; i++) {
+                       var xaQLItem = xaQLData[i];
+
+            // Kiểm tra xem xaQLItem tồn tại và có thuộc tính TenXa không
+            if (xaQLItem && xaQLItem.TenXa) {
+                xaQLTabContent.append('<p style="border-bottom: 1px solid #ddd">' + xaQLItem.TenXa + '</p>');
+            } else {
+                console.log('Phần tử không có thuộc tính TenXa:', xaQLItem);
+            }
+            $('.tab-pane').removeClass('show active');
+             $('#tab-' + mahuyen).addClass('show active');
+        }
+
+                },
+                error: function (error) {
+                    console.log('Error fetching XaQL data:', error);
+                }
+            });
+
+        });
+    });
+</script>
+
+@Scripts.Render("~/bundles/jqueryval")

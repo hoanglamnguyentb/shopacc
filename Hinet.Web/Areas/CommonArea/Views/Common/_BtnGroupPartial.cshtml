@@ -1,0 +1,100 @@
+﻿@using Hinet.Web.Areas.CommonArea.Models
+@using Hinet.Service.Constant
+@{
+    var linkChapNhan = Model != null && Model.DotBaoCaoDoanhNghiep != null ? "/DotBaoCao_DoanhNghiep/DotBaoCao_DoanhNghiep/Accept/" + Model.DotBaoCaoDoanhNghiep.Id : "";
+    var linkTuChoi = Model != null && Model.DotBaoCaoDoanhNghiep != null ? "/DotBaoCao_DoanhNghiep/DotBaoCao_DoanhNghiep/Refuse/" + Model.DotBaoCaoDoanhNghiep.Id : "";
+    var linkGui = Model != null && Model.DotBaoCaoDoanhNghiep != null ? "/DotBaoCao_DoanhNghiep/DotBaoCao_DoanhNghiep/Send/" + Model.DotBaoCaoDoanhNghiep.Id : "";
+}
+
+@model BtnGroupVM
+
+
+@if (Model.LinkXem && Model.IsSTTTT)
+{
+    <a class="btn btn-primary btn-xs" href="@Url.Action("DanhSachSoLieu", "DotBaoCao_DoanhNghiep", new { Area = "DotBaoCao_DoanhNghiepArea", MaBieu = Model.DotBaoCaoDoanhNghiep.DanhMucBieuMau.MaBieu, IdDotBaoCao_DN = Model.DotBaoCaoDoanhNghiep.Id })"><i class="bi bi-eye-fill"></i> Xem số liệu đã chốt</a>
+}
+
+@if (Model.LinkXemKy)
+{
+    <a class="btn btn-primary btn-xs" href="@Url.Action("DanhSachKyBaoCao", "DotBaoCao_DoanhNghiep", new { Area = "DotBaoCao_DoanhNghiepArea", MaBieuFilter = Model.DotBaoCaoDoanhNghiep.DanhMucBieuMau.MaBieu, IdDoanhNghiepFilter = Model.DotBaoCaoDoanhNghiep.IdDoanhNghiep })"><i class="bi bi-eye-fill"></i> Xem danh sách số liệu các kỳ</a>
+}
+
+@if (Model.LinkChot && Model.IsSTTTT)
+{
+    <button class="btn btn-success btn-xs" id="btn_chot" type="button"><i class="fa fa-save"></i> Chốt số liệu</button>
+}
+
+
+<!-- STTTT -->
+@if (Model.IsSTTTT)
+{
+    if (Model.DotBaoCaoDoanhNghiep.TrangThai != TrangThaiBieuMauBaoCaoConstant.CHAPNHAN && Model.isShowAcept)
+    {
+        <a href="javascript:void(0)" onclick="ConfirmDataAction('@linkChapNhan',
+                '@Html.DisplayNameFor(model => model.LinkChapNhan)')" class="btn btn-success btn-xs" role="button">
+            <i class="bi bi-check2-circle"></i> Chấp nhận
+        </a>
+    }
+    if (Model.DotBaoCaoDoanhNghiep.TrangThai != TrangThaiBieuMauBaoCaoConstant.TUCHOI && Model.isShowRefuse)
+    {
+        <a href="javascript:void(0)" onclick="ConfirmDataAction('@linkTuChoi',
+                '@Html.DisplayNameFor(model => model.LinkTuChoi)')" class="btn btn-danger btn-xs" role="button">
+            <i class="bi bi-ban"></i> Từ chối
+        </a>
+    }
+}
+
+<!-- Doanh nghiệp -->
+@if (Model.IsDoanhNghiep && !Model.IsSTTTT
+    && (Model.DotBaoCaoDoanhNghiep.TrangThai == TrangThaiBieuMauBaoCaoConstant.CHUAGUI
+        || Model.DotBaoCaoDoanhNghiep.TrangThai == TrangThaiBieuMauBaoCaoConstant.TUCHOI)
+        && Model.Mode != "Detail"
+        )
+{
+    <a class="btn btn-primary btn-xs" id="btn_send" role="button">
+        <i class="bi bi-send"></i> Gửi
+    </a>
+
+    if (Model.LinkLuu && Model.Mode.ToUpper() != "DETAIL")
+    {
+        <button class="btn btn-success btn-xs" id="btn_save" onclick="handleSave(event)" type="submit"><i class="fa fa-save"></i> Lưu</button>
+    }
+    if (!string.IsNullOrEmpty(Model.LinkXoaDuLieu) && Model.Mode.ToUpper() != "DETAIL")
+    {
+        <a href="javascript:void(0)" onclick="handleDelete('@Model.LinkXoaDuLieu')" class="btn btn-danger btn-xs" role="button">
+            <i class="bi bi-trash3"></i> Xóa
+        </a>
+    }
+}
+
+@if (Model.ExportTable)
+{
+    <a href="javascript:Export()" class="btn btn-success btn-xs">
+        <i class="bi bi-file-earmark-spreadsheet"></i> Kết xuất
+    </a>
+}
+
+@*Link này tải báo cáo ko chốt số liệu*@
+@if (!string.IsNullOrEmpty(Model.LinkTaiBaoCao))
+{
+    <a href="javascript:OnDownload('@Model.LinkTaiBaoCao')" class="btn btn-primary btn-xs">
+        <i class="bi bi-file-earmark-word"></i> Tải BC
+    </a>
+}
+
+<a href="javascript:void(0)" class="btn btn-default  btn-xs" data-dismiss="modal">
+    <i class="bi bi-x-lg-lg"></i> Đóng
+</a>
+
+<script>
+
+    // được gọi từ các view tương ứng vì còn liên quan đến submit form
+    var Send = function () {
+        ConfirmDataAction2('@linkGui', "Bạn có chắc chắn muốn gửi?")
+    }
+
+    var handleDelete = function (url) {
+        ConfirmDataAction2(url, "Bạn có chắc chắn muốn xóa?");
+    }
+
+</script>

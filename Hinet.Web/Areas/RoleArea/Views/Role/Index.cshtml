@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Quản lý vai trò";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý vai trò";
+    ViewBag.PageName = "Danh sách vai trò";
+    ViewBag.ModuleCode = "QLVaiTro";
+
+}
+@using Hinet.Model.Entities;
+@using Hinet.Model.IdentityEntities;
+@using Newtonsoft.Json;
+@using Hinet.Web.Areas.RoleArea.Models;
+@using Hinet.Web.Core;
+
+@model RoleViewModel.RoleIndexViewModel
+@{
+    var lstData = Html.Raw(JsonConvert.SerializeObject(Model.GroupData.ListItem));
+}
+
+@section ActionBarRight{
+    @*<a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
+            Tìm kiếm
+        </a>*@
+    <a href="javascript:void(0)" onclick="CreateAction('/RoleArea/Role/Edit')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
+}
+@Html.Partial("_SearchPartial")
+
+<div id="tbl-role" class="hntbl-cover">
+    <div class="hntbl-cover-tableScroll">
+        <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    @*<th></th>*@
+                    <th>#</th>
+                    <th>Tên vai trò</th>
+                    <th>Mã vai trò</th>
+                    <th>Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var lstData = eval(@lstData);
+        var moduleTableSelector = "#tbl-role";
+
+        function pagefunction(){
+            var conf=[
+                {
+                    tdClass:"center width50",
+                    isSort:false,
+                    nameModel:"",
+                    isCounter:true,
+                    content: function (data) {
+                        return "<input type='checkbox' />"
+                    }
+                },
+                {
+                    isSort:true,
+                    nameModel:'Name',
+                    content: function (data) {
+                        return "<a href='javascript:void(0)'  onclick='EditAction(\"/RoleArea/Role/Detail/" + data.Id + "\")'   title = 'Xem chi tiết'>" + data.Name+"</a> ";
+
+                    }
+                },
+                 {
+                     isSort:true,
+                     nameModel:'Code',
+                     content: function (data) {
+                         return data.Code
+                     }
+                },
+                   {
+                       isSort:false,
+                       nameModel:"",
+                       tdClass:"center",
+                       content: function (data) {
+                           var result = "<div class='btn-group'>";
+
+                           //result += "<a href='/PhanQuyenDuLieuArea/PhanQuyenDuLieu/PhanQuyenDuLieu?IdRole=" + data.Id + "' class='btn btn-xs btn-primary' title = 'Thiết lập dữ liệu'> <i class='fa fa-cog'> </i> Thiết lập dữ liệu</a>";
+
+                           result += "<a href='/RoleArea/Role/ConfigureOperation?roleId=" + data.Id + "' class='btn btn-xs btn-primary' title = 'Thiết lập'><i class='fa fa-cog'> </i> Thiết lập</a>";
+                           result += "<a href='javascript:void(0)' class='btn btn-xs btn-primary' onclick='EditAction(\"/RoleArea/Role/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa</a> ";
+                           result += "<a href='javascript:void(0)' class='btn btn-xs btn-danger' onclick='DeleteAction(\"/RoleArea/Role/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' bi bi-x-lg' > </i> Xóa</a>";
+
+                           result += "</div>";
+                           return result;
+                       }
+                   },
+            ];
+
+            var getdatafunc=function(page,sortQuery,pageSize){
+                $.ajax({
+                    url: '/RoleArea/Role/GetData',
+                    type: 'post',
+                    cache: false,
+                    data:{"indexPage":page,"sortQuery":sortQuery,"pageSize":pageSize},
+                    success: function (data) {
+                        $(moduleTableSelector).hinetTable("data",{
+                            pageSize:pageSize!=-1?pageSize:data.Count,
+                            pageIndex:page,
+                            pagecount: data.TotalPage,
+                            recordCount: data.Count,
+                            listItem: data.ListItem,});
+                    },
+                    error: function (err) {
+                        CommonJS.alert(xhr.responseText);
+                    }
+                });
+
+            }
+
+            var tblData=$("#tbl-role").hinetTable("init",{
+                pageSizeList: { size: [10, 20, 50, 100, -1], label: ['10', '20', '50', '100', 'Tất cả'] },
+                pagecount: @Model.GroupData.TotalPage,
+                recordCount: @Model.GroupData.Count,
+                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
+                getData:getdatafunc,
+                listItem: lstData,
+                config: conf,
+                showCheckBox: false
+            });
+
+        }
+
+        function AfterSussessActionAjaxform(){
+            $(moduleTableSelector).hinetTable("reload");
+        }
+        function AjaxSearchSuccess(rs) {
+            $(moduleTableSelector).hinetTable("data", {
+                pageIndex: 1,
+                pagecount: rs.TotalPage,
+                recordCount: rs.Count,
+                listItem: rs.ListItem,
+            });
+        }
+        pagefunction();
+    </script>
+}

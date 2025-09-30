@@ -1,0 +1,9 @@
+diff a/Source/Hinet.API2/Controllers/TramDiensController.cs b/Source/Hinet.API2/Controllers/TramDiensController.cs	(rejected hunks)
+@@ -0,6 +0,7 @@
+ using Hinet.Model.Entities;
+ 
+ namespace Hinet.API2.Controllers
++{
+     public class TramDiensController : ApiController
+     {
+         private HinetContext db = new HinetContext();

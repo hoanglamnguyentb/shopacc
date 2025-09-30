@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Hinet.Repository</RootNamespace>
+    <AssemblyName>Hinet.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppUserRepository\AppUserRepository.cs" />
+    <Compile Include="AppUserRepository\IAppUserRepository.cs" />
+    <Compile Include="BannerRepository\BannerRepository.cs" />
+    <Compile Include="BannerRepository\IBannerRepository.cs" />
+    <Compile Include="Common\GenericRepository.cs" />
+    <Compile Include="Common\IGenericRepository.cs" />
+    <Compile Include="DanhMucGameRepository\DanhMucGameRepository.cs" />
+    <Compile Include="DanhMucGameRepository\IDanhMucGameRepository.cs" />
+    <Compile Include="DanhMucGameTaiKhoanRepository\DanhMucGameTaiKhoanRepository.cs" />
+    <Compile Include="DanhMucGameTaiKhoanRepository\IDanhMucGameTaiKhoanRepository.cs" />
+    <Compile Include="DichVuRepository\DichVuRepository.cs" />
+    <Compile Include="DichVuRepository\IDichVuRepository.cs" />
+    <Compile Include="DM_DulieuDanhmucRepository\DM_DulieuDanhmucRepository.cs" />
+    <Compile Include="DM_DulieuDanhmucRepository\IDM_DulieuDanhmucRepository.cs" />
+    <Compile Include="DM_NhomDanhmucRepository\DM_NhomDanhmucRepository.cs" />
+    <Compile Include="DM_NhomDanhmucRepository\IDM_NhomDanhmucRepository.cs" />
+    <Compile Include="GameRepository\GameRepository.cs" />
+    <Compile Include="GameRepository\IGameRepository.cs" />
+    <Compile Include="GiaoDichRepository\GiaoDichRepository.cs" />
+    <Compile Include="GiaoDichRepository\IGiaoDichRepository.cs" />
+    <Compile Include="ModuleRepository\IModuleRepository.cs" />
+    <Compile Include="ModuleRepository\ModuleRepository.cs" />
+    <Compile Include="NotificationRepository\INotificationRepository.cs" />
+    <Compile Include="NotificationRepository\NotificationRepository.cs" />
+    <Compile Include="OperationRepository\IOperationRepository.cs" />
+    <Compile Include="OperationRepository\OperationRepository.cs" />
+    <Compile Include="RoleOperationRepository\IRoleOperationRepository.cs" />
+    <Compile Include="RoleOperationRepository\RoleOperationRepository.cs" />
+    <Compile Include="RoleRepository\IRoleRepository.cs" />
+    <Compile Include="RoleRepository\RoleRepository.cs" />
+    <Compile Include="TaiKhoanRepository\ITaiKhoanRepository.cs" />
+    <Compile Include="TaiKhoanRepository\TaiKhoanRepository.cs" />
+    <Compile Include="TaiLieuDinhKemRepository\ITaiLieuDinhKemRepository.cs" />
+    <Compile Include="TaiLieuDinhKemRepository\TaiLieuDinhKemRepository.cs" />
+    <Compile Include="TinTucRepository\ITinTucRepository.cs" />
+    <Compile Include="TinTucRepository\TinTucRepository.cs" />
+    <Compile Include="UserOperationRepository\IUserOperationRepository.cs" />
+    <Compile Include="UserOperationRepository\UserOperationRepository.cs" />
+    <Compile Include="UserRoleRepository\IUserRoleRepository.cs" />
+    <Compile Include="UserRoleRepository\UserRoleRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="bin\Debug\CommonHelper.dll.config" />
+    <None Include="bin\Debug\Hinet.Repository.dll.config" />
+    <None Include="bin\Release\CommonHelper.dll.config" />
+    <None Include="bin\Release\Hinet.Repository.dll.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonHelper\CommonHelper.csproj">
+      <Project>{68e8b2e8-ed8b-4a15-a2bf-2561023c210a}</Project>
+      <Name>CommonHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hinet.Model\Hinet.Model.csproj">
+      <Project>{afc9d48b-d6fa-41e6-84bc-a43713b5e8b7}</Project>
+      <Name>Hinet.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\00.dll" />
+    <Content Include="bin\Debug\00.pdb" />
+    <Content Include="bin\Debug\CommonHelper.dll" />
+    <Content Include="bin\Debug\CommonHelper.pdb" />
+    <Content Include="bin\Debug\DnsClient.dll" />
+    <Content Include="bin\Debug\DocumentFormat.OpenXml.dll" />
+    <Content Include="bin\Debug\DocumentFormat.OpenXml.Framework.dll" />
+    <Content Include="bin\Debug\DocumentFormat.OpenXml.Framework.xml" />
+    <Content Include="bin\Debug\DocumentFormat.OpenXml.xml" />
+    <Content Include="bin\Debug\DocX.dll" />
+    <Content Include="bin\Debug\Elasticsearch.Net.dll" />
+    <Content Include="bin\Debug\Elasticsearch.Net.pdb" />
+    <Content Include="bin\Debug\EntityFramework.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Debug\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Debug\EntityFramework.xml" />
+    <Content Include="bin\Debug\EPPlus.dll" />
+    <Content Include="bin\Debug\EPPlus.xml" />
+    <Content Include="bin\Debug\Hinet.Repository.dll" />
+    <Content Include="bin\Debug\Hinet.Repository.pdb" />
+    <Content Include="bin\Debug\log4net.dll" />
+    <Content Include="bin\Debug\log4net.xml" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Debug\MongoDB.Bson.dll" />
+    <Content Include="bin\Debug\MongoDB.Driver.Core.dll" />
+    <Content Include="bin\Debug\MongoDB.Driver.dll" />
+    <Content Include="bin\Debug\Nest.dll" />
+    <Content Include="bin\Debug\Nest.pdb" />
+    <Content Include="bin\Debug\OpenXmlPowerTools.dll" />
+    <Content Include="bin\Debug\System.Buffers.dll" />
+    <Content Include="bin\Debug\System.Diagnostics.DiagnosticSource.dll" />
+    <Content Include="bin\Debug\System.Management.Automation.dll" />
+    <Content Include="bin\Debug\System.Memory.dll" />
+    <Content Include="bin\Debug\System.Numerics.Vectors.dll" />
+    <Content Include="bin\Debug\System.Web.Mvc.dll" />
+    <Content Include="bin\Debug\System.Web.Mvc.xml" />
+    <Content Include="bin\Debug\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\Debug\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\Debug\System.Web.WebPages.dll" />
+    <Content Include="bin\Debug\System.Web.WebPages.xml" />
+    <Content Include="bin\Release\00.dll" />
+    <Content Include="bin\Release\00.pdb" />
+    <Content Include="bin\Release\CommonHelper.dll" />
+    <Content Include="bin\Release\CommonHelper.pdb" />
+    <Content Include="bin\Release\DnsClient.dll" />
+    <Content Include="bin\Release\DocumentFormat.OpenXml.dll" />
+    <Content Include="bin\Release\DocumentFormat.OpenXml.Framework.dll" />
+    <Content Include="bin\Release\DocumentFormat.OpenXml.Framework.xml" />
+    <Content Include="bin\Release\DocumentFormat.OpenXml.xml" />
+    <Content Include="bin\Release\DocX.dll" />
+    <Content Include="bin\Release\EntityFramework.dll" />
+    <Content Include="bin\Release\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Release\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\Release\EntityFramework.xml" />
+    <Content Include="bin\Release\EPPlus.dll" />
+    <Content Include="bin\Release\EPPlus.xml" />
+    <Content Include="bin\Release\Hinet.Repository.dll" />
+    <Content Include="bin\Release\Hinet.Repository.pdb" />
+    <Content Include="bin\Release\log4net.dll" />
+    <Content Include="bin\Release\log4net.xml" />
+    <Content Include="bin\Release\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Release\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Release\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Release\MongoDB.Bson.dll" />
+    <Content Include="bin\Release\MongoDB.Driver.Core.dll" />
+    <Content Include="bin\Release\MongoDB.Driver.dll" />
+    <Content Include="bin\Release\OpenXmlPowerTools.dll" />
+    <Content Include="bin\Release\System.Management.Automation.dll" />
+    <Content Include="bin\Release\System.Web.Mvc.dll" />
+    <Content Include="bin\Release\System.Web.Mvc.xml" />
+    <Content Include="bin\Release\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\Release\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\Release\System.Web.WebPages.dll" />
+    <Content Include="bin\Release\System.Web.WebPages.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild"> -->
+  <!-- <PropertyGroup> -->
+  <!-- <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText> -->
+  <!-- </PropertyGroup> -->
+  <!-- <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" /> -->
+  <!-- <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" /> -->
+  <!-- </Target> -->
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,23 @@
+﻿@{
+
+    ViewBag.Title = "Thông tin chi tiết";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý Khoa phòng";
+    ViewBag.PageName = "Thông tin phongf ban";
+    //ViewBag.ModuleCode = "DocumentData_detail";
+
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.DepartmentArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+
+    <a href="/DepartmentArea/Department/Index" class="btn btn-primary btn-sm"><i class="fa fa-reply"></i> Quay lại</a>
+}
+
+<div id="userList" class="row">
+
+    @Html.Partial("DetailPartial", Model)
+</div>
