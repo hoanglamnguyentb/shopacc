@@ -13,5 +13,6 @@ namespace Hinet.Model.Entities
 		public string TrangThai { get; set; }
         public int STT { get; set; }
         public string ViTriHienThi { get; set; }
+        public string Slug { get; set; }
     }
 }

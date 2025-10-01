@@ -196,6 +196,7 @@
     <Compile Include="Constant\ConstantsOld\PermissionCodeConst.cs" />
     <Compile Include="Constant\ConstantsOld\RoleConstant.cs" />
     <Compile Include="Constant\DanhMucConstant.cs" />
+    <Compile Include="Constant\TaiKhoanConstant.cs" />
     <Compile Include="Constant\GiaoDichConstant.cs" />
     <Compile Include="Constant\GameConstant.cs" />
     <Compile Include="Constant\TinTucConstant.cs" />

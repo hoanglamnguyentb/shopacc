@@ -104,6 +104,7 @@ namespace Hinet.Web.Areas.DanhMucGameArea.Controllers
                         model.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/DanhMucGame");
                     }
                     var EntityModel = _mapper.Map<DanhMucGame>(model);
+                    EntityModel.Slug = SlugHelper.GenerateSlug(model.Name, 50);
                     _DanhMucGameService.Create(EntityModel);
 
                 }
@@ -154,6 +155,7 @@ namespace Hinet.Web.Areas.DanhMucGameArea.Controllers
                         FileHelper.DeleteFile(model.DuongDanAnh);
                         obj.DuongDanAnh = FileHelper.SaveUploadedFile(model.FileAnh, "~/Uploads/DanhMucGame");
                     }
+                    obj.Slug = SlugHelper.GenerateSlug(model.Name, 50);
                     _DanhMucGameService.Update(obj);
                 }
             }

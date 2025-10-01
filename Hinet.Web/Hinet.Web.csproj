@@ -595,11 +595,13 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\CommonDashboardController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapAllController.cs" />
     <Compile Include="Controllers\SystemCommonController.cs" />
     <Compile Include="Controllers\TableExportController.cs" />
+    <Compile Include="Controllers\TinTucController.cs" />
     <Compile Include="Controllers\UploadFileCommonController.cs" />
     <Compile Include="Core\CreateUserProvider.cs" />
     <Compile Include="Core\DecimalModelBinder.cs" />
@@ -636,6 +638,8 @@
     <Compile Include="Models\AttachTempFileItem.cs" />
     <Compile Include="Models\CommonDashboard_ViewModels.cs" />
     <Compile Include="Models\EndUserNotificationViewModel.cs" />
+    <Compile Include="Models\GameVM\DanhMucGameVM.cs" />
+    <Compile Include="Models\GameVM\IndexVM.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Map\ThongKeTheoTinh.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
@@ -14596,6 +14600,10 @@
     <Content Include="Views\Shared\Components\_LoginModalPartial.cshtml" />
     <Content Include="Views\Home\AccountDetail.cshtml" />
     <Content Include="Uploads.rar" />
+    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\TinTuc\Index.cshtml" />
+    <Content Include="Views\Game\DanhMuc.cshtml" />
+    <Content Include="Views\Game\_DanhMucGameKhacPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -14643,6 +14651,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

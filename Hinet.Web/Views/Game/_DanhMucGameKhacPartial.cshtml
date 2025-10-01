@@ -1,0 +1,43 @@
+﻿@model List<Hinet.Service.DanhMucGameService.Dto.DanhMucGameDto>
+
+<section class="section-related-service related-category">
+    <div class="section-header c-mb-24 c-mb-lg-16 justify-content-between">
+        <h2 class="section-title fz-lg-15 lh-lg-24">
+            Mua tài khoản game khác
+        </h2>
+        <a href="/mua-acc" class="link arr-right">Xem tất cả</a>
+    </div>
+
+    <div class="swiper swiper-related-service card-list swiper-container-horizontal">
+        <div class="swiper-wrapper">
+
+            @foreach (var game in Model)
+            {
+                <div class="swiper-slide" style="width: 233.6px; margin-right: 16px;">
+                    <div class="card">
+                        <div class="card-body c-p-16 c-p-lg-8 scale-thumb">
+                            <a href="/mua-acc/@game.Slug">
+                                <div class="card-thumb c-mb-8">
+                                    <img src="@game.DuongDanAnh"
+                                         alt="@game.Slug"
+                                         class="card-thumb-image" />
+                                </div>
+                                <div class="card-attr">
+                                    <div class="text-title fw-700 text-limit limit-1">
+                                        @game.Name
+                                    </div>
+                                    <div class="info-attr">
+                                        Số tài khoản: @CommonHelper.Number.NumberHelper.FormatNumberVN(game.SoLuongTaiKhoan)
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <div class="navigation slider-next"></div>
+        <div class="navigation slider-prev"></div>
+    </div>
+</section>

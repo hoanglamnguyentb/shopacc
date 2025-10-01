@@ -100,6 +100,7 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                 if (ModelState.IsValid)
                 {
                     var EntityModel = _mapper.Map<Game>(model);
+                    EntityModel.Slug = SlugHelper.GenerateSlug(model.Name, 50);
                     _GameService.Create(EntityModel);
 
                 }
@@ -144,6 +145,7 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                     }
 
                     obj = _mapper.Map(model, obj);
+                    obj.Slug = SlugHelper.GenerateSlug(model.Name, 50);
                     _GameService.Update(obj);
 
                 }

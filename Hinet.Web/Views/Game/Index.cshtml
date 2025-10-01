@@ -1,0 +1,80 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Web.Models.GameVM.IndexVM
+@{
+    var game = Model.Game;
+    var listDanhMucGame = Model.ListDanhMucGame;
+}
+
+
+<div class="container c-container" id="account-category">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/mua-acc" class="breadcrumb-link">Shop Account</a>
+        </li>
+    </ul>
+    <div class="head-mobile">
+        <a href="/service-mobile" class="link-back"></a>
+
+        <p class="head-title text-title">Shop Account</p>
+
+        <a href="/viewed">
+            <img src="/assets/frontend/theme_5/image/DA-XEM.png" alt="" style="position: absolute;top: 16px;right: 16px;width:30px; height: 30px">
+        </a>
+    </div>
+    <div class="banner-slide swiper-general c-mt-2">
+        <div class="swiper swiper-banner brs-12 swiper-container-horizontal" style="cursor: grab;">
+            <div class="swiper-wrapper" style="transition-duration: 0ms;">
+            </div>
+
+            <div class="navigation slider-next "></div>
+            <div class="navigation slider-prev "></div>
+        </div>
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
+    </div>
+
+    <section class="listing-service c-mb-16">
+        <div class="section-header justify-content-between c-pb-12 c-pb-lg-2">
+            <h2 class="section-title fw-700 fz-20 lh-28 ">Danh sách mục game @game.Name</h2>
+        </div>
+        <hr>
+        <div class="text-title fw-700 c-py-16 c-py-lg-2 c-mb-lg-8">
+            Chọn game muốn mua account
+        </div>
+        <div class="list-service">
+            @if (!listDanhMucGame.Any())
+            {
+                <div class="col-12  text-center my-3" id="text-empty">
+                    <span class="text-danger">Không có kết quả nào phù hợp</span>
+                </div>
+            }
+            else
+            {
+                foreach (var dm in listDanhMucGame)
+                {
+                    <div class="item-service js-service normalAccountItem">
+                        <div class="card card-hover">
+                            <a href="/mua-acc/@dm.Slug" class="card-body scale-thumb c-p-16 c-p-lg-12">
+                                <div class="account-thumb c-mb-8">
+                                    <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png" data-src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/82460/images/image_26.png" alt="nick-free-fire" class="account-thumb-image ls-is-cached lazyloaded" onerror="imgError(this)">
+                                </div>
+                                <div class="account-title">
+                                    <div class="text-title fw-700 text-limit limit-1">
+                                        @dm.Name
+                                    </div>
+                                </div>
+                                <div class="account-info">
+                                    <div class="info-attr">
+                                        Số tài khoản: @NumberHelper.FormatNumberVN(dm.SoLuongTaiKhoan)
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+</div>

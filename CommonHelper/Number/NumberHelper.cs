@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace CommonHelper.Number
@@ -73,6 +74,18 @@ namespace CommonHelper.Number
             str = string.Format("{" + snumformat + "}", GT);
 
             return str;
+        }
+
+        public static string FormatNumberVN(object value, int SoSauDauPhay = 0)
+        {
+            if (!decimal.TryParse(value.ToString(), out decimal GT))
+                return "";
+
+            var culture = new CultureInfo("vi-VN");
+
+            string format = "N" + SoSauDauPhay;
+
+            return GT.ToString(format, culture);
         }
 
         private static bool IsNumeric(object value)

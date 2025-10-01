@@ -5,6 +5,7 @@ using Hinet.Service.DichVuService;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GameService;
 using Hinet.Service.RoleService;
+using Hinet.Service.TinTucService;
 using Hinet.Web.Filters;
 using Hinet.Web.Models;
 using log4net;
@@ -26,12 +27,13 @@ namespace Hinet.Web.Controllers
 		private readonly IDichVuService _dichVuService;
 		private readonly IBannerService _bannerService;
         private readonly IGameService _gameService;
+		private readonly ITinTucService _tinTucService;
 
         public HomeController(
                 IDM_DulieuDanhmucService dM_DulieuDanhmucService,
                 IMapper mapper, ILog iLog,
                 IDM_DulieuDanhmucService DM_DulieuDanhmucService,
-                IAppUserService appUserService, IDichVuService dichVuService, IBannerService bannerService, IGameService gameService)
+                IAppUserService appUserService, IDichVuService dichVuService, IBannerService bannerService, IGameService gameService, ITinTucService tinTucService)
         {
             _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
             _mapper = mapper;
@@ -41,6 +43,7 @@ namespace Hinet.Web.Controllers
             _dichVuService = dichVuService;
             _bannerService = bannerService;
             _gameService = gameService;
+            _tinTucService = tinTucService;
         }
 
         [AllowAnonymous]
@@ -50,7 +53,8 @@ namespace Hinet.Web.Controllers
 			homeVM.ListDichVu = _dichVuService.GetAll().OrderBy(x => x.STT).ToList();
 			homeVM.ListBanner = _bannerService.GetAll().OrderBy(x => x.STT).ToList();
 			homeVM.ListGame = _gameService.GetListGame();
-			return View(homeVM);
+			homeVM.ListTinTuc = _tinTucService.GetAll().OrderByDescending(x => x.CreatedDate).Take(3).ToList();
+            return View(homeVM);
 		}
 
 		//nạp thẻ

@@ -11,5 +11,6 @@ namespace Hinet.Model.Entities
         public string Name { get; set; }
         public string DuongDanAnh { get; set; }
         public string MoTa { get; set; }
+        public string Slug { get; set; }
     }
 }
