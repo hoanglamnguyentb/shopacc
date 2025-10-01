@@ -64,6 +64,7 @@
     <Compile Include="Entities\DichVu.cs" />
     <Compile Include="Entities\GiaoDich.cs" />
     <Compile Include="Entities\DanhMucGameTaiKhoan.cs" />
+    <Compile Include="Entities\BinhLuan.cs" />
     <Compile Include="Entities\TinTuc.cs" />
     <Compile Include="Entities\TaiKhoan.cs" />
     <Compile Include="Entities\Game.cs" />
@@ -125,6 +126,10 @@
     <Compile Include="Migrations\202509301757476_alter_tbl_Game.cs" />
     <Compile Include="Migrations\202509301757476_alter_tbl_Game.Designer.cs">
       <DependentUpon>202509301757476_alter_tbl_Game.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510010424503_add_tbl_BinhLuan.cs" />
+    <Compile Include="Migrations\202510010424503_add_tbl_BinhLuan.Designer.cs">
+      <DependentUpon>202510010424503_add_tbl_BinhLuan.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -193,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202509301757476_alter_tbl_Game.resx">
       <DependentUpon>202509301757476_alter_tbl_Game.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510010424503_add_tbl_BinhLuan.resx">
+      <DependentUpon>202510010424503_add_tbl_BinhLuan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
