@@ -72,12 +72,17 @@
                                 </a>
                             </div>
                             <div class="social-container c-mt-24">
-                                <a href="@Url.Action("ExternalLogin", "Account", new { provider = "Google" })" class="social">
-                                    <img src="~/Content/img/google.png" alt="google" />
+                                <a href="javascript:void(0)" class="social" onclick="submitGoogleForm(event)">
+                                    <img src="~/assets/images/google.png" alt="google" />
                                 </a>
+
                             </div>
                         </div>
                     }
+
+                    <form id="googleLoginForm" method="post" action="@Url.Action("ExternalLogin", "Account", new { provider = "Google" })" style="display: none;">
+                        @Html.AntiForgeryToken()
+                    </form>
                 </div>
 
                 <!-- Overlay -->
@@ -103,3 +108,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    function submitGoogleForm(event) {
+        event.preventDefault();
+        document.getElementById('googleLoginForm').submit();
+    }
+</script>

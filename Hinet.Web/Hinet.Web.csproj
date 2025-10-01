@@ -13353,7 +13353,6 @@
     <Content Include="Areas\DanhMucGameArea\Views\web.config" />
     <Content Include="Areas\DanhMucGameArea\Views\DanhMucGame\CheckImport.cshtml" />
     <Content Include="Areas\DanhMucGameArea\Views\DanhMucGame\Import.cshtml" />
-    <Content Include="Hinet.Web.rar" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
