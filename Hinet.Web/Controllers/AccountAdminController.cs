@@ -138,7 +138,7 @@ namespace Hinet.Web.Controllers
 				ModelState.AddModelError("", "Thông tin đăng nhập không tồn tại");
 				return View(model);
 			}
-			var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+			var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, true, shouldLockout: false);
 
 			switch (result)
 			{
@@ -159,7 +159,7 @@ namespace Hinet.Web.Controllers
 					return View("Lockout");
 
 				case SignInStatus.RequiresVerification:
-					return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+					return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = true });
 
 				case SignInStatus.Failure:
 					if (user != null)

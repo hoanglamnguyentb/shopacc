@@ -4,8 +4,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
+using System.Web.Configuration;
 
 namespace Hinet.Web
 {
@@ -38,6 +40,13 @@ namespace Hinet.Web
                         )
                 }
             });
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                //sử dụng trong web config
+                ClientId = WebConfigurationManager.AppSettings["Google_ClientID"],
+                ClientSecret = WebConfigurationManager.AppSettings["Google_ClientSecret"]
+            });
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.

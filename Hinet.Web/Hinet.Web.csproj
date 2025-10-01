@@ -13349,7 +13349,6 @@
     <Content Include="Areas\DanhMucGameArea\Views\web.config" />
     <Content Include="Areas\DanhMucGameArea\Views\DanhMucGame\CheckImport.cshtml" />
     <Content Include="Areas\DanhMucGameArea\Views\DanhMucGame\Import.cshtml" />
-    <Content Include="Hinet.Web.rar" />
     <None Include="Scripts\jquery-1.10.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -14595,7 +14594,6 @@
     <Content Include="Views\Home\Accounts.cshtml" />
     <Content Include="Views\Shared\Components\_LoginModalPartial.cshtml" />
     <Content Include="Views\Home\AccountDetail.cshtml" />
-    <Content Include="Uploads.rar" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

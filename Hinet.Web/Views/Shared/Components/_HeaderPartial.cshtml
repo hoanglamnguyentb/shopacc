@@ -4,32 +4,30 @@
 }
 
 
-@if(currentUser == null)
-            {
-                <div>Bạn chưa đăng nhập</div>
-            } else
-            {
-                <div>Bạn đã đăng nhập</div>
-            }
+@*@if (currentUser == null)
+    {
+        <div>Bạn chưa đăng nhập</div>
+    }
+    else
+    {
+        <div>Bạn đã đăng nhập</div>
+    }*@
 <header id="heading" class="">
     <nav class="heading">
         <div class="container c-container header-container">
             <div class="box-logo">
                 <a href="https://shopacc79.com/">
                     <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/logo-150k-f1f(1).gif"
-                         alt=""
-                         class="d-lg-block d-none" />
+                        alt="" class="d-lg-block d-none" />
                     <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/logo-150k-f1f(1).gif"
-                         alt=""
-                         class="d-lg-none" />
+                        alt="" class="d-lg-none" />
                 </a>
             </div>
             <div class="d-none d-lg-flex h-100">
                 <div class="box-menu c-mr-16 c-py-10">
                     <div class="box-menu-bar">
                         <div class="box-icon brs-8 c-mr-8">
-                            <img src="/assets/wwwroot/images/menu.svg"
-                                 alt="" />
+                            <img src="/assets/wwwroot/images/menu.svg" alt="" />
                         </div>
                         <span class="lh-40 box-icon-text fw-700">Danh mục</span>
                     </div>
@@ -41,11 +39,9 @@
                                     <li class="w-100 c-px-4">
                                         <a href="/">
                                             <div class="c-p-8 brs-8 d-flex justify-content-center"
-                                                 style="white-space: nowrap">
+                                                style="white-space: nowrap">
                                                 <div>
-                                                    <img src="/assets/wwwroot/images/home.png"
-                                                         alt=""
-                                                         class="c-pr-4" />
+                                                    <img src="/assets/wwwroot/images/home.png" alt="" class="c-pr-4" />
                                                 </div>
 
                                                 <span class="fw-500 fz-15 lh-24">Trang chủ</span>
@@ -54,15 +50,13 @@
                                     </li>
 
                                     <li class="w-100 c-px-4">
-                                        <a href="/home/recharge"
-                                           @* href="javascript:void(0);"
+                                        <a href="/home/recharge" @* href="javascript:void(0);"
                           onclick="openLoginModal();" *@>
                                             <div class="c-p-8 brs-8 d-flex justify-content-center"
-                                                 style="white-space: nowrap">
+                                                style="white-space: nowrap">
                                                 <div>
-                                                    <img src="/assets/wwwroot/images/charge.png"
-                                                         alt=""
-                                                         class="c-pr-4" />
+                                                    <img src="/assets/wwwroot/images/charge.png" alt=""
+                                                        class="c-pr-4" />
                                                 </div>
 
                                                 <span class="fw-500 fz-15 lh-24">Nạp tiền</span>
@@ -72,11 +66,10 @@
                                     <li class="w-100 c-px-4">
                                         <a href="/home/Accounts">
                                             <div class="c-p-8 brs-8 d-flex justify-content-center"
-                                                 style="white-space: nowrap">
+                                                style="white-space: nowrap">
                                                 <div>
-                                                    <img src="/assets/wwwroot/images/buy-acc.png"
-                                                         alt=""
-                                                         class="c-pr-4" />
+                                                    <img src="/assets/wwwroot/images/buy-acc.png" alt=""
+                                                        class="c-pr-4" />
                                                 </div>
 
                                                 <span class="fw-500 fz-15 lh-24">Mua Acc</span>
@@ -86,11 +79,10 @@
                                     <li class="w-100 c-px-4">
                                         <a href="/home/services">
                                             <div class="c-p-8 brs-8 d-flex justify-content-center"
-                                                 style="white-space: nowrap">
+                                                style="white-space: nowrap">
                                                 <div>
-                                                    <img src="/assets/wwwroot/images/service.png"
-                                                         alt=""
-                                                         class="c-pr-4" />
+                                                    <img src="/assets/wwwroot/images/service.png" alt=""
+                                                        class="c-pr-4" />
                                                 </div>
 
                                                 <span class="fw-500 fz-15 lh-24">Dịch vụ</span>
@@ -100,11 +92,9 @@
                                     <li class="w-100 c-px-4">
                                         <a href="/home/news">
                                             <div class="c-p-8 brs-8 d-flex justify-content-center"
-                                                 style="white-space: nowrap">
+                                                style="white-space: nowrap">
                                                 <div>
-                                                    <img src="/assets/wwwroot/images/news.png"
-                                                         alt=""
-                                                         class="c-pr-4" />
+                                                    <img src="/assets/wwwroot/images/news.png" alt="" class="c-pr-4" />
                                                 </div>
 
                                                 <span class="fw-500 fz-15 lh-24">Tin Tức</span>
@@ -118,37 +108,26 @@
                 </div>
                 <div class="box-viewed d-flex c-py-10">
                     <div class="box-icon brs-8 c-mr-8">
-                        <img src="/assets/wwwroot/images/viewed.png"
-                             alt=""
-                             style="filter: invert(80%)" />
+                        <img src="/assets/wwwroot/images/viewed.png" alt="" style="filter: invert(80%)" />
                     </div>
-                    <a href="https://shopacc79.com/viewed"
-                       class="lh-40 box-icon-text fw-700">Đã xem</a>
+                    <a href="https://shopacc79.com/viewed" class="lh-40 box-icon-text fw-700">Đã xem</a>
                 </div>
             </div>
 
             <div class="box-search d-none d-lg-block">
-                <form action="https://shopacc79.com/"
-                      class="form-search"
-                      id="formSearchHeader">
-                    <input type="search"
-                           placeholder="Tìm kiếm"
-                           class="has-submit"
-                           id="search-header-input" />
+                <form action="https://shopacc79.com/" class="form-search" id="formSearchHeader">
+                    <input type="search" placeholder="Tìm kiếm" class="has-submit" id="search-header-input" />
                     <button type="submit"></button>
-                    <div class="tooltip-search-hearder"
-                         id="input-search-header"></div>
+                    <div class="tooltip-search-hearder" id="input-search-header"></div>
                 </form>
             </div>
             <div class="d-flex">
                 <a class="btn primary handle-recharge-modal c-px-xl-20 c-px-34 c-mr-16 d-none d-lg-block"
-                   href="javascript:void(0)"
-                   data-tab="1">Nạp tiền</a>
+                    href="javascript:void(0)" data-tab="1">Nạp tiền</a>
                 <div class="box-search_mobile d-lg-none">
                     <div class="box-notify-1">
                         <div class="box-icon brs-8">
-                            <img src="/assets/wwwroot/images/search.svg"
-                                 alt="" />
+                            <img src="/assets/wwwroot/images/search.svg" alt="" />
                         </div>
                     </div>
                 </div>
@@ -156,366 +135,569 @@
                     <div class="box-notify-1">
                         <div class="box-icon brs-8">
                             <a href="https://shopacc79.com/viewed">
-                                <img src="/assets/wwwroot/images/DA-XEM.png"
-                                     alt=""
-                                     style="width: 30px" />
+                                <img src="/assets/wwwroot/images/DA-XEM.png" alt="" style="width: 30px" />
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="box-notify d-flex">
                     <div class="box-icon brs-8" data-notity="">
-                        <img src="/assets/wwwroot/images/ring.svg"
-                             alt="" />
+                        <img src="/assets/wwwroot/images/ring.svg" alt="" />
                         <p id="num-notification" class="d-none">0</p>
                     </div>
-                    <div class="notify_menu notify_active position-absolute brs-12"
-                         style="display: none">
+                    <div class="notify_menu notify_active position-absolute brs-12" style="display: none">
                         <div class="notify_header d-flex justify-content-between c-p-16">
                             <div class="fw-700 fz-20 lh-28 title-color">Thông báo</div>
-                            <img src="/assets/wwwroot/images/profile_close.svg"
-                                 alt=""
-                                 class="close-notification-popup c-mr-12" />
+                            <img src="/assets/wwwroot/images/profile_close.svg" alt=""
+                                class="close-notification-popup c-mr-12" />
                         </div>
                         <div class="notification_type c-ml-14 c-mr-14 c-mt-8 c-pb-4">
-                            <a class="tag c-ml-4 d-inline-flex"
-                               data-id="1"
-                               href="javascript:void(0)">
+                            <a class="tag c-ml-4 d-inline-flex" data-id="1" href="javascript:void(0)">
                                 Hệ thống/Event
                                 <div class="num-notification-inner num-notification-inner_1 c-ml-4"></div>
                             </a>
-                            <a class="tag c-ml-4 d-inline-flex"
-                               data-id="2"
-                               href="javascript:void(0)">
+                            <a class="tag c-ml-4 d-inline-flex" data-id="2" href="javascript:void(0)">
                                 Giao dịch
                                 <div class="num-notification-inner num-notification-inner_2 c-ml-4"></div>
                             </a>
                         </div>
                         <div class="notify_content_layout">
-                            <div id="result-notification"
-                                 class="notify_content c-pr-4 c-mr-4 c-pl-16 c-mt-8 c-mb-12"></div>
+                            <div id="result-notification" class="notify_content c-pr-4 c-mr-4 c-pl-16 c-mt-8 c-mb-12">
+                            </div>
                         </div>
 
-                        <div class="notify_menu_seeMore c-px-12 c-pb-12 c-pt-4 text-center cursor-pointer"
-                             data-type="">
+                        <div class="notify_menu_seeMore c-px-12 c-pb-12 c-pt-4 text-center cursor-pointer" data-type="">
                             <span class="text-color fw-500">Xem thêm</span>
-                            <img src="/assets/wwwroot/images/notification_down.png"
-                                 alt="" />
+                            <img src="/assets/wwwroot/images/notification_down.png" alt="" />
                         </div>
                     </div>
 
                     <div class="step noti_menu_mobile">
                         <div class="head-mobile">
-                            <a href="javascript:void(0);"
-                               class="link-back close-step"></a>
+                            <a href="javascript:void(0);" class="link-back close-step"></a>
                             <p class="head-title text-title">Thông báo</p>
                         </div>
                         <div class="notification_type mobile c-ml-14 c-mr-14 c-pb-4">
-                            <a class="tag c-ml-4 d-inline-flex"
-                               data-id="1"
-                               href="javascript:void(0)">
+                            <a class="tag c-ml-4 d-inline-flex" data-id="1" href="javascript:void(0)">
                                 Hệ thống/Event
                                 <div class="num-notification-inner num-notification-inner_1 c-ml-4"></div>
                             </a>
-                            <a class="tag c-ml-4 d-inline-flex"
-                               data-id="2"
-                               href="javascript:void(0)">
+                            <a class="tag c-ml-4 d-inline-flex" data-id="2" href="javascript:void(0)">
                                 Giao dịch
                                 <div class="num-notification-inner num-notification-inner_2 c-ml-4"></div>
                             </a>
                         </div>
                         <div class="notify_content_layout">
-                            <div class="notify-content_mobile c-px-16"
-                                 id="result-notification_mobile"></div>
+                            <div class="notify-content_mobile c-px-16" id="result-notification_mobile"></div>
                         </div>
                         <div class="notify_menu_seeMore c-px-12 c-pb-12 c-pt-12 text-center cursor-pointer">
                             <span class="text-color fw-500">Xem thêm</span>
                             <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/notification_down.png"
-                                 alt="" />
+                                alt="" />
                         </div>
                     </div>
                 </div>
+                @if (currentUser == null)
+                {
 
-                <div class="box-account c-ml-16 d-none d-md-block position-relative"
-                     style="display: none">
-                    <div class="box-loading btn-loading" style="display: none">
-                        <div class="loading">
-                            <div class="loading-child"></div>
+                    <div class="box-account c-ml-16 d-none d-md-block position-relative" style="display: none">
+                        <div class="box-loading btn-loading" style="display: none">
+                            <div class="loading">
+                                <div class="loading-child"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="account-logined" onclick="openLoginModal()">
-                        <div class="box-icon brs-8">
-                            <img src="/assets/wwwroot/images/profile.svg"
-                                 alt="" />
+                        <div class="account-logined" onclick="openLoginModal()">
+                            <div class="box-icon brs-8">
+                                <img src="/assets/wwwroot/images/profile.svg" alt="" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="box-account-logined position-absolute brs-12"
-                         style="display: none">
-                        <div class="box-account-title d-flex justify-content-between c-mb-18">
-                            <div class="fw-700 fz-20 lh-28 title-color">Tài khoản</div>
-                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/profile_close.svg"
-                                 alt=""
-                                 class="close-login-popup c-mr-12" />
-                        </div>
-                        <div class="c-pr-16 account-logined-content box-account_nologined"
-                             style="display: block">
-                            <div class="login-popup brs-12 c-p-16 d-flex m-auto justify-content-between">
-                                <div class="m-auto">
-                                    <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/login-robot.png"
-                                         alt="" />
+                        <div class="box-account-logined position-absolute brs-12" style="display: none">
+                            <div class="box-account-title d-flex justify-content-between c-mb-18">
+                                <div class="fw-700 fz-20 lh-28 title-color">Tài khoản</div>
+                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/profile_close.svg"
+                                    alt="" class="close-login-popup c-mr-12" />
+                            </div>
+                            <div class="c-pr-16 account-logined-content box-account_nologined" style="display: block">
+                                <div class="login-popup brs-12 c-p-16 d-flex m-auto justify-content-between">
+                                    <div class="m-auto">
+                                        <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/login-robot.png"
+                                            alt="" />
+                                    </div>
+
+                                    <div class="login-popup_content c-ml-24">
+                                        <div class="text-secondary-color fw-700 lh-28 fz-20">
+                                            Nick.vn xin chào!
+                                        </div>
+                                        <div class="fw-400 c-mt-4">
+                                            Vui lòng đăng nhập để sử dụng dịch vụ của chúng tôi
+                                        </div>
+                                        <button class="btn primary w-100 c-mt-12" onclick="openLoginModal()">
+                                            Đăng nhập
+                                        </button>
+                                        <div class="c-mt-10">
+                                            Bạn chưa có tài khoản?
+                                            <a href="https://shopacc79.com/#" onclick="openRegisterModal()"
+                                                class="text-primary-color fw-500 underline"
+                                                style="text-decoration: underline">Đăng ký</a>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="login-popup_content c-ml-24">
-                                    <div class="text-secondary-color fw-700 lh-28 fz-20">
-                                        Nick.vn xin chào!
+                            </div>
+                            <div class="account-logined-content c-pr-4 box-account_logined" style="display: none">
+                                <div class="sidebar">
+                                    <div class="sidebar-section d-flex brs-12 c-mb-16 sidebar-user-profile"></div>
+                                    <!-- Nhóm vào với các item vào với nhau theo parent -->
+                                    <!-- Tìm parent trước -->
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <p class="sidebar-section-title fz-15 fw-500 c-mb-16">
+                                            MENU TÀI KHOẢN
+                                        </p>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/thong-tin"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/thongtintaikhoan.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Thông tin tài khoản
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/changepassword"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/doimatkhau.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Đổi mật khẩu
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="fw-400 c-mt-4">
-                                        Vui lòng đăng nhập để sử dụng dịch vụ của chúng tôi
+                                    <!-- Tìm parent trước -->
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <p class="sidebar-section-title fz-15 fw-500 c-mb-16">
+                                            MENU GIAO DỊCH
+                                        </p>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/lich-su-giao-dich"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Lịch sử giao dịch
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/dich-vu-da-mua"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Dịch vụ đã mua
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/lich-su-mua-account"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/taikhoandamua.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Tài khoản đã mua
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/minigame-log"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsuquaythuong.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Lịch sử chơi minigame
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/nap-the"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Nạp thẻ tự động
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/lich-su-atm-tu-dong"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Lịch sử nạp ATM tự động
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/lich-su-nap-the"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsunapthe.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Lịch sử nạp thẻ
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/recharge-atm"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/napatmtudong1.svg);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Nạp tiền từ ATM
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/withdrawitem-2"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/gift.png);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    RÚT KIM CƯƠNG
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/withdrawitem-1"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="--path: url()"></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Rút quân huy
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item">
+                                            <a href="https://shopacc79.com/withdrawitem-6"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="
+                                                          --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/%E2%80%94Pngtree%E2%80%94gift%20box%20icon_5958133.png);
+                                                        "></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">
+                                                    Rút Robux
+                                                </p>
+                                                <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
+                                                    alt="" />
+                                            </a>
+                                        </div>
                                     </div>
-                                    <button class="btn primary w-100 c-mt-12"
-                                            onclick="openLoginModal()">
-                                        Đăng nhập
-                                    </button>
-                                    <div class="c-mt-10">
-                                        Bạn chưa có tài khoản?
-                                        <a href="https://shopacc79.com/#"
-                                           onclick="openRegisterModal()"
-                                           class="text-primary-color fw-500 underline"
-                                           style="text-decoration: underline">Đăng ký</a>
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <div class="sidebar-item log-out-button"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="account-logined-content c-pr-4 box-account_logined"
-                             style="display: none">
-                            <div class="sidebar">
-                                <div class="sidebar-section d-flex brs-12 c-mb-16 sidebar-user-profile"></div>
-                                <!-- Nhóm vào với các item vào với nhau theo parent -->
-                                <!-- Tìm parent trước -->
-                                <div class="sidebar-section brs-12 c-mb-16">
-                                    <p class="sidebar-section-title fz-15 fw-500 c-mb-16">
-                                        MENU TÀI KHOẢN
-                                    </p>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/thong-tin"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/thongtintaikhoan.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Thông tin tài khoản
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/changepassword"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/doimatkhau.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Đổi mật khẩu
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- Tìm parent trước -->
-                                <div class="sidebar-section brs-12 c-mb-16">
-                                    <p class="sidebar-section-title fz-15 fw-500 c-mb-16">
-                                        MENU GIAO DỊCH
-                                    </p>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/lich-su-giao-dich"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Lịch sử giao dịch
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/dich-vu-da-mua"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Dịch vụ đã mua
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/lich-su-mua-account"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/taikhoandamua.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Tài khoản đã mua
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/minigame-log"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsuquaythuong.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Lịch sử chơi minigame
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/nap-the"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Nạp thẻ tự động
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/lich-su-atm-tu-dong"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Lịch sử nạp ATM tự động
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/lich-su-nap-the"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsunapthe.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Lịch sử nạp thẻ
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/recharge-atm"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/napatmtudong1.svg);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Nạp tiền từ ATM
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/withdrawitem-2"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/gift.png);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                RÚT KIM CƯƠNG
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/withdrawitem-1"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar" style="--path: url()"></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Rút quân huy
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="sidebar-item-partition d-flex c-my-8"></div>
-                                    <div class="sidebar-item">
-                                        <a href="https://shopacc79.com/withdrawitem-6"
-                                           class="d-block align-items-center d-flex">
-                                            <div class="icon-sidebar"
-                                                 style="
-                              --path: url(https://static2.mingame89.store/19426957-cdnimage/upload/images/%E2%80%94Pngtree%E2%80%94gift%20box%20icon_5958133.png);
-                            "></div>
-                                            <p class="sidebar-item-text fw-400 fz-12 mb-0">
-                                                Rút Robux
-                                            </p>
-                                            <img src="./SHOPACC79.COM - Shop Acc Game Uy Tín, Giá Rẻ, Chất Lượng Hàng Đầu_files/sidebar_arrow_right.svg"
-                                                 alt="" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="sidebar-section brs-12 c-mb-16">
-                                    <div class="sidebar-item log-out-button"></div>
-                                </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="box-account c-ml-16 d-none d-md-block position-relative">
+                        <div class="box-loading btn-loading" style="display: none;">
+                            <div class="loading">
+                                <div class="loading-child"></div>
                             </div>
                         </div>
+                        <div class="account-logined box-account-open">
+                            <div class="d-flex ">
+                                <div class="account-name">
+                                    <div class="text-right title-color fw-500">Huyền Thu</div>
+                                    <div class="account-balance fw-400">Số dư: 0</div>
+                                </div>
+                                <div class="account-avatar c-ml-12"><img src="~/assets/images/anhdaidien.svg" alt=""></div>
+                            </div>
+                        </div>
+                        <div class="box-account-logined position-absolute brs-12" style="display: none;">
+
+                            <div class="box-account-title d-flex justify-content-between c-mb-18">
+                                <div class="fw-700 fz-20 lh-28 title-color">Tài khoản</div>
+                                <img src="./Thử Vận May Free Fire Vip 1_files/profile_close.svg" alt=""
+                                    class="close-login-popup c-mr-12">
+                            </div>
+                            <div class="c-pr-16 account-logined-content box-account_nologined" style="display: none;">
+                                <div class="login-popup brs-12 c-p-16 d-flex m-auto justify-content-between">
+                                    <div class="m-auto ">
+                                        <img src="./Thử Vận May Free Fire Vip 1_files/login-robot.png" alt="">
+                                    </div>
+
+                                    <div class="login-popup_content c-ml-24">
+                                        <div class="text-secondary-color fw-700 lh-28 fz-20">
+                                            Nick.vn xin chào!
+                                        </div>
+                                        <div class="fw-400 c-mt-4">Vui lòng đăng nhập để sử dụng dịch vụ của chúng tôi</div>
+                                        <button class="btn primary w-100 c-mt-12" onclick="openLoginModal()">Đăng
+                                            nhập</button>
+                                        <div class="c-mt-10">Bạn chưa có tài khoản? <a
+                                                href="https://shopacc79.com/mua-acc/thu-van-may-free-fire-vip-1?page=1#"
+                                                onclick="openRegisterModal()" class="text-primary-color fw-500 underline"
+                                                style="text-decoration: underline">Đăng ký</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="account-logined-content c-pr-4 box-account_logined" style="display: block;">
+
+                                <div class="sidebar">
+                                    <div class="sidebar-section d-flex brs-12 c-mb-16 sidebar-user-profile">
+                                        <div class="sidebar-section-avt brs-100 c-mr-12"><img class="brs-100"
+                                                src="~/assets/images/anhdaidien.svg" alt=""></div>
+                                        <div class="sidebar-section-info">
+                                            <div class="sidebar-section-title c-mb-4 fz-15 fw-500">Huyền Thu</div>
+                                            <div class="sidebar-section-info-text c-mb-4 fz-13 fw-500 sidebar-user-balance">
+                                                Số dư: <span>0</span></div>
+                                            <div class="sidebar-section-info-text c-mb-4 fz-13 fw-500 sidebar-user-balance">
+                                                Số dư Acoin: <span>0 Acoin</span></div>
+                                            <div class="sidebar-section-info-text c-mb-4 fz-13 fw-500 sidebar-user-balance">
+                                                Số dư khuyến mãi: <span>0đ</span></div>
+                                            <p class="sidebar-section-info-text mb-0 fz-13 fw-500 sidebar-user-id">ID:
+                                                <span>2927625</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Nhóm vào với các item vào với nhau theo parent -->
+                                    <!-- Tìm parent trước -->
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <p class="sidebar-section-title fz-15 fw-500 c-mb-16">MENU TÀI KHOẢN</p>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/thong-tin"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/thongtintaikhoan.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Thông tin tài khoản</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/changepassword"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/doimatkhau.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Đổi mật khẩu</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- Tìm parent trước -->
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <p class="sidebar-section-title fz-15 fw-500 c-mb-16">MENU GIAO DỊCH</p>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/lich-su-giao-dich"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Lịch sử giao dịch</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/dich-vu-da-mua"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/dichvudamua.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Dịch vụ đã mua</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/lich-su-mua-account"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/taikhoandamua.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Tài khoản đã mua</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/minigame-log"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsuquaythuong.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Lịch sử chơi minigame</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/nap-the"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Nạp thẻ tự động</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/lich-su-atm-tu-dong"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/naptien.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Lịch sử nạp ATM tự động</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/lich-su-nap-the"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/lichsunapthe.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Lịch sử nạp thẻ</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/recharge-atm"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/napatmtudong1.svg)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Nạp tiền từ ATM</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/withdrawitem-2"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/icon-newnew/gift.png)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">RÚT KIM CƯƠNG</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/withdrawitem-1"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar" style="--path:url()"></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Rút quân huy</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                        <div class="sidebar-item-partition d-flex c-my-8"></div>
+                                        <div class="sidebar-item ">
+                                            <a href="https://shopacc79.com/withdrawitem-6"
+                                                class="d-block align-items-center d-flex">
+                                                <div class="icon-sidebar"
+                                                    style="--path:url(https://static2.mingame89.store/19426957-cdnimage/upload/images/%E2%80%94Pngtree%E2%80%94gift%20box%20icon_5958133.png)">
+                                                </div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Rút Robux</p>
+                                                <img src="./Thử Vận May Free Fire Vip 1_files/sidebar_arrow_right.svg"
+                                                    alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="sidebar-section brs-12 c-mb-16">
+                                        <div class="sidebar-item log-out-button">
+                                            <a href="/Account/LogOff" class="d-block align-items-center d-flex">
+                                                <div class="sidebar-item-icon brs-8 c-p-8 c-mr-12"><img
+                                                        src="/assets/images/log-out.svg" alt=""
+                                                        style="width: 24px;height: 24px"></div>
+                                                <p class="sidebar-item-text fw-400 fz-12 mb-0">Đăng xuất</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
+            <form action="https://shopacc79.com/" class="search_header_click d-none formSearchHeaderMob">
+                <div class="d-lg-none d-block header-mobile">
+                    <div class="cat-mob-search change-bg-cat c-px-12 c-py-12 position-relative">
+                        <img src="/assets/wwwroot/images/search.svg" alt=""
+                            class="mw-20 c-ml-12 position-absolute bor-0 ic-search" style="top: 20px; left: 12px" />
+                        <input type="text" placeholder="Tìm kiếm"
+                            class="change-bg-search-mob brs-8 c-pl-40 bor-0 search-header-mob search-header-input-mob" />
+                        <div class="tooltip-search-hearder input-search-header-mob"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <form action="https://shopacc79.com/"
-              class="search_header_click d-none formSearchHeaderMob">
-            <div class="d-lg-none d-block header-mobile">
-                <div class="cat-mob-search change-bg-cat c-px-12 c-py-12 position-relative">
-                    <img src="/assets/wwwroot/images/search.svg"
-                         alt=""
-                         class="mw-20 c-ml-12 position-absolute bor-0 ic-search"
-                         style="top: 20px; left: 12px" />
-                    <input type="text"
-                           placeholder="Tìm kiếm"
-                           class="change-bg-search-mob brs-8 c-pl-40 bor-0 search-header-mob search-header-input-mob" />
-                    <div class="tooltip-search-hearder input-search-header-mob"></div>
-                </div>
-            </div>
-        </form>
+            </form>
     </nav>
 </header>
