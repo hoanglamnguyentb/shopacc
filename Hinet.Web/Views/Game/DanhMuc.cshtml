@@ -1,4 +1,5 @@
 ﻿@model Hinet.Web.Models.GameVM.DanhMucGameVM
+@using CommonHelper.Number
 
 @{
     var game = Model.Game;
@@ -67,52 +68,40 @@
 
 
             <div class="listing-account list-content">
-                <div class="item-account">
-                    <div class="card card-hover h-100">
-                        <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                            <div class="account-thumb c-mb-8 position-realative">
-                                <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
+                @foreach (var tk in taiKhoanPagedResult.ListItem)
+                {
+                    <div class="item-account">
+                        <div class="card card-hover h-100">
+                            <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
+                                <div class="account-thumb c-mb-8 position-realative">
+                                    <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
 
-                            </div>
-                            <div class="account-title">
-                                <div class="text-title fw-700 text-limit limit-1">Random Blox Fruits Trái Kitsune</div>
-                            </div>
-                            <div class="price">
-                                <div class="price-current w-100">
-                                    125.000đ
                                 </div>
-                                <div class="price-old c-mr-8">500.000đ</div>
-                                <div class="discount">75%</div>
-                            </div>
-                            <div class="price c-pt-12 c-pt-lg-8">
-                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                            </div>
-                        </a>
+                                <div class="account-title">
+                                    <div class="text-title fw-700 text-limit limit-1">@tk.Code</div>
+                                    <div class="price">
+                                        <div class="price-current w-100">
+                                            @NumberHelper.FormatNumberVN((decimal)tk.GiaKhuyenMai)đ
+                                        </div>
+                                    </div>
+                                    @if (tk.GiaKhuyenMai != 0)
+                                    {
+                                        <div class="price-old c-mr-8">
+                                            @NumberHelper.FormatNumberVN((decimal)tk.GiaGoc)đ
+                                        </div>
+                                        <div class="discount">
+                                            @*@NumberHelper.TinhPhanTramGiamText((decimal)tk.GiaGoc, (decimal)tk.GiaKhuyenMai)*@
+                                        </div>
+                                    }
+                                </div>
+                                <div class="price c-pt-12 c-pt-lg-8">
+                                    <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="item-account">
-                    <div class="card card-hover h-100">
-                        <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                            <div class="account-thumb c-mb-8 position-realative">
-                                <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
+                }
 
-                            </div>
-                            <div class="account-title">
-                                <div class="text-title fw-700 text-limit limit-1">Random Blox Fruits Trái Kitsune</div>
-                            </div>
-                            <div class="price">
-                                <div class="price-current w-100">
-                                    125.000đ
-                                </div>
-                                <div class="price-old c-mr-8">500.000đ</div>
-                                <div class="discount">75%</div>
-                            </div>
-                            <div class="price c-pt-12 c-pt-lg-8">
-                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
 
                 <div class="loading-container item-account loading-item-account">
                     <div class="loading-nick">

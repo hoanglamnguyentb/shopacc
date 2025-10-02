@@ -88,6 +88,21 @@ namespace CommonHelper.Number
             return GT.ToString(format, culture);
         }
 
+        public static int TinhPhanTramGiam(decimal giaGoc, decimal giaKhuyenMai)
+        {
+            if (giaGoc <= 0) return 0;
+            var giam = (1 - (giaKhuyenMai / giaGoc)) * 100;
+            return (int)Math.Round(giam, 0, MidpointRounding.AwayFromZero);
+        }
+
+        public static string TinhPhanTramGiamText(decimal giaGoc, decimal giaKhuyenMai)
+        {
+            if (giaGoc <= 0) return "0%";
+            var giam = (1 - (giaKhuyenMai / giaGoc)) * 100;
+            var phanTram = (int)Math.Round(giam, 0, MidpointRounding.AwayFromZero);
+            return "-" + phanTram + "%";
+        }
+
         private static bool IsNumeric(object value)
         {
             return value is sbyte
