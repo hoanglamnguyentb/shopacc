@@ -7,7 +7,6 @@
     var taiKhoanPagedResult = Model.TaiKhoanPagedResult;
 }
 
-
 <div class="container c-container" id="account-list">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
@@ -43,14 +42,16 @@
     <section class="list-account" style="margin-top: 2px">
         <div class="section-header justify-content-between  d-none d-lg-flex c-py-16">
             <h1 class="section-title">@danhMuc.Name </h1>
-
-
-
-
         </div>
         <div class="filter-account c-my-16 d-none d-lg-flex">
             <div class="filter-title text-title fw-700">
                 Chọn game muốn mua account
+            </div>
+            <div class="value-filter">
+                <div class="nick-findter-data" id="params-filter"></div>
+                <div class="show-modal-filter noselect" data-toggle="modal" data-target="#modal-filter">
+                    Tìm kiếm
+                </div>
             </div>
         </div>
 
@@ -58,272 +59,26 @@
         </div>
 
         <div class="sort-account c-mb-16 d-none d-lg-flex">
-            <div class="text-title fw-700" id="numberResult">-------------- sản phẩm</div>
+            <div class="text-title fw-700" id="numberResult">@taiKhoanPagedResult.Count sản phẩm</div>
+            <div class="value-sort d-flex align-items-center">
+                <div class="text-title fw-700 c-mr-16">
+                    Sắp xếp theo:
+                </div>
+                <div>
+                    <a href="#" class="selection active md" data-sort="random">Ngẫu nhiên</a>
+                    <a href="#" class="selection md" data-sort="price_start">Giá từ cao đến thấp</a>
+                    <a href="#" class="selection md" data-sort="price_end">Giá từ thấp đến cao</a>
+                    <a href="#" class="selection md" data-sort="created_at_start">Mới nhất</a>
+                    <a href="#" class="selection md" data-sort="created_at_end">Cũ nhất</a>
+                </div>
+            </div>
         </div>
         <!-- Mobile -->
         <div class="text-title fw-700 c-mb-8 d-lg-none">
             @danhMuc.Name
         </div>
-        <div class="">
-
-
-            <div class="listing-account list-content">
-                @foreach (var tk in taiKhoanPagedResult.ListItem)
-                {
-                    <div class="item-account">
-                        <div class="card card-hover h-100">
-                            <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                                <div class="account-thumb c-mb-8 position-realative">
-                                    <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
-
-                                </div>
-                                <div class="account-title">
-                                    <div class="text-title fw-700 text-limit limit-1">@tk.Code</div>
-                                    <div class="price">
-                                        <div class="price-current w-100">
-                                            @NumberHelper.FormatNumberVN((decimal)tk.GiaKhuyenMai)đ
-                                        </div>
-                                    </div>
-                                    @if (tk.GiaKhuyenMai != 0)
-                                    {
-                                        <div class="price-old c-mr-8">
-                                            @NumberHelper.FormatNumberVN((decimal)tk.GiaGoc)đ
-                                        </div>
-                                        <div class="discount">
-                                            @*@NumberHelper.TinhPhanTramGiamText((decimal)tk.GiaGoc, (decimal)tk.GiaKhuyenMai)*@
-                                        </div>
-                                    }
-                                </div>
-                                <div class="price c-pt-12 c-pt-lg-8">
-                                    <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                }
-
-
-                <div class="loading-container item-account loading-item-account">
-                    <div class="loading-nick">
-                        <div class="shape1"></div>
-                        <div class="shape2"></div>
-                        <div class="shape3"></div>
-                        <div class="shape4"></div>
-                        <div class="shape5"></div>
-                        <div class="shape6"></div>
-                        <div class="shape7"></div>
-                        <div class="shape8"></div>
-                        <div class="shape9"></div>
-                    </div>
-                </div>
-                <div class="item-account scroll-load d-none">
-                    <div class="card card-hover h-100">
-                        <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                            <div class="account-thumb c-mb-8 position-realative">
-                                <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
-
-                            </div>
-                            <div class="account-title">
-                                <div class="text-title fw-700 text-limit limit-1">Random Blox Fruits Trái Kitsune</div>
-                            </div>
-                            <div class="price">
-                                <div class="price-current w-100">
-                                    125.000đ
-                                </div>
-                                <div class="price-old c-mr-8">500.000đ</div>
-                                <div class="discount">75%</div>
-                            </div>
-                            <div class="price c-pt-12 c-pt-lg-8">
-                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-                <div class="loading-container item-account loading-item-account">
-                    <div class="loading-nick">
-                        <div class="shape1"></div>
-                        <div class="shape2"></div>
-                        <div class="shape3"></div>
-                        <div class="shape4"></div>
-                        <div class="shape5"></div>
-                        <div class="shape6"></div>
-                        <div class="shape7"></div>
-                        <div class="shape8"></div>
-                        <div class="shape9"></div>
-                    </div>
-                </div>
-                <div class="item-account scroll-load d-none">
-                    <div class="card card-hover h-100">
-                        <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                            <div class="account-thumb c-mb-8 position-realative">
-                                <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
-
-                            </div>
-                            <div class="account-title">
-                                <div class="text-title fw-700 text-limit limit-1">Random Blox Fruits Trái Kitsune</div>
-                            </div>
-                            <div class="price">
-                                <div class="price-current w-100">
-                                    125.000đ
-                                </div>
-                                <div class="price-old c-mr-8">500.000đ</div>
-                                <div class="discount">75%</div>
-                            </div>
-                            <div class="price c-pt-12 c-pt-lg-8">
-                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-                <div class="loading-container item-account loading-item-account">
-                    <div class="loading-nick">
-                        <div class="shape1"></div>
-                        <div class="shape2"></div>
-                        <div class="shape3"></div>
-                        <div class="shape4"></div>
-                        <div class="shape5"></div>
-                        <div class="shape6"></div>
-                        <div class="shape7"></div>
-                        <div class="shape8"></div>
-                        <div class="shape9"></div>
-                    </div>
-                </div>
-                <div class="item-account scroll-load d-none">
-                    <div class="card card-hover h-100">
-                        <a href="javascript:void(0)" data-id="45022" class="card-body scale-thumb buyacc" data-price="125000" data-payment="1">
-                            <div class="account-thumb c-mb-8 position-realative">
-                                <img src="//static2.mingame89.store/19426957-cdnimage/upload/fastcdn/acc-category-shopacc79com/123716/images/image_7.png" alt="45022" class="account-thumb-image lazy" onerror="imgError(this)">
-
-                            </div>
-                            <div class="account-title">
-                                <div class="text-title fw-700 text-limit limit-1">Random Blox Fruits Trái Kitsune</div>
-                            </div>
-                            <div class="price">
-                                <div class="price-current w-100">
-                                    125.000đ
-                                </div>
-                                <div class="price-old c-mr-8">500.000đ</div>
-                                <div class="discount">75%</div>
-                            </div>
-                            <div class="price c-pt-12 c-pt-lg-8">
-                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
-
-                <div class="modal fade modal-big modal__buyacount loadModal__acount" id="LoadModal">
-                    <div class="modal-dialog modal-dialog-centered modal-custom">
-                        <div class="modal-content c-p-24 data__form__random">
-                            <div class="formDonhangAccount45022">
-                                <form class="formDonhangAccount" data-ranid="45022" action="/ajax/acc_random/45022/databuy" method="POST">
-                                    <input type="hidden" name="_token" value="nyrWgK6rnbUWf3UTHmE2ahmsR6BbLUnk1jzQU6dL">
-                                    <div class="modal-header">
-                                        <p class="modal-title center">Xác nhận thanh toán</p>
-                                        <button type="button" class="close" data-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body pl-0 pr-0 c-pt-24 c-pb-24">
-                                        <div class="dialog--content__title fw-700 fz-13 c-mb-12 text-title-theme">
-                                            Thông tin mua Acc
-                                        </div>
-                                        <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
-                                            <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fw-400 fz-13 text-center">
-                                                    Danh mục
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500">Random Blox Fruits Trái Kitsune</div>
-                                            </div>
-                                            <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fw-400 fz-13 text-center">
-                                                    Giá tiền
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500">125.000 đ</div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
-                                            <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fz-13 fw-400 text-center">
-                                                    Phương thức thanh toán
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500">
-                                                    Tài khoản Shopbrand
-
-                                                </div>
-                                            </div>
-
-                                            <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fw-400 fz-13 text-center">
-                                                    Phí thanh toán
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500">
-                                                    Miễn phí
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
-                                            <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fw-400 fz-13 text-center">
-                                                    Tổng thanh toán
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500"><a href="javascript:void(0)" class="c-text-primary data_total_price">125.000 đ</a></div>
-                                            </div>
-                                            <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
-                                                <div class="card--attr__name fw-400 fz-13 text-center">
-                                                    Giảm giá
-                                                </div>
-                                                <div class="card--attr__value fz-13 fw-500"><a href="javascript:void(0)" class="c-text-primary data_discount">0 đ</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="not-enough-money">
-
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer data__dangnhap">
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="c-pt-24 w-100">
-                    <div class="default-paginate">
-                        <ul class="pagination pagination-custom">
-                            <!-- Previous Page Link -->
-                            <li class="page-item disabled pre-1"><span class="page-link"></span></li>
-
-
-
-                            <li class="page-item active"><span class="page-link">1</span></li>
-                            <li class="page-item">
-                                <a class="page-link" href="https://shopacc79.com/mua-acc/random-blox-fruits-trai-kitsune?_=1759338942910&amp;page=2">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="https://shopacc79.com/mua-acc/random-blox-fruits-trai-kitsune?_=1759338942910&amp;page=3">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="https://shopacc79.com/mua-acc/random-blox-fruits-trai-kitsune?_=1759338942910&amp;page=4">4</a>
-                            </li>
-
-
-
-                            <li class="page-item next-1">
-                                <a class="page-link" href="https://shopacc79.com/mua-acc/random-blox-fruits-trai-kitsune?_=1759338942910&amp;page=2" rel="next"></a>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
+        <div id="account-list-container">
+            @Html.Partial("_TaiKhoanList", Model.TaiKhoanPagedResult)
         </div>
     </section>
     <!-- Modal Filter -->
@@ -353,7 +108,7 @@
                             <label class="form-label">
                                 Giá tiền
                             </label>
-                            <select name="price_data" class="price" id="" style="display: none;">
+                            <select name="price_data" class="price">
                                 <option value="" selected="">Chọn giá tiền</option>
                                 <option value="0-50000">Dưới 50K</option>
                                 <option value="50000-200000">Từ 50K - 200K</option>
@@ -362,198 +117,144 @@
                                 <option value="1000000-5000000">Trên 1 Triệu</option>
                                 <option value="5000000-10000000">Trên 5 Triệu</option>
                                 <option value="10000000">Trên 10 Triệu</option>
-                            </select><div class="nice-select price" tabindex="0"><span class="current">Chọn giá tiền</span><ul class="list"><li data-value="" class="option selected">Chọn giá tiền</li><li data-value="0-50000" class="option">Dưới 50K</li><li data-value="50000-200000" class="option">Từ 50K - 200K</li><li data-value="200000-500000" class="option">Từ 200K - 500K</li><li data-value="500000-1000000" class="option">Từ 500K - 1 Triệu</li><li data-value="1000000-5000000" class="option">Trên 1 Triệu</li><li data-value="5000000-10000000" class="option">Trên 5 Triệu</li><li data-value="10000000" class="option">Trên 10 Triệu</li></ul></div>
+                            </select>
                         </div>
 
                         <div class="input-group">
                             <label class="form-label">
                                 Trạng thái
                             </label>
-                            <select name="status_data" class="" id="" style="display: none;">
+                            <select name="status_data" class="" id="">
                                 <option value="" selected="">Chọn trạng thái</option>
                                 <option value="1">Chưa bán</option>
                                 <option value="2">Đã bán</option>
-                            </select><div class="nice-select" tabindex="0"><span class="current">Chọn trạng thái</span><ul class="list"><li data-value="" class="option selected">Chọn trạng thái</li><li data-value="1" class="option">Chưa bán</li><li data-value="2" class="option">Đã bán</li></ul></div>
+                            </select>
                         </div>
-
-
-
-
-
-
-
-
-
                     </div>
                     <div class="modal-footer c-mt-24 c-mt-lg-16">
                         <a href="javascript:void(0)" class="btn ghost js-reset-form">Xoá tìm kiếm</a>
-                        <button type="button" class="btn primary js-submit-form">Xem kết quả</button>
+                        <button type="submit" class="btn primary js-submit-form">Xem kết quả</button>
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
-    <!-- Sheet filter -->
-    <div class="bottom-sheet" id="sheet-filter" aria-hidden="true" data-height="60">
-        <div class="layer"></div>
-        <div class="content-bottom-sheet bar-slide">
-            <form action="" class="form-filter">
-                <div class="sheet-header">
-                    <p class="text-title center">
-                        Tìm kiếm
-                    </p>
-                    <label class="close"></label>
-                </div>
-                <div class="sheet-body" style="bottom: 0px;">
-                    <!-- body -->
-
-                    <div class="input-group">
-                        <span class="form-label">
-                            Tìm kiếm
-                        </span>
-                        <input type="text" class="find" name="find" placeholder="Nhập skin,tên tướng,level...">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="form-label">
-                            Mã số
-                        </span>
-                        <input type="text" class="id" name="id_data" placeholder="Nhập mã số nick">
-                    </div>
-
-                    <div class="input-group">
-                        <span class="form-label">
-                            Trạng thái
-                        </span>
-                        <select name="status" class="status" style="display: none;">
-                            <option value="" selected="" disabled="">Chọn trạng thái</option>
-                            <option value="">Chưa bán</option>
-                            <option value="">Đã bán</option>
-                        </select><div class="nice-select status" tabindex="0"><span class="current">Chọn trạng thái</span><ul class="list"><li data-value="" class="option selected disabled">Chọn trạng thái</li><li data-value="" class="option">Chưa bán</li><li data-value="" class="option">Đã bán</li></ul></div>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="form-label">
-                            Giá tiền
-                        </label>
-                        <select name="price_data" class="price" id="" style="display: none;">
-                            <option value="" selected="" disabled="">Chọn giá tiền</option>
-                            <option value="0-50000">Dưới 50K</option>
-                            <option value="50000-200000">Từ 50K - 200K</option>
-                            <option value="200000-500000">Từ 200K - 500K</option>
-                            <option value="500000-1000000">Từ 500K - 1 Triệu</option>
-                            <option value="1000000-5000000">Trên 1 Triệu</option>
-                            <option value="5000000-10000000">Trên 5 Triệu</option>
-                            <option value="10000000">Trên 10 Triệu</option>
-                        </select><div class="nice-select price" tabindex="0"><span class="current">Chọn giá tiền</span><ul class="list"><li data-value="" class="option selected disabled">Chọn giá tiền</li><li data-value="0-50000" class="option">Dưới 50K</li><li data-value="50000-200000" class="option">Từ 50K - 200K</li><li data-value="200000-500000" class="option">Từ 200K - 500K</li><li data-value="500000-1000000" class="option">Từ 500K - 1 Triệu</li><li data-value="1000000-5000000" class="option">Trên 1 Triệu</li><li data-value="5000000-10000000" class="option">Trên 5 Triệu</li><li data-value="10000000" class="option">Trên 10 Triệu</li></ul></div>
-                    </div>
-
-                </div>
-                <div class="sheet-footer">
-                    <button type="button" class="btn ghost js-reset-form">Xoá bộ lọc</button>
-                    <button type="button" class="btn primary js-submit-form">Xem kết quả</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <!-- Bottom sheet sort -->
-    <div class="bottom-sheet" id="sheet-sort" aria-hidden="true" data-height="25">
-        <div class="layer"></div>
-        <div class="content-bottom-sheet bar-slide">
-            <form action="" id="form-sort">
-                <div class="sheet-header">
-                    <p class="text-title center">
-                        Sắp xếp theo
-                    </p>
-                    <label class="close"></label>
-                </div>
-
-
-            </form>
         </div>
     </div>
 
     <!-- Start Danh mục game khác -->
     @Html.Action("DanhMucGameKhac", "Game", new { id = danhMuc.Id, area = "" })
     <!-- End Danh mục game khác -->
-
-    <div class="c-mb-16">
-        <div class="card overflow-hidden detailViewBlock">
-            <div class="card-body c-px-16">
-                <div class="content-desc hide detailViewBlockContent">
-                    <div class="data-content">
-                        <p><strong>Random Blox Fruits Trái Kitsune</strong></p>
-
-                        <p><strong>100%: Kitsune Rương Hoặc Sử Dụng</strong></p>
-
-                        <p><strong>30%: 2-3 Trái DF Rương Trong Acc</strong></p>
-
-                        <p><strong>700-2600 Level Random Ngẫu Nhiên</strong></p>
-
-                        <p><span style="color:#e74c3c"><strong>*Lưu ý: Sau khi mua về, thêm mail và đổi mật khẩu ngay lập tức để tránh bị ban. Shop bảo hành 1H sau khi mua</strong></span></p>
-
-                        <p>&nbsp;</p>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer text-center">
-                <span class="see-more" data-content="Xem thêm nội dung"></span>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    <input type="hidden" value="random-blox-fruits-trai-kitsune" name="slug" class="slug">
-
-    <input type="hidden" name="id_data" class="id_data" value="">
-    <input type="hidden" name="title_data" class="title_data" value="">
-    <input type="hidden" name="price_data" class="price_data" value="">
-    <input type="hidden" name="select_data" class="select_data" value="">
-    <input type="hidden" name="status_data" class="status_data" value="">
-    <input type="hidden" name="sort_by_data" class="sort_by_data" value="">
-
-    <div class="modal fade modal-small" id="successNickRandomPurchase">
-        <div class="modal-dialog modal-dialog-centered modal-custom">
-            <div class="modal-content">
-                <div class="modal-header justify-content-center p-0">
-                    <img class="c-pt-20 c-pb-20" src="/assets/frontend/theme_5/image/son/success.png" alt="">
-                </div>
-                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
-                    <p class="fw-700 fz-15 fz-lg-15 fz-md-14 fz-sm-12 c-mt-12 mb-0 text-title-theme">
-                        Mua Nick
-                        thành
-                        công
-                    </p>
-                    <div class="input-group c-mt-16">
-                        <div class="form-label">ID tài khoản</div>
-                        <div class="toggle-password">
-                            <input id="nickIdInput" type="password" placeholder="ID tài khoản" class="password" value="">
-                        </div>
-                    </div>
-                    <p class="fw-400 fz-13 fz-lg-13 fz-md-12 fz-sm-11 c-mt-16 mb-0">
-                        Nick của bạn được sẽ gửi tới trang Lịch sử mua Nick, vui lòng kiểm tra và đăng nhập vào
-                        Game
-                        để thay đổi mật khẩu để bảo mật cho tài khoản đã mua
-                    </p>
-                </div>
-                <div class="modal-footer c-p-24">
-                    <a class="btn secondary" href="/" style="width: calc(40% - 6px);">Trang chủ</a>
-                    <a class="btn primary" href="/lich-su-mua-account" style="width: calc(60% - 6px);">
-                        Lịch sử
-                        mua hàng
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <input type="hidden" id="module-comment" value="acc_category">
-    <input type="hidden" id="category-comment" value="123716">
-    <input type="hidden" id="slug-viewed" value="/mua-acc/random-blox-fruits-trai-kitsune">
-    <input type="hidden" id="title-viewed" value="Random Blox Fruits Trái Kitsune">
-    <input type="hidden" id="total-order-viewed" value="93">
-    <input type="hidden" id="display-type" value="2">
-    <input type="hidden" id="image-viewed" value="//cdn3.upanh.info/upload/server-sw3/images/88.png">
 </div>
+
+<!-- Form filter + sort gom chung -->
+<form id="form-filter">
+    <input type="hidden" name="Slug" value="@danhMuc.Slug" />
+    <input type="hidden" name="sortQuery" value="random" />
+    <!-- Filter fields -->
+    <input type="hidden" name="UserNameFilter" value="" />
+    <input type="hidden" name="CodeFilter" value="" />
+    <input type="hidden" name="TrangThaiFilter" value="" />
+    <input type="hidden" name="GiaMin" value="" />
+    <input type="hidden" name="GiaMax" value="" />
+</form>
+
+
+<script>
+// Hàm dùng chung
+function loadTaiKhoan(page) {
+    var slug = '@danhMuc.Slug';
+    var formData = $("#form-filter").serializeArray(); // gom filter + sort
+
+    var data = { slug: slug, page: page };
+    $.each(formData, function (i, field) {
+        data[field.name] = field.value;
+    });
+
+    $.ajax({
+        url: "/Game/LoadTaiKhoan",
+        type: "GET",
+        data: data,
+        success: function (res) {
+            $("#account-list-container").html(res);
+            $('html, body').animate({ scrollTop: 0 }, 200);
+        }
+    });
+}
+
+// Phân trang
+$(document).on("click", ".js-change-page", function (e) {
+    e.preventDefault();
+    var page = $(this).data("page");
+    if (!page || $(this).parent().hasClass("disabled") || $(this).parent().hasClass("active")) return;
+    loadTaiKhoan(page);
+});
+
+// Sort
+$(document).on("click", ".selection", function (e) {
+    e.preventDefault();
+    $(".selection").removeClass("active");
+    $(this).addClass("active");
+    $("input[name='sortQuery']").val($(this).data("sort"));
+    loadTaiKhoan(1);
+});
+
+// Filter
+$(document).on("submit", "#form-filter", function (e) {
+    e.preventDefault();
+    loadTaiKhoan(1);
+});
+
+// Khi submit filter trong modal hoặc sheet
+$(document).on("submit", ".form-filter", function (e) {
+    e.preventDefault();
+
+    // Lấy dữ liệu filter từ modal/sheet
+    var find = $(this).find("input[name='find']").val();
+    var code = $(this).find("input[name='id_data']").val();
+    var status = $(this).find("select[name='status_data']").val();
+    var price = $(this).find("select[name='price_data']").val(); // ví dụ "200000-500000"
+    console.log("price", price)
+
+    // Map sang hidden trong #form-filter
+    $("#form-filter input[name='UserNameFilter']").val(find);
+    $("#form-filter input[name='CodeFilter']").val(code);
+    $("#form-filter input[name='TrangThaiFilter']").val(status);
+
+    if (price) {
+        var parts = price.split("-");
+        $("#form-filter input[name='GiaMin']").val(parts[0] || "");
+        $("#form-filter input[name='GiaMax']").val(parts[1] || "");
+    } else {
+        $("#form-filter input[name='GiaMin']").val("");
+        $("#form-filter input[name='GiaMax']").val("");
+    }
+
+    // Gọi load Ajax
+    loadTaiKhoan(1);
+
+    // Đóng modal/sheet
+    $("#modal-filter").modal("hide");
+    $("#sheet-filter").attr("aria-hidden", "true");
+});
+
+$(document).on("click", ".js-reset-form", function (e) {
+    e.preventDefault();
+
+    // Reset các field trong form filter (modal/sheet)
+    var $form = $(this).closest("form");
+    $form.find("input[type=text], select").val("");
+
+    // Reset hidden trong #form-filter
+    $("#form-filter input[name='UserNameFilter']").val("");
+    $("#form-filter input[name='CodeFilter']").val("");
+    $("#form-filter input[name='TrangThaiFilter']").val("");
+    $("#form-filter input[name='GiaMin']").val("");
+    $("#form-filter input[name='GiaMax']").val("");
+
+    // Load lại dữ liệu ban đầu
+    loadTaiKhoan(1);
+
+    // Đóng modal/sheet nếu có
+    $("#modal-filter").modal("hide");
+    $("#sheet-filter").attr("aria-hidden", "true");
+});
+</script>

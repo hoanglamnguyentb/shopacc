@@ -1,0 +1,33 @@
+﻿@model Hinet.Service.Common.PageListResultBO<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
+
+<div class="listing-account list-content">
+    @foreach (var tk in Model.ListItem)
+    {
+        <div class="item-account">
+            <div class="card card-hover h-100">
+                <a href="/acc/@tk.Code" data-id="@tk.Id" class="card-body scale-thumb buyacc" data-price="@tk.GiaKhuyenMai" data-payment="1">
+                    <div class="account-thumb c-mb-8 position-realative">
+                        <img src="#" alt="@tk.Id" class="account-thumb-image lazy" onerror="imgError(this)">
+                    </div>
+                    <div class="account-title">
+                        <div class="text-title fw-700 text-limit limit-1">@tk.Code</div>
+                    </div>
+                    <div class="price">
+                        <div class="price-current w-100">@String.Format("{0:N0}đ", tk.GiaKhuyenMai)</div>
+                        @if (tk.GiaKhuyenMai != 0)
+                        {
+                            <div class="price-old c-mr-8">@String.Format("{0:N0}đ", tk.GiaGoc)</div>
+                            <div class="discount">@CommonHelper.Number.NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai)</div>
+                        }
+                    </div>
+                    <div class="price c-pt-12 c-pt-lg-8">
+                        <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Render pagination -->
+@Html.Partial("_PaginationAjax", Model)

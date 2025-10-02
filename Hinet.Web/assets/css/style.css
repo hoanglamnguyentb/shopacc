@@ -1779,6 +1779,15 @@ input:checked + .slider:before {
     aspect-ratio: 16 / 9;
 }
 /*Tailwind*/
+
+/*Dropzone*/
+.dropzone .dz-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+/*Dropzone*/
+
 /*Others*/
 
 .w-full-select2 .select2-container {

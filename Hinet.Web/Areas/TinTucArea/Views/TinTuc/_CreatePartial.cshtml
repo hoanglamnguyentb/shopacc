@@ -74,12 +74,13 @@
 <script>
     quill = new Quill('#editor', { theme: 'snow' });
 
-    $("#TrangThai").select2();
-
     $("#createTinTucForm").on("submit", function () {
         var content = quill.root.innerHTML;
         $("#NoiDung").val(content);
     });
+
+    $("#TrangThai").select2();
+
 
     $("#uploadAnh").change(function () {
         var input = this;

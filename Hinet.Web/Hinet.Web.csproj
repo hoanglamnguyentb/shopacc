@@ -14599,10 +14599,16 @@
     <Content Include="Views\Shared\Components\_LoginModalPartial.cshtml" />
     <Content Include="Views\Home\AccountDetail.cshtml" />
     <Content Include="Uploads.rar" />
-    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Game\_TaiKhoanList.cshtml" />
     <Content Include="Views\TinTuc\Index.cshtml" />
     <Content Include="Views\Game\DanhMuc.cshtml" />
     <Content Include="Views\Game\_DanhMucGameKhacPartial.cshtml" />
+    <Content Include="Views\Shared\_Pagination.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Game\_PaginationAjax.cshtml" />
+    <Content Include="Views\Game\ChiTietTaiKhoan.cshtml" />
+    <Content Include="Views\Game\_TaiKhoanLienQuanPartial.cshtml" />
+    <Content Include="Views\Game\_TaiKhoanDaXemPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

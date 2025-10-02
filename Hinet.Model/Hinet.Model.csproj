@@ -135,6 +135,10 @@
     <Compile Include="Migrations\202510011638511_add_column_slug.Designer.cs">
       <DependentUpon>202510011638511_add_column_slug.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510021845277_alter_tbl_DanhMucGame.cs" />
+    <Compile Include="Migrations\202510021845277_alter_tbl_DanhMucGame.Designer.cs">
+      <DependentUpon>202510021845277_alter_tbl_DanhMucGame.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -208,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510011638511_add_column_slug.resx">
       <DependentUpon>202510011638511_add_column_slug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510021845277_alter_tbl_DanhMucGame.resx">
+      <DependentUpon>202510021845277_alter_tbl_DanhMucGame.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,14 +18,8 @@ namespace Hinet.Service.TaiKhoanService.Dto
 		public int? GiaKhuyenMaiFilter { get; set; }
 		public string MotaFilter { get; set; }
 		public int? ViTriFilter { get; set; }
-        public TaiKhoanSortOption Sort { get; set; } = TaiKhoanSortOption.Newest;
-    }
-
-    public enum TaiKhoanSortOption
-    {
-        Newest,
-        Oldest,
-        PriceAsc, 
-        PriceDesc 
+        //
+        public decimal? GiaMin { get; set; }
+        public decimal? GiaMax { get; set; }
     }
 }

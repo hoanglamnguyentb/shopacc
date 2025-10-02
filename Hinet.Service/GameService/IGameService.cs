@@ -18,9 +18,12 @@ namespace Hinet.Service.GameService
         Game GetById(long id);
         List<GameDto> GetListGame();
         GameDto GetListGameById(int id);    
-        PageListResultBO<TaiKhoanDto> GetTaiKhoanPagedByDanhMucSlug(string slug, TaiKhoanSearchDto search);
+        PageListResultBO<TaiKhoanDto> GetTaiKhoanPagedByDanhMucSlug(string slug, TaiKhoanSearchDto search, int pageIndex, int pageSize);
         List<DanhMucGameDto> GetListDanhMucGameBySlug(string gameSlug);
         Game GetBySlug(string slug);
         List<DanhMucGameDto> GetListDanhMucGameKhac(int id, int? take);
+        TaiKhoanDto GetTaiKhoanByCode(string code);
+        List<TaiKhoan> GetListTaiKhoanDaXem(List<long> daXemIds);
+        List<TaiKhoan> GetListTaiKhoanLienQuan(long id);
     }
 }
