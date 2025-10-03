@@ -55,12 +55,12 @@ namespace Hinet.Web.Controllers
         [AllowAnonymous]
         public ActionResult DanhMuc(string slug, TaiKhoanSearchDto search, int page = 1, int pageSize = 4)
         {
-            var danhMucGame = _danhMucGameService.FindBy(x => x.Slug == slug).FirstOrDefault();
-            var game = _gameService.GetById(danhMucGame.GameId);
+            var danhMuc = _danhMucGameService.GetBySlug(slug);
+            var game = _gameService.GetById(danhMuc.GameId);
             var vm = new DanhMucGameVM
             {
                 Game = game,
-                DanhMucGame = danhMucGame,
+                DanhMucGame = danhMuc,
                 TaiKhoanPagedResult = _gameService.GetTaiKhoanPagedByDanhMucSlug(slug, search, page, pageSize)
             };
             return View(vm);
@@ -87,6 +87,10 @@ namespace Hinet.Web.Controllers
         public ActionResult LoadTaiKhoan(string slug, TaiKhoanSearchDto search, int page = 1, int pageSize = 4)
         {
             var result = _gameService.GetTaiKhoanPagedByDanhMucSlug(slug, search, page, pageSize);
+            var danhMuc = _danhMucGameService.GetBySlug(slug);
+            var game = _gameService.GetById(danhMuc.GameId);
+            ViewData["DanhMuc"] = danhMuc;
+            ViewData["Game"] = game;
             return PartialView("_TaiKhoanList", result);
         }
 

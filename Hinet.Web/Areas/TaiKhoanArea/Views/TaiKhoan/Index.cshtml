@@ -115,19 +115,17 @@
 					isSort:true,
 					nameModel:'Code',
                     content: function (data) {
-                        var labels = "";
-                        if (data.ListDanhMucGame && data.ListDanhMucGame.length > 0) {
-                            labels = data.ListDanhMucGame.map(function (dm) {
-                                var color = stringToColor(dm.Name);
-                                return `<span class="badge" style="margin:2px; background-color:${color}; color:#fff;">${dm.Name}</span>`;
-                            }).join(" ");
+                        var label = "";
+                        if (data.DanhMucGameTxt) {
+                            var color = stringToColor(data.DanhMucGameTxt);
+                            label = `<span class="badge" style="margin:2px; background-color:${color}; color:#fff;">${data.DanhMucGameTxt}</span>`
                         }
-
                         return `
-                            <div>
-                                <div><strong>${data.Code}</strong></div>
-                                <div>${labels}</div>
-                            </div>`;
+                          <div>
+                              <div class="text-title">${data.Code}</div>
+                              <div>${label} </div>
+                          </div>`;
+  
 				}
 				},
 				{

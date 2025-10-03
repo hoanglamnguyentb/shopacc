@@ -10,6 +10,7 @@ using Hinet.Service.GameService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Service.TaiLieuDinhKemService;
+using Hinet.Service.ThuocTinhService;
 using Hinet.Web.Areas.TaiKhoanArea.Models;
 using Hinet.Web.Filters;
 using log4net;
@@ -39,12 +40,13 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 		private readonly ITaiLieuDinhKemService _taiLieuDinhKemService;
 		private readonly IDanhMucGameTaiKhoanService _danhMucGameTaiKhoanService;
 		private readonly IDanhMucGameService _danhMucGameService;
+		private readonly IThuocTinhService _thuocTinhService;
 
         public TaiKhoanController(ITaiKhoanService TaiKhoanService, ILog Ilog,
             IDM_DulieuDanhmucService dM_DulieuDanhmucService,
             IMapper mapper,
             IGameService gameService, ITaiLieuDinhKemService taiLieuDinhKemService,
-            IDanhMucGameTaiKhoanService danhMucGameTaiKhoanService, IDanhMucGameService danhMucGameService)
+            IDanhMucGameTaiKhoanService danhMucGameTaiKhoanService, IDanhMucGameService danhMucGameService, IThuocTinhService thuocTinhService)
         {
             _TaiKhoanService = TaiKhoanService;
             _Ilog = Ilog;
@@ -54,6 +56,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
             _taiLieuDinhKemService = taiLieuDinhKemService;
             _danhMucGameTaiKhoanService = danhMucGameTaiKhoanService;
             _danhMucGameService = danhMucGameService;
+            _thuocTinhService = thuocTinhService;
         }
 
         // GET: TaiKhoanArea/TaiKhoan
@@ -97,9 +100,11 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 			var myModel = new CreateVM()
 			{
 				GameId = id,
-			};
+				ThuocTinhs = _thuocTinhService.FindBy(x => x.GameId == id).ToList()
+            };
+			//var game = _gameService.GetById(id);
             ViewBag.dropdownListGameId = _gameService.GetDropdown("Name", "Id");
-			ViewBag.DropdownListDanhMuc = new List<SelectListItem>();
+			ViewBag.dropdownListDanhMucId = new List<SelectListItem>();
             return PartialView("_CreatePartial", myModel);
 		}
 
@@ -114,17 +119,6 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 				{
 					var entity = _mapper.Map<TaiKhoan>(model);
 					_TaiKhoanService.Create(entity);
-
-                    // Lưu DanhMucGameTaiKhoan
-                    if (model.DanhMucGameIds != null && model.DanhMucGameIds.Any())
-                    {
-                        var listMapping = model.DanhMucGameIds.Select(dmId => new DanhMucGameTaiKhoan
-                        {
-                            TaiKhoanId = entity.Id,
-                            DanhMucGameId = dmId
-                        }).ToList();
-                        _danhMucGameTaiKhoanService.InsertRange(listMapping);
-                    }
 
                     //Các tài liệu đính kèm liên quan
                     var listTaiLieu = new List<TaiLieuDinhKem>();
@@ -175,13 +169,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 				throw new HttpException(404, "Không tìm thấy thông tin");
 			}
 
-            myModel.DanhMucGameIds = _danhMucGameTaiKhoanService
-				.GetByTaiKhoanId(obj.Id)
-				.Select(x => x.DanhMucGameId)
-				.ToList();
-
             ViewBag.dropdownListGameId = _gameService.GetDropdown("Name", "Id");
-            ViewBag.DropdownListDanhMuc = _danhMucGameService.GetDanhMucByGame(obj.GameId).Select(x => new SelectListItem()
+            ViewBag.dropdownListDanhMucId = _danhMucGameService.GetDanhMucByGame(obj.GameId).Select(x => new SelectListItem()
 			{
 				Value = x.Id.ToString(),
 				Text = x.Name
@@ -212,21 +201,6 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 					// Cập nhật thông tin
 					_mapper.Map(model, entity);
 					_TaiKhoanService.Update(entity);
-
-                    // Xóa mapping cũ
-                    _danhMucGameTaiKhoanService.DeleteByTaiKhoanId(entity.Id);
-
-                    // Thêm mapping mới
-                    if (model.DanhMucGameIds != null && model.DanhMucGameIds.Any())
-                    {
-                        var listMapping = model.DanhMucGameIds.Select(dmId => new DanhMucGameTaiKhoan
-                        {
-                            TaiKhoanId = entity.Id,
-                            DanhMucGameId = dmId
-                        }).ToList();
-
-                        _danhMucGameTaiKhoanService.InsertRange(listMapping);
-                    }
 
                     // Danh sách file hiện tại trong DB
                     var oldFiles = _taiLieuDinhKemService.GetListTaiLieuAllByType(nameof(TaiKhoan), entity.Id);

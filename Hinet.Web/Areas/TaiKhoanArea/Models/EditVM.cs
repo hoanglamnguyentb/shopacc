@@ -20,6 +20,6 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Models
 		public string Mota { get; set; }
 		public int ViTri { get; set; }
 		public List<TaiLieuDinhKem> TaiLieuDinhKemList { get; set; } = new List<TaiLieuDinhKem>();
-		public List<int> DanhMucGameIds { get; set; }
+        public int? DanhMucGameId { get; set; }
     }
 }

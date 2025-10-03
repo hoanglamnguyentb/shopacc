@@ -83,13 +83,13 @@
 					nameModel:'Tiêu đề',
 					content: function (data) {
                         return `<div>
-                                <div>${data.TieuDe}</div>
+                                <div class="text-title">${data.TieuDe}</div>
                                 <div>${data.Slug}</div>
                                 <div class="image-upload-box aspect-video" style="width: 200px; padding: 2px">
                                     <img src="${data.AnhBia}" alt="" class="image-preview has-image mb-0 aspect-video h-full object-cover" />
                                 </div>
                             </div>`
-				}
+                    }
 				},
 				{
 					isSort:true,

@@ -65,8 +65,10 @@ namespace Hinet.Service.DanhMucGameService
 							IsDelete = DanhMucGametbl.IsDelete,
 							DeleteTime = DanhMucGametbl.DeleteTime,
 							DeleteId = DanhMucGametbl.DeleteId,
-							Id = DanhMucGametbl.Id
-                            
+							Id = DanhMucGametbl.Id,
+                            LaLoaiDongGia = DanhMucGametbl.LaLoaiDongGia,
+                            GiaGoc = DanhMucGametbl.GiaGoc,
+                            GiaKhuyenMai = DanhMucGametbl.GiaKhuyenMai,
                         };
 
             if (searchModel != null)
@@ -129,6 +131,13 @@ namespace Hinet.Service.DanhMucGameService
         public List<DanhMucGame> GetDanhMucByGame(long gameId)
         {
             return _DanhMucGameRepository.FindBy(x => x.GameId == gameId).ToList();
+        }
+
+        public DanhMucGame GetBySlug(string slug)
+        {
+            return _DanhMucGameRepository
+                .GetAllAsQueryable()
+                .FirstOrDefault(x => x.Slug == slug);
         }
     }
 }

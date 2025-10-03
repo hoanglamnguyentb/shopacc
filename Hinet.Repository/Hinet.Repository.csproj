@@ -85,6 +85,8 @@
     <Compile Include="GameRepository\IGameRepository.cs" />
     <Compile Include="GiaoDichRepository\GiaoDichRepository.cs" />
     <Compile Include="GiaoDichRepository\IGiaoDichRepository.cs" />
+    <Compile Include="GiaTriThuocTinhRepository\GiaTriThuocTinhRepository.cs" />
+    <Compile Include="GiaTriThuocTinhRepository\IGiaTriThuocTinhRepository.cs" />
     <Compile Include="ModuleRepository\IModuleRepository.cs" />
     <Compile Include="ModuleRepository\ModuleRepository.cs" />
     <Compile Include="NotificationRepository\INotificationRepository.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="TaiKhoanRepository\TaiKhoanRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\ITaiLieuDinhKemRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\TaiLieuDinhKemRepository.cs" />
+    <Compile Include="ThuocTinhRepository\IThuocTinhRepository.cs" />
+    <Compile Include="ThuocTinhRepository\ThuocTinhRepository.cs" />
     <Compile Include="TinTucRepository\ITinTucRepository.cs" />
     <Compile Include="TinTucRepository\TinTucRepository.cs" />
     <Compile Include="UserOperationRepository\IUserOperationRepository.cs" />

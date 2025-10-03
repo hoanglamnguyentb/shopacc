@@ -7,8 +7,10 @@ using Hinet.Model.Entities;
 using Hinet.Service.Common;
 using Hinet.Service.Constant;
 using Hinet.Service.DM_DulieuDanhmucService;
+using Hinet.Service.DM_NhomDanhmucService;
 using Hinet.Service.GameService;
 using Hinet.Service.GameService.Dto;
+using Hinet.Service.ThuocTinhService;
 using Hinet.Web.Areas.GameArea.Models;
 using Hinet.Web.Common;
 using Hinet.Web.Filters;
@@ -16,6 +18,7 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Hosting;
@@ -38,25 +41,27 @@ namespace Hinet.Web.Areas.GameArea.Controllers
         public const string searchKey = "GamePageSearchModel";
         private readonly IGameService _GameService;
         private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
+        private readonly IDM_NhomDanhmucService _dM_NhomDanhmucService;
+        private readonly IThuocTinhService _thuocTinhService;
 
 
         public GameController(IGameService GameService, ILog Ilog,
-
-        IDM_DulieuDanhmucService dM_DulieuDanhmucService,
-            IMapper mapper
-            )
+            IDM_DulieuDanhmucService dM_DulieuDanhmucService,
+            IMapper mapper,
+            IDM_NhomDanhmucService dM_NhomDanhmucService, 
+            IThuocTinhService thuocTinhService)
         {
             _GameService = GameService;
             _Ilog = Ilog;
             _mapper = mapper;
             _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
-
+            _dM_NhomDanhmucService = dM_NhomDanhmucService;
+            _thuocTinhService = thuocTinhService;
         }
         // GET: GameArea/Game
         //[PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
-
             var listData = _GameService.GetDaTaByPage(null);
             ViewBag.dropdownListViTriHienThi = ConstantExtension.GetDropdownData<ViTriHienThiGameConstant>();
             return View(listData);
@@ -86,12 +91,13 @@ namespace Hinet.Web.Areas.GameArea.Controllers
         {
             var myModel = new CreateVM();
             ViewBag.dropdownListViTriHienThi = ConstantExtension.GetDropdownData<ViTriHienThiGameConstant>();
+            ViewBag.dropdownListKieuDuLieu = ConstantExtension.GetDropdownData<KieuDuLieuThuocTinhGameConstant>();
+            ViewBag.dropdownListNhomDanhMuc = _dM_NhomDanhmucService.GetDropdown("GroupName", "GroupCode");
             return PartialView("_CreatePartial", myModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public JsonResult Create(CreateVM model)
         {
             var result = new JsonResultBO(true, "Tạo  thành công");
@@ -103,8 +109,21 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                     EntityModel.Slug = SlugHelper.GenerateSlug(model.Name, 50);
                     _GameService.Create(EntityModel);
 
+                    var listThuocTinhAdd = new List<ThuocTinh>();
+                    // Lưu thuộc tính
+                    foreach (var tt in model.ThuocTinhs)
+                    {
+                        var thuocTinh = new ThuocTinh
+                        {
+                            GameId = EntityModel.Id,
+                            TenThuocTinh = tt.TenThuocTinh,
+                            KieuDuLieu = tt.KieuDuLieu,
+                            DmNhomDanhmuc = tt.DmNhomDanhmuc
+                        };
+                        listThuocTinhAdd.Add(thuocTinh);
+                    }
+                    _thuocTinhService.InsertRange(listThuocTinhAdd);
                 }
-
             }
             catch (Exception ex)
             {
@@ -118,6 +137,8 @@ namespace Hinet.Web.Areas.GameArea.Controllers
         {
             var myModel = new EditVM();
             ViewBag.dropdownListViTriHienThi = ConstantExtension.GetDropdownData<ViTriHienThiGameConstant>();
+            ViewBag.dropdownListKieuDuLieu = ConstantExtension.GetDropdownData<KieuDuLieuThuocTinhGameConstant>();
+            ViewBag.dropdownListNhomDanhMuc = _dM_NhomDanhmucService.GetDropdown("GroupName", "GroupCode");
             var obj = _GameService.GetById(id);
             if (obj == null)
             {
@@ -125,8 +146,10 @@ namespace Hinet.Web.Areas.GameArea.Controllers
             }
 
             myModel = _mapper.Map(obj, myModel);
+            myModel.ThuocTinhs = _thuocTinhService.FindBy(x => x.GameId == id).ToList();
             return PartialView("_EditPartial", myModel);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -146,6 +169,23 @@ namespace Hinet.Web.Areas.GameArea.Controllers
 
                     obj = _mapper.Map(model, obj);
                     obj.Slug = SlugHelper.GenerateSlug(model.Name, 50);
+
+                    // Xóa và lưu thuộc tính
+                    _thuocTinhService.DeleteByGameId(model.Id);
+                    var listThuocTinhAdd = new List<ThuocTinh>();
+                    foreach (var tt in model.ThuocTinhs)
+                    {
+                        var thuocTinh = new ThuocTinh
+                        {
+                            GameId = obj.Id,
+                            TenThuocTinh = tt.TenThuocTinh,
+                            KieuDuLieu = tt.KieuDuLieu,
+                            DmNhomDanhmuc = tt.DmNhomDanhmuc
+                        };
+                        listThuocTinhAdd.Add(thuocTinh);
+                    }
+                    _thuocTinhService.InsertRange(listThuocTinhAdd);
+
                     _GameService.Update(obj);
 
                 }
@@ -191,6 +231,7 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                 {
                     throw new Exception("Không tìm thấy thông tin để xóa");
                 }
+                _thuocTinhService.DeleteByGameId(user.Id);
                 _GameService.Delete(user);
             }
             catch (Exception ex)

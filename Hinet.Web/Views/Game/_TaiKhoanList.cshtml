@@ -1,31 +1,92 @@
 ﻿@model Hinet.Service.Common.PageListResultBO<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
-
+@{
+    var danhMuc = ViewData["DanhMuc"] as Hinet.Model.Entities.DanhMucGame;
+    var game = ViewData["Game"] as Hinet.Model.Entities.Game;
+}
 <div class="listing-account list-content">
     @foreach (var tk in Model.ListItem)
     {
-        <div class="item-account">
-            <div class="card card-hover h-100">
-                <a href="/acc/@tk.Code" data-id="@tk.Id" class="card-body scale-thumb buyacc" data-price="@tk.GiaKhuyenMai" data-payment="1">
-                    <div class="account-thumb c-mb-8 position-realative">
-                        <img src="#" alt="@tk.Id" class="account-thumb-image lazy" onerror="imgError(this)">
-                    </div>
-                    <div class="account-title">
-                        <div class="text-title fw-700 text-limit limit-1">@tk.Code</div>
-                    </div>
-                    <div class="price">
-                        <div class="price-current w-100">@String.Format("{0:N0}đ", tk.GiaKhuyenMai)</div>
-                        @if (tk.GiaKhuyenMai != 0)
-                        {
-                            <div class="price-old c-mr-8">@String.Format("{0:N0}đ", tk.GiaGoc)</div>
-                            <div class="discount">@CommonHelper.Number.NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai)</div>
-                        }
-                    </div>
-                    <div class="price c-pt-12 c-pt-lg-8">
-                        <button type="button" class="w-100 btn secondary">Mua ngay</button>
-                    </div>
-                </a>
+        if (danhMuc.LaLoaiDongGia.GetValueOrDefault())
+        {
+            <div class="item-account">
+                <div class="card card-hover h-100">
+                    <a href="/acc/@tk.Code" data-id="@tk.Id" class="card-body scale-thumb buyacc" data-price="@tk.GiaKhuyenMai" data-payment="1">
+                        <div class="account-thumb c-mb-8 position-realative">
+                            <img src="@danhMuc.DuongDanAnh" alt="@tk.Id" class="account-thumb-image lazy" onerror="imgError(this)">
+                        </div>
+                        <div class="account-title">
+                            <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
+                        </div>
+                        <div class="price">
+                            @if (danhMuc.GiaKhuyenMai.HasValue)
+                            {
+                                <div class="price-current w-100">@String.Format("{0:N0}đ", danhMuc.GiaKhuyenMai)</div>
+                                <div class="price-old c-mr-8">@String.Format("{0:N0}đ", danhMuc.GiaGoc)</div>
+                                <div class="discount">@CommonHelper.Number.NumberHelper.TinhPhanTramGiamText(danhMuc.GiaGoc, danhMuc.GiaKhuyenMai.GetValueOrDefault())</div>
+                            }
+                            else
+                            {
+                                <div class="price-current w-100">@String.Format("{0:N0}đ", danhMuc.GiaGoc)</div>
+                            }
+                        </div>
+                        <div class="price c-pt-12 c-pt-lg-8">
+                            <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="item-account">
+                <div class="card card-hover h-100">
+                    <a href="/acc/@tk.Code" class="card-body scale-thumb">
+                        <div class="account-thumb c-mb-8 position-realative">
+                            <img onerror="imgError(this)" src="@tk.AnhBia" alt="@tk.Code" class="account-thumb-image lazy">
+                        </div>
+                        <div class="account-title">
+                            <div class="text-title fw-700 text-limit limit-1">Nick @game.Name</div>
+                        </div>
+                        <div class="account-info c-mb-8">
+                            <div class="info-attr">
+
+                            </div>
+                            <div class="info-attr c-mb-8">
+                                ID: #@tk.Id
+                            </div>
+                            <div class="info-attr">
+                                Skin Súng: Súng Vip
+                            </div>
+
+                            <div class="info-attr">
+                                Thẻ Vô Cực: Không
+                            </div>
+
+                            <div class="info-attr">
+                                Đăng Ký: Gmail
+                            </div>
+
+                            <div class="info-attr">
+                                Mức Rank: Đồng
+                            </div>
+                        </div>
+                        <div class="price">
+                            @if (tk.GiaKhuyenMai.HasValue)
+                            {
+                                <div class="price-current w-100">@String.Format("{0:N0}đ", tk.GiaKhuyenMai)</div>
+                                <div class="price-old c-mr-8">@String.Format("{0:N0}đ", tk.GiaGoc)</div>
+                                <div class="discount">@CommonHelper.Number.NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai.GetValueOrDefault())</div>
+                            }
+                            else
+                            {
+                                <div class="price-current w-100">@String.Format("{0:N0}đ", tk.GiaGoc)</div>
+                            }
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+
     }
 </div>
 

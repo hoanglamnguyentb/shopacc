@@ -78,7 +78,11 @@
             @danhMuc.Name
         </div>
         <div id="account-list-container">
-            @Html.Partial("_TaiKhoanList", Model.TaiKhoanPagedResult)
+            @Html.Partial("_TaiKhoanList", Model.TaiKhoanPagedResult, new ViewDataDictionary {
+                { "DanhMuc", danhMuc },
+                { "Game", game },
+
+            })
         </div>
     </section>
     <!-- Modal Filter -->

@@ -206,6 +206,10 @@ namespace Hinet.Service.GameService
                         .Where(x => x.DanhMucGameId == danhMucGame.Id)
                         on tk.Id equals danhMucGameTaiKhoan.TaiKhoanId
 
+                        join tl in _taiLieuDinhKemRepository.GetQueryable()
+                        on tk.Id equals tl.Item_ID into tlGrp
+                        from tl in tlGrp.DefaultIfEmpty()
+
                         select new TaiKhoanDto
                         {
                             Id = tk.Id,
@@ -218,6 +222,7 @@ namespace Hinet.Service.GameService
                             GiaKhuyenMai = tk.GiaKhuyenMai,
                             Mota = tk.Mota,
                             ViTri = tk.ViTri,
+                            AnhBia = tl.DuongDanFile,
                         };
 
             // Filtering

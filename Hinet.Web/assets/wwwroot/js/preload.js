@@ -9,5 +9,5 @@ function kFormatter(num) {
 
 /*Xử lý ảnh lỗi*/
 function imgError(element){
-    $(element).attr('src','/assets/frontend/theme_5/image/trong/placeholder.jpg')
+    $(element).attr('src','/assets/wwwroot/images/placeholder.jpg')
 }
