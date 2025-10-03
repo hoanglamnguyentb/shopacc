@@ -62,6 +62,7 @@
     <Compile Include="Entities\Banner.cs" />
     <Compile Include="Entities\DanhMucGame.cs" />
     <Compile Include="Entities\DichVu.cs" />
+    <Compile Include="Entities\SiteConfig.cs" />
     <Compile Include="Entities\GiaoDich.cs" />
     <Compile Include="Entities\DanhMucGameTaiKhoan.cs" />
     <Compile Include="Entities\BinhLuan.cs" />
@@ -134,6 +135,10 @@
     <Compile Include="Migrations\202510011638511_add_column_slug.cs" />
     <Compile Include="Migrations\202510011638511_add_column_slug.Designer.cs">
       <DependentUpon>202510011638511_add_column_slug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510030455241_add_tbl_SiteConfig.cs" />
+    <Compile Include="Migrations\202510030455241_add_tbl_SiteConfig.Designer.cs">
+      <DependentUpon>202510030455241_add_tbl_SiteConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -208,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510011638511_add_column_slug.resx">
       <DependentUpon>202510011638511_add_column_slug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510030455241_add_tbl_SiteConfig.resx">
+      <DependentUpon>202510030455241_add_tbl_SiteConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

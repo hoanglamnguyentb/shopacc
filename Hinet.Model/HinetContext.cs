@@ -38,6 +38,7 @@ namespace Hinet.Model
 		public DbSet<TinTuc> TinTuc { get; set; }
 		public DbSet<GiaoDich> GiaoDich { get; set; }
 		public DbSet<BinhLuan> BinhLuan { get; set; }
+		public DbSet<SiteConfig> SiteConfig { get; set; }
 
 		public static DbContext Create()
 		{
