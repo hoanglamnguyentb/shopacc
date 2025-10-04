@@ -1,0 +1,48 @@
+﻿@model Hinet.Service.Common.PageListResultBO<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
+
+@{
+    var current = Model.CurrentPage;
+    var total = Model.TotalPage;
+    var start = Math.Max(1, current - 2);
+    var end = Math.Min(total, current + 2);
+}
+
+@if (total > 1)
+{
+    <div class="default-paginate">
+        <ul class="pagination pagination-custom">
+            <li class="page-item @(current == 1 ? "disabled" : "")">
+                <a href="javascript:void(0)" data-page="@(current - 1)" class="page-link js-change-page">«</a>
+            </li>
+
+            @if (start > 1)
+            {
+                <li class="page-item"><a href="javascript:void(0)" data-page="1" class="page-link js-change-page">1</a></li>
+                if (start > 2)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+            }
+
+            @for (int i = start; i <= end; i++)
+            {
+                <li class="page-item @(i == current ? "active" : "")">
+                    <a href="javascript:void(0)" data-page="@i" class="page-link js-change-page">@i</a>
+                </li>
+            }
+
+            @if (end < total)
+            {
+                if (end < total - 1)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                <li class="page-item"><a href="javascript:void(0)" data-page="@total" class="page-link js-change-page">@total</a></li>
+            }
+
+            <li class="page-item @(current == total ? "disabled" : "")">
+                <a href="javascript:void(0)" data-page="@(current + 1)" class="page-link js-change-page">»</a>
+            </li>
+        </ul>
+    </div>
+}

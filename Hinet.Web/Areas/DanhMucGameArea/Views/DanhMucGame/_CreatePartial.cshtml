@@ -7,7 +7,7 @@
 	var dropdownListGameId = ViewBag.dropdownListGameId as List<SelectListItem>;
 }
 
-<div class="modal-dialog">
+<div class="modal-dialog modal-full">
     @using (Ajax.BeginForm("Create", "DanhMucGame", new { @area = "DanhMucGameArea" }, new AjaxOptions()
     {
         HttpMethod = "POST",
@@ -42,13 +42,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Mô tả </label>
-                        <div class="col-sm-8">
-                            @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="control-label col-sm-4">Ảnh </label>
                         <div class="col-sm-8">
                             <div class="image-upload-box">
@@ -58,6 +51,24 @@
                             </div>
                             @Html.HiddenFor(m => m.DuongDanAnh, new { id = "DuongDanAnh" })
                             @Html.ValidationMessageFor(m => m.DuongDanAnh, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mô tả </label>
+                        <div class="col-sm-8">
+                            <div id="editorMoTa">
+                            </div>
+                            @Html.HiddenFor(m => m.MoTa, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Thông báo </label>
+                        <div class="col-sm-8">
+                            <div id="editorThongBao">
+                            </div>
+                            @Html.HiddenFor(m => m.ThongBao, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ThongBao, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
@@ -72,6 +83,14 @@
 </div>
 
 <script>
+    quillMoTa = new Quill('#editorMoTa', { theme: 'snow' });
+    quillThongBao = new Quill('#editorThongBao', { theme: 'snow' });
+
+    $("#createDanhMucGameForm").on("submit", function () {
+        $("#MoTa").val(quillMoTa.root.innerHTML);
+        $("#ThongBao").val(quillThongBao.root.innerHTML);
+    });
+
 	$("#GameId").select2();
     $("#uploadAnh").change(function () {
         var input = this;

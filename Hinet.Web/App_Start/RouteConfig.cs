@@ -9,15 +9,23 @@ namespace Hinet.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "GameLoadTaiKhoan",
+                url: "Game/LoadTaiKhoan",
+                defaults: new { controller = "Game", action = "LoadTaiKhoan" },
+                namespaces: new[] { "Hinet.Web.Controllers" }
+            );
+
             // Route rút gọn cho Game -> GameController.Index(slug)
             var gameShort = routes.MapRoute(
                 name: "GameShort",
                 url: "game/{slug}",
-                defaults: new { controller = "Game", action = "Index", slug = UrlParameter.Optional },
-                namespaces: new[] { "Hinet.Web.Controllers" } // chỉ tìm controller trong Web
+                defaults: new { controller = "Game", action = "Index" },
+                constraints: new { slug = @"^(?!LoadTaiKhoan|DanhMuc).*" },
+                namespaces: new[] { "Hinet.Web.Controllers" }
             );
             gameShort.DataTokens = gameShort.DataTokens ?? new RouteValueDictionary();
-            gameShort.DataTokens["UseNamespaceFallback"] = false; // không fallback qua namespace khác
+            gameShort.DataTokens["UseNamespaceFallback"] = false;
 
             // Route mua-acc -> GameController.DanhMuc(slug)
             var muaAcc = routes.MapRoute(
@@ -29,12 +37,22 @@ namespace Hinet.Web
             muaAcc.DataTokens = muaAcc.DataTokens ?? new RouteValueDictionary();
             muaAcc.DataTokens["UseNamespaceFallback"] = false;
 
+            // Route acc/{code} -> GameController.ChiTietTaiKhoan(code)
+            var accRoute = routes.MapRoute(
+                name: "AccChiTiet",
+                url: "acc/{code}",
+                defaults: new { controller = "Game", action = "ChiTietTaiKhoan" },
+                namespaces: new[] { "Hinet.Web.Controllers" }
+            );
+            accRoute.DataTokens = accRoute.DataTokens ?? new RouteValueDictionary();
+            accRoute.DataTokens["UseNamespaceFallback"] = false;
+
             // Route mặc định
             var @default = routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Hinet.Web.Controllers" } // BẮT BUỘC: fix trùng controller
+                namespaces: new[] { "Hinet.Web.Controllers" }
             );
             @default.DataTokens = @default.DataTokens ?? new RouteValueDictionary();
             @default.DataTokens["UseNamespaceFallback"] = false;

@@ -51,7 +51,7 @@
                                 <div class="d-sm-flex mb-5 align-items-center">
                                     <label class="control control--checkbox mb-3 mb-sm-0">
                                         <span class="caption">Ghi nhớ đăng nhập</span>
-                                        @Html.CheckBoxFor(m => m.RememberMe, new { @checked = "checked" })
+                                        @Html.CheckBox("Remember", new { @checked = "checked" })
                                         <div class="control__indicator"></div>
                                     </label>
                                     @*<span class="ml-auto">

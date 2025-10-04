@@ -1,10 +1,11 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Hinet.Model.Entities;
 using Hinet.Repository;
 using Hinet.Repository.DanhMucGameRepository;
 using Hinet.Repository.DanhMucGameTaiKhoanRepository;
 using Hinet.Repository.GameRepository;
 using Hinet.Repository.TaiKhoanRepository;
+using Hinet.Repository.TaiLieuDinhKemRepository;
 using Hinet.Service.Common;
 using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService.Dto;
@@ -12,6 +13,7 @@ using Hinet.Service.GameService.Dto;
 using Hinet.Service.TaiKhoanService.Dto;
 using log4net;
 using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
@@ -28,13 +30,15 @@ namespace Hinet.Service.GameService
         IDanhMucGameTaiKhoanRepository _danhMucGameTaiKhoanRepository;
         IDanhMucGameRepository _danhMucGameRepository;
         ITaiKhoanRepository _taiKhoanRepository;
+        ITaiLieuDinhKemRepository _taiLieuDinhKemRepository;
         public GameService(IUnitOfWork unitOfWork,
                 IGameRepository GameRepository,
                 ILog loger,
                 IMapper mapper,
                 IDanhMucGameRepository danhMucGameRepository,
                 IDanhMucGameTaiKhoanRepository danhMucGameTaiKhoanRepository,
-                ITaiKhoanRepository taiKhoanRepository)
+                ITaiKhoanRepository taiKhoanRepository,
+                ITaiLieuDinhKemRepository taiLieuDinhKemRepository)
             : base(unitOfWork, GameRepository)
         {
             _unitOfWork = unitOfWork;
@@ -44,6 +48,7 @@ namespace Hinet.Service.GameService
             _danhMucGameRepository = danhMucGameRepository;
             _danhMucGameTaiKhoanRepository = danhMucGameTaiKhoanRepository;
             _taiKhoanRepository = taiKhoanRepository;
+            _taiLieuDinhKemRepository = taiLieuDinhKemRepository;
         }
 
         public PageListResultBO<GameDto> GetDaTaByPage(GameSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
@@ -189,7 +194,7 @@ namespace Hinet.Service.GameService
         }
 
 
-        public PageListResultBO<TaiKhoanDto> GetTaiKhoanPagedByDanhMucSlug(string slug, TaiKhoanSearchDto search)
+        public PageListResultBO<TaiKhoanDto> GetTaiKhoanPagedByDanhMucSlug(string slug, TaiKhoanSearchDto search, int pageIndex, int pageSize)
         {
             var danhMucGame = _danhMucGameRepository.GetQueryable()
                                                        .FirstOrDefault(x => x.Slug.Equals(slug));
@@ -233,22 +238,40 @@ namespace Hinet.Service.GameService
                     query = query.Where(x => x.TrangThai.Contains(search.TrangThaiFilter));
                 }
 
-                //if (search.GiaMin.HasValue)
-                //{
-                //    query = query.Where(x => x.GiaGoc >= search.GiaMin.Value
-                //                          || x.GiaKhuyenMai >= search.GiaMin.Value);
-                //}
-
-                //if (search.GiaMax.HasValue)
-                //{
-                //    query = query.Where(x => x.GiaGoc <= search.GiaMax.Value
-                //                          || x.GiaKhuyenMai <= search.GiaMax.Value);
-                //}
+                // Filter khoảng giá
+                if (search.GiaMin.HasValue)
+                {
+                    query = query.Where(x => x.GiaKhuyenMai >= search.GiaMin.Value);
+                }
+                if (search.GiaMax.HasValue && search.GiaMax.Value > 0)
+                {
+                    query = query.Where(x => x.GiaKhuyenMai <= search.GiaMax.Value);
+                }
 
                 // Sorting
                 if (!string.IsNullOrEmpty(search.sortQuery))
                 {
-                    query = query.OrderBy(search.sortQuery);
+                    switch (search.sortQuery)
+                    {
+                        case "price_start":
+                            query = query.OrderByDescending(x => x.GiaKhuyenMai);
+                            break;
+                        case "price_end":
+                            query = query.OrderBy(x => x.GiaKhuyenMai);
+                            break;
+                        case "created_at_start":
+                            query = query.OrderByDescending(x => x.Id);
+                            break;
+                        case "created_at_end":
+                            query = query.OrderBy(x => x.Id);
+                            break;
+                        case "random":
+                            query = query.OrderBy(x => Guid.NewGuid());
+                            break;
+                        default:
+                            query = query.OrderByDescending(x => x.Id);
+                            break;
+                    }
                 }
                 else
                 {
@@ -268,13 +291,15 @@ namespace Hinet.Service.GameService
                 result.Count = dataList.Count;
                 result.TotalPage = 1;
                 result.ListItem = dataList;
+                result.CurrentPage = 1;
             }
             else
             {
-                var dataPaged = query.ToPagedList(search.pageIndex, search.pageSize);
+                var dataPaged = query.ToPagedList(pageIndex, pageSize);
                 result.Count = dataPaged.TotalItemCount;
                 result.TotalPage = dataPaged.PageCount;
                 result.ListItem = dataPaged.ToList();
+                result.CurrentPage = pageIndex;
             }
 
             return result;
@@ -330,5 +355,69 @@ namespace Hinet.Service.GameService
             return query.ToList();
         }
 
+        public TaiKhoanDto GetTaiKhoanByCode(string code)
+        {
+            var tlQuery = _taiLieuDinhKemRepository.GetQueryable();
+            var query = from tk in _taiKhoanRepository.GetQueryable()
+                        .Where(x => x.TrangThai != TrangThaiTaiKhoanConstant.DABAN && x.Code == code)
+
+                        join danhMucGameTaiKhoan in _danhMucGameTaiKhoanRepository.GetQueryable()
+                        on tk.Id equals danhMucGameTaiKhoan.TaiKhoanId into dmgtGrp
+                        from danhMucGameTaiKhoan in dmgtGrp.DefaultIfEmpty()
+
+                        join danhMucGame in _danhMucGameRepository.GetQueryable()
+                        on danhMucGameTaiKhoan.DanhMucGameId equals danhMucGame.Id into dmgGrp
+                        from danhMucGame in dmgGrp.DefaultIfEmpty()
+
+                        join game in _GameRepository.GetQueryable()
+                        on tk.GameId equals game.Id
+
+                        select new TaiKhoanDto
+                        {
+                            Id = tk.Id,
+                            Code = tk.Code,
+                            GameId = tk.GameId,
+                            TrangThai = tk.TrangThai,
+                            UserName = tk.UserName,
+                            Password = tk.Password,
+                            GiaGoc = tk.GiaGoc,
+                            GiaKhuyenMai = tk.GiaKhuyenMai,
+                            Mota = tk.Mota,
+                            ViTri = tk.ViTri,
+                            Game = game,
+                            DanhMucGame = danhMucGame,
+                            TaiLieuDinhKemList = tlQuery.Where(x => x.Item_ID == tk.Id).ToList()
+                        };
+            return query.FirstOrDefault();
+        }
+
+        public List<TaiKhoan> GetListTaiKhoanDaXem(List<long> daXemIds)
+        {
+            var listTk = _taiKhoanRepository.GetQueryable()
+                  .Where(x => daXemIds.Contains(x.Id))
+                  .ToList();
+            listTk = daXemIds.Select(id => listTk.FirstOrDefault(x => x.Id == id))
+                  .Where(x => x != null)
+                  .ToList();
+            return listTk;
+        }
+
+        public List<TaiKhoan> GetListTaiKhoanLienQuan(long id)
+        {
+            var danhMucIds = _danhMucGameTaiKhoanRepository.GetQueryable()
+                                    .Where(x => x.TaiKhoanId == id)
+                                    .Select(x => x.DanhMucGameId)
+                                    .ToList();
+
+            var listTk = (from tkdm in _danhMucGameTaiKhoanRepository.GetQueryable()
+                          join tk in _taiKhoanRepository.GetQueryable() on tkdm.TaiKhoanId equals tk.Id
+                          where danhMucIds.Contains(tkdm.DanhMucGameId)
+                                && tk.Id != id
+                          select tk)
+                 .Distinct()
+                 .Take(5) 
+                 .ToList();
+            return listTk;
+        }
     }
 }

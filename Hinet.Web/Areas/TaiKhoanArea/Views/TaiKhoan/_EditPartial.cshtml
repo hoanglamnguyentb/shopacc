@@ -123,7 +123,8 @@
         maxFilesize: 5,
         acceptedFiles: "image/*",
         dictDefaultMessage: "+ Kéo thả ảnh vào đây hoặc click để chọn",
-        dictRemoveFile: "Xóa ảnh"
+        dictRemoveFile: "Xóa ảnh",
+        addRemoveLinks: true
     });
 
     // Khi upload thành công → thêm hidden input vào form
@@ -134,8 +135,9 @@
                 name: "UploadedFiles",
                 value: response.fileName
             });
-            $("#createTaiKhoanForm").append(input);
+            $("#editTaiKhoanForm").append(input);
         }
+        file.uploadFileName = response.fileName;
     });
 
     myDropzone.on("error", function (file, errorMessage) {
@@ -144,6 +146,7 @@
 
     // Nếu xóa file → xóa luôn hidden input tương ứng
     myDropzone.on("removedfile", function (file) {
+        console.log("Remove:", file.uploadFileName);
         $("input[name='UploadedFiles'][value='" + file.uploadFileName + "']").remove();
     });
 
@@ -152,7 +155,7 @@
     {
         var url = Url.Content("~/Uploads/TaiKhoan/" + Model.Id + "/" + f.TenTaiLieu);
         <text>
-        var mockFile = { name: "@f.TenTaiLieu", size: 12345, uploadedFileName: "@f.TenTaiLieu" };
+    var mockFile = { name: "@f.TenTaiLieu", size: 12345, uploadFileName: "@f.TenTaiLieu" };
         myDropzone.emit("addedfile", mockFile);
         myDropzone.emit("thumbnail", mockFile, "@url");
         myDropzone.emit("complete", mockFile);

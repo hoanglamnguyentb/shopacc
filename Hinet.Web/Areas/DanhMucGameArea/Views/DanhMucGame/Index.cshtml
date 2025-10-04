@@ -8,7 +8,7 @@
     var game = ViewBag.Game as Game;
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    ViewBag.ModuleName =  "Quản lý danh mục game";
+    ViewBag.ModuleName = "Quản lý danh mục game";
     ViewBag.PageName = game == null
         ? "Danh sách danh mục game"
         : "Danh sách danh mục game " + game.Name;
@@ -25,6 +25,7 @@
     </a>
     <a href="javascript:void(0)" onclick="CreateAction('@createUrl')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
 }
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 @Html.Partial("_SearchPartial")
 <div class="tabbable">
     <ul class="nav nav-tabs">
@@ -58,6 +59,7 @@
 </div>
 
 @section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
         var lstData = eval(@lstData);
         var moduleTableSelector="#tbl-DanhMucGame";
@@ -160,5 +162,8 @@
         }
 
         pagefunction();
+
+        var quillMoTa;
+        var quillThongBao
     </script>
 }

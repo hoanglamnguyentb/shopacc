@@ -6,7 +6,6 @@ using Hinet.Service.DanhMucGameService;
 using Hinet.Service.DanhMucGameService.Dto;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GameService;
-using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Web.Areas.DanhMucGameArea.Models;
 using Hinet.Web.Filters;
 using log4net;
@@ -14,8 +13,6 @@ using System;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
-
 
 namespace Hinet.Web.Areas.DanhMucGameArea.Controllers
 {
@@ -91,7 +88,7 @@ namespace Hinet.Web.Areas.DanhMucGameArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [ValidateInput(false)]
         public JsonResult Create(CreateVM model)
         {
             var result = new JsonResultBO(true, "Tạo  thành công");
@@ -134,7 +131,7 @@ namespace Hinet.Web.Areas.DanhMucGameArea.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-
+        [ValidateInput(false)]
         public JsonResult Edit(EditVM model)
         {
             var result = new JsonResultBO(true);

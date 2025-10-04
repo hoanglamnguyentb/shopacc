@@ -150,8 +150,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 								LoaiTaiLieu = nameof(TaiKhoan),
 								Item_ID = entity.Id,
 								MoTa = string.Empty,
-								DuongDanFile = destPath
-							});
+                                DuongDanFile = $"/Uploads/TaiKhoan/{entity.Id}/{fileName}",
+                            });
 						}
 					}
 					_taiLieuDinhKemService.InsertRange(listTaiLieu);
@@ -264,7 +264,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 								LoaiTaiLieu = nameof(TaiKhoan),
 								Item_ID = entity.Id,
 								MoTa = string.Empty,
-								DuongDanFile = destPath
+								DuongDanFile = $"/Uploads/TaiKhoan/{entity.Id}/{fileName}",
 							});
 						}
 					}

@@ -13,6 +13,7 @@ namespace Hinet.Web.Areas.DanhMucGameArea.Models
 		public string Name { get; set; }
 		public string DuongDanAnh { get; set; }
 		public string MoTa { get; set; }
+        public string ThongBao { get; set; }
         public HttpPostedFileBase FileAnh { get; set; }
 
     }
