@@ -12,7 +12,8 @@ namespace Hinet.Service.ThuocTinhService.Dto
 		public int GameIdFilter { get; set; }
 		public string TenThuocTinhFilter { get; set; }
 		public string KieuDuLieuFilter { get; set; }
-		public string DmNhomDanhmucFilter { get; set; }
+		public string NhomDanhmucCodeFilter { get; set; }
+		public long? NhomDanhmucIdFilter { get; set; }
 
 
     }

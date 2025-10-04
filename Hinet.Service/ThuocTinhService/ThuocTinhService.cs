@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using PagedList;
 using AutoMapper;
 using Hinet.Service.Constant;
+using Hinet.Repository.DanhmucRepository;
 
 
 
@@ -24,30 +25,27 @@ namespace Hinet.Service.ThuocTinhService
     {
         IUnitOfWork _unitOfWork;
         IThuocTinhRepository _ThuocTinhRepository;
-	ILog _loger;
+	    ILog _loger;
         IMapper _mapper;
+        IDM_DulieuDanhmucRepository _dM_DulieuDanhmucRepository;
 
-
-        
-        public ThuocTinhService(IUnitOfWork unitOfWork, 
-		IThuocTinhRepository ThuocTinhRepository, 
-		ILog loger,
-
-            	IMapper mapper	
-            )
+        public ThuocTinhService(IUnitOfWork unitOfWork,
+                IThuocTinhRepository ThuocTinhRepository,
+                ILog loger,
+                IMapper mapper,
+                IDM_DulieuDanhmucRepository dM_DulieuDanhmucRepository)
             : base(unitOfWork, ThuocTinhRepository)
         {
             _unitOfWork = unitOfWork;
             _ThuocTinhRepository = ThuocTinhRepository;
             _loger = loger;
             _mapper = mapper;
-
-
-
+            _dM_DulieuDanhmucRepository = dM_DulieuDanhmucRepository;
         }
 
         public PageListResultBO<ThuocTinhDto> GetDaTaByPage(ThuocTinhSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
         {
+            var queryDanhMuc = _dM_DulieuDanhmucRepository.GetAllAsQueryable();
             var query = from ThuocTinhtbl in _ThuocTinhRepository.GetAllAsQueryable()
 
                         select new ThuocTinhDto
@@ -55,7 +53,8 @@ namespace Hinet.Service.ThuocTinhService
 							GameId = ThuocTinhtbl.GameId,
 							TenThuocTinh = ThuocTinhtbl.TenThuocTinh,
 							KieuDuLieu = ThuocTinhtbl.KieuDuLieu,
-							DmNhomDanhmuc = ThuocTinhtbl.DmNhomDanhmuc,
+							NhomDanhmucCode = ThuocTinhtbl.NhomDanhmucCode,
+							NhomDanhMucId = ThuocTinhtbl.NhomDanhMucId,
 							CreatedDate = ThuocTinhtbl.CreatedDate,
 							CreatedBy = ThuocTinhtbl.CreatedBy,
 							CreatedID = ThuocTinhtbl.CreatedID,
@@ -65,34 +64,37 @@ namespace Hinet.Service.ThuocTinhService
 							IsDelete = ThuocTinhtbl.IsDelete,
 							DeleteTime = ThuocTinhtbl.DeleteTime,
 							DeleteId = ThuocTinhtbl.DeleteId,
-							Id = ThuocTinhtbl.Id
-                            
+							Id = ThuocTinhtbl.Id,
+                            ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.Id == ThuocTinhtbl.NhomDanhMucId).ToList()
                         };
 
-            if (searchModel != null)
-            {
-		if (searchModel.GameIdFilter!=null)
-		{
-			query = query.Where(x => x.GameId==searchModel.GameIdFilter);
-		}
-		if (!string.IsNullOrEmpty(searchModel.TenThuocTinhFilter))
-		{
-			query = query.Where(x => x.TenThuocTinh.Contains(searchModel.TenThuocTinhFilter));
-		}
-		if (!string.IsNullOrEmpty(searchModel.KieuDuLieuFilter))
-		{
-			query = query.Where(x => x.KieuDuLieu.Contains(searchModel.KieuDuLieuFilter));
-		}
-		if (!string.IsNullOrEmpty(searchModel.DmNhomDanhmucFilter))
-		{
-			query = query.Where(x => x.DmNhomDanhmuc.Contains(searchModel.DmNhomDanhmucFilter));
-		}
 
-
-                if (!string.IsNullOrEmpty(searchModel.sortQuery))
+                if (searchModel != null)
                 {
-                    query = query.OrderBy(searchModel.sortQuery);
-                }
+		            if (searchModel.GameIdFilter!=null)
+		            {
+			            query = query.Where(x => x.GameId==searchModel.GameIdFilter);
+		            }
+		            if (!string.IsNullOrEmpty(searchModel.TenThuocTinhFilter))
+		            {
+			            query = query.Where(x => x.TenThuocTinh.Contains(searchModel.TenThuocTinhFilter));
+		            }
+		            if (!string.IsNullOrEmpty(searchModel.KieuDuLieuFilter))
+		            {
+			            query = query.Where(x => x.KieuDuLieu.Contains(searchModel.KieuDuLieuFilter));
+		            }
+		            if (!string.IsNullOrEmpty(searchModel.NhomDanhmucCodeFilter))
+		            {
+			            query = query.Where(x => x.NhomDanhmucCode.Contains(searchModel.NhomDanhmucCodeFilter));
+		            }		
+                    if (searchModel.NhomDanhmucIdFilter!=null)
+		            {
+			            query = query.Where(x => x.NhomDanhMucId==searchModel.NhomDanhmucIdFilter);
+		            }
+                    if (!string.IsNullOrEmpty(searchModel.sortQuery))
+                    {
+                        query = query.OrderBy(searchModel.sortQuery);
+                    }
                 else
                 {
                     query = query.OrderByDescending(x => x.Id);
@@ -130,6 +132,51 @@ namespace Hinet.Service.ThuocTinhService
             var list = _ThuocTinhRepository.GetQueryable().Where(x => x.GameId == gameId);
             _ThuocTinhRepository.DeleteRange(list);
             _ThuocTinhRepository.Save();
+        }
+
+        public ThuocTinhDto GetDtoById(long id)
+        {
+            var queryDanhMuc = _dM_DulieuDanhmucRepository.GetAllAsQueryable();
+            var query = from ThuocTinhtbl in _ThuocTinhRepository.GetAllAsQueryable()
+                        select new ThuocTinhDto
+                        {
+                            GameId = ThuocTinhtbl.GameId,
+                            TenThuocTinh = ThuocTinhtbl.TenThuocTinh,
+                            KieuDuLieu = ThuocTinhtbl.KieuDuLieu,
+                            //DmNhomDanhmuc = ThuocTinhtbl.DmNhomDanhmuc,
+                            Id = ThuocTinhtbl.Id,
+                            //ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.Id = ThuocTinhtbl.DmNhomDanhmuc)
+
+                        };
+            return query.FirstOrDefault();
+        }
+
+        public List<ThuocTinhDto> GetDaTaByGameId(int gameId)
+        {
+            var queryDanhMuc = _dM_DulieuDanhmucRepository.GetAllAsQueryable();
+            var query = from ThuocTinhtbl in _ThuocTinhRepository.GetQueryable().Where(x => x.GameId == gameId)
+
+                        select new ThuocTinhDto
+                        {
+                            GameId = ThuocTinhtbl.GameId,
+                            TenThuocTinh = ThuocTinhtbl.TenThuocTinh,
+                            KieuDuLieu = ThuocTinhtbl.KieuDuLieu,
+                            NhomDanhmucCode = ThuocTinhtbl.NhomDanhmucCode,
+                            NhomDanhMucId = ThuocTinhtbl.NhomDanhMucId,
+                            CreatedDate = ThuocTinhtbl.CreatedDate,
+                            CreatedBy = ThuocTinhtbl.CreatedBy,
+                            CreatedID = ThuocTinhtbl.CreatedID,
+                            UpdatedDate = ThuocTinhtbl.UpdatedDate,
+                            UpdatedBy = ThuocTinhtbl.UpdatedBy,
+                            UpdatedID = ThuocTinhtbl.UpdatedID,
+                            IsDelete = ThuocTinhtbl.IsDelete,
+                            DeleteTime = ThuocTinhtbl.DeleteTime,
+                            DeleteId = ThuocTinhtbl.DeleteId,
+                            Id = ThuocTinhtbl.Id,
+                            ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.Id == ThuocTinhtbl.NhomDanhMucId).ToList()
+                        };
+
+            return query.ToList();
         }
     }
 }

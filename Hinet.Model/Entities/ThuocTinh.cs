@@ -9,6 +9,7 @@ namespace Hinet.Model.Entities
         public int GameId { get; set; }
         public string TenThuocTinh { get; set; }
         public string KieuDuLieu { get; set; } //text, number, dropdown, boolean
-        public string DmNhomDanhmuc { get; set; } //Danh mục
+        public string NhomDanhmucCode { get; set; } //Danh mục
+        public long? NhomDanhMucId { get; set; } //Danh mục
     }
 }

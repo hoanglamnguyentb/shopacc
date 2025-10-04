@@ -113,12 +113,14 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                     // Lưu thuộc tính
                     foreach (var tt in model.ThuocTinhs)
                     {
+                        var nhomDanhMuc = _dM_NhomDanhmucService.FindBy(x => x.GroupCode == tt.NhomDanhmucCode).FirstOrDefault();
                         var thuocTinh = new ThuocTinh
                         {
                             GameId = EntityModel.Id,
                             TenThuocTinh = tt.TenThuocTinh,
                             KieuDuLieu = tt.KieuDuLieu,
-                            DmNhomDanhmuc = tt.DmNhomDanhmuc
+                            NhomDanhmucCode = nhomDanhMuc?.GroupName,
+                            NhomDanhMucId = nhomDanhMuc?.Id,
                         };
                         listThuocTinhAdd.Add(thuocTinh);
                     }
@@ -175,12 +177,14 @@ namespace Hinet.Web.Areas.GameArea.Controllers
                     var listThuocTinhAdd = new List<ThuocTinh>();
                     foreach (var tt in model.ThuocTinhs)
                     {
+                        var nhomDanhMuc = _dM_NhomDanhmucService.FindBy(x => x.GroupCode == tt.NhomDanhmucCode).FirstOrDefault();
                         var thuocTinh = new ThuocTinh
                         {
                             GameId = obj.Id,
                             TenThuocTinh = tt.TenThuocTinh,
                             KieuDuLieu = tt.KieuDuLieu,
-                            DmNhomDanhmuc = tt.DmNhomDanhmuc
+                            NhomDanhmucCode = nhomDanhMuc?.GroupName,
+                            NhomDanhMucId = nhomDanhMuc?.Id,
                         };
                         listThuocTinhAdd.Add(thuocTinh);
                     }

@@ -10,6 +10,6 @@ namespace Hinet.Service.ThuocTinhService.Dto
 {
     public class ThuocTinhDto : ThuocTinh
     {
-
+        public List<DM_DulieuDanhmuc> ListDuLieuDanhMuc { get; set; }
     }
 }

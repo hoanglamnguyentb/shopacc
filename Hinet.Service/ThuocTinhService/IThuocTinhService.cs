@@ -15,5 +15,6 @@ namespace Hinet.Service.ThuocTinhService
         PageListResultBO<ThuocTinhDto> GetDaTaByPage(ThuocTinhSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         ThuocTinh GetById(long id);
         void DeleteByGameId(long gameId);
+        List<ThuocTinhDto> GetDaTaByGameId(int gameId);
     }
 }

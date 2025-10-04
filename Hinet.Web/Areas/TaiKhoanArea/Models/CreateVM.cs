@@ -1,4 +1,5 @@
 using Hinet.Model.Entities;
+using Hinet.Service.ThuocTinhService.Dto;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +20,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Models
 		public string Mota { get; set; }
 		public int ViTri { get; set; }
         public int? DanhMucGameId { get; set; }
-        public List<ThuocTinh> ThuocTinhs { get; set; }
+        public List<ThuocTinhDto> ThuocTinhs { get; set; }
         public List<GiaTriThuocTinh> GiaTriThuocTinhs { get; set; } = new List<GiaTriThuocTinh>();
     }
 }

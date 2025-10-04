@@ -100,8 +100,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 			var myModel = new CreateVM()
 			{
 				GameId = id,
-				ThuocTinhs = _thuocTinhService.FindBy(x => x.GameId == id).ToList()
-            };
+				ThuocTinhs = _thuocTinhService.GetDaTaByGameId(id.GetValueOrDefault())
+			};
 			//var game = _gameService.GetById(id);
             ViewBag.dropdownListGameId = _gameService.GetDropdown("Name", "Id");
 			ViewBag.dropdownListDanhMucId = new List<SelectListItem>();

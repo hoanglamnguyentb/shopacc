@@ -166,6 +166,10 @@
     <Compile Include="Migrations\202510031701155_add_tbl_column_plus.Designer.cs">
       <DependentUpon>202510031701155_add_tbl_column_plus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510040425390_alter_tbl_ThuocTinh_1.cs" />
+    <Compile Include="Migrations\202510040425390_alter_tbl_ThuocTinh_1.Designer.cs">
+      <DependentUpon>202510040425390_alter_tbl_ThuocTinh_1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -257,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510031701155_add_tbl_column_plus.resx">
       <DependentUpon>202510031701155_add_tbl_column_plus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510040425390_alter_tbl_ThuocTinh_1.resx">
+      <DependentUpon>202510040425390_alter_tbl_ThuocTinh_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

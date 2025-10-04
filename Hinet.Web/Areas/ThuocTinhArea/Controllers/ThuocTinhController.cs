@@ -178,7 +178,8 @@ namespace Hinet.Web.Areas.ThuocTinhArea.Controllers
 			searchModel.GameIdFilter = form.GameIdFilter;
 			searchModel.TenThuocTinhFilter = form.TenThuocTinhFilter;
 			searchModel.KieuDuLieuFilter = form.KieuDuLieuFilter;
-			searchModel.DmNhomDanhmucFilter = form.DmNhomDanhmucFilter;
+			searchModel.NhomDanhmucIdFilter = form.NhomDanhmucIdFilter;
+			searchModel.NhomDanhmucCodeFilter = form.NhomDanhmucCodeFilter;
 
             SessionManager.SetValue((searchKey) , searchModel);
 
