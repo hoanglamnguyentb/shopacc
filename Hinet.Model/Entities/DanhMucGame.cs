@@ -13,5 +13,8 @@ namespace Hinet.Model.Entities
         public string MoTa { get; set; }
         public string Slug { get; set; }
         public string ThongBao { get; set; }
+        public bool? LaLoaiDongGia { get; set; }
+        public int GiaGoc { get; set; }
+        public int? GiaKhuyenMai { get; set; }
     }
 }

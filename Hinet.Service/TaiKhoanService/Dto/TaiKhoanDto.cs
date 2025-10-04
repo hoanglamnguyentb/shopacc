@@ -10,9 +10,10 @@ namespace Hinet.Service.TaiKhoanService.Dto
 {
     public class TaiKhoanDto : TaiKhoan
     {
-        public List<DanhMucGame> ListDanhMucGame { get; set; }
         public Game Game { get; set; }
         public DanhMucGame DanhMucGame { get; set; }
+        public string DanhMucGameTxt { get; set; }
         public List<TaiLieuDinhKem> TaiLieuDinhKemList { get; set; } = new List<TaiLieuDinhKem>();
+        public string AnhBia { get; set; }
     }
 }

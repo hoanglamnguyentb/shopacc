@@ -5,6 +5,7 @@
 @model EditVM
 @{ 
     var dropdownListGameId = ViewBag.dropdownListGameId as List<SelectListItem>;
+    var dropdownListDanhMucId = ViewBag.dropdownListDanhMucId as List<SelectListItem>;
 }
 <div class="modal-dialog modal-full">
     @using (Ajax.BeginForm("Edit", "TaiKhoan", new { @area = "TaiKhoanArea" }, new AjaxOptions()
@@ -42,11 +43,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Tag</label>
+                        <label class="control-label col-sm-4">Danh mục game</label>
                         <div class="col-sm-8 w-full-select2">
-                            @Html.ListBoxFor(m => m.DanhMucGameIds, ViewBag.DropdownListDanhMuc as List<SelectListItem>,
-                                new { @class = "form-control", multiple = "multiple" })
-                            @Html.ValidationMessageFor(m => m.DanhMucGameIds, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(m => m.DanhMucGameId, dropdownListDanhMucId, "--Chọn danh mục game--", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DanhMucGameId, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -108,7 +108,7 @@
     }
 </div>
 <script>
-    $("#DanhMucGameIds").select2();
+    $("#DanhMucGameId").select2();
     $("#GameId").select2();
 
     Dropzone.autoDiscover = false;

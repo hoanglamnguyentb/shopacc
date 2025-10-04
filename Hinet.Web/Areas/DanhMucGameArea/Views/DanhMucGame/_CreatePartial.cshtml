@@ -54,6 +54,29 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-sm-4">Bán đồng giá</label>
+                        <div class="col-sm-8">
+                            <label class="switch">
+                                <input type="checkbox" checked value="true" id="LaLoaiDongGia" name="LaLoaiDongGia">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group gia-group">
+                        <label class="control-label col-sm-4">Giá gốc <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaGoc, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaGoc, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group gia-group">
+                        <label class="control-label col-sm-4">Giá khuyến mãi </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.GiaKhuyenMai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GiaKhuyenMai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-sm-4">Mô tả </label>
                         <div class="col-sm-8">
                             <div id="editorMoTa">
@@ -75,7 +98,6 @@
             </div>
             <div class="modal-footer center">
                 <button type="submit" class="btn btn-primary">Hoàn thành</button>
-
                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
@@ -103,6 +125,20 @@
             }
             reader.readAsDataURL(input.files[0]);;
         }
+    });
+
+    function toggleGiaFields() {
+        if ($("#LaLoaiDongGia").is(":checked")) {
+            $(".gia-group").show();
+        } else {
+            $(".gia-group").hide();
+        }
+    }
+
+    toggleGiaFields();
+
+    $("#LaLoaiDongGia").change(function () {
+        toggleGiaFields();
     });
 </script>
 @Scripts.Render("~/bundles/jqueryval")

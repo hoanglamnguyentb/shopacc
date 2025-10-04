@@ -33,6 +33,8 @@ namespace Hinet.Model
 		public DbSet<DanhMucGame> DanhMucGame { get; set; }
 		public DbSet<DanhMucGameTaiKhoan> DanhMucGameTaiKhoan { get; set; }
 		public DbSet<TaiKhoan> TaiKhoan { get; set; }
+		public DbSet<ThuocTinh> ThuocTinh { get; set; }
+		public DbSet<GiaTriThuocTinh> GiaTriThuocTinh { get; set; }
 		public DbSet<DichVu> DichVu { get; set; }
 		public DbSet<Banner> Banner { get; set; }
 		public DbSet<TinTuc> TinTuc { get; set; }

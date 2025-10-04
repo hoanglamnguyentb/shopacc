@@ -66,6 +66,8 @@
     <Compile Include="Entities\GiaoDich.cs" />
     <Compile Include="Entities\DanhMucGameTaiKhoan.cs" />
     <Compile Include="Entities\BinhLuan.cs" />
+    <Compile Include="Entities\GiaTriThuocTinh.cs" />
+    <Compile Include="Entities\ThuocTinh.cs" />
     <Compile Include="Entities\TinTuc.cs" />
     <Compile Include="Entities\TaiKhoan.cs" />
     <Compile Include="Entities\Game.cs" />
@@ -144,6 +146,26 @@
     <Compile Include="Migrations\202510021845277_alter_tbl_DanhMucGame.Designer.cs">
       <DependentUpon>202510021845277_alter_tbl_DanhMucGame.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510031318579_alter_tbl_DanhMucGame_1.cs" />
+    <Compile Include="Migrations\202510031318579_alter_tbl_DanhMucGame_1.Designer.cs">
+      <DependentUpon>202510031318579_alter_tbl_DanhMucGame_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510031415343_alter_tbl_TaiKhoan_1.cs" />
+    <Compile Include="Migrations\202510031415343_alter_tbl_TaiKhoan_1.Designer.cs">
+      <DependentUpon>202510031415343_alter_tbl_TaiKhoan_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510031416542_alter_tbl_TaiKhoan_2.cs" />
+    <Compile Include="Migrations\202510031416542_alter_tbl_TaiKhoan_2.Designer.cs">
+      <DependentUpon>202510031416542_alter_tbl_TaiKhoan_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510031637421_alter_tbl_TaiKhoan_3.cs" />
+    <Compile Include="Migrations\202510031637421_alter_tbl_TaiKhoan_3.Designer.cs">
+      <DependentUpon>202510031637421_alter_tbl_TaiKhoan_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510031701155_add_tbl_column_plus.cs" />
+    <Compile Include="Migrations\202510031701155_add_tbl_column_plus.Designer.cs">
+      <DependentUpon>202510031701155_add_tbl_column_plus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -217,6 +239,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510011638511_add_column_slug.resx">
       <DependentUpon>202510011638511_add_column_slug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510021845277_alter_tbl_DanhMucGame.resx">
+      <DependentUpon>202510021845277_alter_tbl_DanhMucGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510031318579_alter_tbl_DanhMucGame_1.resx">
+      <DependentUpon>202510031318579_alter_tbl_DanhMucGame_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510031415343_alter_tbl_TaiKhoan_1.resx">
+      <DependentUpon>202510031415343_alter_tbl_TaiKhoan_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510031416542_alter_tbl_TaiKhoan_2.resx">
+      <DependentUpon>202510031416542_alter_tbl_TaiKhoan_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510031637421_alter_tbl_TaiKhoan_3.resx">
+      <DependentUpon>202510031637421_alter_tbl_TaiKhoan_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510031701155_add_tbl_column_plus.resx">
+      <DependentUpon>202510031701155_add_tbl_column_plus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

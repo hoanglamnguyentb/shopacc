@@ -1509,6 +1509,15 @@ function formatMoney(num, currency = "", splitter = ",") {
     return num;
 }
 
+function calculateDiscountPercent(originalPrice, salePrice) {
+    if (!originalPrice || !salePrice || originalPrice <= 0) {
+        return "";
+    }
+
+    const discount = ((originalPrice - salePrice) / originalPrice) * 100;
+    return `-${Math.round(discount)}%`;
+}
+
 function formatNumber(num, currency = "", splitter = ",", IsInteger) {
     if (num) {
         if (IsInteger) {

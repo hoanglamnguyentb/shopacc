@@ -18,4 +18,19 @@ namespace Hinet.Service.Constant
 		[DisplayName("Khác")]
 		public static string KHAC { get; set; } = "KHAC";
 	}
+
+    public class KieuDuLieuThuocTinhGameConstant
+    {
+        [DisplayName("Text")]
+        public static string TEXT { get; set; } = "TEXT";
+
+        [DisplayName("Number")]
+        public static string NUMBER { get; set; } = "NUMBER";
+
+        [DisplayName("Dropdown")]
+        public static string DROPDOWN { get; set; } = "DROPDOWN";
+
+        [DisplayName("Boolean")]
+        public static string BOOLEAN { get; set; } = "BOOLEAN";
+    }
 }

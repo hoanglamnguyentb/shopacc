@@ -238,6 +238,10 @@
     <Compile Include="GiaoDichService\Dto\GiaoDichSearchDto.cs" />
     <Compile Include="GiaoDichService\GiaoDichService.cs" />
     <Compile Include="GiaoDichService\IGiaoDichService.cs" />
+    <Compile Include="GiaTriThuocTinhService\Dto\GiaTriThuocTinhDto.cs" />
+    <Compile Include="GiaTriThuocTinhService\Dto\GiaTriThuocTinhSearchDto.cs" />
+    <Compile Include="GiaTriThuocTinhService\GiaTriThuocTinhService.cs" />
+    <Compile Include="GiaTriThuocTinhService\IGiaTriThuocTinhService.cs" />
     <Compile Include="ModuleService\DTO\ModuleDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleMenuDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleSearchDTO.cs" />
@@ -264,6 +268,10 @@
     <Compile Include="TaiKhoanService\TaiKhoanService.cs" />
     <Compile Include="TaiLieuDinhKemService\ITaiLieuDinhKemService.cs" />
     <Compile Include="TaiLieuDinhKemService\TaiLieuDinhKemService.cs" />
+    <Compile Include="ThuocTinhService\Dto\ThuocTinhDto.cs" />
+    <Compile Include="ThuocTinhService\Dto\ThuocTinhSearchDto.cs" />
+    <Compile Include="ThuocTinhService\IThuocTinhService.cs" />
+    <Compile Include="ThuocTinhService\ThuocTinhService.cs" />
     <Compile Include="TinTucService\Dto\TinTucDto.cs" />
     <Compile Include="TinTucService\Dto\TinTucSearchDto.cs" />
     <Compile Include="TinTucService\ITinTucService.cs" />

@@ -5,6 +5,7 @@
 @model CreateVM
 @{
     var dropdownListGameId = ViewBag.dropdownListGameId as List<SelectListItem>;
+    var dropdownListDanhMucId = ViewBag.dropdownListDanhMucId as List<SelectListItem>;
 }
 
 <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
@@ -44,11 +45,10 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Tag</label>
+                        <label class="control-label col-sm-4">Danh mục game</label>
                         <div class="col-sm-8 w-full-select2">
-                            @Html.ListBoxFor(m => m.DanhMucGameIds, ViewBag.DropdownListDanhMuc as List<SelectListItem>,
-                                new { @class = "form-control", multiple = "multiple" })
-                            @Html.ValidationMessageFor(m => m.DanhMucGameIds, "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(m => m.DanhMucGameId, dropdownListDanhMucId, "--Chọn danh mục game--", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DanhMucGameId, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -100,6 +100,20 @@
                             @Html.ValidationMessageFor(m => m.ViTri, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+                    @for (int i = 0; i < Model.ThuocTinhs.Count; i++)
+                    {
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">@Model.ThuocTinhs[i].TenThuocTinh</label>
+                            <div class="col-sm-8">
+                                <!-- hidden để giữ Id -->
+                                <input type="hidden" name="ThuocTinhGiaTris[@i].ThuocTinhId" value="@Model.ThuocTinhs[i].Id" />
+
+                                <!-- ô nhập giá trị -->
+                                <input type="text" name="ThuocTinhGiaTris[@i].GiaTri" class="form-control" />
+                            </div>
+                        </div>
+                    }
                     <div class="form-group">
                         <label class="control-label col-sm-4">Ảnh </label>
                         <div class="col-sm-12">
@@ -117,7 +131,7 @@
 </div>
 
 <script>
-    $("#DanhMucGameIds").select2();
+    $("#DanhMucGameId").select2();
     $("#GameId").select2();
 
     Dropzone.autoDiscover = false;

@@ -44,11 +44,12 @@ namespace Hinet.Service.TaiKhoanService
 
         public PageListResultBO<TaiKhoanDto> GetDaTaByPage(TaiKhoanSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
         {
-            var danhMucQuery = _danhMucGameRepository.GetAllAsQueryable();
-
             var query = from tk in _TaiKhoanRepository.GetAllAsQueryable()
-                        join map in _danhMucGameTaiKhoanRepository.GetAllAsQueryable()
-                            on tk.Id equals map.TaiKhoanId into mapGrp
+
+                        join dmGame in _danhMucGameRepository.GetAllAsQueryable()
+                        on tk.DanhMucGameId equals dmGame.Id into dmGameGrp
+                        from dmGame in dmGameGrp.DefaultIfEmpty()
+
                         select new TaiKhoanDto
                         {
                             Id = tk.Id,
@@ -70,12 +71,9 @@ namespace Hinet.Service.TaiKhoanService
                             IsDelete = tk.IsDelete,
                             DeleteTime = tk.DeleteTime,
                             DeleteId = tk.DeleteId,
-
-                            // Dùng subquery join danh mục game với mapping
-                            ListDanhMucGame = (from m in mapGrp
-                                               join dm in danhMucQuery
-                                                   on m.DanhMucGameId equals dm.Id
-                                               select dm).ToList()
+                            DanhMucGameId = tk.DanhMucGameId,
+                            DanhMucGame = dmGame,
+                            DanhMucGameTxt = dmGame.Name,
                         };
 
             if (searchModel != null)

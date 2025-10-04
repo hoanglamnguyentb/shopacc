@@ -4,6 +4,8 @@
 
 @model CreateVM
 @{
+    var dropdownListKieuDuLieu = ViewBag.dropdownListKieuDuLieu as List<SelectListItem>;
+    var dropdownListNhomDanhMuc = ViewBag.dropdownListNhomDanhMuc as List<SelectListItem>;
 }
 
 <div class="modal-dialog">
@@ -42,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-4">Vị trí hiển thị </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 w-full-select2">
                             @Html.DropDownListFor(m => m.ViTriHienThi, ViewBag.dropdownListViTriHienThi as List<SelectListItem>
                            , "-- Chọn vị trí --", new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
@@ -53,6 +55,15 @@
                         <div class="col-sm-8">
                             @Html.TextBoxFor(m => m.STT, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.STT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Thuộc tính</label>
+                        <div class="col-sm-8">
+                            <div id="thuocTinhContainer">
+                                <!-- Render các thuộc tính động -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success" onclick="addThuocTinh()">+ Thêm thuộc tính</button>
                         </div>
                     </div>
                 </div>
@@ -66,4 +77,76 @@
     }
 </div>
 
+<script>
+    $("#ViTriHienThi").select2();
+    var dropdownListKieuDuLieu = @Html.Raw(Json.Encode(dropdownListKieuDuLieu));
+    var dropdownListNhomDanhMuc = @Html.Raw(Json.Encode(dropdownListNhomDanhMuc));
+
+    function createSelect(name, data, cssClass, onchange) {
+        let html = `<select name="${name}" class="form-control ${cssClass} select2" ${onchange ? 'onchange="' + onchange + '"' : ''}>`;
+        html += `<option value="">-- Chọn --</option>`;
+        data.forEach(function (item) {
+            html += `<option value="${item.Value}">${item.Text}</option>`;
+        });
+        html += `</select>`;
+        return html;
+    }
+
+    function addThuocTinh() {
+        let idx = $("#thuocTinhContainer .thuoc-tinh-item").length;
+        let selectKieu = createSelect(`ThuocTinhs[${idx}].KieuDuLieu`, dropdownListKieuDuLieu, "kieu-du-lieu", "toggleLuaChon(this)");
+        let selectNhom = createSelect(`ThuocTinhs[${idx}].DmNhomDanhmuc`, dropdownListNhomDanhMuc, "lua-chon");
+
+        let html = `
+            <div class="thuoc-tinh-item" style="margin:10px 0; border:1px dashed #ccc; padding:10px">
+                <input type="text" name="ThuocTinhs[${idx}].TenThuocTinh"
+                       class="form-control" placeholder="Tên thuộc tính" style="margin-bottom:5px;"/>
+                ${selectKieu}
+                <div class="wrap-nhom" style="margin-top:5px; display:none">
+                    ${selectNhom}
+                </div>
+                <div class="btn-removeThuocTinh" onclick="removeThuocTinh(this)"><i class="bi bi-x-lg"></i></div>
+            </div>`;
+
+        $("#thuocTinhContainer").append(html);
+        reIndexThuocTinh();
+    }
+
+    // Hàm toggle input LuaChon
+    function toggleLuaChon(select, index) {
+        let $parent = $(select).closest(".thuoc-tinh-item");
+        let $wrapNhom = $parent.find(".wrap-nhom");
+
+        if ($(select).val() === "DROPDOWN") {
+            $wrapNhom.show();
+
+            $wrapNhom.find("select").select2({
+                width: "100%",
+                placeholder: "-- Chọn --"
+            });
+        } else {
+            $wrapNhom.hide();
+            $wrapNhom.find("select").val("").trigger("change");
+        }
+    }
+
+    // Hàm xóa thuộc tính
+    function removeThuocTinh(button) {
+        $(button).closest(".thuoc-tinh-item").remove();
+        reIndexThuocTinh();
+    }
+
+    function reIndexThuocTinh() {
+        $("#thuocTinhContainer .thuoc-tinh-item").each(function (i, el) {
+            $(el).find("input, select").each(function () {
+                var name = $(this).attr("name");
+                if (name) {
+                    var newName = name.replace(/ThuocTinhs\[\d+\]/, "ThuocTinhs[" + i + "]");
+                    $(this).attr("name", newName);
+                }
+            });
+        });
+        thuocTinhIndex = $("#thuocTinhContainer .thuoc-tinh-item").length;
+    }
+</script>
 @Scripts.Render("~/bundles/jqueryval")

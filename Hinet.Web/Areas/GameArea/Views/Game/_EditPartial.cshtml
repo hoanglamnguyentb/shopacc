@@ -4,8 +4,10 @@
 
 @model EditVM
 @{
-
+    var dropdownListKieuDuLieu = ViewBag.dropdownListKieuDuLieu as List<SelectListItem>;
+    var dropdownListNhomDanhMuc = ViewBag.dropdownListNhomDanhMuc as List<SelectListItem>;
 }
+
 <div class="modal-dialog">
     @using (Ajax.BeginForm("Edit", "Game", new { @area = "GameArea" }, new AjaxOptions()
     {
@@ -43,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-4">Vị trí hiển thị </label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 w-full-select2">
                             @Html.DropDownListFor(m => m.ViTriHienThi, ViewBag.dropdownListViTriHienThi as List<SelectListItem>
                            , "-- Chọn vị trí --", new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
@@ -56,17 +58,121 @@
                             @Html.ValidationMessageFor(m => m.STT, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Thuộc tính</label>
+                        <div class="col-sm-8">
+                            <div id="thuocTinhContainer">
+                                @for (int i = 0; i < Model.ThuocTinhs.Count; i++)
+                                {
+                                    <div class="thuoc-tinh-item" style="margin:10px 0; border:1px dashed #ccc; padding:10px">
+                                        <input type="hidden" name="ThuocTinhs[@i].Id" value="@Model.ThuocTinhs[i].Id" />
+
+                                        <input type="text" name="ThuocTinhs[@i].TenThuocTinh"
+                                               value="@Model.ThuocTinhs[i].TenThuocTinh"
+                                               class="form-control" placeholder="Tên thuộc tính" style="margin-bottom:5px;" />
+
+                                        @Html.DropDownList("ThuocTinhs[" + i + "].KieuDuLieu",
+                                            new SelectList(dropdownListKieuDuLieu, "Value", "Text", Model.ThuocTinhs[i].KieuDuLieu),
+                                            "-- Chọn kiểu dữ liệu --",
+                                            new { @class = "form-control kieu-du-lieu" })
+
+                                        <div class="wrap-nhom" style="margin-top:5px; display:@(Model.ThuocTinhs[i].KieuDuLieu == "DROPDOWN" ? "block" : "none")">
+                                            @Html.DropDownList("ThuocTinhs[" + i + "].DmNhomDanhmuc",
+                                                new SelectList(dropdownListNhomDanhMuc, "Value", "Text", Model.ThuocTinhs[i].DmNhomDanhmuc),
+                                                "-- Chọn nhóm --",
+                                                new { @class = "form-control lua-chon select2" })
+                                        </div>
+
+                                        <div class="btn-removeThuocTinh" onclick="removeThuocTinh(this)"><i class="bi bi-x-lg"></i></div>
+                                    </div>
+                                }
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success" onclick="addThuocTinh()">+ Thêm thuộc tính</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer center">
                 <button type="submit" class="btn btn-sm btn-primary">Hoàn thành</button>
-
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>
     }
 </div>
 <script>
+    var dropdownListKieuDuLieu = @Html.Raw(Json.Encode(dropdownListKieuDuLieu));
+    var dropdownListNhomDanhMuc = @Html.Raw(Json.Encode(dropdownListNhomDanhMuc));
 
+    $(function () {
+        $(".select2").select2({ width: "100%", placeholder: "-- Chọn --" });
+        reIndexThuocTinh();
+    });
+
+    function createSelect(name, data, cssClass, onchange) {
+        let html = `<select name="${name}" class="form-control ${cssClass} select2" ${onchange ? 'onchange="' + onchange + '"' : ''}>`;
+        html += `<option value="">-- Chọn --</option>`;
+        data.forEach(function (item) {
+            html += `<option value="${item.Value}">${item.Text}</option>`;
+        });
+        html += `</select>`;
+        return html;
+    }
+
+    function addThuocTinh() {
+        let idx = $("#thuocTinhContainer .thuoc-tinh-item").length;
+        let selectKieu = createSelect(`ThuocTinhs[${idx}].KieuDuLieu`, dropdownListKieuDuLieu, "kieu-du-lieu", "toggleLuaChon(this)");
+        let selectNhom = createSelect(`ThuocTinhs[${idx}].DmNhomDanhmuc`, dropdownListNhomDanhMuc, "lua-chon");
+
+        let html = `
+            <div class="thuoc-tinh-item" style="margin:10px 0; border:1px dashed #ccc; padding:10px">
+                <input type="text" name="ThuocTinhs[${idx}].TenThuocTinh"
+                       class="form-control" placeholder="Tên thuộc tính" style="margin-bottom:5px;"/>
+                ${selectKieu}
+                <div class="wrap-nhom" style="margin-top:5px; display:none">
+                    ${selectNhom}
+                </div>
+                <div class="btn-removeThuocTinh" onclick="removeThuocTinh(this)"><i class="bi bi-x-lg"></i></div>
+            </div>`;
+
+        $("#thuocTinhContainer").append(html);
+        reIndexThuocTinh();
+    }
+
+    function removeThuocTinh(btn) {
+        $(btn).closest(".thuoc-tinh-item").remove();
+        reIndexThuocTinh();
+    }
+
+    function toggleLuaChon(select) {
+        var $parent = $(select).closest(".thuoc-tinh-item");
+        var $wrapNhom = $parent.find(".wrap-nhom");
+        var val = ($(select).val() || "").toUpperCase();
+
+        if (val === "DROPDOWN") {
+            $wrapNhom.show();
+            $wrapNhom.find("select").select2({ width: "100%", placeholder: "-- Chọn --" });
+        } else {
+            $wrapNhom.hide();
+            $wrapNhom.find("select").val("").trigger("change");
+        }
+    }
+
+    // Hàm reIndex để giữ cho name liên tục (0,1,2,...)
+    function reIndexThuocTinh() {
+        $("#thuocTinhContainer .thuoc-tinh-item").each(function (i, el) {
+            $(el).find("input, select").each(function () {
+                var name = $(this).attr("name");
+                if (name) {
+                    var newName = name.replace(/ThuocTinhs\[\d+\]/, "ThuocTinhs[" + i + "]");
+                    $(this).attr("name", newName);
+                }
+            });
+        });
+
+        // re-init select2
+        $("#thuocTinhContainer .select2").select2({ width: "100%", placeholder: "-- Chọn --" });
+    }
 </script>
+
 @Scripts.Render("~/bundles/jqueryval")

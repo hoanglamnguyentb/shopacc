@@ -49,6 +49,7 @@
                             <th class="fixed-side">Thao tác</th>
                             <th>Tên danh mục game</th>
                             <th>Mô tả</th>
+                            <th>Thông tin</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -96,7 +97,7 @@
 					nameModel:'Name',
 					content: function (data) {
                         return `<div>
-                                <div>${data.Name}</div>
+                                <div class="text-title">${data.Name}</div>
                                 <div class="image-upload-box aspect-video" style="width: 200px; padding: 2px">
                                     <img src="${data.DuongDanAnh}" alt="" class="image-preview has-image mb-0 aspect-video h-full object-cover" />
                                 </div>
@@ -109,9 +110,26 @@
 					content: function (data) {
 					return data.MoTa
 				}
-				},
-
-
+                },
+                {
+                    isSort: true,
+                    nameModel: 'Thông tin',
+                    content: function (data) {
+                        var isBanDongGia = data.LaLoaiDongGia
+                        if (isBanDongGia && data.GiaKhuyenMai) {
+                            return `<div class="price">
+                                        <div class="price-current">${formatMoney(data.GiaKhuyenMai)}</div>
+                                        <span  class="price-old">${formatMoney(data.GiaGoc)}</span>
+                                        <span class="discount">${calculateDiscountPercent(data.GiaGoc, data.GiaKhuyenMai)}</span>
+                                    </div>
+                                    `
+                        } else {
+                            return `<div class="price">
+                                   <div class="price-current">${formatMoney(data.GiaGoc)}</div>
+                               </div>`
+                        }
+                    }
+                },
             ];
 
 

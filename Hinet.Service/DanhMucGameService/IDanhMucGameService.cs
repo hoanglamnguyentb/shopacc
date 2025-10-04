@@ -15,5 +15,6 @@ namespace Hinet.Service.DanhMucGameService
         PageListResultBO<DanhMucGameDto> GetDaTaByPage(DanhMucGameSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         DanhMucGame GetById(long id);
         List<DanhMucGame> GetDanhMucByGame(long gameId);
+        DanhMucGame GetBySlug(string slug);
     }
 }

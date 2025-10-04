@@ -1799,4 +1799,59 @@ input:checked + .slider:before {
     padding-bottom: 5px;
 }
 
+.price .price-old {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #82869e;
+    text-decoration: line-through;
+}
+
+.price .price-current {
+    color: #0300b8;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.price .discount {
+    background-color: #f473b9;
+    border-radius: 16px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    padding: 0 8px;
+}
+
+.text-title {
+    color: #b77334;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    margin-bottom: 0;
+}
+
+.thuoc-tinh-item {
+    padding: 4px;
+    border: 1px solid #b77334;
+    position: relative;
+}
+
+.btn-removeThuocTinh {
+    color: #393939;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 0 4px 0 0;
+    padding: 2px 6px;
+    background-color: red;
+    color: white;
+    opacity: 0.4;
+}
+
+.btn-removeThuocTinh:hover {
+    opacity: 0.8;
+    transition: all 0.3s;
+}
 /*Others*/

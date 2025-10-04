@@ -1,3 +1,4 @@
+using Hinet.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,6 @@ namespace Hinet.Web.Areas.GameArea.Models
         public HttpPostedFileBase FileAnh { get; set; }
         public int STT { get; set; }
         public string ViTriHienThi { get; set; }
-
+        public List<ThuocTinh> ThuocTinhs { get; set; } = new List<ThuocTinh>();
     }
 }
