@@ -283,8 +283,9 @@ header nav.heading .header-container {
     }
 }
 
-.box-logo img{
-    width: 140px;
+.box-logo img {
+    /*width: 140px;*/
+    max-height: 45px;
 }
 
 /* Header responsive */

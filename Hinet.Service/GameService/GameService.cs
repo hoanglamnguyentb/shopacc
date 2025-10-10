@@ -141,7 +141,7 @@ namespace Hinet.Service.GameService
         public List<GameDto> GetListGame()
         {
             var taiKhoanQuery = _taiKhoanRepository.GetQueryable();
-            var query = from game in _GameRepository.GetQueryable().OrderBy(x => x.STT)
+            var query = from game in _GameRepository.GetQueryable()
 
                         join danhMucGame in _danhMucGameRepository.GetQueryable()
                         on game.Id equals danhMucGame.GameId into danhMucGameGrp
@@ -152,6 +152,7 @@ namespace Hinet.Service.GameService
                             Name = game.Name,
                             Slug = game.Slug,
                             ViTriHienThi = game.ViTriHienThi,
+                            STT = game.STT,
                             ListDanhMucGame = danhMucGameGrp.Select(dm => new DanhMucGameDto
                             {
                                 Id = dm.Id,
@@ -167,7 +168,7 @@ namespace Hinet.Service.GameService
                             }).ToList()
                         };
 
-            return query.ToList();
+            return query.OrderBy(x => x.STT).ToList();
         }
 
         public GameDto GetListGameById(int id)

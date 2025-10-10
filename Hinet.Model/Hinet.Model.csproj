@@ -111,6 +111,10 @@
     <Compile Include="Migrations\202510101835599_alter_tbl_GiaoDich_2.Designer.cs">
       <DependentUpon>202510101835599_alter_tbl_GiaoDich_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510102117056_add_1.cs" />
+    <Compile Include="Migrations\202510102117056_add_1.Designer.cs">
+      <DependentUpon>202510102117056_add_1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -163,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510101835599_alter_tbl_GiaoDich_2.resx">
       <DependentUpon>202510101835599_alter_tbl_GiaoDich_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510102117056_add_1.resx">
+      <DependentUpon>202510102117056_add_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
