@@ -1,0 +1,91 @@
+﻿@media (max-width: 767.98px) {
+    .ads-banner {
+        flex-direction: column;
+    }
+
+    .banner-slide {
+        margin-top: 1rem;
+    }
+
+    .modal-login-container {
+        display: block !important;
+    }
+
+    .modal-login-overlay-container {
+        display: none !important;
+    }
+
+    .modal-login-form-container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .kmYTt8 {
+        width: 80px !important;
+    }
+
+    .-1zdvZ {
+        height: 80px !important;
+    }
+
+    ._8IM + -o {
+        font-size: 12px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .modal-login-overlay-container {
+        display: none; /* Ẩn overlay */
+    }
+
+    .modal-login-form-container {
+        width: 100%;
+        position: relative;
+        transform: none !important;
+        transition: none;
+    }
+
+    #modal-login-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+        #modal-login-container .sign-in-container,
+        #modal-login-container .sign-up-container {
+            display: none; /* Ẩn cả hai, chỉ hiện cái đang active */
+        }
+
+        #modal-login-container .active {
+            display: block;
+        }
+
+        .sign-up-container.active {
+            opacity: 1;
+        }
+
+            .sign-up-container.active .close-login-modal {
+                display: none;
+            }
+
+            /* Tuỳ chọn: thêm tab ở trên */
+            .mobile-login-tabs {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 1rem;
+            }
+
+    .mobile-login-tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+    }
+
+        .mobile-login-tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: bold;
+        }
+}

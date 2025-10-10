@@ -1,0 +1,62 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "DichVu", new { Area = "DichVuArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Tên</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="NameFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Ảnh</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="DuongDanAnhFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Link</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="LinkFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Kích hoạt</div>
+			<div class="col-md-8">
+				<input type="checkbox" value="true" name="KichHoatFilter" />
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

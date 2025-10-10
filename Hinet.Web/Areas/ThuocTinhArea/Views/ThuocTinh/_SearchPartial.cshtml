@@ -1,0 +1,62 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "ThuocTinh", new { Area = "ThuocTinhArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">GameId</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="GameIdFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Tên thuộc tính</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="TenThuocTinhFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Kiểu dữ liệu</div>
+			<div class="col-md-8">
+				@Html.DropDownList("KieuDuLieuFilter",ViewBag.dropdownListKieuDuLieu as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Nhóm danh mục</div>
+			<div class="col-md-8">
+				@Html.DropDownList("DmNhomDanhmucFilter",ViewBag.dropdownListDmNhomDanhmuc as List<SelectListItem>, new { @class="form-control"})
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

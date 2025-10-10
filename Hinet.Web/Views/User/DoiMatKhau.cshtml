@@ -1,0 +1,112 @@
+﻿@using CommonHelper.Number;
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+
+<div class="container c-container-side c-mb-4 c-mb-lg-0">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">Đổi mật khẩu</a>
+        </li>
+    </ul>
+    <hr />
+
+    <div class="row">
+        <div class="c-history-left media-web">
+            <div class="sidebar">
+                @Html.Partial("_SidebarUser", "doi-mat-khau")
+            </div>
+        </div>
+        <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
+            <div class="c-p-16">
+                <h1 class="fw-700 fz-20 lh-28 c-my-0">
+                    Đổi mật khẩu
+                </h1>
+            </div>
+            <div class="form-global-error text-danger c-mt-8 c-px-16"></div>
+            <div class="form-global-success text-success c-mt-8 c-px-16"></div>
+            <div class="brs-12 c-p-16 c-mb-16">
+                @using (Ajax.BeginForm(
+                    "ChangePassword",
+                    "Account",
+                    null,
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnSuccess = "onChangePasswordSuccess",
+                        OnFailure = "onChangePasswordFailure"
+                    },
+                    new { id = "form-changePassword", @class = "ajax-form" }
+                ))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="input-group">
+                        <span class="form-label">Mật khẩu cũ</span>
+                        <div class="toggle-password">
+                            <input class="password-old" type="password" name="old_password" placeholder="Vui lòng nhập mật khẩu cũ" />
+                        </div>
+                        <span class="text-error c-mt-4"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="form-label">Mật khẩu mới</span>
+                        <div class="toggle-password">
+                            <input class="password" name="password" type="password" placeholder="Vui lòng nhập mật khẩu mới" />
+                        </div>
+                        <span class="text-error c-mt-4"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="form-label">Xác nhận</span>
+                        <div class="toggle-password">
+                            <input class="password-confirm" type="password" name="password_confirmation" placeholder="Vui lòng xác nhận mật khẩu mới" />
+                        </div>
+                        <span class="text-error c-mt-4"></span>
+                    </div>
+
+                    <div class="button-password d-flex justify-content-end">
+                        <button class="btn primary btn-data" type="submit" style="position: relative">
+                            Đổi mật khẩu
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    function clearMessages() {
+        $('.text-error').text('');
+        $('.form-global-error').text('');
+        $('.form-global-success').text('');
+    }
+
+    function onChangePasswordSuccess(response) {
+        clearMessages();
+
+        if (response.success) {
+            $('.form-global-success').text(response.message);
+            $('#form-changePassword')[0].reset();
+        } else {
+            if (response.errors) {
+                for (const key in response.errors) {
+                    const inputGroup = $(`input[name="${key}"]`).closest('.input-group');
+                    inputGroup.find('.text-error').text(response.errors[key]);
+                }
+            } else {
+                $('.form-global-error').text(response.message);
+            }
+        }
+    }
+
+    function onChangePasswordFailure(xhr) {
+        clearMessages();
+        $('.form-global-error').text("Có lỗi xảy ra. Vui lòng thử lại!");
+    }
+</script>

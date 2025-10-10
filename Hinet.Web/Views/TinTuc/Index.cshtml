@@ -1,0 +1,144 @@
+﻿@using CommonHelper.String;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.TinTucService.Dto.TinTucDto>
+<div class="c-container container">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">Tin tức</a>
+        </li>
+    </ul>
+    <hr>
+    <section class="list-account" style="margin-top: 2px">
+        <div class="section-header justify-content-between c-py-16">
+            <h1 class="section-title">Tin mới cập nhật </h1>
+            <div class="box-search w-50 w-lg-25">
+                <form action="/" class="form-search w-auto" autocomplete="off">
+                    <input type="search" placeholder="Tìm kiếm" class="has-submit" name="query" value="@ViewBag.CurrentQuery" id="searchNewsInput">
+                    <button type="submit" class="box-icon btn-with-spinner" id="searchNewsBtn" style="width: 32px; height: 32px">
+                        <i class="bi bi-search" style="color: white; font-size: 16px"></i>
+                        <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="tab-content-title mt-2">
+            @if (!Model.ListItem.Any())
+            {
+                @Html.Partial("_EmptyState", "Hiện tại chưa có bài viết nào.")
+            }
+            else
+            {
+                foreach (var tin in Model.ListItem)
+                {
+                    <div class="item-article c-mb-16">
+                        <a href="/tin-tuc/@tin.Slug">
+                            <div class="card">
+                                <div class="card-body c-p-16 c-p-lg-8">
+                                    <div class="article-thumb c-mb-lg-0">
+                                        <img onerror="imgError(this)" src="@tin.AnhBia" class="article-thumb-image" alt="article-thumbnail">
+                                    </div>
+                                    <div class="article-body" style="flex: 1">
+                                        <div class="article-title text-limit limit-2 limit-lg-3 fz-lg-13 lh-lg-20 c-ml-12">
+                                            @tin.TieuDe
+                                        </div>
+                                        <div class="article--description clean-content d-none d-lg-block c-pt-16 c-ml-12">
+                                            @Html.Raw(StringUtilities.CleanAndNormalizeHtml(tin.NoiDung))
+                                        </div>
+                                        <div class="article-info c-mt-16 c-mt-lg-6 c-ml-12">
+                                            <div class="datetime">
+                                                <i class="bi bi-alarm"></i> @StringUtilities.ToDateVNFormat(tin.CreatedDate)
+                                            </div>
+                                            <div class="author c-ml-4 bread-word text-limit limit-1">
+                                                <i class="bi bi-person"></i> @tin.TacGia
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+                <div class="d-flex align-items-center justify-content-center my-4">
+                    <div class="flex-grow-1 border-top"></div>
+                    <button id="toggleBtn" class="btn btn-light rounded-pill d-flex align-items-center flex-row gap-1" style="width: 200px">
+                        <span id="toggleContent">Xem thêm</span>
+                        <i id="toggleIcon" class="ms-2"></i>
+                    </button>
+                    <div class="flex-grow-1 border-top"></div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let currentPage = 1;
+        const $searchInput = $("#searchNewsInput");
+        const $listContainer = $(".tab-content-title");
+        const searchBtnSelector = "#searchNewsBtn";
+
+        // Tìm kiếm
+        $("form.form-search").on("submit", function (e) {
+            e.preventDefault();
+
+            currentPage = 1;
+            const query = $searchInput.val().trim();
+
+            showButtonSpinner(searchBtnSelector);
+
+            $.ajax({
+                url: `/tin-tuc/?query=${encodeURIComponent(query)}&pageIndex=1`,
+                type: "GET",
+                success: function (html) {
+                    const $newList = $(html).find(".tab-content-title").html();
+                    $listContainer.html($newList);
+                },
+                error: function (err) {
+                    console.error(err);
+                },
+                complete: function () {
+                    hideButtonSpinner(searchBtnSelector);
+                }
+            });
+        });
+
+        // 👉 Xử lý nút "Xem thêm" bằng delegation
+        $(document).on("click", "#toggleBtn", function () {
+            currentPage++;
+            const queryVal = $searchInput.length ? $searchInput.val().trim() : "";
+            const queryParam = queryVal ? `&query=${encodeURIComponent(queryVal)}` : "";
+
+            const $btn = $(this);
+            const $content = $btn.find("#toggleContent");
+            const $icon = $btn.find("#toggleIcon");
+
+            $icon.show().attr("class", "bi bi-arrow-repeat spin");
+            $content.text("Đang tải...");
+
+            $.ajax({
+                url: `/tin-tuc/load-more?pageIndex=${currentPage}${queryParam}`,
+                type: "GET",
+                success: function (html) {
+                    if ($.trim(html) === "") {
+                        $content.text("Đã tải hết");
+                        $icon.hide();
+                        $btn.prop("disabled", true);
+                    } else {
+                        $listContainer.append(html);
+                        $content.text("Xem thêm");
+                        $icon.hide().attr("class", "bi");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    $content.text("Lỗi tải");
+                    $icon.show().attr("class", "bi bi-exclamation-triangle");
+                }
+            });
+        });
+    });
+
+</script>

@@ -1,0 +1,421 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
+@{
+    var danhMuc = ViewData["DanhMuc"] as Hinet.Model.Entities.DanhMucGame;
+    var game = ViewData["Game"] as Hinet.Model.Entities.Game;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var giaThanhToan = danhMuc.GiaKhuyenMai.HasValue ? danhMuc.GiaKhuyenMai : danhMuc.GiaGoc;
+
+}
+<div class="listing-account list-content">
+    @foreach (var tk in Model.ListItem)
+    {
+        if (danhMuc.LaLoaiDongGia.GetValueOrDefault())
+        {
+            <div class="item-account">
+                <div class="card card-hover h-100">
+                    <a href="#" data-id="@tk.Id" class="card-body scale-thumb buyacc" data-price="@tk.GiaKhuyenMai" data-payment="1">
+                        <div class="account-thumb c-mb-8 position-realative">
+                            <img onerror="imgError(this)" src="@(string.IsNullOrEmpty(danhMuc.DuongDanAnh) ? Url.Content("~/assets/wwwroot/images/no-image.png") : danhMuc.DuongDanAnh)"
+                                 alt="@tk.Id" class="account-thumb-image lazy">
+                        </div>
+                        <div class="account-title">
+                            <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
+                        </div>
+                        <div class="price">
+                            @if (danhMuc.GiaKhuyenMai.HasValue)
+                            {
+                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaKhuyenMai)</div>
+                                <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                                <div class="discount">@NumberHelper.TinhPhanTramGiamText(danhMuc.GiaGoc, danhMuc.GiaKhuyenMai.Value)</div>
+                            }
+                            else
+                            {
+                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                            }
+                        </div>
+                        @if (currentUser != null)
+                        {
+                            <div class="price c-pt-12 c-pt-lg-8">
+                                <button type="button"
+                                        class="w-100 btn secondary btn-muangay-list"
+                                        data-id="@danhMuc.Id"
+                                        data-price="@(danhMuc.GiaKhuyenMai ?? danhMuc.GiaGoc)">
+                                    Mua ngay
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="price c-pt-12 c-pt-lg-8" onclick="openLoginModal()">
+                                <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                            </div>
+                        }
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="item-account">
+                <div class="card card-hover h-100">
+                    <a href="/acc/@tk.Code" class="card-body scale-thumb">
+                        <div class="account-thumb c-mb-8 position-realative">
+                            <img onerror="imgError(this)" src="@(string.IsNullOrEmpty(tk.AnhBia) ? Url.Content("~/assets/wwwroot/images/no-image.png") : tk.AnhBia)"
+                                 alt="@tk.Code" class="account-thumb-image lazy">
+                        </div>
+                        <div class="account-title">
+                            <div class="text-title fw-700 text-limit limit-1">Nick @game.Name</div>
+                        </div>
+                        <div class="account-info c-mb-8">
+                            <div class="info-attr">
+
+                            </div>
+                            <div class="info-attr c-mb-8">
+                                ID: #@tk.Code
+                            </div>
+                            @foreach (var gt in tk.ListGTTT)
+                            {
+                                if (!string.IsNullOrEmpty(gt.GiaTriTxt))
+                                {
+                                    <div class="info-attr">
+                                        @gt.ThuocTinhTxt: @gt.GiaTriTxt
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="price">
+                            @if (tk.GiaKhuyenMai.HasValue)
+                            {
+                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaKhuyenMai)</div>
+                                <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                                <div class="discount">@NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai.Value)</div>
+                            }
+                            else
+                            {
+                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                            }
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+
+    }
+</div>
+
+<!-- Render pagination -->
+@Html.Partial("~/Views/Shared/Components/_PaginationAjax.cshtml", Model)
+
+
+<!-- Modal Mua Ngay (dành riêng cho danh sách) -->
+<div class="modal fade modal-big loadModal__acount" id="orderModalList" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content">
+            @using (Ajax.BeginForm(
+                "MuaAcc",
+                "GiaoDich",
+                null, // action sẽ set động qua JS
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "orderModalList",
+                    OnSuccess = "onListPaymentSuccess",
+                    OnFailure = "onListPaymentFailure"
+                },
+                new { @class = "formDonhangAccountList", id = "ajaxOrderFormList" }
+            ))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header p-2">
+                    <p class="modal-title center">Xác nhận thanh toán</p>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="dialog--content__title fw-700 c-mb-12 text-title-theme">
+                        Thông tin mua Acc
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Danh mục
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                @danhMuc.Name
+                            </div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Giá tiền
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500 datagiamgia" data-giamgia="@giaThanhToan">
+                                @NumberHelper.FormatMoneyVN(giaThanhToan)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fz-13 fw-400 text-center">
+                                Phương thức thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                Trừ tiền tài khoản shop
+                            </div>
+                        </div>
+                        <div class="balence_account">
+
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Phí thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                Miễn phí
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Tổng thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)" class="c-text-primary data_total_price">
+                                    @NumberHelper.FormatMoneyVN(giaThanhToan)
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Giảm giá
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)" class="data_discount">
+                                    @NumberHelper.FormatMoneyVN(giaThanhToan - danhMuc.GiaGoc)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer data__dangnhap p-3">
+                    @if (currentUser != null)
+                    {
+                        <button type="submit" class="btn ghost btn-submit-list">Thanh toán</button>
+                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Nạp tiền</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn primary" data-dismiss="modal" onclick="openLoginModal();">Đăng nhập</button>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Nạp Tiền (dành riêng cho danh sách) -->
+<div class="modal fade modal-big loadModal__acount" id="rechargeModalList" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <p class="modal-title center">Nạp tiền</p>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="text-center">
+                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
+                    <img id="rechargeQrImageList" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
+                    <div id="qrInfoTextList" class="c-mt-8 fz-13"></div>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            Nếu sau 5 phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
+                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
+                                <u><strong>Chăm Sóc Khách Hàng</strong></u>
+                            </a>&nbsp;hoặc Hotline
+                            <a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">
+                                &nbsp;<strong>0889.151.079</strong>
+                            </a>&nbsp;để được xử lý.
+                        </span>
+                    </p>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            <strong>
+                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
+                            </strong>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer data__dangnhap p-3">
+                <button type="button" data-dismiss="modal" class="btn primary">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var isLoggedIn = @(currentUser != null ? "true" : "false");
+
+    // Khi click nút Mua ngay trong danh sách
+    $('body').on('click', '.btn-muangay-list', function (e) {
+        e.preventDefault();
+
+        if (!isLoggedIn) {
+            openLoginModal();
+            return;
+        }
+
+        const accountId = $(this).data('id');
+        const price = parseInt($(this).data('price'));
+
+        // Gắn action form
+        const $form = $('#ajaxOrderFormList');
+        $form.attr('action', '/GiaoDich/MuaAccRandom/' + '@danhMuc.Id');
+
+        // Cập nhật giá
+        $('.data-price-list').text(price.toLocaleString() + ' đ');
+        $('.data-total-price-list').text(price.toLocaleString() + ' đ');
+
+        // Mở modal
+        $('#orderModalList').modal('show');
+    });
+
+    // Xử lý thành công/thất bại khi thanh toán qua modal danh sách
+    function onListPaymentSuccess(result) {
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Thanh toán thành công!',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            }).then(() => {
+                //$('#orderModalList').modal('hide');
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: result.message || "Có lỗi xảy ra khi thanh toán.",
+                confirmButtonText: 'Đóng',
+                confirmButtonColor: '#d33'
+            }).then(() => {
+                location.reload();
+            });
+        }
+    }
+
+    function onListPaymentFailure(xhr) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Kết nối thất bại',
+            text: 'Không thể kết nối tới máy chủ. Vui lòng thử lại sau.',
+            confirmButtonText: 'Đóng',
+            confirmButtonColor: '#d33'
+        });
+    }
+
+    // Hàm tạo URL VietQR
+function generateVietQR(bankCode, accountNumber, accountName, amount, transferContent) {
+    if (!bankCode || !accountNumber || !accountName || !amount || !transferContent) {
+        throw new Error("Thiếu thông tin để tạo mã QR");
+    }
+
+    const baseUrl = `https://img.vietqr.io/image/${encodeURIComponent(bankCode)}-${encodeURIComponent(accountNumber)}-compact2.png`;
+    const params = new URLSearchParams({
+        amount: amount,
+        addInfo: transferContent,
+        accountName: accountName
+    });
+
+    return `${baseUrl}?${params.toString()}`;
+}
+
+    // 🧠 Khi người dùng ấn nút "Thanh toán" -> hiện SweetAlert2 xác nhận
+    $('body').on('submit', '#ajaxOrderFormList', function (e) {
+        e.preventDefault(); // ❌ Ngăn submit mặc định
+
+        const $form = $(this);
+
+        // Nếu đã xác nhận rồi thì cho phép submit thật (tránh vòng lặp)
+        if ($form.data('confirmed') === true) {
+            Swal.fire({
+                title: 'Đang xử lý',
+                text: 'Vui lòng đợi trong giây lát...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            return true;
+        }
+
+        // Lấy số tiền để hiển thị trong popup
+        const amountText = $('.data_total_price').text().trim();
+
+        // Hiển thị popup xác nhận
+        Swal.fire({
+            title: 'Xác nhận thanh toán',
+            html: `Bạn có chắc chắn muốn thanh toán <strong>${amountText}</strong> cho giao dịch này không?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Có, thanh toán',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Đánh dấu đã xác nhận để submit thật
+                $form.data('confirmed', true);
+                $form.submit(); // ✅ Gửi lại form
+            }
+        });
+
+        return false;
+    });
+
+
+// Khi click nút nạp tiền trong modal danh sách
+$('body').on('click', '#orderModalList .handle-recharge-modal', function (e) {
+    e.preventDefault();
+
+    if (!isLoggedIn) {
+        openLoginModal();
+        return;
+    }
+
+    // Lấy số tiền từ modal thanh toán
+    const priceText = $('.data_total_price').text().replace(/\D/g, '');
+    const amount = parseInt(priceText) || 0;
+
+    // Tạo mã chuyển khoản
+    const transferCode = 'NAP' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
+
+    // Thông tin tài khoản ngân hàng của shop (có thể tuỳ chỉnh)
+    const bankCode = 'TPB';
+    const accountNumber = '64162761703';
+    const accountName = 'TRUONG DAN TRUONG';
+
+    try {
+        const qrUrl = generateVietQR(bankCode, accountNumber, accountName, amount, transferCode);
+
+        $('#rechargeQrImageList').attr('src', qrUrl).show();
+        $('#qrInfoTextList').html(
+            `<strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
+             <strong>Nội dung chuyển khoản:</strong> ${transferCode}`
+        );
+
+    } catch (err) {
+        console.error(err);
+        $('#qrInfoTextList').text('Không thể tạo mã QR. Vui lòng thử lại.');
+    }
+
+    // Hiển thị modal nạp tiền
+    $('#orderModalList').modal('hide');
+    $('#rechargeModalList').modal('show');
+});
+</script>

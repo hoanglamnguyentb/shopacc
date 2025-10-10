@@ -1,0 +1,28 @@
+﻿@using Hinet.Web.Areas.DmDulieuDanhmucArea.Models;
+@using Hinet.Model.Entities
+@model DM_DulieuDanhmuc
+
+<div class="modal-dialog">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Thông tin chi tiết</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <table class="table-info">
+
+                <tr><td>Tên </td><td>@Model.Name</td></tr>
+                <tr><td>Mã </td><td>@Model.Code</td></tr>
+                <tr><td>Thứ tự </td><td>@Model.Priority</td></tr>
+                <tr><td>Thời gian tạo</td><td>@Model.CreatedDate</td></tr>
+                <tr><td>Thời gian sửa</td><td>@Model.UpdatedDate</td></tr>
+            </table>
+        </div>
+        <div class="modal-footer center">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+</div>

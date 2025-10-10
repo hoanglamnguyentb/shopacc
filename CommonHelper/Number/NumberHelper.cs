@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+
+namespace CommonHelper.Number
+{
+    public static class NumberHelper
+    {
+        public static List<int> ListIntToPercent(this List<int> objInt)
+        {
+            var result = new List<int>();
+            int total = objInt.Sum();
+            if (total != 0)
+            {
+                int onePercent = 100 / total;
+                for (int i = 0; i < objInt.Count(); i++)
+                {
+                    int percentElement = onePercent * objInt[i];
+                    result.Add(percentElement);
+                }
+                return result;
+            }
+            return result;
+        }
+
+        public static int ByteToMegaByte(this int objInt)
+        {
+            var result = objInt * 1024 * 1024;
+            return result;
+        }
+
+        public static double ToInt(this double objDouble)
+        {
+            return (int)Math.Round(objDouble);
+        }
+
+        public static string ToRoman(this int number)
+        {
+            if ((number < 0) || (number > 3999)) throw new ArgumentOutOfRangeException("insert value betwheen 1 and 3999");
+            if (number < 1) return string.Empty;
+            if (number >= 1000) return "M" + ToRoman(number - 1000);
+            if (number >= 900) return "CM" + ToRoman(number - 900);
+            if (number >= 500) return "D" + ToRoman(number - 500);
+            if (number >= 400) return "CD" + ToRoman(number - 400);
+            if (number >= 100) return "C" + ToRoman(number - 100);
+            if (number >= 90) return "XC" + ToRoman(number - 90);
+            if (number >= 50) return "L" + ToRoman(number - 50);
+            if (number >= 40) return "XL" + ToRoman(number - 40);
+            if (number >= 10) return "X" + ToRoman(number - 10);
+            if (number >= 9) return "IX" + ToRoman(number - 9);
+            if (number >= 5) return "V" + ToRoman(number - 5);
+            if (number >= 4) return "IV" + ToRoman(number - 4);
+            if (number >= 1) return "I" + ToRoman(number - 1);
+            throw new ArgumentOutOfRangeException("something bad happened");
+        }
+
+        public static string FormatNumber(object value, int SoSauDauPhay = 2)
+        {
+            bool isNumber = IsNumeric(value);
+            decimal GT = 0;
+            if (isNumber)
+            {
+                GT = Convert.ToDecimal(value);
+            }
+            string str = "";
+            string thapPhan = "";
+            for (int i = 0; i < SoSauDauPhay; i++)
+            {
+                thapPhan += "#";
+            }
+            if (thapPhan.Length > 0) thapPhan = "," + thapPhan;
+            string snumformat = string.Format("0:#,##0{0}", thapPhan);
+            str = string.Format("{" + snumformat + "}", GT);
+
+            return str;
+        }
+
+        public static string FormatNumberVN(object value, int SoSauDauPhay = 0)
+        {
+            if (!decimal.TryParse(value.ToString(), out decimal GT))
+                return "";
+
+            var culture = new CultureInfo("vi-VN");
+
+            string format = "N" + SoSauDauPhay;
+
+            return GT.ToString(format, culture);
+        }
+
+        public static string FormatMoneyVN(object value)
+        {
+            if (!decimal.TryParse(value?.ToString(), out decimal so))
+                return string.Empty;
+
+            string formattedNumber = FormatNumberVN(so, 0);
+
+            return $"{formattedNumber}đ";
+        }
+
+
+        public static int TinhPhanTramGiam(decimal giaGoc, decimal giaKhuyenMai)
+        {
+            if (giaGoc <= 0) return 0;
+            var giam = (1 - (giaKhuyenMai / giaGoc)) * 100;
+            return (int)Math.Round(giam, 0, MidpointRounding.AwayFromZero);
+        }
+
+        public static string TinhPhanTramGiamText(decimal giaGoc, decimal giaKhuyenMai)
+        {
+            if (giaGoc <= 0) return "0%";
+            var giam = (1 - (giaKhuyenMai / giaGoc)) * 100;
+            var phanTram = (int)Math.Round(giam, 0, MidpointRounding.AwayFromZero);
+            return "-" + phanTram + "%";
+        }
+
+        private static bool IsNumeric(object value)
+        {
+            return value is sbyte
+                       || value is byte
+                       || value is short
+                       || value is ushort
+                       || value is int
+                       || value is uint
+                       || value is long
+                       || value is ulong
+                       || value is float
+                       || value is double
+                       || value is decimal;
+        }
+    }
+}

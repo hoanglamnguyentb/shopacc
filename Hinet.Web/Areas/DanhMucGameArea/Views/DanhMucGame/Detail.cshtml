@@ -1,0 +1,43 @@
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ";
+    ViewBag.PageName = "Thông tin ";
+    ViewBag.ModuleCode = "DanhMucGame_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.DanhMucGameArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/DanhMucGameArea/DanhMucGame/Index')" class="btn btn-primary btn-sm">Quay lại</a>
+}
+
+<div class="row">
+     <div class="col-sm-12">
+           <table class="table-info">
+           	
+<tr><td>GameId</td><td>@Model.objInfo.GameId</td></tr>
+<tr><td>Tên danh mục game</td><td>@Model.objInfo.Name</td></tr>
+<tr><td>Đường dẫn ảnh</td><td>@Model.objInfo.DuongDanAnh</td></tr>
+<tr><td>Mô tả</td><td>@Model.objInfo.MoTa</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.IsDelete</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteTime</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteId</td></tr>
+
+           </table>
+     </div>
+    
+</div>
+
+<script>
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

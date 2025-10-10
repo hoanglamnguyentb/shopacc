@@ -1,0 +1,26 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hinet.Web.Areas.DmDulieuDanhmucArea.Models
+{
+    public class CreateQuanTriVM
+    {
+        [Required(ErrorMessage = "Vui lòng nhập thông tin này!")]
+        public long? GroupId { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập thông tin này!")]
+        [MinLength(2, ErrorMessage = "Tối thiểu 2 ký tự")]
+        [MaxLength(250, ErrorMessage = "Tối đa 250 ký tự")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Vui lòng nhập thông tin này!")]
+        [MinLength(2, ErrorMessage = "Tối thiểu 2 ký tự")]
+        [MaxLength(250, ErrorMessage = "Tối đa 250 ký tự")]
+        public string Code { get; set; }
+
+        [MaxLength(250, ErrorMessage = "Tối đa 250 ký tự")]
+        public string Note { get; set; }
+
+        [Range(0, 100, ErrorMessage = "Thứ tự phải nằm trong khoảng 0 đến 100")]
+        public int? Priority { get; set; }
+    }
+}

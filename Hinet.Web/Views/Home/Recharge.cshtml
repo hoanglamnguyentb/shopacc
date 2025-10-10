@@ -1,0 +1,391 @@
+﻿<div class="content" style="">
+
+    <div class="container c-container">
+        <ul class="breadcrumb-list">
+            <li class="breadcrumb-item">
+                <a href="/" class="breadcrumb-link">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#" class="breadcrumb-link">Nạp thẻ</a>
+            </li>
+        </ul>
+        <hr />
+
+        <div class="section-header justify-content-between c-py-16">
+            <h2 class="section-title">
+                Nạp tiền
+            </h2>
+        </div>
+
+        <div class="row">
+            <div class="col-12 c-px-sm-0">
+                <div class="recharge-money-container brs-12 brs-sm-0 c-pt-lg-4">
+                    <div class="row content-block">
+                        <div class="col-12 col-lg-12">
+                            <div class="atm-recharge-right c-p-16 brs-8">
+                                <div class="atm-recharge-guide">
+                                    <img class="w-100 c-mb-16"
+                                         src="/assets/frontend/theme_5/image/phu/atm_recharge_guide.png" alt="">
+                                    <p class="fz-13 fw-400">
+                                        Để hoàn tất đơn nạp, bạn vui lòng chuyển khoản theo
+                                        cú pháp sau:
+                                    </p>
+                                </div>
+                                <div class="atm-recharge-content c-p-sm-12 brs-sm-8">
+                                    <p style="text-align:center">
+                                        <span style="font-size:16px">
+                                            <strong>
+                                                *NẠP BẰNG
+                                                ATM:
+                                            </strong>
+                                        </span>
+                                    </p>
+
+                                    <!-- Input field for amount -->
+                                    <div class="money-form-group c-mb-16">
+                                        <label class="text-form fz-13 fw-500 c-mb-4">
+                                            Nhập số tiền muốn
+                                            nạp
+                                        </label>
+                                        <div class="col-md-12 p-0">
+                                            <div class="input-group">
+                                                <input class="input-form w-100" id="rechargeAmount"
+                                                       type="number" placeholder="Nhập số tiền (VND)" min="10000"
+                                                       step="1000" style="height: 34px;">
+                                                <p class="text-error c-mb-0 c-mt-4" id="amountError"></p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center c-mt-12">
+                                            <button class="btn primary" id="generateQrBtn" type="button"
+                                                    style="width: 100%;">
+                                                @*<i class="bi bi-qr-code c-mr-8"></i>*@
+                                                </i>Tạo mã QR chuyển khoản
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <table align="center" border="1" cellpadding="1" cellspacing="1">
+                                        <tbody>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <span style="font-size:18px">
+                                                        Tên chủ tài khoản:
+                                                        TRUONG DAN TRUONG&nbsp;
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="text-align:center">
+                                                        <span style="font-size:18px"><strong>TPBank</strong></span>
+                                                    </p>
+                                                </td>
+                                                <th>
+                                                    <span style="color:#e74c3c">
+                                                        <span style="font-size:18px"><strong>64162761703</strong></span>
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <p>&nbsp;</p>
+                                    @*
+                                        <p>&nbsp;</p>
+
+                                        <p>&nbsp;</p> *@
+
+                                    <p style="text-align:center">
+                                        <span style="font-size:16px">
+                                            Nếu sau 5
+                                            phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
+                                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/"
+                                                             rel="nofollow" target="_blank">
+                                                <u>
+                                                    <strong>
+                                                        Chăm Sóc Khách
+                                                        Hàng
+                                                    </strong>
+                                                </u>
+                                            </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079" rel="nofollow"
+                                                                     target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để
+                                            được xử lý.
+                                        </span>
+                                    </p>
+
+                                    <p style="text-align:center">
+                                        <span style="font-size:16px">
+                                            <strong>
+                                                *Chú Ý:
+                                                Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop
+                                                không chịu trách nhiệm
+                                            </strong>
+                                        </span>
+                                    </p>
+
+                                    <div id="transactionSection" style="display: none;">
+                                        <p style="text-align:center">
+                                            <span style="font-size:16px">
+                                                <strong>
+                                                    NỘI
+                                                    DUNG CHUYỂN KHOẢN:
+                                                </strong>
+                                            </span>
+                                        </p>
+                                        <div class="atm-recharge-attr d-flex justify-content-between align-items-center">
+                                            <p class="fz-13 fw-400 mb-0">Nội dung chuyển khoản</p>
+                                            <div style="display: flex">
+                                                <div class="fz-13 fw-500 card__info" id="transactionContent">
+                                                    Vui
+                                                    lòng nhập số tiền và tạo mã QR
+                                                </div>
+                                                <div class="icon--coppy js-copy-text"
+                                                     aria-describedby="tippy-7">
+                                                    <img src="/assets/frontend/theme_5/image/icons/copy-black.png"
+                                                         alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center" style="margin-top: 30px">
+                                            <img id="transactionQrContent" src="" alt="" height="320px"
+                                                 style="display: none;">
+                                        </div>
+                                        <div id="qrCountdownBlock" class="text-center"
+                                             style="margin-top: 18px; display: none;">
+                                            <div style="font-size:15px; color:#333; margin-bottom:8px">
+                                                <span>Thời gian còn lại để chuyển khoản: </span>
+                                                <span id="qrCountdown"
+                                                      style="font-weight:600; color:#e74c3c">10:00</span>
+                                            </div>
+                                            <button id="btnTransferDone" class="btn btn-success"
+                                                    style="width:100%;max-width:320px;margin:0 auto 8px auto;font-weight:500;font-size:15px;border-radius:8px;">
+                                                Đã
+                                                chuyển khoản
+                                            </button>
+                                            <div style="color:#e74c3c;font-size:13px;margin-top:4px;">
+                                                Chỉ bấm
+                                                vào nút này khi bạn đã chuyển khoản thành công, nếu không shop
+                                                không chịu trách nhiệm!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="c-mb-40">
+        </div>
+
+
+    </div>
+
+
+    <div class="modal fade modal-big modal__buyacount loadModal__acount_home" id="LoadModalHome">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content c-p-24 data__form__random_home">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade modal-small" id="notBuyHome">
+        <div class="modal-dialog modal-dialog-centered modal-custom">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center p-0">
+                    <img class="c-pt-16 c-pb-16" src="/assets/frontend/theme_5/image/son/thatbai.png" alt="">
+                </div>
+                <div class="modal-body text-center c-pl-24 c-pr-24 pt-0 pb-0">
+                    <p class="fw-700 fz-15 c-mt-12 mb-0 text-title-theme">Mua thẻ nick thất bại</p>
+                    <p class="fw-400 fz-13 c-mt-10 mb-0">
+                        Rất tiếc việc mua nick đã thất bại do tài khoản của
+                        bạn không đủ, vui lòng nạp tiền để tiếp tục giao dịch!
+                    </p>
+                </div>
+                <div class="modal-footer c-p-24">
+                    <button class="btn primary handle-recharge-modal" data-tab="1" data-dismiss="modal">
+                        Nạp
+                        tiền
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Countdown timer variables
+            let qrCountdownTimer = null;
+            let qrCountdownSeconds = 600;
+
+            function startQrCountdown() {
+                clearInterval(qrCountdownTimer);
+                qrCountdownSeconds = 600;
+                $('#qrCountdownBlock').show();
+                updateQrCountdownDisplay();
+                qrCountdownTimer = setInterval(function () {
+                    qrCountdownSeconds--;
+                    updateQrCountdownDisplay();
+                    if (qrCountdownSeconds <= 0) {
+                        clearInterval(qrCountdownTimer);
+                        location.reload();
+                    }
+                }, 1000);
+            }
+
+            function updateQrCountdownDisplay() {
+                let min = Math.floor(qrCountdownSeconds / 60);
+                let sec = qrCountdownSeconds % 60;
+                let text = (min < 10 ? '0' : '') + min + ':' + (sec < 10 ? '0' : '') + sec;
+                $('#qrCountdown').text(text);
+            }
+
+            // Handle click on "Đã chuyển khoản"
+            $(document).on('click', '#btnTransferDone', function () {
+                location.reload();
+            });
+
+            // Handle click on "Đã chuyển khoản" in modal
+            $(document).on('click', '#btnTransferDoneModal', function () {
+                location.reload();
+            });
+
+            // Function to handle QR generation (common for both main and modal)
+            function generateQR(amountSelector, errorSelector, buttonSelector, contentSelector, qrSelector, sectionSelector) {
+                const amount = $(amountSelector).val();
+                const $errorDiv = $(errorSelector);
+                const $button = $(buttonSelector);
+
+                // Clear previous errors
+                $errorDiv.text('');
+
+                // Validate amount
+                if (!amount || amount < 10000) {
+                    $errorDiv.text('Vui lòng nhập số tiền tối thiểu 10,000 VND');
+                    return;
+                }
+
+                // Disable button and show loading
+                $button.prop('disabled', true).addClass('btn-loading').html('<i class="bi bi-arrow-repeat spin c-mr-8"></i>Đang tạo mã QR...');
+
+                // Call API to get transaction code
+                $.ajax({
+                    url: '/DepositArea/Deposit/GenerateCode', // Update this URL to your actual API endpoint
+                    method: 'POST',
+                    data: {
+                        amount: amount
+                    },
+                    success: function (response) {
+                        if (response.success && response.code) {
+                            // Update transaction content
+                            $(contentSelector).text(response.code);
+
+                            // Generate QR URL
+                            const qrUrl = `https://img.vietqr.io/image/TPB-64162761703-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(response.code)}&accountName=TRUONG%20DAN%20TRUONG`;
+
+                            // Update QR image
+                            $(qrSelector).attr('src', qrUrl).show();
+
+                            // Show transaction section
+                            $(sectionSelector).show();
+                            // Show countdown and transfer button
+                            $('#qrCountdownBlock').show();
+                            startQrCountdown();
+
+                            // Re-enable button with success state
+                            $button.prop('disabled', false).removeClass('btn-loading').html('<i class="bi bi-check-circle c-mr-8"></i>Tạo thành công');
+
+                            // Reset button after 2 seconds
+                            setTimeout(function () {
+                                $button.html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR chuyển khoản');
+                            }, 2000);
+                        } else {
+                            $errorDiv.text('Không thể tạo mã QR. Vui lòng thử lại.');
+                            $button.prop('disabled', false).removeClass('btn-loading').html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR chuyển khoản');
+                        }
+                    },
+                    error: function () {
+                        $errorDiv.text('Lỗi kết nối. Vui lòng thử lại.');
+                        $button.prop('disabled', false).removeClass('btn-loading').html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR chuyển khoản');
+                    }
+                });
+            }
+
+            // Handle generate QR button click for main page
+            $('#generateQrBtn').click(function () {
+                generateQR('#rechargeAmount', '#amountError', '#generateQrBtn', '#transactionContent', '#transactionQrContent', '#transactionSection');
+            });
+
+            // Handle generate QR button click for modal
+            $('#generateQrBtnModal').click(function () {
+                generateQR('#rechargeAmountModal', '#amountErrorModal', '#generateQrBtnModal', '#transactionContentModal', '#transactionQrContentModal', '#transactionSectionModal');
+            });
+
+            // Handle copy transaction content for main page
+            $('.js-copy-text').click(function () {
+                const textToCopy = $('#transactionContent').text();
+                if (textToCopy && textToCopy !== 'Vui lòng nhập số tiền và tạo mã QR') {
+                    navigator.clipboard.writeText(textToCopy).then(function () {
+                        alert('Đã sao chép nội dung chuyển khoản!');
+                    });
+                }
+            });
+
+            // Handle copy transaction content for modal
+            $('.js-copy-text-modal').click(function () {
+                const textToCopy = $('#transactionContentModal').text();
+                if (textToCopy && textToCopy !== 'Vui lòng nhập số tiền và tạo mã QR') {
+                    navigator.clipboard.writeText(textToCopy).then(function () {
+                        alert('Đã sao chép nội dung chuyển khoản!');
+                    });
+                }
+            });
+
+            // Format number input for main page
+            $('#rechargeAmount').on('input', function () {
+                let value = $(this).val();
+                // Remove any non-digit characters
+                value = value.replace(/\D/g, '');
+                $(this).val(value);
+
+                // Add visual feedback for valid amount
+                if (value >= 10000) {
+                    $(this).removeClass('error').addClass('success');
+                    $('#amountError').text('');
+                } else if (value) {
+                    $(this).removeClass('success').addClass('error');
+                } else {
+                    $(this).removeClass('success error');
+                }
+            });
+
+            // Format number input for modal
+            $('#rechargeAmountModal').on('input', function () {
+                let value = $(this).val();
+                // Remove any non-digit characters
+                value = value.replace(/\D/g, '');
+                $(this).val(value);
+
+                // Add visual feedback for valid amount
+                if (value >= 10000) {
+                    $(this).removeClass('error').addClass('success');
+                    $('#amountErrorModal').text('');
+                } else if (value) {
+                    $(this).removeClass('success').addClass('error');
+                } else {
+                    $(this).removeClass('success error');
+                }
+            });
+
+            // Add placeholder animation
+            $('#rechargeAmount, #rechargeAmountModal').on('focus', function () {
+                $(this).attr('placeholder', 'Ví dụ: 50000');
+            }).on('blur', function () {
+                $(this).attr('placeholder', 'Nhập số tiền (VND)');
+            });
+        });
+    </script>
+
+</div>

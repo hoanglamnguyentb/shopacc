@@ -1,0 +1,35 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.RoleArea.Models;
+
+@model RoleViewModel.RoleEditViewModel
+
+<div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">
+                    Thông tin chi tiết vai trò
+                </h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <table class="table-info" style="width:100%">
+
+                    <tr><td style="width:150px">Tên vai trò</td><td>@Model.Name</td></tr>
+                    <tr><td style="width:150px">Mã vai trò</td><td>@Model.Code</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer center">
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")

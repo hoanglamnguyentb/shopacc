@@ -1,0 +1,72 @@
+﻿@using Hinet.Service.Constant
+@using Hinet.Service.Common
+
+<ul class="nav ace-nav">
+    <li id="NotiArea" class="dropdown-modal">
+        @{Html.RenderAction("ShowNotification", "Notification", new { @area = "NotificationArea" });}
+    </li>
+    @*@{Html.RenderAction("QuickLogin", "Home", new { @area = "" });}*@
+
+    @using Microsoft.AspNet.Identity
+    @using Hinet.Service.AppUserService.Dto
+    @{
+        var currentUser = (UserDto)SessionManager.GetUserInfo();
+    }
+    @if (currentUser != null)
+    {
+        <li class="dropdown-modal">
+            <a data-toggle="dropdown" href="#" class="dropdown-toggle icon-user">
+                <img class="nav-user-photo" src="/@currentUser.Avatar" onerror="this.src = '/assets/images/avatars/userNew.png'" alt="@currentUser.FullName" />
+            </a>
+            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-primary dropdown-caret dropdown-close MuiList-root">
+                <li class="MuiBox-root">
+                    <a href="/UserArea/User/MyProfile" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters d-flex" tabindex="-1">
+                        <div class="MuiAvatar-root MuiAvatar-circular css-tbnuzr">
+                            <img src="/@currentUser.Avatar" class="MuiAvatar-img" onerror="this.src = '/assets/images/avatars/userNew.png'">
+                        </div>
+                        <div class="">
+                            <p class="MuiTypography-root MuiTypography-body2">@currentUser.FullName</p>
+                            <span class="MuiTypography-root MuiTypography-caption">
+                                <i class="fa fa-envelope"></i>
+                                @(string.IsNullOrEmpty(currentUser.Email)? "Chưa cập nhật" : currentUser.Email)
+                            </span>
+                        </div>
+                        <span class="MuiTouchRipple-root css-w0pj6f"></span>
+                    </a>
+                </li>
+                <li class="p-0">
+                    <hr class="MuiDivider-root MuiDivider-fullWidth" />
+                </li>
+                <li class="p-0">
+                    <div class="MuiBox-root">
+                        <a href="/AccountAdmin/ChangePassword" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters">
+                            <div class="MuiListItemIcon-root">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <p class="MuiTypography-root MuiTypography-body2 MuiTypography-body3">Đổi mật khẩu</p>
+                        </a>
+
+                        <a href="/UserArea/User/MyProfile" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters">
+                            <div class="MuiListItemIcon-root">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <p class="MuiTypography-root MuiTypography-body2 MuiTypography-body3">Trang cá nhân</p>
+                        </a>
+                        <a href="/AccountAdmin/LogOff" class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters">
+                            <div class="MuiListItemIcon-root">
+                                <i class="fa fa-power-off"></i>
+                            </div>
+                            <p class="MuiTypography-root MuiTypography-body2 MuiTypography-body3">Đăng xuất</p>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    }
+</ul>
+<script>
+    function expanSearch() {
+        var box = document.querySelector('.search-model-dashboard');
+        box.classList.toggle('expand');
+    }
+</script>

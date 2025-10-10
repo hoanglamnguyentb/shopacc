@@ -1,0 +1,88 @@
+﻿@{
+    var departmentList = new List<SelectListItem>();
+    departmentList.Add(new SelectListItem
+    {
+        Text = "--Chọn Khoa phòng--",
+        Value = string.Empty
+    });
+    departmentList.AddRange(ViewBag.DepartmentList);
+}
+
+<style>
+    .row-block {
+        margin: 5px 0px;
+    }
+
+    .txt-label {
+        padding-top: 7px;
+        text-align: right;
+    }
+
+    .width100 {
+        width: 100% !important;
+    }
+</style>
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchThietLapChamCong", "User", new { Area = "UserArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+        @Html.AntiForgeryToken()
+        <div class="row row-block">
+            <div class="col-md-6 row-block">
+
+                <div class="col-md-4 txt-label">Họ tên</div>
+                <div class="col-md-8">
+                    <input class="form-control width100" type="text" name="FullNameFilter" />
+                </div>
+            </div>
+            <div class="col-md-6 row-block">
+
+                <div class="col-md-4 txt-label">Tài khoản</div>
+                <div class="col-md-8">
+                    <input class="form-control width100" type="text" name="UserNameFilter" />
+                </div>
+            </div>
+
+            <div class="col-md-6 row-block">
+
+                <div class="col-md-4 txt-label">Khoa phòng làm việc</div>
+                <div class="col-md-8">
+                    @Html.DropDownList("KhoaPhongFilter", departmentList, new { @class = "form-control width100" })
+                </div>
+            </div>
+            <div class="col-md-6 row-block">
+
+                <div class="col-md-4 txt-label">Khoa phòng chấm công </div>
+                <div class="col-md-8">
+                    @Html.DropDownList("ThietLapFilter", departmentList, new { @class = "form-control width100" })
+                </div>
+            </div>
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+<script>
+	$("#DepartmentIdFilter").select2();
+</script>

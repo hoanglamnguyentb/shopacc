@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "Quản lý chức năng";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý chức năng";
+    ViewBag.PageName = "Danh sách chức năng [" + ViewBag.TenChucNang + "]";
+}
+@using Hinet.Model.Entities;
+@using Hinet.Model.IdentityEntities;
+@using Newtonsoft.Json;
+@using Hinet.Web.Areas.OperationArea.Models;
+
+@model OperationViewModel.OperationIndexViewModel
+@{
+    var lstData = Html.Raw(JsonConvert.SerializeObject(Model.GroupData.ListItem));
+}
+
+@section ActionBarRight{
+    <a href="javascript:void(0)" onclick="XoaNhieuBanGhi()" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i> Xóa nhiều</a>
+
+    <a href="/moduleArea/Module/Index" class="btn btn-primary btn-sm"><i class="bi bi-reply"></i> Quay lại</a>
+    <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
+        <i class="bi bi-search"></i> Tìm kiếm
+    </a>
+    <a href="javascript:void(0)" onclick="CreateAction('/OperationArea/Operation/Edit?moduleId=@Model.ModuleId')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
+}
+@Html.Partial("_SearchPartial")
+
+<div id="tbl-operation" class="hntbl-cover table-scroll">
+    <div class="table-wrap">
+
+        <table class="hinet-table table table-striped table-hover fixed-table" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>#</th>
+                    <th>Mã thao tác</th>
+                    <th>Tên thao tác</th>
+                    @if (ViewBag.IsMobile)
+                    {
+                        <th>Icon</th>
+                    }
+                    <th>Thứ tự</th>
+                    <th>Link</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody width="100%"></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var isMobile = '@ViewBag.IsMobile'.toLowerCase() == 'true';
+        var lstData = eval(@lstData);
+        var moduleTableSelector = "#tbl-operation";
+
+        function pagefunction(){
+            var conf=[
+                {
+                    tdClass:"center width50",
+                    isSort:false,
+                    nameModel: "",
+                    isCounter:true,
+                    content: function (data) {
+                        return "<input type='checkbox' />"
+                    }
+                },
+                {
+                    isSort: true,
+                    nameModel: 'Code',
+                    content: function (data) {
+                        return "<span style='font-weight: bold'> " + data.Code + "</span>"
+                    }
+                },
+                {
+                    isSort:true,
+                    nameModel:'Name',
+                    content: function (data) {
+                        return "<span style='font-weight: bold'> " + data.Name + "</span>"
+                    }
+                },
+                {
+                     tdClass: "center",
+                     isSort:true,
+                     nameModel:'Order',
+                     content: function (data) {
+                         return data.Order
+                     }
+                },
+                {
+                    isSort: true,
+                    nameModel: 'URL',
+                    content: function (data) {
+                        return data.URL
+                    }
+                },
+                {
+                    isSort: true,
+                    nameModel: 'IsShow',
+                    content: function (data) {
+                        return data.IsShow ? "<b class='text-success'>Hiển thị</b>" : "<b class='text-danger'>Không hiển thị</b>";
+                    }
+                },
+                   {
+                       isSort:false,
+                       nameModel:"",
+                       tdClass:"center",
+                       content: function (data) {
+                           var result = "<div class='btn-group'>";
+                           result += "<a href='javascript:void(0)' onclick='EditAction(\"/OperationArea/Operation/Edit?moduleId=@Model.ModuleId&id=" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i></a> ";
+                           result += "<a href='javascript:void(0)' onclick='DeleteAction(\"/OperationArea/Operation/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' bi bi-x-lg' style='color:red'> </i></a>";
+                           result += "</div>";
+                           return result;
+                       }
+                   },
+
+            ];
+
+            if (isMobile) {
+                conf.splice(3, 0, {
+                    isSort: false,
+                    nameModel: 'Icon',
+                    content: function (data) {
+                        return data.Icon != null ? "<img src='/" + data.Icon + "' style='width:50px' />" : "";
+                    }
+                })
+            }
+
+            var getdatafunc=function(page,sortQuery,pageSize){
+                $.ajax({
+                    url: '/OperationArea/Operation/GetData',
+                    type: 'post',
+                    cache: false,
+                    data:{"indexPage":page, "moduleId": @Model.ModuleId,"sortQuery":sortQuery,"pageSize":pageSize},
+                    success: function (data) {
+                        $(moduleTableSelector).hinetTable("data",{
+                            pageSize:pageSize!=-1?pageSize:data.Count,
+                            pageIndex:page,
+                            pagecount: data.TotalPage,
+                            recordCount: data.Count,
+                            listItem: data.ListItem,});
+                    },
+                    error: function (err) {
+                        CommonJS.alert(xhr.responseText);
+                    }
+                });
+
+            }
+
+            var tblData=$("#tbl-operation").hinetTable("init",{
+                pageSizeList: { size: [10, 20, 50, 100, -1], label: ['10', '20', '50', '100', 'Tất cả'] },
+                pagecount: @Model.GroupData.TotalPage,
+                recordCount: @Model.GroupData.Count,
+                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
+                getData:getdatafunc,
+                listItem: lstData,
+                config: conf,
+                showCheckBox:true,
+            });
+
+        }
+
+        function AfterSussessActionAjaxform(){
+            $(moduleTableSelector).hinetTable("reload");
+        }
+        function AjaxSearchSuccess(rs) {
+            $(moduleTableSelector).hinetTable("data", {
+                pageIndex: 1,
+                pagecount: rs.TotalPage,
+                recordCount: rs.Count,
+                listItem: rs.ListItem,
+            });
+        }
+        function XoaNhieuBanGhi() {
+            $.confirm({
+                title: "Xóa nhiều bản ghi",
+                content: "Bạn chắc chắn muốn xóa các bản ghi đã chọn",
+                draggable: false,
+                theme: 'material',
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-primary',
+                        text: "Xác nhận",
+                        action: function () {
+                            var lstId = $(moduleTableSelector).hinetTable("GetSelectedRow");
+                            AjaxCall("/OperationArea/Operation/DeleteMulti", 'post', { ids: lstId }, function (rs) {
+                                if (rs.Status) {
+                                    NotiSuccess("Thành công", rs.Message);
+                                    AfterSussessActionAjaxform();
+                                } else {
+                                    NotiError("Lỗi xử lý", rs.Message);
+                                }
+                            })
+                        }
+                    },
+                    cancel: {
+                        text: "Đóng",
+                        action: function () {
+
+                        }
+                    }
+                }
+            });
+        }
+
+        pagefunction();
+    </script>
+}

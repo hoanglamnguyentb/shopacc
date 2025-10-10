@@ -1,0 +1,66 @@
+#menu-bottom-tabs.tabs{
+    display: none;
+}
+@media screen and (max-width: 992px){
+    #menu-bottom-tabs.tabs {
+        display: flex;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background: #fff;
+        box-shadow: 0 -2px #E8E8E8;
+        z-index: 100;
+        padding: 4px 0 0;
+        /*height: 64px;*/
+
+    }
+    #menu-bottom-tabs .menu-bottom-item{
+        list-style: none;
+    }
+    .menu-bottom_text{
+        color: #82869E;
+    }
+    .menu-bottom_icon{
+        width: 85%;
+    }
+    .menu-bottom-item{
+        width: 20%;
+    }
+    .__icon__profile:after {
+        content: '';
+        display: block;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .__icon__profile.--link__profile {
+        background-image: var(--path);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .__icon__profile.--sm__profile {
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+    }
+    .menu-bottom-item.is-active .__icon__profile.--link__profile{
+        filter: brightness(0) saturate(100%) invert(14%) sepia(100%) saturate(4327%) hue-rotate(229deg) brightness(90%) contrast(93%);
+        transition: .2s;
+    }
+    .menu-bottom-item.is-active .menu-bottom_icon{
+        background-color: #F5F6FC;
+    }
+    .menu-bottom-item.is-active .menu-bottom_text{
+        color: #0E3EDA;
+    }
+    .menu-bottom-item:hover .menu-bottom_icon{
+        background-color: #F5F6FC;
+    }
+    .menu-bottom-item:hover .menu-bottom_text{
+        font-weight: 600;
+    }
+    .fb_dialog_content>iframe{
+        bottom: 90px !important;
+    }
+}

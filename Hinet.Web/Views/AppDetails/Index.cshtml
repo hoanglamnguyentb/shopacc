@@ -1,0 +1,69 @@
+﻿@using Hinet.Web.Models;
+@using Hinet.Service.Constant;
+@using Hinet.Service.Common;
+@using Hinet.Service.AppInfoService.Dto;
+@model  PageListResultBO<AppInfoDto>
+
+@{
+    ViewBag.Title = "Ứng dụng TMĐT bán hàng";
+    Layout = "~/Views/Shared/_LayoutNews.cshtml";
+    ViewBag.Description = "Ứng dụng thương mại điện tử bán hàng đã thông báo";
+}
+
+<div class="Details-info-web">
+
+    <div class="bre-index">
+        <div class="bre-1">
+            <span>
+                <a href="/"> Trang chủ</a>
+            </span>
+        </div>
+        <div class="bre-2">
+            <span>
+                <a href="/AppDetails">
+                    Ứng dụng TMĐT bán hàng
+                </a>
+            </span>
+        </div>
+    </div>
+    <div class="title-section">
+        <h1> Ứng dụng thương mại điện tử bán hàng</h1>
+    </div>
+    <div class="clearBoth"></div>
+    <div class="form-search-webdetails search pull-right">
+        <div class="navbar-form navbar-left Seacrh__form" role="search">
+            <input type="search" name="" id="inputKeySearch" class="form-control" value="" required="required" title="" placeholder="Tìm kiếm ...">
+            <button type="button" class="btn btn-default Seacrh__Button" onclick="GetDataResult(1)">
+                <img src="/Content/EndUser/img/search.png" alt="">
+            </button>
+        </div>
+    </div>
+    <div id="boxResultCOntent">
+
+        @{Html.RenderPartial("InfoSearchApp", Model); }
+    </div>
+</div>
+
+<script>
+       function GetDataResult(page) {
+        var dataSearch = $("#inputKeySearch").val();
+        $.ajax({
+            url: '/AppDetails/InfoSearchApp',
+            type: 'post',
+            data: { "KeySearch": dataSearch, "page": page },
+            success: function (result) {
+                $("#boxResultCOntent").html(result);
+
+            }
+        });
+    }
+</script>
+<script>
+    $('#inputKeySearch').on("keypress", function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            GetDataResult(1);
+        }
+        event.stopPropagation();
+    });
+</script>

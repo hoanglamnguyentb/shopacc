@@ -1,0 +1,74 @@
+﻿@using CommonHelper.Number;
+@using Hinet.Service.Constant;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.GiaoDichService.Dto.GiaoDichDto>
+@{
+    var loaiGiaoDich = ViewData["LoaiGiaoDich"] ?? null;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var index = (Model.CurrentPage - 1) * 10;
+}
+
+<table class="table table-striped table-hover align-middle table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ngày</th>
+            @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
+            {
+                <th scope="col">Tài khoản</th>
+            } 
+            @if (loaiGiaoDich == null)
+            {
+                <th scope="col">Loại giao dịch</th>
+            }
+            <th scope="col">Nội dung</th>
+            <th scope="col" class="text-center">Số tiền</th>
+            <th scope="col" class="text-center">Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ListItem != null && Model.ListItem.Any())
+        {
+            foreach (var item in Model.ListItem)
+            {
+                index++;
+                <tr>
+                    <td>@index</td>
+                    <td>@item.NgayGiaoDich.ToString("dd/MM/yyyy HH:mm")</td>
+                    @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
+                    {
+                        <td><a href="/acc/@item.TaiKhoanTxt">#@item.TaiKhoanTxt</a></td>
+                    }
+                    @if (loaiGiaoDich == null)
+                    {
+                        <td>@item.LoaiGiaoDichTxt</td>
+                    }
+                    <td>@item.NoiDung</td>
+                    <td class="text-right @(item.SoTien > 0 ? "text-success" : "text-danger")">
+                        @(item.SoTien > 0 ? "+" : "") @NumberHelper.FormatMoneyVN(item.SoTien)
+                    </td>
+                    <td class="text-center">
+                        @if (item.TrangThai == "Thành công")
+                        {
+                            <span class="badge bg-success">Thành công</span>
+                        }
+                        else
+                        {
+                            @Html.Raw(item.TrangThaiHTML)
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center p-4">
+                    @Html.Partial("_EmptyState", "Hiện tại bạn chưa có giao dịch nào.")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Render pagination -->
+@Html.Partial("~/Views/Shared/Components/_PaginationAjax.cshtml", Model)

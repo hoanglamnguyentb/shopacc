@@ -1,0 +1,69 @@
+﻿@using Hinet.Web.Models
+@{
+    ViewBag.Title = "Đăng ký tài khoản";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+@model RegisterViewModel
+<div id="FormDangKy">
+    <div class="container">
+
+        <div class="col-md-12 report">
+            <div class="title center">
+                <h3>Đăng ký tài khoản</h3>
+                <h4>* * *</h4>
+            </div>
+
+            <div class="register">
+
+                <div id="boxRegisterForm">
+                    @using (Html.BeginForm("Register", "Account", new { @area = "" }, FormMethod.Post, new { id = "createForm" }))
+                    {
+                    @Html.AntiForgeryToken()
+                        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+                    <div class="modal-content" style="padding-bottom:30px;">
+
+                        <div class="modal-body">
+
+                            <div class="form-horizontal">
+                                <div style="text-align:center;color:red;">
+                                    @Html.ValidationSummary()
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Tài khoản <span class="red">*</span></label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Mật khẩu <span class="red">*</span></label>
+                                    <div class="col-sm-8">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Xác nhận mật khẩu <span class="red">*</span></label>
+                                    <div class="col-sm-8">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" center">
+                            <button type="submit" class="btn btn-primary btn-sm">Đăng ký</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+}

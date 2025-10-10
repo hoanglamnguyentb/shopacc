@@ -1,0 +1,13 @@
+.banner-slide-sale{
+    position: relative;
+    padding-bottom: 30%;
+    border-radius: 100%;
+}
+
+.img-banner-slide{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    border-radius: 12px;
+}

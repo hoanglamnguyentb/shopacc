@@ -1,0 +1,256 @@
+﻿@using Hinet.Service.AppUserService.Dto
+@using CommonHelper.Number
+@{
+    var currentUser = (UserDto)SessionManager.GetUserInfo();
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+}
+
+<header id="heading">
+    <nav class="heading">
+        <div class="container c-container header-container">
+
+            <!-- Logo -->
+            <div class="box-logo">
+                <a href="/">
+                    <img src="@config.Logo" alt="" class="d-block" />
+                </a>
+            </div>
+
+            <!-- Menu desktop -->
+            <div class="d-none d-lg-flex h-100">
+                <div class="box-menu c-mr-16 c-py-10">
+                    <div class="box-menu-bar">
+                        <div class="box-icon brs-8 c-mr-8">
+                            <i class="bi bi-list"></i>
+                        </div>
+                        <span class="lh-40 box-icon-text fw-700">Danh mục</span>
+                    </div>
+
+                    <div class="menu-list" style="top: 64px">
+                        <div class="menu-category">
+                            <div class="container c-container">
+                                <ul class="d-flex justify-content-between px-0">
+                                    <!-- Trang chủ -->
+                                    <li class="w-100 c-px-4">
+                                        <a href="/">
+                                            <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                 style="white-space: nowrap">
+                                                <i class="bi bi-house fz-16"></i>
+                                                <span class="fw-500 fz-15 lh-24">Trang chủ</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <!-- Nạp tiền -->
+                                    <li class="w-100 c-px-4">
+                                        @if (currentUser != null)
+                                        {
+                                            <a href="/home/naptopup">
+                                                <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                     style="white-space: nowrap">
+                                                    <i class="bi bi-wallet fz-16"></i>
+                                                    <span class="fw-500 fz-15 lh-24">Nạp Topup</span>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0);" onclick="openLoginModal();">
+                                                <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                     style="white-space: nowrap">
+                                                    <i class="bi bi-wallet fz-16"></i>
+                                                    <span class="fw-500 fz-15 lh-24">Nạp Topup</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    </li>
+
+                                    <!-- Mua Acc -->
+                                    <li class="w-100 c-px-4">
+                                        <a href="/game">
+                                            <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                 style="white-space: nowrap">
+                                                <i class="bi bi-bag-check fz-16"></i>
+                                                <span class="fw-500 fz-15 lh-24">Mua Acc</span>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <!-- Tin tức -->
+                                    <li class="w-100 c-px-4">
+                                        <a href="/tin-tuc">
+                                            <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                 style="white-space: nowrap">
+                                                <i class="bi bi-newspaper fz-16"></i>
+                                                <span class="fw-500 fz-15 lh-24">Tin Tức</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Đã xem -->
+                <div class="box-viewed d-flex c-py-10">
+                    <div class="box-icon brs-8 c-mr-8">
+                        <i class="bi bi-eye"></i>
+                    </div>
+                    <a href="/da-xem" class="lh-40 box-icon-text -700">Đã xem</a>
+                </div>
+            </div>
+
+            <!-- Ô tìm kiếm desktop -->
+            <div class="box-search d-none d-lg-block position-relative">
+                <form action="/search" method="get" class="form-search" id="formSearchHeader" autocomplete="off">
+                    <input type="search"
+                           placeholder="Tìm kiếm..."
+                           class="has-submit"
+                           id="search-header-input"
+                           name="query" />
+                    <button type="submit" class="box-icon" style="width: 32px; height: 32px" id="searchHeaderBtn">
+                        <span class="search-icon">
+                            <i class="bi bi-search" style="color: white; font-size: 16px"></i>
+                        </span>
+                        <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
+                    </button>
+
+                    <!-- Dropdown gợi ý -->
+                    <div class="tooltip-search-header brs-8 shadow-sm d-none" id="search-suggestion-box"></div>
+                </form>
+            </div>
+
+            <!-- Khu vực phải -->
+            <div class="d-flex">
+
+                <!-- Nút nạp tiền -->
+                @if (currentUser != null)
+                {
+                    <a class="btn primary handle-recharge-modal c-px-xl-20 c-px-34 c-mr-16 d-none d-lg-block"
+                       href="/home/naptopup" data-tab="1">
+                        Nạp Topup
+                    </a>
+                }
+                else
+                {
+                    <a class="btn primary handle-recharge-modal c-px-xl-20 c-px-34 c-mr-16 d-none d-lg-block"
+                       href="javascript:void(0)" data-tab="1" onclick="openLoginModal()">
+                        Nạp Topup
+                    </a>
+                }
+
+                <!-- Thông báo -->
+                @if (currentUser != null)
+                {
+                    <div class="box-notify d-flex">
+                        <!-- Desktop (lg trở lên): có popup -->
+                        <div class="d-none d-lg-block position-relative">
+                            <div class="box-icon brs-8" id="btn-notification">
+                                <i class="bi bi-bell"></i>
+                                <p id="num-notification" class="notification-badge d-none"></p>
+                            </div>
+
+                            <div class="notify_menu notify_active position-absolute brs-8" id="notification-popup" style="display: none">
+                                <div class="notify_header d-flex justify-content-between c-p-16">
+                                    <a href="/thong-bao" class="fw-600 fz-16">Thông báo</a>
+                                    <img src="/assets/wwwroot/images/profile_close.svg" alt=""
+                                         class="close-notification-popup" />
+                                </div>
+
+                                <div class="notify_content_layout">
+                                    <div id="result-notification" class="notify_content c-pr-4 c-mr-4 c-pl-16 c-mt-8 c-mb-12"></div>
+                                </div>
+
+                                <div class="notify_menu_seeMore c-px-12 c-pb-12 c-pt-4 text-center cursor-pointer" id="load-more-btn" data-page="1">
+                                    <span class="text-color fw-500 fz-13">Xem thêm <i class="bi bi-chevron-double-down"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile (< lg): chuyển thẳng sang trang /thong-bao -->
+                        <div class="d-block d-lg-none">
+                            <a href="/thong-bao" class="box-icon brs-8 text-color" id="btn-notification" style="background-color: var(--input-disable-color); ">
+                                <i class="bi bi-bell"></i>
+                                <p id="num-notification-mobile" class="notification-badge d-none"></p>
+                            </a>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="box-notify d-flex">
+                        <div class="box-icon brs-8" id="btn-notification" onclick="openLoginModal()">
+                            <i class="bi bi-bell"></i>
+                            <p id="num-notification" class="notification-badge d-none"></p>
+                        </div>
+                    </div>
+                }
+
+                <!-- Tài khoản -->
+                @if (currentUser == null)
+                {
+                    <div class="box-account c-ml-16 position-relative">
+                        <div class="account-logined" onclick="openLoginModal()">
+                            <div class="box-icon brs-8">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="box-account c-ml-16 position-relative">
+                        <div class="position-relative">
+                            <div class="account-logined box-account-open" id="btn-account">
+                                <div class="d-flex">
+                                    <div class="account-name d-lg-block d-none">
+                                        <div class="text-right title-color fw-500">
+                                            @(currentUser.FullName ?? currentUser.UserName)
+                                        </div>
+                                        <div class="account-balance fw-400">
+                                            Số dư: @(NumberHelper.FormatNumberVN(currentUser.Balance))<sup>đ</sup>
+                                        </div>
+                                    </div>
+                                    <div class="account-avatar c-ml-12">
+                                        <img src="~/assets/wwwroot/images/anhdaidien.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-account-logined position-absolute brs-12" id="account-popup" style="display: none">
+                                <div class="account-logined-content box-account_logined" style="display: block">
+                                    <div class="sidebar">
+                                        <div class="sidebar-section d-flex brs-12 psidebar-user-profile p-2">
+                                            <div class="sidebar-section-avt brs-100 c-mr-12">
+                                                <img class="brs-100" src="~/assets/wwwroot/images/anhdaidien.svg" alt="">
+                                            </div>
+                                            <div class="sidebar-section-info">
+                                                <div class="sidebar-section-title c-mb-4 fz-15 fw-500">
+                                                    @(currentUser.FullName ?? currentUser.UserName)
+                                                </div>
+                                                <div class="sidebar-section-info-text c-mb-4 fz-13 fw-500 sidebar-user-balance">
+                                                    Số dư: @(NumberHelper.FormatNumberVN(currentUser.Balance))<sup>đ</sup>
+                                                </div>
+                                                <p class="sidebar-section-info-text mb-0 fz-13 fw-500 sidebar-user-id">
+                                                    ID: <span>@currentUser.Id</span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <hr />
+
+                                        @Html.Partial("_SidebarUser", "", new ViewDataDictionary {
+                                            { "Showtitle", false }
+                                        })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </nav>
+</header>

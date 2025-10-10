@@ -1,0 +1,346 @@
+﻿@{
+    ViewBag.Title = "Thông tin doanh nghiệp";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+    ViewBag.ModuleName = "Dashoard";
+    ViewBag.PageName = "Thông tin doanh nghiệp";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Newtonsoft.Json;
+@using Hinet.Service.SoNguoiLamViecDoanhNghiepService.Dto;
+
+@model DetailDoanhNghiep
+<style>
+    .border-view {
+        border: 1px solid #cccc;
+        padding: 24px
+    }
+
+    .center-view {
+        display: flex;
+        justify-content: center;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .form-profile {
+        padding-left: 91px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+    }
+</style>
+<style type="text/css">
+    .thongtinchitiet .label-data {
+        font-size: 13px;
+        color: black;
+        width: 250px;
+        font-weight: bold;
+        background-color: #ededed;
+    }
+
+    .header-chitiet {
+        font-size: 16px;
+        font-weight: bold;
+        color: #2980b9;
+        margin: 10px 0;
+    }
+
+    #block--list-tailieu-kiemchung.wf100 {
+        height: auto;
+        overflow: auto;
+    }
+
+    #block--list-tailieu-kiemchung.wf100 {
+        border: none;
+    }
+
+    /*   .btn-edit {
+        margin-bottom: 10px;
+    }*/
+
+    .btn-left {
+        text-align: right;
+        padding-right: 30px;
+    }
+
+    .label-data {
+        width: 20%;
+    }
+
+    .content-data {
+        width: 30%;
+    }
+
+    .table-responsive {
+        padding: 0px 20px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="">
+            <div class="content-dashboard" style=" padding-top: 0px;">
+                <div>
+                    <div class="git content_2">
+                        <div class="content_2-box">
+                            <div class="row content_2-title-box">
+                                <div class="col-lg-6 content_2-left-title">
+                                    @if (Model.objInfo != null)
+                                    {
+                                        if (Model.objInfo.IsDNVienThong)
+                                        {
+                                            <h2>Thông tin Quản lý doanh nghiệp viên thông</h2>
+                                        }
+                                        else
+                                        {
+                                            <h2>Thông tin Quản lý doanh nghiệp bưu chính</h2>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-lg-6 content_2-left-title btn-left">
+                                    @if (Model.objInfo != null)
+                                    {
+                                        if (Model.objInfo.IsDNVienThong)
+                                        {
+                                            <a href="javascript:void(0)" onclick="CreateAction('/DoanhNghiepArea/DoanhNghiepVienThong/Edit/@Model.objInfo.Id')" class="btn btn-sm btn-primary btn-edit"><i class='bi bi-pencil-square'> </i> Cập nhật Doanh Nghiệp</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)" onclick="CreateAction('/DoanhNghiepArea/DoanhNghiep/Edit/@Model.objInfo.Id')" class="btn btn-sm btn-primary btn-edit"><i class='bi bi-pencil-square'> </i> Cập nhật Doanh Nghiệp</a>
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin:0">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table ">
+                                        @if (Model.objInfo != null)
+                                        {
+                                            if (Model.objInfo.IsDNVienThong)
+                                            {
+                                                var LstSoLuong = ViewBag.ListSoLuong as List<SoNguoiLamViecDoanhNghiepDto>;
+
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-user"></i> Tên doanh nghiệp</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.TenDoanhNghiep : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-hashtag"></i> Mã số thuế</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.MaSoThue : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-briefcase"></i> Địa chỉ</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.DiaChi : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-industry"></i> Người đại diện</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.NguoiDaiDien : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-phone"></i>Lĩnh vực hoạt động  </b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.LinhVucHoatDOng_Group : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-file-code-o" aria-hidden="true"></i> Trạng thái hoạt động</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.TrangThaiHoatDong_Name : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-envelope"></i>Số lượng người làm việc</b>
+                                                        </td>
+
+                                                        <td class="content-data" colspan="3">
+                                                            <table class="table">
+                                                                <thead>
+
+                                                                    <tr>
+                                                                        <th>Tên Huyện</th>
+                                                                        <th>Trình độ</th>
+                                                                        <th>Số người</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    @foreach (var item in LstSoLuong)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>
+                                                                                @(item.Huyen_Info!=null? item.Huyen_Info.TenHuyen:"")
+                                                                            </td>
+                                                                            <td>
+                                                                                @item.TrinhDo_Name
+                                                                            </td>
+                                                                            <td class="center">
+                                                                                @item.SoNguoi
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            }
+                                            else
+                                            {
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-user"></i> Tên doanh nghiệp</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.TenDoanhNghiep : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-hashtag"></i> Mã bưu chính</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.MaBuuChinh : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-briefcase"></i> Địa chỉ</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.DiaChi : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-industry"></i> Địa chỉ số</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.DiaChiSo : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-phone"></i> Các loại dịch vụ cung cấp </b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.CacLoaiDichVuCungCap : "")
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-file-code-o" aria-hidden="true"></i> Văn bản xác nhận thông báo hoạt động bưu chính</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @if (!string.IsNullOrEmpty(Model.objInfo.VanBanXacNhanThongBaoHoatDongBuuChinh))
+                                                            {
+                                                                <a href='/Uploads/@Model.objInfo.VanBanXacNhanThongBaoHoatDongBuuChinh' download>Tải xuống</a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-envelope"></i> Có cổng, trang TTĐT (website) @(Model.objInfo.IsWebSite ? ": Có" : ": Không")</b>
+                                                        </td>
+
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.WebSite : "")
+                                                        </td>
+
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-map"></i> Loại hình doanh nghiệp</b>
+                                                        </td>
+
+                                                        <td class="content-data">
+                                                            @( Model.objInfo.TypeEnterprise_Name != null ? Model.objInfo.TypeEnterprise_Name : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-map"></i> Tình trạng hoạt động</b>
+                                                        </td>
+
+                                                        <td class="content-data">
+                                                            @(Model.objInfo.OperatingStatus_Name != null ? Model.objInfo.OperatingStatus_Name : "" )
+                                                        </td>
+
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-map-marker"></i> Mô tả tình trạng hoạt động</b>
+                                                        </td>
+
+                                                        <td class="content-data">
+                                                            @(Model.objInfo != null ? Model.objInfo.DecripstionStatus : "")
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-file-code-o" aria-hidden="true"></i> File đính kèm (nếu có)</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            @if (!string.IsNullOrEmpty(Model.objInfo.FileDecripstionStatus))
+                                                            {
+                                                                <a href='/Uploads/@Model.objInfo.FileDecripstionStatus' download>Tải xuống</a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-twitter" aria-hidden="true"></i> Sử dụng MXH trong kinh doanh  @(Model.objInfo.IsUsingSocial ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            <b><i class="fa fa-phone-square" aria-hidden="true"></i> Sử dụng nền tảng di động trong hoạt động @(Model.objInfo.IsUsingMobile ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-tablet" aria-hidden="true"></i> Sử dụng chữ ký số, hợp đồng điện tử @(Model.objInfo.IsDigitalSignatures ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            <b><i class="fa fa-telegram" aria-hidden="true"></i> Áp dụng công nghệ chia chọn bưu gửi tự động (Theo mức độ tham gia vào TMĐT) @(Model.objInfo.IsAutoMaticSelect ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="label-data">
+                                                            <b><i class="fa fa-bus" aria-hidden="true"></i> CCDV chuyển phát gói, kiện hàng hóa cho TMĐT  @(Model.objInfo.IsFastDelivery ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            <b><i class="fa fa-rocket" aria-hidden="true"></i> CCDV logistics cho TMĐT  @(Model.objInfo.Logistics ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            <b><i class="fa fa-fax" aria-hidden="true"></i> Có sàn giao dịch TMĐT  @(Model.objInfo.IsEcommerce ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                        <td class="content-data">
+                                                            <b><i class="fa fa-globe" aria-hidden="true"></i> Sử dụng các kênh thanh toán online  @(Model.objInfo.IsPayOnl ? ": Có" : ": Không")</b>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            }
+                                        }
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ";
+    ViewBag.PageName = "Thông tin ";
+    ViewBag.ModuleCode = "GiaoDich_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.GiaoDichArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/GiaoDichArea/GiaoDich/Index')" class="btn btn-primary btn-sm">Quay lại</a>
+}
+
+<div class="row">
+     <div class="col-sm-12">
+           <table class="table-info">
+           	
+<tr><td>Người giao dịch</td><td>@Model.objInfo.UserId</td></tr>
+<tr><td>Đối tượng</td><td>@Model.objInfo.DoiTuongId</td></tr>
+<tr><td>Loại đối tượng</td><td>@Model.objInfo.LoaiDoiTuong</td></tr>
+<tr><td>Loại giao dịch</td><td>@Model.objInfo.LoaiGiaoDich</td></tr>
+<tr><td>Trạng thái</td><td>@Model.objInfo.TrangThai</td></tr>
+<tr><td>Phương thức thanh toán</td><td>@Model.objInfo.PhuongThucThanhToan</td></tr>
+<tr><td>Ngày giao dịch</td><td>@Model.objInfo.NgayGiaoDich</td></tr>
+<tr><td>Ngày thanh toán</td><td>@Model.objInfo.NgayThanhToan</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.IsDelete</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteTime</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteId</td></tr>
+
+           </table>
+     </div>
+    
+</div>
+
+<script>
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

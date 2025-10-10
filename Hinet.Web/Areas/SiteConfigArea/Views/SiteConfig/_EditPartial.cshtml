@@ -1,0 +1,314 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.SiteConfigArea.Models
+
+@model EditVM
+@{
+
+}
+<div class="modal-dialog modal-full">
+    @using (Ajax.BeginForm("Edit", "SiteConfig", new { @area = "SiteConfigArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editSiteConfigForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Cập nhật </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                @Html.HiddenFor(x => x.Id)
+
+                <div class="form-horizontal">
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item active">
+                                <a class="nav-link active" href="#tab1" role="tab" data-toggle="tab">Thông tin chung</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab2" role="tab" data-toggle="tab">Giao diện</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab3" role="tab" data-toggle="tab">SEO</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab4" role="tab" data-toggle="tab">Info trang chủ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab5" role="tab" data-toggle="tab">Thông tin liên hệ</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content p-3 border border-top-0">
+                            <!-- Tab 1 -->
+                            <div class="tab-pane fade active in" id="tab1" role="tabpanel">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Logo </label>
+                                    <div class="col-sm-8">
+                                        <div class="image-upload-box">
+                                            <img id="previewAnhLogo" src="@Model.Logo" alt="Preview ảnh" class="image-preview @(string.IsNullOrEmpty(Model.Logo) ? "" : "has-image")" />
+                                            <p id="uploadText" class="upload-text">+ Chọn ảnh</p>
+                                            <input type="file" id="uploadAnhLogo" name="FileLogo" accept="image/*" class="file-input" />
+                                        </div>
+                                        @Html.HiddenFor(m => m.Logo, new { id = "Logo" })
+                                        @Html.ValidationMessageFor(m => m.Logo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Favicon </label>
+                                    <div class="col-sm-8">
+                                        <div class="image-upload-box">
+                                            <img id="previewAnhFavicon" src="@Model.Favicon" alt="Preview ảnh" class="image-preview @(string.IsNullOrEmpty(Model.Favicon) ? "" : "has-image")" />
+                                            <p id="uploadText" class="upload-text">+ Chọn ảnh</p>
+                                            <input type="file" id="uploadAnhFavicon" name="FileFavicon" accept="image/*" class="file-input" />
+                                        </div>
+                                        @Html.HiddenFor(m => m.Favicon, new { id = "Favicon" })
+                                        @Html.ValidationMessageFor(m => m.Favicon, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">SiteTitle </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(m => m.SiteTitle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.SiteTitle, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Description </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Kích hoạt </label>
+                                    <div class="col-sm-8">
+                                        <label class="switch">
+                                            <input type="checkbox" checked="@Model.KichHoat" value="true" id="KichHoat" name="KichHoat">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 2 -->
+                            <div class="tab-pane fade" id="tab2" role="tabpanel">
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Primary Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.PrimaryColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.PrimaryColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Secondary Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.SecondaryColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.SecondaryColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Primary Hover Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.PrimaryHoverColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.PrimaryHoverColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Text Title Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.TextTitleColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.TextTitleColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Text Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.TextColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.TextColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Link Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.LinkColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.LinkColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-4">Link Hover Color</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.LinkHoverColor, new { @class = "form-control", type = "color" })
+                                        @Html.ValidationMessageFor(m => m.LinkHoverColor, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 3 -->
+                            <div class="tab-pane fade" id="tab3" role="tabpanel">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Keywords </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(m => m.Keywords, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Keywords, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Og:Url </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.OgUrl, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.OgUrl, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Og:Title </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(m => m.OgTitle, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.OgTitle, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Og:Description </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(m => m.OgDescription, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.OgDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Og:Image </label>
+                                    <div class="col-sm-8">
+                                        <div class="image-upload-box">
+                                            <img id="previewAnhOgImage" src="@Model.OgImage" alt="Preview ảnh" class="image-preview @(string.IsNullOrEmpty(Model.OgImage) ? "" : "has-image")" />
+                                            <p id="uploadText" class="upload-text">+ Chọn ảnh</p>
+                                            <input type="file" id="uploadAnhOgImage" name="FileOgImage" accept="image/*" class="file-input" />
+                                        </div>
+                                        @Html.HiddenFor(m => m.OgImage, new { id = "OgImage" })
+                                        @Html.ValidationMessageFor(m => m.OgImage, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 4 -->
+                            <div class="tab-pane fade" id="tab4" role="tabpanel">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Thông báo </label>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-12">
+                                            <div id="editorThongBao">
+                                                @Html.Raw(Model.ThongBao)
+                                            </div>
+                                            @Html.HiddenFor(m => m.ThongBao, new { id = "ThongBao" })
+                                            @Html.ValidationMessageFor(m => m.ThongBao, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Mô tả </label>
+                                    <div class="col-sm-8">
+                                        <div class="col-sm-12">
+                                            <div id="editorMoTa">
+                                                @Html.Raw(Model.MoTa)
+                                            </div>
+                                            @Html.HiddenFor(m => m.MoTa, new { id = "MoTa" })
+                                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 5 -->
+                            <div class="tab-pane fade" id="tab5" role="tabpanel">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Link fb </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.LinkFacebook, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.LinkFacebook, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4">Số điện thoại </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    quillThongBao = new Quill('#editorThongBao', { theme: 'snow' });
+    quillMoTa = new Quill('#editorMoTa', { theme: 'snow' });
+
+    $("#editSiteConfigForm").on("submit", function () {
+        var contentThongBao = quillThongBao.root.innerHTML;
+        var contentMoTa = quillMoTa.root.innerHTML;
+        $("#ThongBao").val(contentThongBao);
+        $("#MoTa").val(contentMoTa);
+    });
+
+    $("#uploadAnhLogo").change(function () {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#previewAnhLogo")
+                    .attr("src", e.target.result)
+                    .show();
+            }
+            reader.readAsDataURL(input.files[0]);;
+        }
+    });
+
+    $("#uploadAnhFavicon").change(function () {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#previewAnhFavicon")
+                    .attr("src", e.target.result)
+                    .show();
+            }
+            reader.readAsDataURL(input.files[0]);;
+        }
+    });
+
+    $("#uploadAnhOgImage").change(function () {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#previewAnhOgImage")
+                    .attr("src", e.target.result)
+                    .show();
+            }
+            reader.readAsDataURL(input.files[0]);;
+        }
+    });
+</script>
+@Scripts.Render("~/bundles/jqueryval")

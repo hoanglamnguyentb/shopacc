@@ -1,0 +1,30 @@
+@{
+    ViewBag.Title = "ConfigRequest";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ConfigRequest";
+    ViewBag.PageName = "Thông tin ConfigRequest";
+    ViewBag.ModuleCode = "ConfigRequest_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.ConfigRequestArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/ConfigRequestArea/ConfigRequest/Index" class="btn btn-primary btn-sm"><i class="fa fa-reply" aria-hidden="true"></i> Quay lại</a>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table-info">
+
+            <tr><td>Mã</td><td>@Model.objInfo.Code</td></tr>
+            <tr><td>Tên Bảng</td><td>@Model.objInfo.Name</td></tr>
+            <tr><td>Tên các trường</td><td>@Model.objInfo.AccessInfor</td></tr>
+        </table>
+    </div>
+</div>
+
+<script>
+</script>
+@Scripts.Render("~/bundles/jqueryval")

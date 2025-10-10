@@ -1,0 +1,83 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.GiaoDichService.Dto.GiaoDichDto>
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+
+<div class="container c-container-side c-mb-4 c-mb-lg-0">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">Lịch sử nạp tiền</a>
+        </li>
+    </ul>
+    <hr />
+
+    <div class="row">
+        <div class="c-history-left media-web">
+            <div class="sidebar">
+                @Html.Partial("_SidebarUser", "lich-su-nap-tien")
+            </div>
+        </div>
+        <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
+            <div class="section-header d-flex justify-content-between align-items-center flex-wrap c-py-16" style="gap: 8px;">
+                <h1 class="fw-700 fz-20 lh-28 c-my-0">Lịch sử nạp tiền</h1>
+                @using (Ajax.BeginForm(
+                    "LoadLichSuGiaoDich",       // Action
+                    "User",                     // Controller
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",     // hoặc POST tùy bạn
+                        UpdateTargetId = "giaodich-list-container", // nơi cập nhật nội dung
+                        InsertionMode = InsertionMode.Replace
+                    },
+                    new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
+                    ))
+                {
+                    <input type="hidden" id="LoaiGiaoDichFilter" name="LoaiGiaoDichFilter" value="@Hinet.Service.Constant.LoaiGiaoDichConstant.NAP"/>
+                    <input type="date" class="form-control form-control-sm" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
+                    <input type="date" class="form-control form-control-sm" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
+                    <button type="submit" class="btn ghost flex-shrink-0">
+                        <i class="bi bi-search"></i> Tìm kiếm
+                    </button>
+                }
+            </div>
+            <div id="giaodich-list-container">
+                @Html.Partial("_LichSuGiaoDichList")
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    function loadPage(page) {
+        var formData = $("#form-filter").serializeArray();
+
+        var data = { page: page };
+        $.each(formData, function (i, field) {
+            data[field.name] = field.value;
+        });
+
+        $.ajax({
+            url: "/User/LoadLichSuGiaoDich",
+            type: "GET",
+            data: data,
+            success: function (res) {
+                $("#giaodich-list-container").html(res);
+                $('html, body').animate({ scrollTop: 0 }, 200);
+            }
+        });
+    }
+
+    // Phân trang
+    $(document).on("click", ".js-change-page", function (e) {
+        e.preventDefault();
+        var page = $(this).data("page");
+        if (!page || $(this).parent().hasClass("disabled") || $(this).parent().hasClass("active")) return;
+        loadPage(page);
+    });
+</script>

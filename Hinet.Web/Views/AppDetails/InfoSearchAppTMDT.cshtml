@@ -1,0 +1,42 @@
+﻿@using Hinet.Web.Core
+@using Hinet.Service.AppInfoService.Dto
+@using Hinet.Service.Common
+
+@model PageListResultBO<AppInfoDto>
+<div class="hometable-wrapper">
+    <table class="table table-bordered" id="tableWeb">
+        <thead>
+            <tr class="center-table">
+                <th style="text-align:center">STT</th>
+                <th style="text-align:center">Tên ứng dụng</th>
+                <th style="text-align:center">Tên doanh nghiệp</th>
+                <th style="text-align:center">Xem thông tin</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.ListItem)
+            {
+            <tr>
+                <td class="center-table" style="text-align:center">@((Model.CurrentPage - 1) * 10 + Model.ListItem.IndexOf(item) + 1)</td>
+                <td style="text-align:center">@item.Name</td>
+                <td>@item.CompanyName</td>
+                <td style="text-align:center">
+                    <a href="/Home/AppDetails/@item.Id" class="btn btn-primary btn-xs">Xem Chi tiết</a>
+                </td>
+            </tr>
+
+            }
+            @if (Model.Count == 0)
+            {
+            <tr><td colspan="4" class="text-danger text-center">Không có dữ liệu</td></tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.Count > 1)
+    {
+    <div class="wrapper">
+        @Html.GenPage(Model.CurrentPage, Model.TotalPage, "GetDataResult")
+    </div>
+    }
+</div>

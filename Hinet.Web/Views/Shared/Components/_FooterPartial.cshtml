@@ -1,0 +1,168 @@
+﻿@{
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+
+<div class="footer-default media-web d-none d-lg-block" id="footer">
+    <div class="c-container container">
+        <div class="mobile-default-footer row justify-content-center text-center text-md-left">
+
+            <!-- Cột Logo -->
+            <div class="col-12 col-md-4 c-p-32 footer-default-body-row footer-default-col">
+                <div class="left-right media-footer-order-one">
+                    <div class="footer-default-body-row row justify-content-center">
+                        <div class="col-12 footer-default-body-col">
+                            <p class="text-center mb-3">
+                                <img alt="@config.SiteTitle"
+                                     class="lazy img-fluid"
+                                     src="@config.Logo"
+                                     style="max-width: 250px; height: auto;" />
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="footer-default-body-col left-right">
+                        <span class="d-block small">@config.SiteTitle</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Thông tin chung -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 c-pl-16 c-pr-16 footer-default-col footer-default-information mt-4 mt-md-0">
+                <div class="c-pb-16 c-pt-22">
+                    <h4 class="text-uppercase fz-16 fw-bold mb-3">THÔNG TIN CHUNG</h4>
+                    <ul class="list-unstyled ml-2">
+                        <li>
+                            <a href="/tin-tuc/ve-chung-toi" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                Về chúng tôi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tin-tuc/chinh-sach-bao-mat-va-doi-tra" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                Chính sách bảo mật và đổi trả
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tin-tuc/dieu-khoan-su-dung" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                Điều khoản sử dụng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/tin-tuc/huong-dan-nap-tien-vao-web" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                Hướng dẫn nạp tiền vào web
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cột Sản phẩm -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 c-pl-16 c-pr-16 footer-default-col footer-default-information mt-4 mt-md-0">
+                <div class="c-pb-16 c-pt-22">
+                    <h4 class="text-uppercase fz-16 fw-bold mb-3">SẢN PHẨM</h4>
+                    <div class="footer-default-two ml-2">
+                        @Html.Action("DichVuNoiBat", "Home", new { area = "" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cột Hỗ trợ khách hàng -->
+            <div class="col-12 col-md-4 col-lg-2 c-pl-16 footer-default-col footer-default-information mt-4 mt-md-0">
+                <div class="c-pb-16 c-pt-22">
+                    <h4 class="text-uppercase fz-16 fw-bold mb-3">HỖ TRỢ KHÁCH HÀNG</h4>
+                    <ul class="list-unstyled ml-2">
+                        <li>
+                            <a href="tel:@config.SoDienThoai" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                <i class="bi bi-telephone"></i> Chăm sóc khách hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@config.LinkFacebook" class="text-decoration-none text-dark d-block py-1" target="_blank" rel="follow">
+                                <i class="bi bi-facebook"></i> Facebook fanpage CSKH
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="menu-bottom-tabs" class="tabs">
+    <ul class="d-flex justify-content-between px-0 c-mb-8 flex-grow-1 flex-shrink-0">
+        <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "home" ? "is-active" : "" )">
+            <a href="/"
+               class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                    <i class="bi bi-house-fill fz-16 text-color"></i>
+                </span>
+
+                <span class="menu-bottom_text fz-12">Home</span>
+            </a>
+        </li>
+        @if (currentUser != null)
+        {
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "recharge" ? "is-active" : "" )">
+                <a href="/home/naptopup"
+                   class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                    <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                        <i class="bi bi-wallet-fill fz-16 text-color"></i>
+                    </span>
+
+                    <span class="menu-bottom_text fz-12">Nạp Topup</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "recharge" ? "is-active" : "" )">
+                <a href="javascript:void(0);"
+                   onclick="openLoginModal();"
+                   class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                    <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                        <i class="bi bi-wallet-fill fz-16 text-color"></i>
+                    </span>
+
+                    <span class="menu-bottom_text fz-12">Nạp tiền</span>
+                </a>
+            </li>
+        }
+
+        <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "mua-acc" ? "is-active" : "" )">
+            <a href="/game"
+               class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                    <i class="bi bi-bag-fill fz-16 text-color"></i>
+                </span>
+
+                <span class="menu-bottom_text fz-12">Mua acc</span>
+            </a>
+        </li>
+
+        <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "tin-tuc" ? "is-active" : "" )">
+            <a href="/tin-tuc"
+               class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                    <i class="bi bi-newspaper fz-16 text-color"></i>
+                </span>
+
+                <span class="menu-bottom_text fz-12">Tin tức</span>
+            </a>
+        </li>
+        @if (currentUser != null)
+        {
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "tai-khoan" ? "is-active" : "" )">
+                <a href="/thong-tin"
+                   class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                    <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                        <i class="bi bi-person-fill fz-16 text-color"></i>
+                    </span>
+                    <span class="menu-bottom_text fz-12">Tài khoản</span>
+                </a>
+            </li>
+        }
+
+    </ul>
+</div>

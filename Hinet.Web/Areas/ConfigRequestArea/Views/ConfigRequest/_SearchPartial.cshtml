@@ -1,0 +1,52 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "ConfigRequest", new { Area = "ConfigRequestArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+        @Html.AntiForgeryToken()
+        <div class="row row-block">
+            <div class="col-md-6 row-block">
+                <div class="col-md-4 txt-label">Mã</div>
+                <div class="col-md-8">
+                    <input class="form-control width100" type="text" name="CodeFilter" />
+                </div>
+            </div>
+
+            <div class="col-md-6 row-block">
+                <div class="col-md-4 txt-label">Tên Bảng</div>
+                <div class="col-md-8">
+                    <input class="form-control width100" type="text" name="NameFilter" />
+                </div>
+            </div>
+
+            <div class="col-md-6 row-block">
+                <div class="col-md-4 txt-label">Tên các trường</div>
+                <div class="col-md-8">
+                    <input class="form-control width100" type="text" name="AccessInforFilter" />
+                </div>
+            </div>
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+                <a href="/ConfigRequestArea/ConfigRequest/ExportExcel" class="btn btn-labeled btn-success btn-sm"><span class='btn-label'><i class='glyphicon glyphicon-download'></i></span> Xuất Excel</a>
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>

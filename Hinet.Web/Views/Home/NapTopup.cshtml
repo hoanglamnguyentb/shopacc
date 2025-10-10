@@ -1,0 +1,271 @@
+﻿@model Hinet.Web.Models.GiaoDichTopupVM
+@{
+    var listGame = ViewBag.ListGame as List<Hinet.Model.Entities.Game>;
+}
+
+<style>
+    .money-card {
+        background: repeating-linear-gradient(45deg, #1e73be, #1e73be 10px, #206fba 10px, #206fba 20px);
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        padding: 12px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        transition: transform 0.2s ease;
+        height: 55px;
+    }
+
+        .money-card:hover {
+            cursor: pointer;
+        }
+
+    .game-card {
+        padding: 0 10px;
+    }
+
+        .game-card .card {
+            padding: 4px 4px 16px 4px;
+        }
+
+            .game-card .card.selected {
+                background-color: #a3e2fc;
+            }
+
+    .text-danger {
+        font-size: 13px;
+        margin-top: 4px;
+        display: block;
+    }
+</style>
+
+<div class="container c-container-side c-mb-4 c-mb-lg-0">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">Nạp Topup</a>
+        </li>
+    </ul>
+    <hr />
+
+    <div class="row">
+        <!-- Danh sách game -->
+        <div class="col-sm-12">
+            <div class="sidebar">
+                <div class="sidebar-section brs-12">
+                    <p class="sidebar-section-title c-mb-16 text-center fz-20 text-uppercase">Chọn game</p>
+                    <div class="row justify-content-center">
+                        @foreach (var game in listGame)
+                        {
+                            <div class="col-6 col-md-3 mb-3 game-card">
+                                <div class="card shadow-sm border rounded-0" data-id="@game.Id" data-name="@game.Name">
+                                    <div class="money-card">@game.Name</div>
+                                </div>
+                            </div>
+                        }
+                        <!-- Card Khác -->
+                        <div class="col-6 col-md-3 mb-3 game-card">
+                            <div class="card shadow-sm border rounded-0" data-id="" data-name="Khác">
+                                <div class="money-card">Khác</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tên game được chọn -->
+        <div class="sidebar-section-title c-mb-16 text-center w-100" id="gameName"></div>
+
+        <!-- Form nạp Topup -->
+        <div class="col-12">
+            <div class="brs-12 c-p-16 c-mb-16">
+
+                @using (Ajax.BeginForm("NapTopup", "GiaoDich", new { @area = "" }, new AjaxOptions()
+                {
+                    HttpMethod = "POST",
+                    OnBegin = "onTopupBegin",
+                    OnSuccess = "onTopupSuccess",
+                    OnFailure = "onTopupFailure"
+                }, new { id = "createTopupForm" }))
+
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Đối tượng Id</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextBoxFor(x => x.DoiTuongId, new { @class = "form-control", id = "DoiTuongId" })
+                            @Html.ValidationMessageFor(x => x.DoiTuongId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Tên tài khoản cần nạp</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextBoxFor(x => x.TenTaiKhoanCanNap, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.TenTaiKhoanCanNap, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Số tiền</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextBoxFor(x => x.SoTien, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.SoTien, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Mật khẩu tài khoản</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextBoxFor(x => x.MatKhauTaiKhoanNap, new { @class = "form-control", type = "password" })
+                            @Html.ValidationMessageFor(x => x.MatKhauTaiKhoanNap, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Xác nhận mật khẩu</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextBoxFor(x => x.XacNhanMatKhauTaiKhoanNap, new { @class = "form-control", type = "password" })
+                            @Html.ValidationMessageFor(x => x.XacNhanMatKhauTaiKhoanNap, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="control-label col-sm-12">Nội dung</label>
+                        <div class="col-sm-12 w-full-select2">
+                            @Html.TextAreaFor(x => x.NoiDung, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.NoiDung, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="button-password d-flex justify-content-end" style="gap: 4px">
+                        <button class="btn btn-light" type="button" onclick="window.history.back()">
+                            Quay lại
+                        </button>
+                        <button class="btn primary btn-data" type="submit">
+                            Tiếp tục
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start Modal nạp tiền -->
+<div class="modal fade modal-big loadModal__acount show" id="rechargeModal" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <p class="modal-title center">
+                    Nạp tiền
+                </p>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="text-center">
+                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
+                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
+                    <div id="qrInfoText" class="c-mt-8 fz-13"></div>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            Nếu sau 5
+                            phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
+                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
+                                <u>
+                                    <strong>
+                                        Chăm Sóc Khách
+                                        Hàng
+                                    </strong>
+                                </u>
+                            </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để
+                            được xử lý.
+                        </span>
+                    </p>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            <strong>
+                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
+                            </strong>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer data__dangnhap p-3">
+                <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal nạp tiền -->
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        // Chọn game
+        $(".game-card .card").on("click", function () {
+            $(".game-card .card").removeClass("selected");
+            $(this).addClass("selected");
+
+            var gameId = $(this).data("id");
+            var gameName = $(this).data("name");
+
+            $("#DoiTuongId").val(gameId);
+            $("#gameName").html(`Nạp topup cho tài khoản <b>${gameName}</b>`);
+        });
+    });
+
+    function onTopupBegin() {
+        Swal.fire({
+            title: 'Đang tạo đơn nạp...',
+            text: 'Vui lòng chờ trong giây lát',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    }
+
+    function onTopupSuccess(result) {
+        Swal.close();
+        if (result.success) {
+            const qrUrl = result.qrData;
+            const amount = result.amount;
+            const content = `Topup${result.transactionId}`; // hoặc server trả về
+
+            $('#rechargeQrImage').attr('src', qrUrl).show();   // đúng ID
+            $('#qrInfoText').html(`
+            <strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
+            <strong>Nội dung chuyển khoản:</strong> ${content}
+        `);
+
+            $('#rechargeModal').modal('show'); // đúng ID modal
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: result.message || 'Không thể tạo đơn nạp',
+                confirmButtonText: 'Đóng',
+                confirmButtonColor: '#d33'
+            });
+        }
+    }
+
+    function onTopupFailure(xhr) {
+        Swal.close();
+        Swal.fire({
+            icon: 'error',
+            title: 'Kết nối thất bại',
+            text: 'Không thể kết nối máy chủ. Vui lòng thử lại.',
+            confirmButtonText: 'Đóng',
+            confirmButtonColor: '#d33'
+        });
+    }
+</script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,68 @@
+﻿@using Hinet.Web.Areas.CommonArea.Models
+@using Hinet.Service.Constant
+@{
+    var linkChapNhan = "/QLDotBaoCaoDong_DoanhNghiepArea/QLDotBaoCaoDong_DoanhNghiep/ThayDoiTrangThai/"
+                    + Model.DotBaoCaoDoanhNghiep.Id + "?trangThai=" + TrangThaiBieuMauBaoCaoConstant.CHAPNHAN;
+    var linkTuChoi = "/QLDotBaoCaoDong_DoanhNghiepArea/QLDotBaoCaoDong_DoanhNghiep/ThayDoiTrangThai/"
+                    + Model.DotBaoCaoDoanhNghiep.Id + "?trangThai=" + TrangThaiBieuMauBaoCaoConstant.TUCHOI;
+    var linkGui = "/DotBaoCao_DoanhNghiep/DotBaoCao_DoanhNghiep/Send/" + Model.DotBaoCaoDoanhNghiep.Id;
+}
+
+@model BtnGroupBaoCaoDongVM
+
+<!-- STTTT -->
+@if (Model.IsSTTTT)
+{
+    if (Model.DotBaoCaoDoanhNghiep.TrangThai != TrangThaiBieuMauBaoCaoConstant.CHAPNHAN)
+    {
+        <a href="javascript:void(0)" onclick="ConfirmDataAction('@linkChapNhan',
+                '@Html.DisplayNameFor(model => model.LinkChapNhan)')" class="btn btn-success btn-xs" role="button">
+            <i class="bi bi-check2-circle"></i> Chấp nhận
+        </a>
+    }
+    if (Model.DotBaoCaoDoanhNghiep.TrangThai != TrangThaiBieuMauBaoCaoConstant.TUCHOI)
+    {
+        <a href="javascript:void(0)" onclick="ConfirmFormAction('@linkTuChoi',
+                '@Html.DisplayNameFor(model => model.LinkTuChoi)', 'Lý do từ chối',
+                )" class="btn btn-danger btn-xs" role="button">
+            <i class="bi bi-ban"></i> Từ chối
+        </a>
+    }
+}
+
+<!-- Doanh nghiệp -->
+@if (Model.IsDoanhNghiep
+    && (Model.DotBaoCaoDoanhNghiep.TrangThai == TrangThaiBieuMauBaoCaoConstant.CHUAGUI
+        || Model.DotBaoCaoDoanhNghiep.TrangThai == TrangThaiBieuMauBaoCaoConstant.TUCHOI))
+{
+    <a href="javascript:void(0)" class="btn btn-primary btn-xs" role="button" id="btn-guisolieu">
+        <i class="bi bi-send"></i> Gửi
+    </a>
+    <button class="btn btn-success btn-xs" id="btn_save" type="submit"><i class="fa fa-save"></i> Lưu</button>
+}
+
+@if (Model.CloseModal)
+{
+    <a href="javascript:void(0)" class="btn btn-default  btn-xs" data-dismiss="modal">
+        <i class="bi bi-x-lg-lg"></i> Đóng
+    </a>
+}
+
+<script>
+    function generateDoc(fileName) {
+        var content = $('.document-page').clone();
+
+        content.find('textarea').remove();
+
+        var converted = htmlDocx.asBlob(content.html());
+
+        var url = window.URL.createObjectURL(converted);
+        var $a = $('<a></a>');
+        $a.attr('href', url);
+        $a.attr('download', fileName);
+        $a[0].click();
+
+        // Giải phóng URL tạm thời
+        window.URL.revokeObjectURL(url);
+    }
+</script>

@@ -1,0 +1,81 @@
+﻿@model List<Hinet.Service.GiaoDichService.Dto.TopNapTheVM>
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var month = DateTime.Now.Month;
+}
+
+<div class="card h-100 border shadow-sm d-flex">
+    <div class="c-pt-16 text-center d-flex align-items-center justify-content-center">
+        <span class="c-pr-5">
+            <img src="~/assets/images/star-top.png" alt="" />
+        </span>
+        <span class="fz-16 fw-700" style="color: var(--primary-color)">
+            TOP NẠP THẺ THÁNG @month
+        </span>
+    </div>
+
+    <div class="content-top-card flex-grow-1">
+        <div class="tab-pane fade show active h-100" id="top_napthe">
+            <div class="content-banner-card-box">
+                <div class="content-banner-card-top position-relative" style="min-height: 200px">
+                    @if (Model != null && Model.Any())
+                    {
+                        var rank = 1;
+                        foreach (var item in Model)
+                        {
+                            var masked = MaskUserName(item.UserName);
+                            <li class="d-flex align-items-center">
+                                @if (rank <= 3)
+                                {
+                                    <p class="rank-icon position-relative">
+                                        <i class="bi bi-star-fill text-warning fz-20"></i>
+                                        <span class="rank-number">@rank</span>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="text-content rank-icon">@rank</p>
+                                }
+                                <span class="ml-2">@masked</span>
+                                <label class="ml-auto">@item.TongSoTien.ToString("N0")<sup>đ</sup></label>
+                            </li>
+                            rank++;
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted p-3">Chưa có ai nạp thẻ trong tháng này.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="c-px-15 btn-charge">
+        @if (SessionManager.GetUserInfo() != null)
+        {
+            <a href="/home/recharge">
+                <div class="text-white btn-nap-the c-py-8 c-px-16 text-center c-mb-12">
+                    Nạp thẻ ngay
+                </div>
+            </a>
+        }
+        else
+        {
+            <a href="javascript:void(0);" onclick="openLoginModal();">
+                <div class="text-white btn-nap-the c-py-8 c-px-16 text-center c-mb-12">
+                    Nạp thẻ ngay
+                </div>
+            </a>
+        }
+    </div>
+</div>
+
+@functions {
+    private string MaskUserName(string username)
+    {
+        if (string.IsNullOrEmpty(username)) return "";
+        if (username.Length <= 4) return "****";
+        return "****" + username.Substring(username.Length - 4);
+    }
+}

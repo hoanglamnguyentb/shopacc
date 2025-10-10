@@ -1,0 +1,48 @@
+﻿@model Hinet.Model.IdentityEntities.AppUser
+@using Hinet.Service.Common;
+@using Hinet.Service.Constant;
+@{
+    ViewBag.Title = "Đăng ký tài khoản thành công";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div id="FormDangKy">
+    <div class="container">
+
+        <div class="col-md-12 report">
+
+            <div class="register" style="padding-top:30px;">
+
+                <div id="boxRegisterForm">
+                    <div class="row form">
+                        <div class="col-sm-12">
+                            <div class="formBox doneContent">
+                                <div class="fieldset-title center" style="font-size: 18px; text-align: center; font-weight: bold;">
+                                    Đăng ký tài khoản thành công
+                                </div>
+                                <div class="col-sm-6 text-center">
+                                    <img src="~/Content/EndUser/img/registerDone.png" style="margin-top: 30px;" />
+                                    <div class="titleDone" style=" margin-bottom: 20px; margin-top: 20px; font-size: 15px;">Chúc mừng quý vị đã đăng ký thành công</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div>Thông tin đăng ký tài khoản</div>
+                                    <table class="tableShowDone">
+                                        <tr>
+                                            <td>Tên tài khoản: </td>
+                                            <td>@Model.UserName</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearBoth"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

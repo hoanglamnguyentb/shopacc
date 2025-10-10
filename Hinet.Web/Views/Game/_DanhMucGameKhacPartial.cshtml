@@ -1,0 +1,24 @@
+﻿@model List<Hinet.Service.DanhMucGameService.Dto.DanhMucGameDto>
+
+<section class="section-related-service related-category">
+    <div class="section-header c-mb-8 c-mb-lg-16 justify-content-between">
+        <h2 class="section-title fz-lg-15 lh-lg-24">
+            Mua tài khoản game khác
+        </h2>
+        <a href="/game"
+           class="link arr-right btn-link">Xem tất cả</a>
+    </div>
+
+    <div class="swiper swiper-related-service card-list swiper-container-horizontal">
+        <div class="swiper-wrapper">
+            @foreach (var dmGame in Model)
+            {
+                <div class="swiper-slide" style="width: 233.6px; margin-right: 16px;">
+                    @Html.Partial("_ItemDMGameCategory", dmGame)
+                </div>
+            }
+        </div>
+        <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
+        <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
+    </div>
+</section>

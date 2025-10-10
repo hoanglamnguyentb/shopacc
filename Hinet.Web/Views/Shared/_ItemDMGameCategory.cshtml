@@ -1,0 +1,45 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.DanhMucGameService.Dto.DanhMucGameDto
+<div class="item-category">
+    <div class="card">
+        <div class="card-body scale-thumb">
+            <a href="/mua-acc/@Model.Slug">
+                <div class="card-thumb c-mb-8">
+                    <img onerror="imgError(this)"
+                         src="@Model.DuongDanAnh"
+                         data-src="@Model.DuongDanAnh"
+                         alt=""
+                         class="card-thumb-image ls-is-cached lazyloaded" />
+                </div>
+                <div class="card-attr">
+                    <div class="text-title fw-700 text-limit limit-1">
+                        @Model.Name
+                    </div>
+                    <div class="info-attr">Số tài khoản: @Model.SoLuongTaiKhoan</div>
+
+                    @if (Model.LaLoaiDongGia.GetValueOrDefault())
+                    {
+                        <div class="price">
+                            @if (Model.GiaKhuyenMai.HasValue)
+                            {
+                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai)</div>
+                                <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(Model.GiaGoc)</div>
+                                <div class="discount">
+                                    @NumberHelper.TinhPhanTramGiamText(Model.GiaGoc, Model.GiaKhuyenMai.GetValueOrDefault())
+                                </div>
+                            }
+                            else
+                            {
+                        <div class="price-current w-100">@NumberHelper.FormatMoneyVN(Model.GiaGoc)</div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="height: 40px"></div>
+                    }
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

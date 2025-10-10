@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Đăng ký tài khoản";
+}
+@using Hinet.API2.Models
+@model UserRegister
+
+<h2>@ViewBag.Title.</h2>
+<div class="container" style="margin-bottom: 50px; text-align:center">
+    <div style="display: block;width: 100%;padding: 100px;border-bottom: 2px solid #0072ce;border-radius: 20px;">
+        <h1 style="text-align: center;color: #005494;">Đăng ký tài khoản thành công!</h1>
+
+        <h3 class="text-center" style="text-align:center">Thông tin tài khoản</h3>
+        <h4 class="text-center" style="text-align:center">Họ tên: @Model.FullName</h4>
+        <h4 class="text-center" style="text-align:center">Tên tài khoản: @Model.UserName</h4>
+        <h4 class="text-center" style="text-align:center">Mật khẩu: @Model.Password</h4>
+        <h4 class="text-center" style="text-align:center">Địa chỉ: @Model.Address</h4>
+        <h4 class="text-center" style="text-align:center">Email: @Model.Email</h4>
+        <h4 class="text-center" style="text-align:center">Số điện thoại: @Model.PhoneNumber</h4>
+    </div>
+</div>

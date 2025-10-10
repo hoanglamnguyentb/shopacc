@@ -1,0 +1,45 @@
+﻿@model List<Hinet.Model.Entities.TinTuc>
+
+@if (Model != null && Model.Any())
+{
+    <div class="news c-pb-24">
+        <section class="related-posts">
+            <div class="section-header">
+                <div class="section-title title-color">Bài viết cùng chủ đề</div>
+            </div>
+            <div class="swiper js-swiper-news card-list swiper-container-horizontal">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model)
+                    {
+                        <div class="swiper-slide" style="width: 296px; margin-right: 16px">
+                            <div class="card news">
+                                <a href="/tin-tuc/@item.Slug" class="news-link scale-thumb">
+                                    <div class="card-body">
+                                        <div class="news-thumb">
+                                            <img onerror="imgError(this)"
+                                                 data-src="@item.AnhBia"
+                                                 src="@item.AnhBia"
+                                                 alt="@item.TieuDe"
+                                                 class="lazyload news-thumb-image" />
+                                        </div>
+                                        <div>
+                                            <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
+                                                @item.TieuDe
+                                            </div>
+                                            <div class="article-info c-mt-16 c-mt-lg-4">
+                                                <div class="datetime"><i class="bi bi-alarm"></i>&nbsp;@item.CreatedDate.ToString("dd/MM/yyyy")</div>
+                                                <div class="author c-ml-4 bread-word text-limit limit-1"><i class="bi bi-person"></i> @item.TacGia</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
+                <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
+            </div>
+        </section>
+    </div>
+}

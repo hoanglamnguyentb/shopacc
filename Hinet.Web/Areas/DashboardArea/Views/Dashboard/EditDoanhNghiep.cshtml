@@ -1,0 +1,388 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.DashboardArea.Models
+
+@model EditDoanhNghiep
+@{
+    //var dropdownListLoaiHinhDoanhNghiep = ViewBag.dropdownListLoaiHinhDoanhNghiep as List<SelectListItem>;
+    var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
+    var dropdownListHuyen = ViewBag.dropdownListHuyen as List<SelectListItem>;
+    var dropdownListXa = ViewBag.dropdownListXa as List<SelectListItem>;
+    var dropdownListTinh = ViewBag.dropdownListTinh as List<SelectListItem>;
+
+    var lstTinhTrangHoatDong = ViewBag.dropdownListTinhTrangHoatDong as List<SelectListItem>;
+
+}
+<style>
+    .select2-container .select2-selection--single {
+        height: 30px !important;
+    }
+</style>
+<div class="modal-dialog modal-lg" style="width:80%">
+    @using (Ajax.BeginForm("EditDoanhNghiep", "Dashboard", new { @area = "DashboardArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editDoanhNghiepForm", enctype = "multipart/form-data" }))
+    {
+    @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Cập nhật Doanh nghiệp</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal form-row">
+                @Html.HiddenFor(m => m.Id)
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Tên doanh nghiệp <span class="red">*</span></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.TenDoanhNghiep, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TenDoanhNghiep, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Mã số thuế <span class="red">*</span></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.MaSoThue, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.MaSoThue, "", new { @class = "text-danger" })
+                            @*@Html.HiddenFor(m => m.MaSoThue)*@
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Địa điểm  </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.DiaDiem, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.DiaDiem, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Loại hình doanh nghiệp </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.LoaiHinhDoanhNghiep, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.LoaiHinhDoanhNghiep, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Lĩnh vực sản xuất công nghiệp chủ yếu  </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.LinhVucSXCNChuYeu, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.LinhVucSXCNChuYeu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Số điện thoại </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Email </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Người phụ trách </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.NguoiPhuTrach, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.NguoiPhuTrach, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">SĐT người phụ trách </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.SDTPhuTrach, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.SDTPhuTrach, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div id="GgMap" class="col-sm-6">
+
+                        @{ Html.RenderAction("GetMap", "CommonShow", new { area = "DashboardArea", latOld = Model.ViDoGPS, lngOld = Model.KinhDoGPS ,  });}
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.HiddenFor(x => x.Tinh)
+                        <div class="form-group">
+                            <label class="col-sm-3" style="padding-top: 6px !important">Huyện </label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.Huyen, dropdownListHuyen, "--Chọn Huyện--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Huyen, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3" style="padding-top: 6px !important">Xã </label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.Xa, dropdownListXa, "--Chọn Xã--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Xa, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3" style="padding-top: 6px !important">Kinh Độ</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.KinhDoGPS, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.KinhDoGPS, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3" style="padding-top: 6px !important">Vĩ Độ </label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.ViDoGPS, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.ViDoGPS, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3" style="padding-top: 6px !important">Địa chỉ</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label">Ghi chú </label>
+                        <div>
+                            @Html.TextAreaFor(m => m.GhiChu, 3, 12, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.GhiChu, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12   ">
+                    <div class="form-group">
+                        <label class="control-label">Tình trạng hoạt động </label>
+                        <div>
+                            @Html.DropDownListFor(m => m.TinhTrangHoatDong, lstTinhTrangHoatDong,"--- Chọn trạng thái ---", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TinhTrangHoatDong, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <label class="control-label">Trạng thái </label>
+                        <div>
+                            @Html.DropDownListFor(m => m.TrangThai, dropdownListTrangThai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+                @Html.HiddenFor(m => m.TrangThai)
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary btn-sm">Hoàn thành</button>
+
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+<script>
+
+    $("#LoaiHinhKinhDoanh").change(() => {
+        if ($("#LoaiHinhKinhDoanh").val() == "XANGDAU" && $("#box_LoaiHinhThuongNhan").hasClass('hide')) {
+            $("#box_LoaiHinhThuongNhan").removeClass('hide')
+        } else {
+            $("#box_LoaiHinhThuongNhan").addClass('hide')
+        }
+    })
+
+    // Các function liên quan đến toạ độ
+    function setLatLng() {
+        $(`#ViDoGPS`).val(clickedLat);
+        $(`#KinhDoGPS`).val(clickedLng);
+    }
+    $("#KinhDoGPS").change(() => {
+        checkAndSetMarker()
+    });
+    $("#ViDoGPS").change(() => {
+        checkAndSetMarker()
+    });
+
+    function checkAndSetMarker() {
+        var kinhdo = $("#KinhDoGPS").val();
+        var vido = $("#ViDoGPS").val();
+        console.log("onhjg");
+        if (kinhdo != "" && vido != "") {
+            AjaxCall("/DashboardArea/CommonShow/GetMap", "GET", { latOld: vido, lngOld: kinhdo },
+                (rs) => {
+                    $("#GgMap").html(rs)
+                }
+            )
+        } else if (kinhdo == "" && vido == "") {
+            AjaxCall("/DashboardArea/CommonShow/GetMap", "GET", null,
+                (rs) => {
+                    $("#GgMap").html(rs)
+                }
+            )
+        }
+    }
+
+    $("#TinhTrangHoatDong").select2();
+
+    $("#Huyen").select2({
+        //    dropdownParent: $("#Huyen").parent()
+    });
+    $("#Xa").select2({
+        /*        dropdownParent: $("#Xa").parent()*/
+    });
+
+    $("#Tinh").change(function () {
+        var maTinh = $(this).val();
+        AjaxCall("/QLCumCNArea/QLCumCN/getdropdownHuyen", "POST", { MaTinh: maTinh },
+            (rs) => {
+                var str = '<option value="">--Chọn Huyện--</option>';
+                rs.map(x => {
+                    str += `<option value=${x.Value}>${x.Text}</option>`
+                })
+                $('#Huyen').val('').trigger('change');
+                $("#Huyen").html("");
+                $("#Huyen").html(str);
+            }
+        )
+
+        AjaxCall("/TINHArea/TINH/GetTinhByCode", "POST", { MaTinh: maTinh },
+            (rs) => {
+                console.log(rs);
+                myLatlng.lat = parseFloat(rs.ViDoGPS);
+                myLatlng.lng = parseFloat(rs.KinhDoGPS);
+                map.setZoom(10);
+                map.setCenter(myLatlng);
+                window.setTimeout(() => {
+                    map.panTo(myLatlng);
+                }, 1500);
+
+                removeMarkers();
+                IconCenter = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map,
+                    icon: {
+                        url: '/Uploads/IconMarker/CenterPoint.png',
+                        scaledSize: new google.maps.Size(20, 20) // Adjust the size as per your requirements
+                    }
+                });
+                markers.push(IconCenter);
+            }
+        )
+
+        var tenTinh = maTinh != "" ? $('#Tinh').find(':selected').text() : "",
+            tenhuyen = $("#Huyen").val() != "" ? $('#Huyen').find(':selected').text() : "",
+            tenXa = $("#Xa").val() != "" ? $('#Xa').find(':selected').text() : ""
+        $("#DiaChi").val(address(tenTinh, tenhuyen, tenXa))
+    });
+    $("#Huyen").change(function () {
+        var mahuyen = $(this).val();
+        AjaxCall("/DashboardArea/Dashboard/getdropdownXa", "POST", { MaHuyen: mahuyen },
+            (rs) => {
+                var str = '<option value="">--Chọn Xã--</option>';
+                rs.map(x => {
+                    str += `<option value=${x.Value}>${x.Text}</option>`
+                })
+                $('#Xa').val('').trigger('change');
+                $("#Xa").html("");
+                $("#Xa").html(str);
+            }
+        )
+        if (mahuyen != "") {
+            AjaxCall("/HUYENArea/HUYEN/GetHuyenByMaHuyen", "POST", { MaHuyen: mahuyen },
+                (rs) => {
+                    console.log(rs);
+                    myLatlng.lat = parseFloat(rs.ViDoGPS);
+                    myLatlng.lng = parseFloat(rs.KinhDoGPS);
+                    map.setZoom(13);
+                    map.setCenter(myLatlng);
+                    window.setTimeout(() => {
+                        map.panTo(myLatlng);
+                    }, 1500);
+
+                    removeMarkers();
+
+                    IconCenter = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/CenterPoint.png',
+                            scaledSize: new google.maps.Size(20, 20) // Adjust the size as per your requirements
+                        }
+                    });
+                    markers.push(IconCenter);
+                }
+            )
+        }
+
+        var tenTinh = $("#Tinh").val() != "" ? $('#Tinh').find(':selected').text() : "",
+            tenhuyen = mahuyen != "" ? $('#Huyen').find(':selected').text() : "",
+            tenXa = $("#Xa").val() != "" ? $('#Xa').find(':selected').text() : ""
+        $("#DiaChi").val(address(tenTinh, tenhuyen, tenXa))
+    });
+
+    $("#Xa").change(function () {
+        var maXa = $(this).val();
+        var tenTinh = $("#Tinh").val() != "" ? $('#Tinh').find(':selected').text() : "",
+            tenhuyen = $("#Huyen").val() != "" ? $('#Huyen').find(':selected').text() : "",
+            tenXa = $("#Xa").val() != "" ? $('#Xa').find(':selected').text() : ""
+        $("#DiaChi").val(address(tenTinh, tenhuyen, tenXa))
+
+        if (maXa != "") {
+            AjaxCall("/XAArea/XA/GetXaByMaXa", "POST", { MaXa: maXa },
+                (rs) => {
+                    console.log(rs);
+                    myLatlng.lat = parseFloat(rs.ViDoGPS);
+                    myLatlng.lng = parseFloat(rs.KinhDoGPS);
+                    map.setZoom(16);
+                    map.setCenter(myLatlng);
+                    window.setTimeout(() => {
+                        map.panTo(myLatlng);
+                    }, 1500);
+
+                    // xoá các marker cũ
+                    removeMarkers();
+
+                    IconCenter = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/CenterPoint.png',
+                            scaledSize: new google.maps.Size(20, 20) // Adjust the size as per your requirements
+                        }
+                    });
+
+                    markers.push(IconCenter);
+                }
+            )
+        }
+    });
+    function address(tentinh, tenHuyen, tenXa) {
+        return (tenXa != "" && tenHuyen != "" && tentinh != "") ? tenXa + ' - ' + tenHuyen + ' - ' + tentinh : (tenHuyen == "") ? tenXa : tenHuyen
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

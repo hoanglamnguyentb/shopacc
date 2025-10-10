@@ -1,0 +1,130 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.ConfigRequestArea.Models
+
+@model EditVM
+@{
+    var dropdownEntity = ViewBag.MyEntities as List<SelectListItem>;
+    var dropdownProperty = ViewBag.MyProperty as List<SelectListItem>;
+    var dropdownRoles = ViewBag.Roles as List<SelectListItem>;
+}
+<div class="modal-dialog">
+    @using (Ajax.BeginForm("Edit", "ConfigRequest", new { @area = "ConfigRequestArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editConfigRequestForm", enctype = "multipart/form-data" }))
+    {
+    @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Cập nhật ConfigRequest</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                @Html.HiddenFor(x => x.Id)
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Quyền </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.Role, dropdownRoles, "Chọn", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Tên Bảng </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(x => x.Name, dropdownEntity, "Chọn", new { @class = "form-control Entity" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Thêm tên các trường </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(x => x.Add, dropdownProperty, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Xóa tên các trường </label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(x => x.Remove, dropdownProperty, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Tên các trường được lấy </label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(x => x.AccessInfor, new { @readonly = "true", @id = "inputString", @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.AccessInfor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+<script>
+    $("#Add").select2();
+    $("#Role").select2();
+    $("#Name").select2();
+    $("#Remove").select2();
+    $(".Entity").change(function () {
+        var name = $(this).val();
+        AjaxCall("/ConfigRequestArea/ConfigRequest/GetProperty", "POST", { name: name }, (rs) => {
+            var listproperties = "<option value='0'>---Chọn tất cả---</option>"
+            var temp = ""
+            rs.map(x => {
+                listproperties += `<option value=${x.Value}>${x.Text}</option>`
+            })
+            $("#Add").html(listproperties);
+            $("#Remove").html(listproperties);
+            $("#inputString").val(temp);
+        })
+    })
+    $("#Add").change(function () {
+        var name = $(this).val();
+        var temp = $("#inputString").val()
+        temp = temp + name + ",";
+        const namesArray = temp.split(",").filter(name => name !== "");
+        const uniqueNames = [];
+        for (let i = 0; i < namesArray.length; i++) {
+            if (!uniqueNames.includes(namesArray[i])) {
+                uniqueNames.push(namesArray[i]);
+            }
+        }
+        temp = uniqueNames.join(",");
+        $("#inputString").val(temp + ",");
+    })
+    $("#Remove").change(function () {
+        var name = $(this).val();
+        console.log(name);
+        var temp = $("#inputString").val()
+        const namesArray = temp.split(",").filter(name => name !== "");
+        const filteredArray = namesArray.filter(item => item !== name);
+        @*const uniqueNames = [];
+        for (let i = 0; i < filteredArray.length; i++) {
+            if (!uniqueNames.includes(filteredArray[i])) {
+                uniqueNames.push(filteredArray[i]);
+            }
+        }*@
+        temp = filteredArray.join(",");
+        if (filteredArray.length != 0) {
+            $("#inputString").val(temp + ",");
+        }
+        else {
+            $("#inputString").val("");
+
+        }
+
+    })
+</script>
+@Scripts.Render("~/bundles/jqueryval")

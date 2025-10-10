@@ -1,0 +1,108 @@
+﻿@using Hinet.Service.Common
+
+@model PageListResultBO<Hinet.Model.Entities.Notification>
+
+<a data-toggle="dropdown" class="dropdown-toggle icon-noti" href="#">
+    <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+    <span class="badge badge-important">
+        @if (Model.Count >= 9)
+        {
+            <span>9+</span>
+        }
+        else
+        {
+            <span>@Model.Count</span>
+        }
+    </span>
+</a>
+
+<ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close MuiList-root">
+    <li class="MuiStack-root">
+        <h6 class="MuiTypography-root MuiTypography-subtitle1">Tất cả thông báo</h6>
+        @if (Model.Count > 0)
+        {
+            <p class="MuiTypography-root MuiTypography-body1">Bạn có @Model.Count thông báo chưa đọc</p>
+        }
+        else
+        {
+            <p class="MuiTypography-root MuiTypography-body1">Không có thông báo mới</p>
+
+        }
+    </li>
+    <li class="p-0">
+        <hr class="MuiDivider-root MuiDivider-fullWidth">
+    </li>
+    <li class="dropdown-content" style="position: relative;">
+        <div class="simplebar-scrollable-y MuiBox-root" data-simplebar="init" style=" height: 100%; max-height: 350px; overflow-y:auto">
+            @foreach (var item in Model.ListItem)
+            {
+                <a href="/NotificationArea/Notification/ReadNotification/@item.Id"
+                   class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters">
+                    <div class="pull-left w-100 d-flex gap-1">
+                        <div class=" icon-noti icon-xs ">
+                            <i class="fa fa-user" style="flex-shrink: 0;"></i>
+                        </div>                        
+                        <div class="w-100">
+                            <span class="icon-text text-truncate-2">
+                                @Html.Raw(item.Message)
+                            </span>
+                            @{
+                                var timeSpan = (TimeSpan)(DateTime.Now - item.CreatedDate);
+                                <small class="pull-right">
+                                    @if (timeSpan.TotalMinutes < 2)
+                                    {
+                                        <i class="fa fa-clock-o"></i> <i>Vừa xong</i>
+                                    }
+                                    else if (timeSpan.TotalMinutes < 60)
+                                    {
+                                        <i class="fa fa-clock-o"></i> <i>@Math.Round(timeSpan.TotalMinutes) phút trước</i>
+                                    }
+                                    else if (timeSpan.TotalHours < 24)
+                                    {
+                                        <i class="fa fa-clock-o"></i> <i>@Math.Round(timeSpan.TotalHours) giờ trước</i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-clock-o"></i> <i>@string.Format("{0:dd/MM/yyyy HH:mm:ss}", item.CreatedDate) </i>
+                                    }
+                                </small>
+                            }
+                        </div>
+                    </div>
+                </a>
+            }
+            @if (!Model.ListItem.Any())
+            {
+                <div class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters">
+                    <div class="clearfix">
+                        <span class="pull-left icon-noti icon-xs">
+                            <i class="fa fa-spinner" style="flex-shrink: 0;"></i>
+                            <span class="icon-text">
+                                Không có thông báo mới
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                @*<li>
+                <div class="clearfix">
+                    <span class="pull-left">
+                        Không có thông báo mới
+                    </span>
+                </div>
+            </li>*@
+            }
+        </div>
+    </li>
+    <li class="p-0">
+        <hr class="MuiDivider-root MuiDivider-fullWidth">
+    </li>
+    <li class="p-0">
+        <div class="MuiBox-root text-center">
+            <a href="/NotificationArea/Notification" 
+               class="MuiButtonBase-root MuiMenuItem-root MuiMenuItem-gutters MuiMenuItem-root MuiMenuItem-gutters"
+               style="justify-content: center; font-weight: bold !important">
+                Xem tất cả
+            </a>
+        </div>
+    </li>
+</ul>

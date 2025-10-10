@@ -1,0 +1,29 @@
+﻿@model List<Hinet.Service.NotificationService.Dto.NotificationDto>
+
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="notification-list">
+        @foreach (var notification in Model)
+        {
+            @*<div class="notification-item c-py-8 c-border-bottom">
+                <div class="fw-500 fz-14">@notification.Message</div>
+                <div class="fz-12 text-muted">
+                    @CommonHelper.Time.TimeHelper.ToTimeAgo(notification.CreatedDate)
+                </div>
+            </div>*@
+
+            <div class="sidebar-section d-flex brs-12 c-mb-8 ">
+                <div class="sidebar-section-avt brs-100 c-mr-12"><img class="brs-100" src="/assets/wwwroot/images/avatar.png" alt=""></div>
+                <div class="sidebar-section-info" style="flex: 1">
+                    <div class="sidebar-section-title c-mb-4 fz-15 fw-500 text-limit limit-3">
+                        <a href="@notification.Link">@notification.Message</a>
+                    </div>
+                    <div class="sidebar-section-info-text c-mb-4 fz-13">
+                        @CommonHelper.Time.TimeHelper.ToTimeAgo(notification.CreatedDate)
+                    </div>
+                </div>
+            </div>        
+            }
+    </div>
+}

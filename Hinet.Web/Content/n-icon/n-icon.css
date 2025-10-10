@@ -1,0 +1,11 @@
+.n-icon svg {
+    box-sizing: content-box;
+    overflow: hidden;
+    vertical-align: -15%;
+    height: inherit !important;
+    width: auto;
+}
+
+.n-icon .secondary {
+    opacity: 0.4;
+}

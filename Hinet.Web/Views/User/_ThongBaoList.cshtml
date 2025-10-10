@@ -1,0 +1,65 @@
+﻿@using CommonHelper.Number;
+@using Hinet.Service.Constant;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.NotificationService.Dto.NotificationDto>
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var index = (Model.CurrentPage - 1) * 10;
+}
+
+<table class="table table-striped table-hover align-middle table-bordered">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nội dung</th>
+            <th scope="col">Thời gian</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ListItem != null && Model.ListItem.Any())
+        {
+            foreach (var noti in Model.ListItem)
+            {
+                index++;
+                <tr>
+                    <td>@index</td>
+                    <td><a href="@noti.Link">@noti.Message</a></td>
+                    <td>@CommonHelper.Time.TimeHelper.ToTimeAgo(noti.CreatedDate)</td>
+                    <td class="text-center">
+                        @if (noti.IsRead)
+                        {
+                            <!-- Icon đã đọc -->
+                            <button type="button"
+                                    class="btn btn-sm btn-light js-mark-read disabled"
+                                    data-id="@noti.Id"
+                                    data-tippy-content="Đã đọc">
+                                <i class="bi bi-check-circle text-muted"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <!-- Icon chưa đọc -->
+                            <button type="button"
+                                    class="btn btn-sm btn-light js-mark-read"
+                                    data-id="@noti.Id"
+                                    data-tippy-content="Đánh dấu là đã đọc">
+                                <i class="bi bi-check2-circle text-success"></i>
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center p-4">
+                    @Html.Partial("_EmptyState", "Chưa có thông báo nào.")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Render pagination -->
+@Html.Partial("~/Views/Shared/Components/_PaginationAjax.cshtml", Model)

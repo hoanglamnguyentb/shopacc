@@ -1,0 +1,160 @@
+﻿@using Newtonsoft.Json;
+@{
+    var numberMap = ViewBag.numberMap;
+    var latStart = ViewBag.latStart;
+    var lngStart = ViewBag.lngStart;
+    var lngEnd = ViewBag.lngEnd;
+    var latEnd = ViewBag.latEnd;
+
+    var listSelectType = ViewBag.listSelectType as List<SelectListItem>;
+}
+<style>
+    #map {
+        width: 100%;
+        height: @(ViewBag.height)px;
+    }
+    html,
+    @{
+
+    }
+</style>
+
+<div id="map"></div>
+<script>
+
+
+    
+
+    var latStartP = parseFloat("@latStart".replace(',', '.'));
+    var lngStartP = parseFloat("@lngStart".replace(',', '.'));
+    var latEndP = parseFloat("@latEnd".replace(',', '.'));
+    var lngEndP = parseFloat("@lngEnd".replace(',', '.'));
+
+    var myLatlngStart = { lat: parseFloat("@latStart".replace(',', '.')), lng:parseFloat("@lngStart".replace(',', '.')) };
+    var myLatlngEnd = { lat: parseFloat("@latEnd".replace(',', '.')), lng:parseFloat("@lngEnd".replace(',', '.')) };
+    var map;
+    var marker = null;
+    var choose = ["start", "end"]
+    var markercheck = [];
+
+    var mks = [];
+    var iconBase ="https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+    //Promise.all(ajaxRequests)
+    //    .then(() => {
+            function initMap() {
+                if (latStartP != null && lngStartP != null) {
+                    
+                    const uluru = { lat: latStartP, lng: lngStartP };
+                    const contentString =
+                        '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        "</div>" +
+                        '<h1 id="firstHeading" class="firstHeading">Điểm đã chọn</h1>' +
+                        "</div>" +
+                        "</div>";
+                    const infowindow = new google.maps.InfoWindow({
+                        content: contentString,
+                        ariaLabel: "Uluru",
+                    });
+                    marker = new google.maps.Marker({
+                        position: uluru,
+                        map,
+                        title: "Uluru (Ayers Rock)",
+                    });
+
+                    marker.addListener("click", () => {
+                        infowindow.open({
+                            anchor: marker,
+                            map,
+                        });
+                    });
+                }
+
+
+                var startmarker = new google.maps.Marker({
+                    position: {
+                        lat: latStartP, lng: lngStartP
+                    },
+                    map: map,
+                    icon: {
+                        url: '/Uploads/IconMarker/start.png',
+                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                    }
+                });
+                markercheck[0] = startmarker;
+                /*                mks[1] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;*/
+                var endmarker = new google.maps.Marker({
+                    position: {
+                        lat: latEndP, lng: lngEndP
+                    },
+                    map: map,
+                    icon: {
+                        url: '/Uploads/IconMarker/end.png',
+                        scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                    }
+                });
+/*                mks[1] = `${clickedLatLng.lat()},${clickedLatLng.lng()}`;*/
+                markercheck[1] = endmarker;
+
+                markers.push(startmarker);
+                markers.push(endmarker);
+
+
+
+            }
+
+
+    function drawRoute(startPoint, endPoint) {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        var request = {
+            origin: startPoint,
+            destination: endPoint,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            }
+        });
+    }
+
+
+
+
+    //document.getElementById('draw').addEventListener("click", function (e) {
+    //    e.preventDefault();
+    //    drawRoute(mks[0], mks[1])
+    //})
+
+
+
+            window.initMap = initMap;
+
+
+
+    console.log(markers)
+    var markers = [];
+
+    // Function to remove all markers from the map
+    function removeMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers.length = 0; // Clear the markers array
+    }
+
+
+    function removeMarkersCheck() {
+        for (let i = 0; i < markercheck.length; i++) {
+            markercheck[i].setMap(null);
+        }
+        markercheck.length = 0; // Clear the markers array
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly"
+        defer></script>

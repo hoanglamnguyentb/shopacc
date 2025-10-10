@@ -1,0 +1,90 @@
+<div id="collapseDiv" class="panel-collapse collapse" aria-expanded="false" role="tabpanel">
+    <div class="well SearchBox">
+
+        @using (Ajax.BeginForm("searchData", "SiteConfig", new { Area = "SiteConfigArea" },
+            new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnFailure = "AjaxFormError",
+                OnSuccess = "AjaxSearchSuccess",
+            }, new { }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="row row-block">
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Description</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="DescriptionFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label"></div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="KeywordsFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">OgTitle</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="OgTitleFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">OgDescription</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="OgDescriptionFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">OgImage</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="OgImageFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">SiteTitle</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="SiteTitleFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Favicon</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="FaviconFilter" />
+			</div>
+		</div>
+
+		<div class="col-md-6 row-block">
+			<div class="col-md-4 txt-label">Logo</div>
+			<div class="col-md-8">
+				<input class="form-control width100" type="text" name="LogoFilter" />
+			</div>
+		</div>
+
+
+            <div class="col-md-12 center" style=" margin-top:20px;">
+                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                    <span class="btn-label">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    Tìm kiếm
+                </button>
+
+                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
+                    Đóng
+                </a>
+            </div>
+        </div>
+
+        }
+    </div>
+</div>
+
+

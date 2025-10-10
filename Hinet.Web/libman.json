@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "fancybox@3.5.7",
+      "destination": "assets/plugins/fancybox/"
+    },
+    {
+      "library": "tailwindcss@4.1.13",
+      "destination": "assets/tailwindcss/"
+    }
+  ]
+}

@@ -1,0 +1,1043 @@
+﻿@using Hinet
+@using Hinet.Web.Areas.DashboardArea.Models
+@using Hinet.Service.Common
+@using Hinet.Service.Constant
+@using Newtonsoft.Json
+@using Hinet.Web.Core
+@using CommonHelper.String
+@using Hinet.Service.AppUserService.Dto
+@using Hinet.Model.Entities
+@model DashboardDto
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleCode = "DashboardAdmin_Index";
+    ViewBag.ModuleName = "Dashboard";
+    ViewBag.PageName = "Báo cáo thống kê";
+    var now = DateTime.Now;
+    var sumaryData = Model.SummaryData;
+    var topDeposits = Model.TopDeposits;
+}
+<div id="dashboard-container">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --card-hover-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+
+            .dashboard-header h2 {
+                margin: 0;
+                font-weight: 700;
+                font-size: 2.5rem;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+        .filter-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .filter-card:hover {
+                box-shadow: var(--card-hover-shadow);
+                transform: translateY(-2px);
+            }
+
+            .filter-card .card-body {
+                padding: 2rem;
+            }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #868e96 0%, #6c757d 100%);
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+        }
+
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(108, 117, 125, 0.6);
+            }
+
+        .stat-card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .stat-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+                pointer-events: none;
+            }
+
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--card-hover-shadow);
+            }
+
+            .stat-card.primary {
+                background: var(--primary-gradient);
+            }
+
+            .stat-card.success {
+                background: var(--success-gradient);
+            }
+
+            .stat-card.info {
+                background: var(--info-gradient);
+            }
+
+            .stat-card.warning {
+                background: var(--warning-gradient);
+            }
+
+            .stat-card .card-body {
+                padding: 2rem;
+                color: white;
+            }
+
+            .stat-card .card-title {
+                font-size: 0.9rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 1rem;
+                opacity: 0.9;
+            }
+
+            .stat-card h3 {
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-card small {
+                font-size: 0.85rem;
+                opacity: 0.9;
+                font-weight: 500;
+            }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+            .chart-card:hover {
+                box-shadow: var(--card-hover-shadow);
+            }
+
+            .chart-card .card-header {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                border-bottom: 3px solid #667eea;
+                padding: 1.5rem;
+                border-radius: 15px 15px 0 0;
+            }
+
+                .chart-card .card-header h5 {
+                    margin: 0;
+                    font-weight: 700;
+                    color: #495057;
+                    font-size: 1.2rem;
+                }
+
+            .chart-card .card-body {
+                padding: 2rem;
+            }
+
+        .table-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            overflow: hidden;
+        }
+
+            .table-card .card-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 1.5rem;
+                border-radius: 15px 15px 0 0;
+            }
+
+                .table-card .card-header h5 {
+                    margin: 0;
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                }
+
+            .table-card .card-body {
+                padding: 0;
+            }
+
+        .table {
+            margin: 0;
+        }
+
+            .table thead {
+                background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+            }
+
+                .table thead th {
+                    padding: 1.2rem 1rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    font-size: 0.85rem;
+                    border: none;
+                    color: white;
+                }
+
+            .table tbody td {
+                padding: 1.2rem 1rem;
+                vertical-align: middle;
+                border-bottom: 1px solid #f1f3f5;
+            }
+
+            .table tbody tr {
+                transition: all 0.3s ease;
+            }
+
+                .table tbody tr:hover {
+                    background: #f8f9fa;
+                    transform: scale(1.01);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                }
+
+                .table tbody tr:last-child td {
+                    border-bottom: none;
+                }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .text-success {
+            color: #f5576c !important;
+            font-weight: 700;
+        }
+
+        /* Animation */
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .row > div {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+            .row > div:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+
+            .row > div:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            .row > div:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+
+            .row > div:nth-child(4) {
+                animation-delay: 0.4s;
+            }
+
+        /* Scrollbar styling */
+        .table-responsive::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f3f5;
+            border-radius: 10px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+            .table-responsive::-webkit-scrollbar-thumb:hover {
+                background: #764ba2;
+            }
+
+        /* Responsive Design */
+        @@media (max-width: 1200px) {
+            .stat-card h3 {
+                font-size: 2rem;
+            }
+        }
+
+        @@media (max-width: 992px) {
+            .dashboard-header h2 {
+                font-size: 2rem;
+            }
+
+            .stat-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .stat-card .card-body {
+                padding: 1.5rem;
+            }
+
+            .chart-card .card-body {
+                padding: 1.5rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .dashboard-header {
+                padding: 1.5rem;
+                text-align: center;
+            }
+
+                .dashboard-header h2 {
+                    font-size: 1.8rem;
+                }
+
+                .dashboard-header p {
+                    font-size: 0.9rem;
+                }
+
+            .filter-card .card-body {
+                padding: 1.5rem;
+            }
+
+            .form-control, .form-select {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .btn-primary {
+                margin-bottom: 0.5rem;
+            }
+
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+
+                .stat-card h3 {
+                    font-size: 1.8rem;
+                }
+
+                .stat-card .card-title {
+                    font-size: 0.8rem;
+                }
+
+                .stat-card small {
+                    font-size: 0.75rem;
+                }
+
+            .chart-card .card-header h5 {
+                font-size: 1rem;
+            }
+
+            .chart-card .card-body {
+                padding: 1rem;
+            }
+
+            canvas {
+                max-height: 250px !important;
+            }
+
+            .table-card .card-header h5 {
+                font-size: 1rem;
+            }
+
+            .table thead th {
+                font-size: 0.75rem;
+                padding: 1rem 0.5rem;
+            }
+
+            .table tbody td {
+                font-size: 0.85rem;
+                padding: 1rem 0.5rem;
+            }
+
+            .badge {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .container-fluid {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            .dashboard-header {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+
+                .dashboard-header h2 {
+                    font-size: 1.5rem;
+                }
+
+            .filter-card {
+                border-radius: 10px;
+            }
+
+                .filter-card .card-body {
+                    padding: 1rem;
+                }
+
+            .form-label {
+                font-size: 0.85rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .form-control, .form-select {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .stat-card .card-body {
+                padding: 1.2rem;
+            }
+
+            .stat-card h3 {
+                font-size: 1.5rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .stat-card .card-title {
+                font-size: 0.75rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .stat-card small {
+                font-size: 0.7rem;
+            }
+
+            .chart-card, .table-card {
+                border-radius: 10px;
+            }
+
+                .chart-card .card-header,
+                .table-card .card-header {
+                    padding: 1rem;
+                }
+
+                    .chart-card .card-header h5,
+                    .table-card .card-header h5 {
+                        font-size: 0.9rem;
+                    }
+
+                .chart-card .card-body {
+                    padding: 0.8rem;
+                }
+
+            canvas {
+                max-height: 200px !important;
+            }
+
+            .table {
+                font-size: 0.8rem;
+            }
+
+                .table thead th {
+                    font-size: 0.7rem;
+                    padding: 0.8rem 0.4rem;
+                    white-space: nowrap;
+                }
+
+                .table tbody td {
+                    font-size: 0.75rem;
+                    padding: 0.8rem 0.4rem;
+                }
+
+            .badge {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+            /* Hide email column on mobile */
+            .table thead th:nth-child(3),
+            .table tbody td:nth-child(3) {
+                display: none;
+            }
+        }
+
+        @@media (max-width: 400px) {
+            .dashboard-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .stat-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .stat-card .card-title {
+                font-size: 0.7rem;
+            }
+            /* Hide phone column on very small screens */
+            .table thead th:nth-child(4),
+            .table tbody td:nth-child(4) {
+                display: none;
+            }
+
+            .table thead th,
+            .table tbody td {
+                padding: 0.6rem 0.3rem;
+            }
+        }
+
+        /* Landscape orientation for tablets */
+        @@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+            .stat-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .chart-card .card-body {
+                padding: 1.5rem;
+            }
+
+            canvas {
+                max-height: 300px !important;
+            }
+        }
+
+        /* Print styles */
+        @@media print {
+            .filter-card,
+            .btn {
+                display: none;
+            }
+
+            .dashboard-header {
+                background: white;
+                color: black;
+                box-shadow: none;
+            }
+
+            .stat-card,
+            .chart-card,
+            .table-card {
+                box-shadow: none;
+                border: 1px solid #dee2e6;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+
+    <div class="container-fluid py-4">
+        <div class="dashboard-header">
+            <h2>📊 Dashboard Thống Kê</h2>
+            <p class="mb-0" style="opacity: 0.9;">Tổng quan về doanh thu và hoạt động của hệ thống</p>
+        </div>
+
+        <!-- Bộ lọc thời gian -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card filter-card">
+                    <div class="card-body">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-3">
+                                <label for="startDate" class="form-label">Từ ngày</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate" value="@now.AddDays(-30).ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="endDate" class="form-label">Đến ngày</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate" value="@now.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="period" class="form-label">Chu kỳ</label>
+                                <select class="form-select" id="period" name="period">
+                                    <option value="day" selected>Theo ngày</option>
+                                    <option value="week">Theo tuần</option>
+                                    <option value="month">Theo tháng</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary me-2">Lọc</button>
+                                @*<button type="button" class="btn btn-secondary" onclick="resetFilter()">Reset</button>*@
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Các thẻ tổng quan -->
+        <div class="row mb-4">
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card primary">
+                    <div class="card-body">
+                        <h6 class="card-title">💰 Tổng doanh thu</h6>
+                        <h3 class="mb-0">@sumaryData.TotalRevenue VNĐ</h3>
+                        @*<small>📈 +15% so với tháng trước</small>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card success">
+                    <div class="card-body">
+                        <h6 class="card-title">🎯 Tổng acc bán ra</h6>
+                        <h3 class="mb-0">@sumaryData.TotalAccountSold</h3>
+                        @*<small>📈 +8% so với tháng trước</small>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card info">
+                    <div class="card-body">
+                        <h6 class="card-title">✨ Tổng acc thêm mới</h6>
+                        <h3 class="mb-0">@sumaryData.TotalNewAccount</h3>
+                        @*<small>📈 +12% so với tháng trước</small>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card stat-card warning">
+                    <div class="card-body">
+                        <h6 class="card-title">💳 Tổng nạp tiền</h6>
+                        <h3 class="mb-0">@sumaryData.TotalDeposit VNĐ</h3>
+                        @*<small>📈 +20% so với tháng trước</small>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biểu đồ doanh thu -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📈 Biểu đồ Doanh thu theo thời gian</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="revenueChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biểu đồ số acc bán ra -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">📊 Biểu đồ Số tài khoản bán ra theo thời gian</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="soldAccountChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biểu đồ số acc thêm mới -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card chart-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">🆕 Biểu đồ Số tài khoản thêm mới theo thời gian</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="newAccountChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bảng Top nạp tiền -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h5 class="mb-0">🏆 Top 10 Người dùng nạp tiền nhiều nhất</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-dark">#</th>
+                                        <th class="text-dark">Tên người dùng</th>
+                                        <th class="text-end text-dark">Tổng nạp</th>
+                                        <th class="text-center text-dark">Số lần nạp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (topDeposits != null && topDeposits.Any())
+                                    {
+                                        foreach (var item in topDeposits)
+                                        {
+                                            <tr>
+                                                <td><strong>@(topDeposits.IndexOf(item) + 1)</strong></td>
+                                                <td><strong>@item.UserName</strong></td>
+                                                <td class="text-end"><strong class="text-success">@item.TotalDeposit VNĐ</strong></td>
+                                                <td class="text-center"><span class="badge bg-primary">@item.NumOfDeposit</span></td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4"><i>Không có dữ liệu</i></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script>
+            const revenueData = eval(@Html.Raw(Model.RevenueData))
+            console.log(revenueData)
+            // Mock data cho biểu đồ doanh thu
+            //const revenueData = {
+            //    labels: ['01/10', '02/10', '03/10', '04/10', '05/10', '06/10', '07/10'],
+            //    data: [5500000, 6200000, 5800000, 7100000, 6900000, 7500000, 6750000]
+            //};
+            const soldAccountData = eval(@Html.Raw(Model.SoldAccountData))
+            console.log(soldAccountData)
+            // Mock data cho biểu đồ số acc bán ra
+            //const soldAccountData = {
+            //    labels: ['01/10', '02/10', '03/10', '04/10', '05/10', '06/10', '07/10'],
+            //    data: [15, 18, 16, 21, 19, 20, 18]
+            //};
+            const newAccountData = eval(@Html.Raw(Model.NewAccountData))
+            console.log(newAccountData)
+            // Mock data cho biểu đồ số acc thêm mới
+            //const newAccountData = {
+            //    labels: ['01/10', '02/10', '03/10', '04/10', '05/10', '06/10', '07/10'],
+            //    data: [10, 12, 15, 11, 14, 13, 14]
+            //};
+
+            // Biểu đồ doanh thu
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: revenueData.labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: revenueData.data,
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function (context) {
+                                    return 'Doanh thu: ' + context.parsed.y.toLocaleString('vi-VN') + ' VNĐ';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                },
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN') + ' VNĐ';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Biểu đồ số acc bán ra
+            const soldAccountCtx = document.getElementById('soldAccountChart').getContext('2d');
+            new Chart(soldAccountCtx, {
+                type: 'bar',
+                data: {
+                    labels: soldAccountData.labels,
+                    datasets: [{
+                        label: 'Số tài khoản bán ra',
+                        data: soldAccountData.data,
+                        backgroundColor: 'rgba(245, 87, 108, 0.7)',
+                        borderColor: 'rgba(245, 87, 108, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function (context) {
+                                    return 'Số lượng: ' + context.parsed.y + ' tài khoản';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Biểu đồ số acc thêm mới
+            const newAccountCtx = document.getElementById('newAccountChart').getContext('2d');
+            new Chart(newAccountCtx, {
+                type: 'bar',
+                data: {
+                    labels: newAccountData.labels,
+                    datasets: [{
+                        label: 'Số tài khoản thêm mới',
+                        data: newAccountData.data,
+                        backgroundColor: 'rgba(79, 172, 254, 0.7)',
+                        borderColor: 'rgba(79, 172, 254, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function (context) {
+                                    return 'Số lượng: ' + context.parsed.y + ' tài khoản';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            function resetFilter() {
+                document.getElementById('startDate').value = '';
+                document.getElementById('endDate').value = '';
+                document.getElementById('period').selectedIndex = 0;
+            }
+        </script>
+    }
+</div>

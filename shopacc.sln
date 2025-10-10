@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hinet.Model", "Hinet.Model\Hinet.Model.csproj", "{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hinet.Repository", "Hinet.Repository\Hinet.Repository.csproj", "{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hinet.Service", "Hinet.Service\Hinet.Service.csproj", "{47285FC7-3A39-41DB-A30C-BBB386F37636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonHelper", "CommonHelper\CommonHelper.csproj", "{68E8B2E8-ED8B-4A15-A2BF-2561023C210A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hinet.Web", "Hinet.Web\Hinet.Web.csproj", "{F2BE20D6-190B-49EA-80A4-E571E1E92B76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F7D8132F-0BAB-47C5-87AB-500B0ABBF991}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC9D48B-D6FA-41E6-84BC-A43713B5E8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC7D5EC-1324-49D5-B1E6-7239DC54220B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47285FC7-3A39-41DB-A30C-BBB386F37636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47285FC7-3A39-41DB-A30C-BBB386F37636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47285FC7-3A39-41DB-A30C-BBB386F37636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47285FC7-3A39-41DB-A30C-BBB386F37636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E8B2E8-ED8B-4A15-A2BF-2561023C210A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E8B2E8-ED8B-4A15-A2BF-2561023C210A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E8B2E8-ED8B-4A15-A2BF-2561023C210A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E8B2E8-ED8B-4A15-A2BF-2561023C210A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2BE20D6-190B-49EA-80A4-E571E1E92B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2BE20D6-190B-49EA-80A4-E571E1E92B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2BE20D6-190B-49EA-80A4-E571E1E92B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2BE20D6-190B-49EA-80A4-E571E1E92B76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C04BCED1-FA1F-45FE-8AD2-77E27706A91A}
+	EndGlobalSection
+EndGlobal

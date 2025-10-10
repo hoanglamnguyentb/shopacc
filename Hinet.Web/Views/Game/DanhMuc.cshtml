@@ -1,0 +1,375 @@
+﻿@model Hinet.Web.Models.GameVM.DanhMucGameVM
+@using CommonHelper.Number
+
+@{
+    var game = Model.Game;
+    var danhMuc = Model.DanhMucGame;
+    var taiKhoanPagedResult = Model.TaiKhoanPagedResult;
+}
+
+<div class="container c-container" id="account-list">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/game/@game.Slug" class="breadcrumb-link">@game.Name</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">@danhMuc.Name</a>
+        </li>
+    </ul>
+    <hr>
+    <section class="list-account" style="margin-top: 2px">
+        <div class="section-header justify-content-between c-py-16">
+            <h1 class="section-title">@danhMuc.Name </h1>
+            @if (danhMuc.LaLoaiDongGia != true)
+            {
+                <div class="show-modal-filter noselect" data-toggle="modal" data-target="#modal-filter">
+                    <i class="bi bi-search"></i> Tìm kiếm
+                </div>
+            }
+        </div>
+        <div class="sort-account c-mb-16 d-none d-lg-flex">
+            <div class="text-title fw-700" id="numberResult">@taiKhoanPagedResult.Count sản phẩm</div>
+            @if (danhMuc.LaLoaiDongGia != true)
+            {
+                <div class="value-sort d-flex align-items-center">
+                    <div class="text-title fw-700 c-mr-16">
+                        Sắp xếp theo:
+                    </div>
+                    <div>
+                        <a href="#" class="selection active md" data-sort="random">
+                            <i class="bi bi-shuffle"></i> Ngẫu nhiên
+                        </a>
+                        <a href="#" class="selection md" data-sort="price_start">
+                            <i class="bi bi-sort-down-alt"></i> Giá từ cao đến thấp
+                        </a>
+                        <a href="#" class="selection md" data-sort="price_end">
+                            <i class="bi bi-sort-up"></i> Giá từ thấp đến cao
+                        </a>
+                        <a href="#" class="selection md" data-sort="created_at_start">
+                            <i class="bi bi-clock-history"></i> Mới nhất
+                        </a>
+                        <a href="#" class="selection md" data-sort="created_at_end">
+                            <i class="bi bi-clock"></i> Cũ nhất
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-title fw-700 c-mb-8 d-lg-none">
+            @danhMuc.Name
+        </div>
+        <div id="account-list-container">
+            @Html.Partial("_TaiKhoanList", Model.TaiKhoanPagedResult, new ViewDataDictionary {
+                { "DanhMuc", danhMuc },
+                { "Game", game },
+            })
+        </div>
+    </section>
+    @if (HasRealContent(danhMuc.MoTa))
+    {
+        <!-- Start Mô tả -->
+        <div class="c-mb-16 c-mt-16">
+            <div class="card overflow-hidden detailViewBlock">
+                <div class="card-body c-px-16">
+                    <div class="content-desc hide detailViewBlockContent">
+                        <div class="data-content">
+                            @Html.Raw(danhMuc.MoTa)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="flex-grow-1 border-top"></div>
+                        <button id="toggleBtn" class="btn btn-light rounded-pill d-flex align-items-center flex-row gap-1" style="width: 200px">
+                            <span id="toggleContent">Hiện thêm</span>
+                            <i id="toggleIcon" class="ms-2 bi bi-chevron-down"></i>
+                        </button>
+
+                        <div class="flex-grow-1 border-top"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Mô tả -->
+    }
+
+    @if (danhMuc.LaLoaiDongGia != true)
+    {
+
+        <!-- Modal Filter -->
+        <div class="modal fade" id="modal-filter">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form action="" class="form-filter">
+                        <div class="modal-header p-2">
+                            <p class="modal-title center">Tìm kiếm</p>
+                            <button type="button" class="close" data-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body p-3">
+                            <div class="input-group">
+                                <span class="form-label">
+                                    Tìm kiếm
+                                </span>
+                                <input type="text" class="find" name="find" placeholder="Nhập skin,tên tướng,level...">
+                            </div>
+                            <div class="input-group">
+                                <label class="form-label">
+                                    Mã số
+                                </label>
+                                <input type="text" class="input-defautf-ct id" name="id_data" placeholder="Nhập mã số nick">
+                            </div>
+
+                            <div class="input-group">
+                                <label class="form-label">
+                                    Giá tiền
+                                </label>
+                                <select name="price_data" class="price">
+                                    <option value="" selected="">Chọn giá tiền</option>
+                                    <option value="0-50000">Dưới 50K</option>
+                                    <option value="50000-200000">Từ 50K - 200K</option>
+                                    <option value="200000-500000">Từ 200K - 500K</option>
+                                    <option value="500000-1000000">Từ 500K - 1 Triệu</option>
+                                    <option value="1000000-5000000">Trên 1 Triệu</option>
+                                    <option value="5000000-10000000">Trên 5 Triệu</option>
+                                    <option value="10000000">Trên 10 Triệu</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label class="form-label">
+                                    Trạng thái
+                                </label>
+                                <select name="status_data" class="" id="">
+                                    <option value="" selected="">Chọn trạng thái</option>
+                                    <option value="1">Chưa bán</option>
+                                    <option value="2">Đã bán</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer c-mt-24 c-mt-lg-16 p-3">
+                            <a href="javascript:void(0)" class="btn ghost js-reset-form">Xoá tìm kiếm</a>
+                            <button type="submit" class="btn primary js-submit-form">Xem kết quả</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Start Danh mục game khác -->
+    @Html.Action("DanhMucGameKhac", "Game", new { id = danhMuc.Id, area = "" })
+    <!-- End Danh mục game khác -->
+    <div id="binhLuanContainer">
+        @Html.Action("DanhSach", "BinhLuan", new { doiTuongId = danhMuc.Id, loaiDoiTuong = "DanhMucGame", area = "" })
+    </div>
+</div>
+
+<!-- Form filter + sort gom chung -->
+<form id="form-filter">
+    <input type="hidden" name="Slug" value="@danhMuc.Slug" />
+    <input type="hidden" name="sortQuery" value="random" />
+    <!-- Filter fields -->
+    <input type="hidden" name="UserNameFilter" value="" />
+    <input type="hidden" name="CodeFilter" value="" />
+    <input type="hidden" name="TrangThaiFilter" value="" />
+    <input type="hidden" name="GiaMin" value="" />
+    <input type="hidden" name="GiaMax" value="" />
+</form>
+
+<!-- Modal Viewmore -->
+<div class="modal fade login" id="viewMore" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog step-tab-panel modal-xl modal-dialog-centered login animated">
+        <!--        <div class="image-login"></div>-->
+        <div class="modal-content">
+            <div class="modal-header p-0" style="border-bottom: 0">
+                <div class="row marginauto modal-header-order-ct">
+                    <div class="col-12 span__donhang text-center" style="position: relative">
+                        <span id="detailTitle" class="text-title-bold fz-20"></span>
+                        <div class="close" data-dismiss="modal" aria-label="Close">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body modal-viewmore-body" id="detailContent">
+                <div class="data-content accounts_content">
+                    @game.MoTa
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (HasRealContent(danhMuc.ThongBao))
+{
+    <div class="modal fade modal__buyacount loadModal__acount modal-big"
+         id="noticeModal"
+         style="display: none"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-custom"
+             role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-center text-uppercase">
+                        Thông báo
+                    </h4>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body"
+                     style="font-family: helvetica, arial, sans-serif"
+                     id="noticeImage">
+                    @Html.Raw(danhMuc.ThongBao)
+                </div>
+                <div class="modal-footer c-p-8 text-right">
+                    <button class="btn btn-light"
+                            type="button"
+                            data-dismiss="modal">
+                        Đóng
+                    </button>
+                    <button class="btn primary openModalNoti"
+                            data-dismiss="modal">
+                        Tắt trong 1h
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+// Hàm dùng chung
+function loadTaiKhoan(page) {
+    var slug = '@danhMuc.Slug';
+    var formData = $("#form-filter").serializeArray(); // gom filter + sort
+
+    var data = { slug: slug, page: page };
+    $.each(formData, function (i, field) {
+        data[field.name] = field.value;
+    });
+
+    $.ajax({
+        url: "/Game/LoadTaiKhoan",
+        type: "GET",
+        data: data,
+        success: function (res) {
+            $("#account-list-container").html(res);
+            $('html, body').animate({ scrollTop: 0 }, 200);
+        }
+    });
+}
+
+// Phân trang
+$(document).on("click", ".js-change-page", function (e) {
+    e.preventDefault();
+    var page = $(this).data("page");
+    if (!page || $(this).parent().hasClass("disabled") || $(this).parent().hasClass("active")) return;
+    loadTaiKhoan(page);
+});
+
+// Sort
+$(document).on("click", ".selection", function (e) {
+    e.preventDefault();
+    $(".selection").removeClass("active");
+    $(this).addClass("active");
+    $("input[name='sortQuery']").val($(this).data("sort"));
+    loadTaiKhoan(1);
+});
+
+// Filter
+$(document).on("submit", "#form-filter", function (e) {
+    e.preventDefault();
+    loadTaiKhoan(1);
+});
+
+// Khi submit filter trong modal hoặc sheet
+$(document).on("submit", ".form-filter", function (e) {
+    e.preventDefault();
+
+    // Lấy dữ liệu filter từ modal/sheet
+    var find = $(this).find("input[name='find']").val();
+    var code = $(this).find("input[name='id_data']").val();
+    var status = $(this).find("select[name='status_data']").val();
+    var price = $(this).find("select[name='price_data']").val(); // ví dụ "200000-500000"
+
+    // Map sang hidden trong #form-filter
+    $("#form-filter input[name='UserNameFilter']").val(find);
+    $("#form-filter input[name='CodeFilter']").val(code);
+    $("#form-filter input[name='TrangThaiFilter']").val(status);
+
+    if (price) {
+        var parts = price.split("-");
+        $("#form-filter input[name='GiaMin']").val(parts[0] || "");
+        $("#form-filter input[name='GiaMax']").val(parts[1] || "");
+    } else {
+        $("#form-filter input[name='GiaMin']").val("");
+        $("#form-filter input[name='GiaMax']").val("");
+    }
+
+    // Gọi load Ajax
+    loadTaiKhoan(1);
+
+    // Đóng modal/sheet
+    $("#modal-filter").modal("hide");
+    $("#sheet-filter").attr("aria-hidden", "true");
+});
+
+$(document).on("click", ".js-reset-form", function (e) {
+    e.preventDefault();
+
+    // Reset các field trong form filter (modal/sheet)
+    var $form = $(this).closest("form");
+    $form.find("input[type=text], select").val("");
+
+    // Reset hidden trong #form-filter
+    $("#form-filter input[name='UserNameFilter']").val("");
+    $("#form-filter input[name='CodeFilter']").val("");
+    $("#form-filter input[name='TrangThaiFilter']").val("");
+    $("#form-filter input[name='GiaMin']").val("");
+    $("#form-filter input[name='GiaMax']").val("");
+
+    // Load lại dữ liệu ban đầu
+    loadTaiKhoan(1);
+
+    // Đóng modal/sheet nếu có
+    $("#modal-filter").modal("hide");
+    $("#sheet-filter").attr("aria-hidden", "true");
+});
+
+    $(document).ready(function () {
+        $('#toggleBtn').on('click', function () {
+            $('.detailViewBlockContent').toggleClass('hide');
+            if ($('.detailViewBlockContent').hasClass('hide')) {
+                $('#toggleContent').text('Hiện thêm');
+                $('#toggleIcon').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+            } else {
+                $('#toggleContent').text('Ẩn bớt');
+                $('#toggleIcon').removeClass('bi-chevron-down').addClass('bi-chevron-up');
+            }
+        });
+    })
+</script>
+
+<script>
+        window.currentDanhMucId = @danhMuc.Id;
+</script>
+@functions {
+    public static bool HasRealContent(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html)) return false;
+
+        // Loại bỏ toàn bộ thẻ HTML
+        var textOnly = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty).Trim();
+
+        return !string.IsNullOrWhiteSpace(textOnly);
+    }
+}
+

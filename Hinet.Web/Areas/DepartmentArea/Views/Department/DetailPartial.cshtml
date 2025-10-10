@@ -1,0 +1,184 @@
+﻿@using Hinet.Service.DepartmentService.Dto
+@using Hinet.Service.Constant
+@using Hinet.Service.Common
+@using Hinet.Web.Areas.DepartmentArea.Models
+@model DetailVM
+<div class="tabbable">
+    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" style="text-align:center">
+        <li class="active">
+            <a data-toggle="tab" href="#ThongTinChiTiet" aria-expanded="true">Thông tin</a>
+        </li>
+        @*<li class="">
+                <a data-toggle="tab" href="#NhanVien" aria-expanded="false">Danh sách nhân viên</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#ChucDanh" aria-expanded="false">Chức vụ</a>
+            </li>*@
+        <li class="">
+            <a data-toggle="tab" href="#LichSu" aria-expanded="false">Lịch sử</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="ThongTinChiTiet" class="tab-pane active">
+            <div class="row">
+                <table class="table-info table80" style="width:100%">
+                    <tr></tr>
+                    <tr>
+                        <td class="labelData">Mã</td>
+                        <td>@Model.ObjInfo.Code</td>
+                        <td class="labelData">Loại</td>
+                        <td>@(ConstantExtension.GetName<DepartmentTypeConstant>(Model.ObjInfo.Loai))</td>
+                    </tr>
+                    <tr>
+                        <td class="labelData">Tên</td>
+                        <td>
+                            @Model.ObjInfo.Name
+                            @*@if (Model.ObjInfo.IsHigh == true)
+                                {
+                                    <p><i>(Khoa/Phòng chất lượng cao)</i></p>
+                                }
+                                else
+                                {
+                                    <p><i>(Khoa/Phòng Bình thường)</i></p>
+                                }*@
+                        </td>
+                        <td class="labelData">Đơn vị cấp trên</td>
+                        <td>
+                            @if (Model.ObjInfo.parentDepartment != null)
+                            {
+                            <span>@Model.ObjInfo.parentDepartment.Name</span>
+                            }
+                        </td>
+                    </tr>
+                    <!--<tr>
+
+                    <td class="labelData">Trạng thái</td>
+                    <td>(ConstantExtension.GetName<DepartmentStatusConstant>(Model.ObjInfo.Status))</td>
+                    <td class="labelData"></td>
+                    <td>-->
+                    @*@Model.ObjInfo.Name*@
+                    <!--</td>
+                    </tr>-->
+                    <tr>
+                        <td class="labelData">Ngày tạo</td>
+                        <td>@string.Format("{0:dd/MM/yyyy HH:mm}", Model.ObjInfo.CreatedDate)</td>
+                        <td class="labelData">Ngày sửa</td>
+                        <td>@string.Format("{0:dd/MM/yyyy HH:mm}", Model.ObjInfo.UpdatedDate)</td>
+                    </tr>
+                </table>
+
+                <div class="align-center padding10px">
+                    @*<a href="/DepartmentArea/Department/SapNhap/@Model.ObjInfo.Id" class="btn btn-primary btn-sm">Sáp nhập</a>
+                        <a href="/DepartmentArea/Department/TachPhongBan/@Model.ObjInfo.Id" class="btn btn-success btn-sm">Tách Khoa phòng</a>
+                        <a href="javascript:void(0)" onclick="OpenModalAction('/DepartmentArea/Department/GiaiThe/@Model.ObjInfo.Id')" class="btn btn-danger btn-sm">Giải thể</a>*@
+                </div>
+            </div>
+            <div class="row">
+                <fieldset style="padding:20px; border: 1px solid; margin:10px">
+                    <label style="font-size:13px">Mô tả phòng ban</label>
+                    <div>
+                        <span>@Model.ObjInfo.Mota</span>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        @*<div id="NhanVien" class="tab-pane">
+                <div class="row">
+                    <table class="table-info table100">
+
+                        <tr>
+                            <th>STT</th>
+                            <th>Họ Tên</th>
+                            <th>Ngày sinh</th>
+                            <th>Chức vụ</th>
+                        </tr>
+
+                        @if (Model.lyLich2Cs != null && Model.lyLich2Cs.Any())
+                        {
+                            foreach (var item in Model.lyLich2Cs)
+                            {
+
+                                <tr>
+                                    <td>@(Model.lyLich2Cs.IndexOf(item) + 1)</td>
+                                    <td>@item.HoTen</td>
+                                    <td>@string.Format("{0:dd/MM/yyyy}", item.Ngaysinh)</td>
+                                    <td></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="4" class="text-center text-danger">Không có nhân viên</td></tr>
+                        }
+                    </table>
+                </div>
+            </div>*@
+        @*<div id="ChucDanh" class="tab-pane">
+                <div class="row">
+                    <a class="btn btn-primary btn-xs" style="margin:10px;" href="javascript:void(0)" onclick="CreateAction('/PhongBanChucVuArea/PhongBanChucVu/Create/@Model.ObjInfo.Id')"><i class="fa fa-plus"></i> Thêm chức vụ</a>
+                    <ul>
+                        @if (Model.phongBanChucVuDtos != null)
+                        {
+                            foreach (var item in Model.phongBanChucVuDtos)
+                            {
+                                <li>@item.MaChucVu_DM.Name <a href="javascript:void(0)" onclick="DeleteAction('/PhongBanChucVuArea/PhongBanChucVu/delete/@item.Id')"><i class="fa fa-remove red"></i></a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>*@
+        <div id="LichSu" class="tab-pane">
+            <div class="row">
+                <div id="tbl-history" class="hntbl-cover">
+                    <div class="row">
+                        @if (Model.historyDtos != null && Model.historyDtos.Count == 0)
+                        {
+                        <div style="padding-left:20px;">Không có dữ liệu</div>
+                        }
+                        else
+                        {
+                        <table class="table">
+                            @foreach (var item in Model.historyDtos)
+                                {
+                            <tr class="col-sm-12 log-noi-dung">
+                                <td class="col-sm-4 seperated-cell">
+
+                                    @if (item.userInfo != null)
+                                            {
+                                    <img class='nav-user-photo smallSize' src='/@item.userInfo.Avatar' onerror='this.src ="/assets/images/avatars/userNew.png"' title='@item.CreatedBy' />
+                                            }
+                                            else
+                                            {
+                                    <img class='nav-user-photo smallSize' src='/assets/images/avatars/userNew.png' title='@item.CreatedBy' />
+
+                                            }
+
+                                    <div class="inline pull-right pdl10">
+                                        <div class="boldText">@item.CreatedBy</div>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i> Ngày @string.Format("{0:dd/MM/yyyy}", item.CreatedDate)
+                                        <div><i class="fa fa-clock-o" aria-hidden="true"></i> Lúc @string.Format("{0:HH:mm:ss}", item.CreatedDate)</div>
+                                    </div>
+                                </td>
+                                <td class="col-sm-8 seperated-cell-2" style="border-top:none">
+
+                                    <div class="boldText"><i class="fa fa-angle-double-left" aria-hidden="true"></i> @item.HistoryContent <i class="fa fa-angle-double-right" aria-hidden="true"></i></div>
+
+                                    @if (!string.IsNullOrEmpty(item.Comment))
+                                            {
+
+                                    <div><i class="fa fa-newspaper-o" aria-hidden="true"></i> Nội dung: </div>
+                                    <div>@Html.Raw(HttpUtility.HtmlDecode(item.Comment))</div>
+                                    <div>@Html.Raw(item.Note)</div>
+
+                                            }
+                                </td>
+                            </tr>
+                                }
+                        </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

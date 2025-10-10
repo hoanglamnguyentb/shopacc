@@ -1,0 +1,80 @@
+﻿@using CommonHelper.Number;
+@model List<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
+
+@if (Model != null && Model.Any())
+{
+    <div id="showslideracc">
+        <section class="section-category section-category_c same-price">
+            <div class="section-header">
+                <h2 class="section-title">
+                    Tài khoản đã xem
+                </h2>
+            </div>
+
+            <div class="swiper class-config-demo card-list swiper-container-horizontal" style="cursor: grab;">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model)
+                    {
+                        <div class="swiper-slide acc-related-@item.Code" style="width: 233.6px; margin-right: 16px;">
+                            <div class="item-category">
+                                <div class="card">
+                                    <a href="/acc/@item.Code" class="card-body scale-thumb c-p-16 c-p-lg-12">
+                                        <div class="account-thumb c-mb-8">
+                                            <img onerror="imgError(this)"
+                                                 src="@(string.IsNullOrEmpty(item.AnhBia)
+                                                         ? Url.Content("~/Content/images/no-image.jpg")
+                                                         : item.AnhBia)"
+                                                 alt="@item.Code"
+                                                 class="account-thumb-image lazy" />
+                                        </div>
+
+                                        <div class="account-title c-mb-8">
+                                            <div class="text-title fw-700 text-limit limit-1">
+                                                #@item.Code
+                                            </div>
+                                        </div>
+
+                                        @if (item.ListGTTT != null && item.ListGTTT.Any())
+                                        {
+                                            foreach (var gttt in item.ListGTTT)
+                                            {
+                                                <div class="info-attr">
+                                                    @gttt.ThuocTinhTxt: @gttt.GiaTriTxt
+                                                </div>
+                                            }
+                                        }
+
+                                        <div class="price mt-auto">
+                                            @if (item.GiaKhuyenMai.HasValue)
+                                            {
+                                                <div class="price-current w-100">
+                                                    @NumberHelper.FormatMoneyVN(item.GiaKhuyenMai)
+                                                </div>
+                                                <div class="price-old c-mr-8">
+                                                    @NumberHelper.FormatMoneyVN(item.GiaGoc)
+                                                </div>
+                                                <div class="discount">
+                                                    @NumberHelper.TinhPhanTramGiamText(item.GiaGoc, item.GiaKhuyenMai.Value)
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="price-current w-100">
+                                                    @NumberHelper.FormatMoneyVN(item.GiaGoc)
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
+                <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
+            </div>
+        </section>
+    </div>
+}
+

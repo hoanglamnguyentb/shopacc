@@ -1,0 +1,110 @@
+﻿@model List<Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto>
+@using CommonHelper.Number
+
+<div class="container c-container" id="account-list">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">Tài khoản bạn đã xem</a>
+        </li>
+    </ul>
+    <hr>
+    <section class="list-account" style="margin-top: 2px">
+        <div class="section-header justify-content-between c-py-16">
+            <h1 class="section-title">Tài khoản đã xem</h1>
+        </div>
+
+        <div class="listing-account list-content">
+            @if (Model == null || !Model.Any())
+            {
+                @Html.Partial("_EmptyState", "Hiện tại bạn chưa xem tài khoản nào. Hãy khám phá và quay lại đây sau nhé!")
+            }
+            else
+            {
+                foreach (var tk in Model)
+                {
+                    var danhMuc = tk.DanhMucGame;
+                    if (danhMuc.LaLoaiDongGia.GetValueOrDefault())
+                    {
+                        <div class="item-account">
+                            <div class="card card-hover h-100">
+                                <a href="/mua-acc/@danhMuc.Slug" class="card-body scale-thumb buyacc" data-payment="1">
+                                    <div class="account-thumb c-mb-8 position-realative">
+                                        <img onerror="imgError(this)"
+                                             src="@(string.IsNullOrEmpty(danhMuc.DuongDanAnh) ? Url.Content("~/assets/wwwroot/images/no-image.png") : danhMuc.DuongDanAnh)"
+                                             alt="@danhMuc.Id"
+                                             class="account-thumb-image lazy">
+                                    </div>
+                                    <div class="account-title">
+                                        <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
+                                    </div>
+                                    <div class="price">
+                                        @if (danhMuc.GiaKhuyenMai.HasValue)
+                                        {
+                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaKhuyenMai)</div>
+                                            <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                                            <div class="discount">@NumberHelper.TinhPhanTramGiamText(danhMuc.GiaGoc, danhMuc.GiaKhuyenMai.Value)</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                                        }
+                                    </div>
+                                    <div class="price c-pt-12 c-pt-lg-8">
+                                        <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="item-account">
+                            <div class="card card-hover h-100">
+                                <a href="/acc/@tk.Code" class="card-body scale-thumb">
+                                    <div class="account-thumb c-mb-8 position-realative">
+                                        <img onerror="imgError(this)"
+                                             src="@(string.IsNullOrEmpty(tk.AnhBia) ? Url.Content("~/assets/wwwroot/images/no-image.png") : tk.AnhBia)"
+                                             alt="@tk.Code"
+                                             class="account-thumb-image lazy">
+                                    </div>
+                                    <div class="account-title">
+                                        <div class="text-title fw-700 text-limit limit-1">Nick @tk.Game.Name</div>
+                                    </div>
+                                    <div class="account-info c-mb-8">
+                                        <div class="info-attr c-mb-8">
+                                            ID: #@tk.Code
+                                        </div>
+                                        @foreach (var gt in tk.ListGTTT)
+                                        {
+                                            if (!string.IsNullOrEmpty(gt.GiaTriTxt))
+                                            {
+                                                <div class="info-attr">
+                                                    @gt.ThuocTinhTxt: @gt.GiaTriTxt
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="price">
+                                        @if (tk.GiaKhuyenMai.HasValue)
+                                        {
+                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaKhuyenMai)</div>
+                                            <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                                            <div class="discount">@NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai.Value)</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </section>
+</div>

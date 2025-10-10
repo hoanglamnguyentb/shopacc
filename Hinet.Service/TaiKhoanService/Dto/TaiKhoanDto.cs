@@ -1,0 +1,27 @@
+using Hinet.Model.IdentityEntities;
+using Hinet.Model.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Hinet.Service.Common;
+using Hinet.Service.Constant;
+
+namespace Hinet.Service.TaiKhoanService.Dto
+{
+    public class TaiKhoanDto : TaiKhoan
+    {
+        public Game Game { get; set; }
+        public DanhMucGame DanhMucGame { get; set; }
+        public string DanhMucGameTxt { get; set; }
+        public List<TaiLieuDinhKem> TaiLieuDinhKemList { get; set; } = new List<TaiLieuDinhKem>();
+        public string AnhBia { get; set; }
+        public string TrangThaiTxt { get {
+                return ConstantExtension.GetName<TrangThaiTaiKhoanConstant>(TrangThai);
+            }
+        }
+        public List<GiaTriThuocTinh> ListGTTT { get; set; }
+        public long? IdNguoiMuaAcc { get; set; }
+    }
+}

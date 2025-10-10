@@ -1,0 +1,40 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Web.Models.GameVM.IndexVM
+@{
+    var game = Model.Game;
+    var listDanhMucGame = Model.ListDanhMucGame;
+}
+
+<div class="container c-container" id="account-category">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">@(game != null ? game.Name : "Mua acc")</a>
+        </li>
+    </ul>
+    <hr />
+    <section class="listing-service c-mb-16">
+        <div class="section-header justify-content-between c-py-16">
+            <h2 class="section-title">
+                Danh sách danh mục game @(game != null ? game.Name : "")
+            </h2>
+        </div>
+        <div class="list-category">
+            @if (!listDanhMucGame.Any())
+            {
+                <div class="col-12 text-center my-3" id="text-empty">
+                    @Html.Partial("_EmptyState", "Hiện chưa có danh mục nào phù hợp. Hệ thống sẽ sớm cập nhật, vui lòng quay lại sau.")
+                </div>
+            }
+            else
+            {
+                foreach (var dmGame in listDanhMucGame)
+                {
+                    @Html.Partial("_ItemDMGameCategory", dmGame)
+                }
+            }
+        </div>
+    </section>
+</div>

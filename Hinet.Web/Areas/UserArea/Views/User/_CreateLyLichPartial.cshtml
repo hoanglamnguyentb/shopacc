@@ -1,0 +1,90 @@
+﻿@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.UserArea.Models
+<style>
+</style>
+@model CreateLyLichVM
+@{
+
+}
+
+<div class="modal-dialog" id="demo">
+    @using (Ajax.BeginForm("CreateLyLich", "User", new { @area = "UserArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "createForm" }))
+    {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x=>x.IdLylich)
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+ <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="center">
+                <h4 class="modal-title">Tạo tài khoản cho nhân sự</h4>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Tài khoản <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Mật khẩu <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Email <span class="red">*</span></label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4">Điện thoại</label>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer center">
+            <button type="submit" class="btn btn-primary btn-sm">Hoàn thành</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+    }
+</div>
+
+<script>
+
+	$("#IdDepartment").select2();
+	$("#IdChucVu").select2();
+
+        // validation
+        //$('#my-form').validate({
+        //    errorPlacement: function (error, element) {
+        //        console.log("placement");
+        //        if (element.is("select.chosen-select")) {
+        //            console.log("placement for chosen");
+        //            // placement for chosen
+        //            element.next("div.chzn-container").append(error);
+        //        } else {
+        //            // standard placement
+        //            error.insertAfter(element);
+        //        }
+        //    }
+	//});
+</script>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,8 @@
+﻿@model string
+
+<div class="empty w-100 d-flex flex-column justify-content-center align-items-center" id="text-empty">
+    <img src="/assets/wwwroot/images/no-image.png" alt="empty state" />
+    <div class="text-muted text-center" style="max-width: 700px;">
+        @Html.Raw(Model ?? "Hiện tại không có dữ liệu phù hợp với yêu cầu của bạn.<br />Hệ thống sẽ được cập nhật thường xuyên, vui lòng quay lại sau để theo dõi thông tin mới nhất.")
+    </div>
+</div>

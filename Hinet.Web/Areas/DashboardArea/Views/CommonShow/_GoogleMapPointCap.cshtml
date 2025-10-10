@@ -1,0 +1,253 @@
+﻿
+@using Newtonsoft.Json;
+@{
+    var numberMap = ViewBag.numberMap;
+    var latStart = ViewBag.latStart;
+    var lngStart = ViewBag.lngStart;
+    var lngEnd = ViewBag.lngEnd;
+    var latEnd = ViewBag.latEnd;
+}
+<style>
+    #map {
+        width: 100%;
+        height: @(ViewBag.height)px;
+    }
+    html
+</style>
+
+<div id="map"></div>
+<script>
+
+
+
+
+    var latStartP, lngStartP;
+    var latEndP, lngEndP
+
+    var myLatlngStart, myLatlngEnd;
+
+
+
+    latEndP = parseFloat("@latEnd".replace(',', '.'));
+    lngEndP = parseFloat("@lngEnd".replace(',', '.'));
+
+
+    latStartP = parseFloat("@latStart".replace(',', '.'));
+    lngStartP = parseFloat("@lngStart".replace(',', '.'));
+
+
+    if (latStartP && lngStartP) {
+        myLatlngStart = { lat: parseFloat("@latStart".replace(',', '.')), lng:parseFloat("@lngStart".replace(',', '.')) };
+    }
+
+    if (latEndP && lngEndP) {
+        myLatlngEnd  = { lat: parseFloat("@latEnd".replace(',', '.')), lng:parseFloat("@lngEnd".replace(',', '.')) };
+    }
+    var map;
+    var marker = null;
+    var markercheck = [];
+    var myLatlng = { lat: parseFloat("@ViewBag.lat".replace(',', '.')), lng:parseFloat("@ViewBag.lng".replace(',', '.')) };
+
+    var mks = [];
+    var iconBase ="https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+    function initMap() {
+
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: myLatlng,
+                    zoom: @ViewBag.ZoomLevel,
+                    mapTypeControl: false
+                });
+
+
+                if (latStartP && lngStartP) {
+
+                    const uluru = { lat: latStartP, lng: lngStartP };
+                    const contentString =
+                        '<div id="content">' +
+                        '<div id="siteNotice">' +
+                        "</div>" +
+                        '<h1 id="firstHeading" class="firstHeading">Điểm đã chọn</h1>' +
+                        "</div>" +
+                        "</div>";
+                    const infowindow = new google.maps.InfoWindow({
+                        content: contentString,
+                        ariaLabel: "Uluru",
+                    });
+                    marker = new google.maps.Marker({
+                        position: uluru,
+                        map,
+                        title: "Uluru (Ayers Rock)",
+                    });
+
+                    marker.addListener("click", () => {
+                        infowindow.open({
+                            anchor: marker,
+                            map,
+                        });
+                    });
+                }
+
+
+                
+
+                if (latStartP && lngStartP) {
+                    var startmarker = new google.maps.Marker({
+                        position: {
+                            lat: latStartP, lng: lngStartP
+                        },
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/start.png',
+                            scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                        }
+                    });
+                    markercheck[0] = startmarker;
+                    markers.push(startmarker);
+
+                }
+
+                if (latEndP && lngEndP) {
+                    var endmarker = new google.maps.Marker({
+                        position: {
+                            lat: latEndP, lng: lngEndP
+                        },
+                        map: map,
+                        icon: {
+                            url: '/Uploads/IconMarker/end.png',
+                            scaledSize: new google.maps.Size(32, 32) // Adjust the size as per your requirements
+                        }
+                    });
+                    markercheck[1] = endmarker;
+                    markers.push(endmarker);
+
+
+                }
+        var lastValidCenter = map.getCenter();
+
+        google.maps.event.addListener(map, 'center_changed', function () {
+            if (allowedBounds.contains(map.getCenter())) {
+                // Chỉ lưu trữ trung tâm hợp lệ khi map nằm trong bounding box
+                lastValidCenter = map.getCenter();
+                return;
+            }
+
+            // Nếu map di chuyển ra khỏi bounding box, di chuyển trở lại trung tâm hợp lệ gần nhất
+            map.panTo(lastValidCenter);
+        });
+
+        //// Define the WMS URL
+        //var wmsUrl = 'http://123.31.20.197:8080/geoserver/gisthanhhoa/wms';
+
+        //// Define parameters for the WMS layer
+        //var wmsParams = {
+        //    layers: 'gisthanhhoa:gisBasemapTH',
+        //    format: 'image/png', // Or the format your WMS service supports
+        //    transparent: true
+        //};
+
+
+        //var boundingbox;
+
+
+        //// Initialize the WMS layer
+        //var wmsLayer = new google.maps.ImageMapType({
+        //    getTileUrl: function (coord, zoom) {
+        //        var proj = map.getProjection();
+        //        var zfactor = Math.pow(2, zoom);
+        //        // TileBounds
+        //        var top = proj.fromPointToLatLng(new google.maps.Point(coord.x * 256 / zfactor, coord.y * 256 / zfactor));
+        //        var bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * 256 / zfactor, (coord.y + 1) * 256 / zfactor));
+        //        // Bounding box
+        //        var bbox = top.lng() + "," + bot.lat() + "," + bot.lng() + "," + top.lat();
+
+
+
+        //        //debugger
+        //        boundingbox = {
+        //            north: top.lat(),
+        //            south: bot.lat(),
+        //            east: top.lng(),
+        //            west: bot.lng()
+
+        //        }
+
+
+        //        // Create WMS URL
+        //        var url = wmsUrl + '?service=WMS' +
+        //            '&version=1.1.0' +
+        //            '&request=GetMap' +
+        //            '&layers=' + wmsParams.layers +
+        //            '&styles=' +
+        //            '&bbox=' + bbox +
+        //            '&width=256' +
+        //            '&height=256' +
+        //            '&srs=EPSG:4326' +
+        //            '&format=' + wmsParams.format +
+        //            '&transparent=' + wmsParams.transparent;
+        //        return url;
+        //    },
+        //    tileSize: new google.maps.Size(256, 256),
+        //    opacity: 1.0, // Set opacity as needed
+        //    name: 'Your WMS Layer'
+        //});
+
+        const wmsLayer = getWMSLayer(map, WMS_UrlMap.layers_BaseMap, '', 1.0);
+
+        map.overlayMapTypes.push(wmsLayer);
+
+
+        google.maps.event.addListenerOnce(wmsLayer, 'tilesloaded', function () {
+            var mapBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(boundingbox.south, boundingbox.west),
+                new google.maps.LatLng(boundingbox.north, boundingbox.east)
+            );
+
+            map.fitBounds(mapBounds);
+        });
+            }
+
+
+    function drawRoute(startPoint, endPoint) {
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        var request = {
+            origin: startPoint,
+            destination: endPoint,
+            travelMode: 'DRIVING'
+        };
+
+        directionsService.route(request, function (result, status) {
+            if (status == 'OK') {
+                directionsRenderer.setDirections(result);
+            }
+        });
+    }
+
+
+
+    window.initMap = initMap;
+
+
+    var markers = [];
+
+    // Function to remove all markers from the map
+    function removeMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        }
+        markers.length = 0; // Clear the markers array
+    }
+
+
+    function removeMarkersCheck() {
+        for (let i = 0; i < markercheck.length; i++) {
+            markercheck[i].setMap(null);
+        }
+        markercheck.length = 0; // Clear the markers array
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgEUiZdXI2mRi-wE6aUroT_lPgVbnBAsc&language=vi-VN&callback=initMap&v=weekly"
+        defer></script>

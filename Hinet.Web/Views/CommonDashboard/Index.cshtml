@@ -1,0 +1,172 @@
+﻿@using Hinet.Web.Models
+@using System.Web.Configuration
+@using Hinet.Service.AppUserService.Dto
+@model LoginViewModel
+@{ ViewBag.Title = "Đăng nhập hệ thống";
+    Layout = null;
+    var header1 = WebConfigurationManager.AppSettings["Login_Header1"];
+    var header2 = WebConfigurationManager.AppSettings["Login_Header2"];
+    var Login_TenDonVi = WebConfigurationManager.AppSettings["Login_TenDonVi"];
+    var Login_DiaChi = WebConfigurationManager.AppSettings["Login_DiaChi"];
+    var Login_DienThoai = WebConfigurationManager.AppSettings["Login_DienThoai"];
+    var Login_Website = WebConfigurationManager.AppSettings["Login_Website"];
+    var Login_Slogan = WebConfigurationManager.AppSettings["Login_Slogan"]; }
+
+<style>
+
+    /* CSS */
+    .button-71 {
+        background-color: #0078d0;
+        border: 0;
+        border-radius: 56px;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        padding: 16px 21px;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all .3s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        margin: 5%;
+    }
+
+        .button-71:before {
+            background-color: initial;
+            background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+            border-radius: 125px;
+            content: "";
+            height: 50%;
+            left: 4%;
+            opacity: .5;
+            position: absolute;
+            top: 0;
+            transition: all .3s;
+            width: 92%;
+        }
+
+        .button-71:hover {
+            box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+            transform: scale(1.05);
+        }
+
+    @@media (min-width: 768px) {
+        .button-71 {
+            padding: 16px 48px;
+        }
+    }
+</style>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="~/Content/Custom/login.css" />
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+
+<body>
+    <div id="main-page">
+        <div id="header-login">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h1 class="sitename">
+                            @header1
+                        </h1>
+                        <h2 class="sitesoft namesoft">
+                            @header2
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 pd-0" id="form-login">
+            <div class="container">
+                <div class="col-sm-12">
+                    <div class="col-sm-6 hidden-xs left-form" style="text-align: center">
+                        <img style="width:200px" src="~/Content/images/nuoc.png">
+                        @if (!string.IsNullOrEmpty(Login_Slogan))
+                        {
+                        <h3 class="slogan" style="font-size: 17px;color: white !important">
+                            @Login_Slogan
+                        </h3>}
+
+                        <a style="text-transform:uppercase; text-decoration:none;">@Login_TenDonVi</a>
+                        <div class="diachi">
+                            <h3>@Login_DiaChi</h3>
+                            <div class="col-sm-6 fax-number" style="text-align:right; padding-left:0">
+                                <p style="margin:0"><span>Điện thoại:</span> <div><a href="tel:@Login_DienThoai" class="contactBox">@Login_DienThoai</a></div></p>
+                            </div>
+                            <div class="col-sm-6 fax-number" style="text-align:left; padding-right:0">
+                                <p style="margin:0"><span>Website:</span> <div><a href="@Login_Website" class="contactBox">@Login_Website</a></div></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12 right-form">
+
+                        <div class="modal-body center">
+                            <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+                            <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+                            <div class="col-sm-6">
+                                <a href="/CommonDashboard/map"><button class="button-71" role="button">Khai thác thông tin</button></a>
+                            </div>
+
+                            @using Hinet.Service.AppUserService.Dto
+                            @{ var currentUser = (UserDto)SessionManager.GetUserInfo(); }
+                            @if (currentUser != null)
+                            {
+                            <div class="col-sm-6">
+                                <a href="/DashboardArea/Dashboard"> <button class="button-71" role="button">Quản lý CSDL</button></a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="#"> <button class="button-71" role="button">Kết nối API</button></a>
+                            </div>
+                            <div class="col-sm-6">
+                                <a href="/SmartReportArea/SmartReport"> <button class="button-71" role="button">Smart report</button></a>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="col-sm-6">
+                                <button data-url="/DashboardArea/Dashboard" class="button-71 redirectButton" role="button">Quản lý CSDL</button>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <button data-url="#" class="button-71 redirectButton" role="button">Kết nối API</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button data-url="/SmartReportArea/SmartReport" class="button-71 redirectButton" role="button">Smart report</button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script>
+
+        document.querySelectorAll(".redirectButton").forEach(function (button) {
+            button.addEventListener("click", function () {
+                var url = this.getAttribute("data-url");
+                window.location.href = "/AccountAdmin/Login?returnUrl=" + encodeURIComponent(url);
+            });
+        });
+    </script>
+</body>
+</html>

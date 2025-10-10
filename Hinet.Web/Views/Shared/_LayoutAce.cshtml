@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+@using Hinet
+@using Hinet.Web.Core
+@using Hinet.Service.AppUserService.Dto
+@using Microsoft.AspNet.Identity
+@using Hinet.Service.Constant
+@{
+    var isAjaxAsync = 0;
+    if (ViewBag.AjaxAsync != null)
+    {
+        isAjaxAsync = 1;
+    }
+    var userInfo = SessionManager.GetUserInfo() as UserDto;
+    long jsUserId = 0;
+    if (userInfo != null)
+    {
+
+        jsUserId = userInfo.Id;
+    }
+}
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/images/logo.ico">
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    @Styles.Render("~/assets/appcss")
+    <link rel="stylesheet" href="~/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    @Styles.Render("~/Content/bootstrap-datepicker.css")
+    @*@Styles.Render("~/Content/Common.css")*@
+    @RenderSection("css", required: false)
+    @Scripts.Render("~/assets/appjs")
+    <script src="~/assets/js/ace.min.js"></script>
+    @Scripts.Render("~/bundles/datepicker")
+    <script src="~/assets/js/ace-extra.min.js">
+    </script>
+    <script src="~/assets/js/bootstrap-multiselect.min.js">
+    </script>
+    <script src="~/assets/js/jquery.bootstrap-duallistbox.min.js">
+    </script>
+    <link rel="stylesheet" href="~/assets/css/bootstrap-duallistbox.min.css" />
+    <link href="~/assets/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.inputmask.bundle.min.js">
+    </script>
+    <link href="~/assets/plugins/toastify-js/toastify.min.css" rel="stylesheet" />
+    <script src="~/assets/plugins/toastify-js/toastify.min.js"></script>
+    <script src="~/assets/js/bootstrap-wysiwyg.min.js">
+    </script>
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+    <link href="~/assets/css/sofm.css" rel="stylesheet" />
+    <link href="~/assets/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    @*<link href="~/assets/font-awesome/5.9.0/css/all.min.css" rel="stylesheet" />*@
+    <link href="~/assets/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="hinet-preloader" style="position: absolute;z-index: 20000;width: 100%;height: 100%;display:none;">
+        <div class="loader-container">
+            <div class="loading-title">Đang xử lý...</div>
+            <div class="lds-facebook"><div></div><div></div><div></div></div>
+        </div>
+    </div>
+
+    <div class="home-header">
+        <div class="home-header-left">
+            <div class="home-btn-hamburger" id="homeBtnHamburger" onclick="toggleNav()" hidden>
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+            <div class="home-logo">
+                <img src="~/assets/images/logo.png" />
+            </div>
+            <span class="text home-title" style="display: none">
+                <span>Hệ thống quản lý server Ký số</span>
+            </span>
+        </div>
+        <div class="navbar-buttons navbar-header navbar-mobile pull-right home-header-right" role="navigation">
+            @Html.Partial("_TopRightBarPartial")
+        </div>
+        <div class="runtext-container">
+            <div class="text-container" id="boxRunText">
+            </div>
+        </div>
+    </div>
+
+    <div class="home-content">
+        <div class="home-content-left scroll">
+            <!--Start Sidenav -->
+            @Html.Partial("_MenuPartial")
+            <!--End Sidenav -->
+        </div>
+        <div class="home-content-right">
+            <section class="home-section" id="mainPanel">
+
+                <div class="page-content">
+                    <!-- /.ace-settings-container -->
+                    <div class="page-header">
+                        <div class="bcca-breadcrumb">
+                            <div class="bcca-breadcrumb-item">@ViewBag.PageName</div>
+                            <div class="bcca-breadcrumb-item">@ViewBag.ModuleName</div>
+                            <div class="bcca-breadcrumb-item">
+                                <a href="#" style="color: #393939"><i class="bi bi-house-fill"></i></a>
+                            </div>
+                        </div>
+                        <div class="action-right-bar">
+                            @RenderSection("ActionBarRight", false)
+                        </div>
+                    </div><!-- /.page-header -->
+                    <div>
+                        @RenderBody()
+                    </div>
+                    <div id="MasterModalFixed" class="modal fade">
+                    </div>
+                    <div id="MasterModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static" style="z-index:1051">
+                    </div>
+                    <div id="ModalCreate" class="modal fade" data-keyboard="false" data-backdrop="static" style="z-index:1052">
+                    </div>
+                    <div id="ModalEdit" class="modal fade" data-keyboard="false" data-backdrop="static" style="z-index:1052">
+                    </div>
+                    <div id="ModalDetail" class="modal fade" data-keyboard="false" data-backdrop="static" style="z-index:1052">
+                    </div>
+                    <div id="ModalSave" class="modal fade" data-keyboard="false" data-backdrop="static" style="z-index:1052">
+                    </div>
+                </div><!-- /.page-content -->
+            </section>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery.datetimepicker.min.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+    <script src="/Scripts/jquery.signalR-2.4.1.min.js">
+    </script>
+    <script src="/signalr/hubs">
+    </script>
+
+    <script>
+        var jsUserId = parseInt(eval('@jsUserId'));
+        var typeAcc = '@AccountTypeConstant.BussinessUser'
+        $(document).ready(function () {
+            $(".table-scroll .hinet-table").clone(true).appendTo('.table-scroll').addClass('clone');
+            $(document).ready(function () {
+                setInterval(function () {
+                    var firstItemNoti = $("#boxRunText .textItem.active").each(function () {
+                        $(this).remove();
+                    });
+                    showBroadcastNoti();
+                }, 10000)
+            });
+            if ('@isAjaxAsync' == 0) {
+                $(document)
+                    .ajaxStart(function () {
+                        $("#hinet-preloader").css("display", "block");
+                    })
+                    .ajaxStop(function () {
+                        $("#hinet-preloader").css("display", "none");
+                    });
+            }
+        })
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

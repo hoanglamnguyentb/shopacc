@@ -1,0 +1,639 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var game = Model.Game;
+    var danhMuc = Model.DanhMucGame;
+    var giaThanhToan = Model.GiaKhuyenMai.HasValue ? Model.GiaKhuyenMai : Model.GiaGoc;
+    var thanhToanDuoc = currentUser != null && currentUser.Balance >= giaThanhToan;
+    var isNguoiMua = currentUser != null &&  currentUser.Id == Model.IdNguoiMuaAcc;
+    var isChoPhepTruyCap = (currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc)
+                       || danhMuc.LaLoaiDongGia != true;
+    if (!isChoPhepTruyCap)
+    {
+        <div class="empty w-100 d-flex flex-column justify-content-center align-items-center c-mt-48" id="text-empty">
+            <img src="/assets/wwwroot/images/no-image.png" alt="empty state" />
+            <div class="text-muted text-center" style="max-width: 700px;">
+                Đường dẫn không tồn tại.
+            </div>
+        </div>
+        return;
+    }
+}
+
+<div class="container c-container" id="account-detail">
+    <div class="data__menuacc">
+        <ul class="breadcrumb-list">
+            <li class="breadcrumb-item">
+                <a href="/" class="breadcrumb-link">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/game/@game.Slug" class="breadcrumb-link">@game.Name</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="/mua-acc/@danhMuc.Slug" class="breadcrumb-link">
+                    @danhMuc.Name
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="javascript:void(0)" class="breadcrumb-link">Chi tiết nick</a>
+            </li>
+        </ul>
+    </div>
+    <hr />
+    <section class="acc-detail data-account-detail">
+        <div class="section-content row">
+            <div class="col-12 col-lg-7 c-pr-8 c-pr-lg-15 c-pt-16">
+                <div class="card account-thumb">
+                    <div class="card-body">
+                        <!-- Swiper -->
+                        <div class="swiper swiper-chitiet-tk brs-8" style="height: 400px">
+                            <div class="swiper-wrapper">
+                                @foreach (var item in Model.TaiLieuDinhKemList)
+                                {
+                                    <div class="swiper-slide">
+                                        <img src="@Url.Content(item.DuongDanFile)"
+                                             alt="@item.TenTaiLieu"
+                                             onerror="imgError(this)" />
+                                    </div>
+                                }
+                            </div>
+                            <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
+                            <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body c-px-16">
+                        <!-- Swiper thumbnail (ảnh nhỏ) -->
+                        <div thumbsSlider="" class="swiper swiper-chitiet-thumbs c-mt-12">
+                            <div class="swiper-wrapper">
+                                @foreach (var item in Model.TaiLieuDinhKemList)
+                                {
+                                    <div class="swiper-slide" style="width:80px;height:80px;cursor:pointer;">
+                                        <img src="@Url.Content(item.DuongDanFile)"
+                                             alt="@item.TenTaiLieu"
+                                             class="w-100 h-100 object-cover brs-4"
+                                             onerror="imgError(this)" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Mota))
+                {
+                    <div class="card border shadow-sm c-p-16 c-mt-16">
+                        <div class="card-body">
+                            <h2 class="text-title-bold d-none d-lg-block c-mb-24 detailViewBlockTitle">Chi tiết dịch vụ</h2>
+                            <div class="content-desc detailViewBlockContent">
+                                @Model.Mota
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+            <div class="col-12 col-lg-5 c-pl-8 c-pl-lg-15">
+                <div class="js_sticky" data-top="140">
+                    <div class="card account-detail-info">
+                        <div class="card-body c-p-16 mx-n3 mx-lg-0">
+                            <div class="section-title title-color fz-lg-18 lh-lg-24">
+                                @danhMuc.Name
+                            </div>
+                            <div class="text-title fw-700 c-mb-6 d-none d-lg-block">Mã số: #@Model.Code</div>
+                            @if (Model.ListGTTT.Any())
+                            {
+                                <hr>
+                                <div class="text-title c-py-8 d-none d-lg-block">
+                                    Thông tin acc
+                                </div>
+                                <div class="row marginauto">
+                                    <div class="col-md-12 pr-0 scroll-default" style="padding-left: 0">
+                                        <table class="table-acc-info c-mb-24 d-none d-lg-table">
+                                            <tbody>
+                                                @foreach (var tt in Model.ListGTTT)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <span class="link-color">
+                                                                @tt.ThuocTinhTxt
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                @tt.GiaTriTxt
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                                @if (isNguoiMua)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <span class="link-color">
+                                                                Tài khoản
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span>
+                                                                @Model.UserName
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="link-color">
+                                                                Mật khẩu
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <div class="password-wrapper" style="display: inline-flex; align-items: center; gap: 4px;">
+                                                                <input type="password"
+                                                                       value="@Model.Password"
+                                                                       readonly
+                                                                       class="password-field"
+                                                                       style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right;" />
+
+                                                                <span 
+                                                                        class="toggle-password p-0"
+                                                                        title="Hiện/ẩn mật khẩu"
+                                                                        style="text-decoration: none;">
+                                                                    <i class="bi bi-eye"></i>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.TrangThai == Hinet.Service.Constant.TrangThaiTaiKhoanConstant.CHUABAN)
+                            {
+                                <div class="card disabled-color">
+                                    <div class="card-body text-center c-p-0">
+                                        @if (Model.GiaKhuyenMai.HasValue)
+                                        {
+                                            <div class="price-acc">
+                                                <div class="price-old fz-lg-12 lh-lg-16">
+                                                    @NumberHelper.FormatMoneyVN(Model.GiaGoc)
+                                                </div>
+                                                <div class="price-current fz-lg-20 lh-lg-28 c-mx-8">
+                                                    @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai)
+                                                </div>
+                                                <div class="discount">
+                                                    @NumberHelper.TinhPhanTramGiamText(Model.GiaGoc, Model.GiaKhuyenMai.Value)
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="price-acc">
+                                                <div class="price-old fz-lg-12 lh-lg-16">
+                                                    @NumberHelper.FormatMoneyVN(Model.GiaGoc)
+                                                </div>
+                                            </div>
+                                        }
+                                        <span>
+                                            Rẻ vô đối, giá tốt nhất thị trường
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="c-py-24">
+                                    <hr>
+                                </div>
+
+                                if (!isNguoiMua)
+                                {
+                                    <div class="group-btn c-mb-16 d-none d-lg-flex" style="--data-between: 12px">
+                                        @if (currentUser != null)
+                                        {
+                                            <button type="button"
+                                                    class="btn primary btn-muangay buyacc google_buy_account h-auto"
+                                                    data-id="@Model.Id">
+                                                Mua ngay
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="button"
+                                                    class="btn primary buyacc google_buy_account h-auto"
+                                                    onclick="openLoginModal()">
+                                                Mua ngay
+                                            </button>
+                                        }
+                                    </div>
+
+                                    <div class="login-via fw-400 c-my-16 text-center">hoặc</div>
+
+                                    <div class="group-btn d-none d-lg-flex" style="--data-between: 12px">
+                                        @if (currentUser != null)
+                                        {
+                                            <a href="javascript:void(0);" class="handle-recharge-modal btn pink two-line d-block">
+                                                <span class="line-1" style="white-space: nowrap;">Mua bằng ATM, Momo</span>
+                                                <span class="line-2">
+                                                    @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai ?? Model.GiaGoc)
+                                                </span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0);" class="btn pink two-line d-block" onclick="openLoginModal()">
+                                                <span class="line-1" style="white-space: nowrap;">Mua bằng ATM, Momo</span>
+                                                <span class="line-2">
+                                                    @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai ?? Model.GiaGoc)
+                                                </span>
+                                            </a>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Tài khoản liên quan -->
+        @Html.Action("TaiKhoanLienQuan", "Game", new { id = game.Id, area = "" })
+        <!-- End Tài khoản liên quan -->
+        <!-- Start Tài khoản đã xem -->
+        @Html.Action("TaiKhoanDaXem", "Game", new { id = game.Id, area = "" })
+        <!-- End Tài khoản đã xem -->
+
+    </section>
+</div>
+<!-- Start Modal thanh toán -->
+<div class="modal fade modal-big loadModal__acount show" id="orderModal" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content">
+            @using (Ajax.BeginForm(
+    "MuaAcc",
+    "GiaoDich",
+    new { id = Model.Id },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "orderModal",
+        OnBegin = "onPaymentBegin",
+        OnSuccess = "onPaymentSuccess",
+        OnFailure = "onPaymentFailure"
+    },
+    new { @class = "formDonhangAccount", id = "ajaxOrderForm" } // HTML attributes
+))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-header p-2">
+                    <p class="modal-title center">Xác nhận thanh toán</p>
+                    <button type="button" class="close" data-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <div class="dialog--content__title fw-700 c-mb-12 text-title-theme">
+                        Thông tin mua Acc
+                    </div>
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Danh mục
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                @danhMuc.Name
+                            </div>
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Giá tiền
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500 datagiamgia" data-giamgia="@giaThanhToan">
+                                @NumberHelper.FormatMoneyVN(giaThanhToan)
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.ListGTTT.Any())
+                    {
+                        <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                            @foreach (var tt in Model.ListGTTT)
+                            {
+                                <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                                    <div class="card--attr__name fw-400 fz-13 text-center">
+                                        @tt.ThuocTinhTxt
+                                    </div>
+                                    <div class="card--attr__value fz-13 fw-500">
+                                        @tt.GiaTriTxt
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    <div class="card--gray c-mb-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fz-13 fw-400 text-center">
+                                Phương thức thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                Trừ tiền tài khoản shop
+                            </div>
+                        </div>
+                        <div class="balence_account">
+
+                        </div>
+                        <div class="card--attr justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Phí thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                Miễn phí
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card--gray c-mb-0 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                        <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Tổng thanh toán
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)" class="c-text-primary data_total_price">
+                                    @NumberHelper.FormatMoneyVN(giaThanhToan)
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card--attr__total justify-content-between d-flex c-mb-16 text-center">
+                            <div class="card--attr__name fw-400 fz-13 text-center">
+                                Giảm giá
+                            </div>
+                            <div class="card--attr__value fz-13 fw-500">
+                                <a href="javascript:void(0)" class="data_discount">
+                                    @NumberHelper.FormatMoneyVN(giaThanhToan - Model.GiaGoc)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @if (currentUser != null && !thanhToanDuoc)
+                    {
+                        <div class="not-enough-money">
+                            <div class="card--gray c-mb-0 c-mt-16 c-pt-8 c-pb-8 c-pl-12 c-pr-12">
+                                <p class="card--attr__payment_failed c-mb-0 fw-400 fz-13 lh-20">
+                                    Tài khoản của bạn không đủ để thanh toán, vui lòng nạp tiền để tiếp tục giao dịch
+                                </p>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer data__dangnhap p-3">
+                    @if (currentUser != null)
+                    {
+                        <button type="submit" class="btn ghost" @(thanhToanDuoc ? "" : "disabled")>Thanh toán</button>
+                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Nạp tiền</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn primary" data-dismiss="modal" onclick="openLoginModal();">Đăng nhập</button>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- End Modal thanh toán -->
+<!-- Start Modal nạp tiền -->
+<div class="modal fade modal-big loadModal__acount show" id="rechargeModal" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <p class="modal-title center">
+                    Nạp tiền
+                </p>
+                <button type="button" class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="text-center">
+                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
+                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
+                    <div id="qrInfoText" class="c-mt-8 fz-13"></div>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            Nếu sau 5
+                            phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
+                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
+                                <u>
+                                    <strong>
+                                        Chăm Sóc Khách
+                                        Hàng
+                                    </strong>
+                                </u>
+                            </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để
+                            được xử lý.
+                        </span>
+                    </p>
+                    <p style="text-align:center">
+                        <span style="font-size:14px">
+                            <strong>
+                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
+                            </strong>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer data__dangnhap p-3">
+                <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal nạp tiền -->
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    var isLoggedIn = @(currentUser != null ? "true" : "false");
+
+    // Mở modal thanh toán
+    $('body').on('click', '#account-detail .btn-muangay', function (e) {
+        e.preventDefault();
+        if (!isLoggedIn) {
+            openLoginModal();
+            return;
+        }
+        $('#orderModal').modal('show');
+    });
+
+    // Mở modal nạp tiền
+    $('body').on('click', '.handle-recharge-modal', function (e) {
+        e.preventDefault();
+        if (!isLoggedIn) {
+            openLoginModal();
+            return;
+        }
+        $('#rechargeModal').modal('show');
+    });
+
+    // 🧠 Xác nhận khi bấm nút Thanh toán
+    $('body').on('click', '#ajaxOrderForm button[type="submit"]', function (e) {
+        e.preventDefault();
+        const $form = $(this).closest('form');
+        const amountText = $('#orderModal .data_total_price').text().trim();
+
+        Swal.fire({
+            title: 'Xác nhận thanh toán',
+            html: `Bạn có chắc chắn muốn thanh toán <strong>${amountText}</strong> cho giao dịch này không?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Có, thanh toán',
+            cancelButtonText: 'Hủy',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $form.off('submit'); // ⬅️ Gỡ sự kiện submit chặn
+                $form.submit();      // ✅ Lúc này form sẽ gửi thật qua Ajax.BeginForm
+            }
+        });
+    });
+
+    function onPaymentBegin() {
+        Swal.fire({
+            title: 'Đang xử lý',
+            text: 'Vui lòng đợi trong giây lát...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    }
+
+    // ✅ Xử lý kết quả thanh toán
+    function onPaymentSuccess(result) {
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Thanh toán thành công!',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3085d6'
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi',
+                text: result.message || "Có lỗi xảy ra khi thanh toán.",
+                confirmButtonText: 'Đóng',
+                confirmButtonColor: '#d33'
+            }).then(() => {
+                location.reload();
+            });
+        }
+    }
+
+    // Lỗi kết nối
+    function onPaymentFailure(xhr) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Kết nối thất bại',
+            text: 'Không thể kết nối tới máy chủ. Vui lòng thử lại sau.',
+            confirmButtonText: 'Đóng',
+            confirmButtonColor: '#d33'
+        }).then(() => {
+            location.reload();
+        });
+    }
+
+    // Hàm tạo mã QR cho nạp tiền
+    function generateVietQR(bankCode, accountNumber, accountName, amount, transferContent) {
+        if (!bankCode || !accountNumber || !accountName || !amount || !transferContent) {
+            throw new Error("Thiếu thông tin cần thiết để tạo mã QR");
+        }
+        const baseUrl = `https://img.vietqr.io/image/${encodeURIComponent(bankCode)}-${encodeURIComponent(accountNumber)}-compact2.png`;
+        const params = new URLSearchParams({
+            amount: amount,
+            addInfo: transferContent,
+            accountName: accountName
+        });
+        return `${baseUrl}?${params.toString()}`;
+    }
+
+    // Nạp tiền
+    $('body').on('click', '.handle-recharge-modal', function (e) {
+        e.preventDefault();
+        if (!isLoggedIn) {
+            openLoginModal();
+            return;
+        }
+
+        const amount = @giaThanhToan;
+        const transferCode = 'NAP' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
+        const bankCode = 'TPB';
+        const accountNumber = '64162761703';
+        const accountName = 'TRUONG DAN TRUONG';
+
+        try {
+            const qrUrl = generateVietQR(bankCode, accountNumber, accountName, amount, transferCode);
+            $('#rechargeQrImage').attr('src', qrUrl).show();
+            $('#qrInfoText').html(
+                `<strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
+                 <strong>Nội dung chuyển khoản:</strong> ${transferCode}`
+            );
+        } catch (err) {
+            console.error(err);
+            $('#qrInfoText').text('Không thể tạo mã QR. Vui lòng thử lại.');
+        }
+
+        $('#rechargeModal').modal('show');
+    });
+
+    // Thumbnail swiper
+    var thumbTKSwiper = new Swiper(".swiper-chitiet-thumbs", {
+        loop: false,
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+        watchSlidesVisibility: true,
+        breakpoints: {
+            0: { slidesPerView: 3 },
+            768: { slidesPerView: 4 },
+            1024: { slidesPerView: 5 },
+        },
+    });
+
+    var chitietTK_slide = new Swiper(".swiper-chitiet-tk", {
+        loop: false,
+        slidesPerView: 1,
+        speed: 600,
+        navigation: {
+            nextEl: '.swiper-chitiet-tk .navigation.slider-next',
+            prevEl: '.swiper-chitiet-tk .navigation.slider-prev',
+        },
+        thumbs: {
+            swiper: thumbTKSwiper,
+        },
+    });
+</script>
+
+<script>
+    $(document).on('click', '.toggle-password', function () {
+        const $btn = $(this);
+        const $input = $btn.siblings('.password-field');
+
+        if ($input.attr('type') === 'password') {
+            $input.attr('type', 'text');
+            $btn.find('i').removeClass('bi-eye').addClass('bi-eye-slash');
+        } else {
+            $input.attr('type', 'password');
+            $btn.find('i').removeClass('bi-eye-slash').addClass('bi-eye');
+        }
+    });
+</script>

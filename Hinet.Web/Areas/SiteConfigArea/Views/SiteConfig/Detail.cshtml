@@ -1,0 +1,47 @@
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ";
+    ViewBag.PageName = "Thông tin ";
+    ViewBag.ModuleCode = "SiteConfig_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.SiteConfigArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/SiteConfigArea/SiteConfig/Index')" class="btn btn-primary btn-sm">Quay lại</a>
+}
+
+<div class="row">
+     <div class="col-sm-12">
+           <table class="table-info">
+           	
+<tr><td>Description</td><td>@Model.objInfo.Description</td></tr>
+<tr><td></td><td>@Model.objInfo.Keywords</td></tr>
+<tr><td>OgTitle</td><td>@Model.objInfo.OgTitle</td></tr>
+<tr><td>OgDescription</td><td>@Model.objInfo.OgDescription</td></tr>
+<tr><td>OgImage</td><td>@Model.objInfo.OgImage</td></tr>
+<tr><td>SiteTitle</td><td>@Model.objInfo.SiteTitle</td></tr>
+<tr><td>Favicon</td><td>@Model.objInfo.Favicon</td></tr>
+<tr><td>Logo</td><td>@Model.objInfo.Logo</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.IsDelete</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteTime</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteId</td></tr>
+
+           </table>
+     </div>
+    
+</div>
+
+<script>
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

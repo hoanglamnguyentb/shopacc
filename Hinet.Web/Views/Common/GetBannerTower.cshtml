@@ -1,0 +1,23 @@
+﻿@using Hinet.Model.Entities
+@using Hinet.Service.AppUserService.Dto
+@using Hinet.Service.Constant
+@using Hinet.Service.Common
+@using Hinet.Web.Core
+
+@model List<Banners>
+@{
+    var userInfo = SessionManager.GetUserInfo() as UserDto;
+}
+<div class="tranh-chap-kn">
+    @foreach (var item in Model)
+    {
+    <a href="@(item.IsLinkActive == true? item.ImageLink: "")">
+        <img src="~/@(string.IsNullOrEmpty(item.ImageSrc)? "":item.ImageSrc)" onerror="this.src = '/assets/images/web.png'" title="@item.Name" />
+    </a>
+
+    }
+</div>
+@if (userInfo != null && userInfo.TypeAccount == AccountTypeConstant.BussinessUser)
+{
+<a href="/Common/settupBanner/@ViewBag.CodePage" title="Thiết lập banner cho trang"><i class="bi bi-gear-wide"></i>&nbsp; Thiết lập Banner dọc</a>
+}

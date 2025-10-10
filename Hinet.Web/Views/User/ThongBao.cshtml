@@ -1,0 +1,103 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.Common.PageListResultBO<Hinet.Service.NotificationService.Dto.NotificationDto>
+
+<div class="container c-container-side c-mb-4 c-mb-lg-0">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">Thông báo</a>
+        </li>
+    </ul>
+    <hr />
+
+    <div class="row">
+        <div class="c-history-left media-web">
+            <div class="sidebar">
+                @Html.Partial("_SidebarUser", "thong-bao")
+            </div>
+        </div>
+        <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
+            <div class="section-header d-flex justify-content-between align-items-center flex-wrap c-py-16" style="gap: 8px;">
+                <h1 class="fw-700 fz-20 lh-28 c-my-0">Thông báo</h1>
+                @using (Ajax.BeginForm(
+                    "LoadThongBao",
+                    "User",
+                    new AjaxOptions
+                    {
+                        HttpMethod = "GET",
+                        UpdateTargetId = "thongbao-list-container",
+                        InsertionMode = InsertionMode.Replace
+                    },
+                    new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
+                    ))
+                {
+                    <input type="text" class="form-control" id="MessageFilter" name="MessageFilter" placeholder="Nội dung thông báo" />
+                    <button type="submit" class="btn ghost flex-shrink-0">
+                        <i class="bi bi-search"></i> Tìm kiếm
+                    </button>
+                }
+            </div>
+            <div id="thongbao-list-container">
+                @Html.Partial("_ThongBaoList", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script>
+    function loadPage(page) {
+        var formData = $("#form-filter").serializeArray();
+
+        var data = { page: page };
+        $.each(formData, function (i, field) {
+            data[field.name] = field.value;
+        });
+
+        $.ajax({
+            url: "/User/LoadThongBao",
+            type: "GET",
+            data: data,
+            success: function (res) {
+                $("#thongbao-list-container").html(res);
+                $('html, body').animate({ scrollTop: 0 }, 200);
+            }
+        });
+    }
+
+    // Phân trang
+    $(document).on("click", ".js-change-page", function (e) {
+        e.preventDefault();
+        var page = $(this).data("page");
+        if (!page || $(this).parent().hasClass("disabled") || $(this).parent().hasClass("active")) return;
+        loadPage(page);
+    });
+
+    $(document).on('click', '.js-mark-read', function () {
+        const id = $(this).data('id');
+        const $btn = $(this);
+
+        $.ajax({
+            url: '/User/MarkAsRead',
+            type: 'POST',
+            data: { id: id },
+            success: function () {
+                $btn.find('i')
+                    .removeClass('bi-check2-circle text-success')
+                    .addClass('bi-check-circle text-muted');
+            },
+            error: function (xhr) {
+                console.error('Lỗi đánh dấu thông báo:', xhr);
+            }
+        });
+    });
+
+    tippy('[data-tippy-content]', {
+        placement: 'top',
+        animation: 'shift-away',
+        theme: 'light-border',
+    });
+</script>

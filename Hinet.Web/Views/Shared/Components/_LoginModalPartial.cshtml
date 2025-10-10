@@ -1,0 +1,149 @@
+﻿@model Hinet.Web.Models.RegisterViewModel
+
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered animated">
+        <div class="modal-content">
+            <div class="modal-login-container" id="modal-login-container">
+
+                <!-- Đăng ký -->
+                <div class="modal-login-form-container sign-up-container">
+
+                    <button type="button" class="close close-login-modal" data-dismiss="modal" aria-label="Close"></button>
+
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "formRegister", @class = "modal-login-form formRegister" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <p class="fw-700 fz-24 color-pink lh-24">Đăng ký</p>
+                        <small class="fz-13 fw-400 c-mb-12">
+                            Vui lòng đăng ký để sử dụng dịch vụ của chúng tôi
+                        </small>
+
+                        <p class="modal-login-error text-center registError" id="registError"></p>
+
+                        <span class="input-group w-100">
+                            @Html.TextBoxFor(m => m.UserName, new { @class = "input-primary c-mt-12", placeholder = "Nhập tên tài khoản" })
+                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-error c-mt-4" })
+                        </span>
+
+                        <div class="w-100 input-group">
+                            @Html.PasswordFor(m => m.Password, new { @class = "input-primary", placeholder = "Nhập mật khẩu" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-error c-mt-4" })
+                        </div>
+
+                        <div class="w-100 input-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "input-primary", placeholder = "Nhập lại mật khẩu" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-error c-mt-4" })
+                        </div>
+
+                        <button type="submit" class="btn pink btn-pink-default c-mt-16" id="btnRegister">
+                            <span>Đăng ký</span>
+                            <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
+                        </button>
+                    }
+                </div>
+
+                <!-- Đăng nhập -->
+                <div class="modal-login-form-container sign-in-container">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formLogin", @class = "modal-login-form formLogin" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <p class="fw-700 fz-24 lh-32">Đăng nhập</p>
+                        <small class="fz-13 fw-400 c-mb-12">
+                            Vui lòng đăng nhập để sử dụng dịch vụ của chúng tôi
+                        </small>
+
+                        <p class="modal-login-error text-center LoginError"></p>
+
+                        <span class="input-group w-100">
+                            @Html.TextBox("Username", null, new { @class = "input-primary c-mt-12", placeholder = "Nhập tên tài khoản" })
+                            @Html.ValidationMessage("Username", "", new { @class = "text-error c-mt-4" })
+                        </span>
+
+                        <div class="w-100 input-group">
+                            @Html.Password("Password", null, new { @class = "input-primary", placeholder = "Nhập mật khẩu" })
+                            @Html.ValidationMessage("Password", "", new { @class = "text-error c-mt-4" })
+                        </div>
+
+                        <button type="submit" class="btn primary btn-primary-default c-mt-16" id="btnLogin">
+                            <span>Đăng nhập</span>
+                            <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
+                        </button>
+
+                        <span class="login-via fw-400 fz-13 c-mt-24">Hoặc đăng nhập qua</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="social-container c-mt-24">
+                                <a href="javascript:void(0)" class="social" onclick="submitGoogleForm(event)">
+                                    <img src="~/assets/images/google.png" alt="google" />
+                                </a>
+
+                            </div>
+                        </div>
+                    }
+
+                    <form id="googleLoginForm" method="post" action="@Url.Action("GoogleLogin", "Account", new { provider = "Google" })" style="display: none;">
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+
+                <!-- Overlay -->
+                <div class="modal-login-overlay-container">
+                    <div class="modal-login-overlay">
+                        <div class="modal-login-overlay-panel modal-login-overlay-left"
+                             style="background-image: url('/assets/wwwroot/images/bglogin.png');">
+                            <p class="modal-login-suggestion fw-700 fz-24">Xin chào</p>
+                            <p class="fw-400 fz-13">Bạn đã có tài khoản, vui lòng đăng nhập tại đây</p>
+                            <button class="btn primary btn-primary-default" id="signIn">Đăng nhập</button>
+                        </div>
+                        <div class="modal-login-overlay-panel modal-login-overlay-right"
+                             style="background-image: url('/assets/wwwroot/images/bglogin.png');">
+                            <button type="button" class="close close-login-modal" data-dismiss="modal" aria-label="Close"></button>
+                            <p class="modal-login-suggestion fw-700 fz-24">Xin chào</p>
+                            <p class="fw-400 fz-13">Vui lòng đăng ký ngay tại đây</p>
+                            <button class="btn pink btn-pink-default" id="signUp">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function submitGoogleForm(event) {
+        event.preventDefault();
+        document.getElementById('googleLoginForm').submit();
+    }
+
+    $(document).ready(function () {
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+
+        if (isMobile()) {
+            const container = $('#modal-login-container');
+            const signInTab = $('<div class="mobile-login-tab active" id="mobileSignInTab">Đăng nhập</div>');
+            const signUpTab = $('<div class="mobile-login-tab" id="mobileSignUpTab">Đăng ký</div>');
+            const tabsContainer = $('<div class="mobile-login-tabs"></div>').append(signInTab, signUpTab);
+            container.prepend(tabsContainer);
+
+            $('#mobileSignInTab').on('click', function () {
+                $('.mobile-login-tab').removeClass('active');
+                $(this).addClass('active');
+                $('.sign-in-container').addClass('active');
+                $('.sign-up-container').removeClass('active');
+            });
+
+            $('#mobileSignUpTab').on('click', function () {
+                $('.mobile-login-tab').removeClass('active');
+                $(this).addClass('active');
+                $('.sign-up-container').addClass('active');
+                $('.sign-in-container').removeClass('active');
+            });
+
+            // Mặc định hiển thị login
+            $('.sign-in-container').addClass('active');
+        }
+    });
+</script>
+

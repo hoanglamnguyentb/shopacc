@@ -1,0 +1,235 @@
+﻿@media screen and (max-width: 1921px) and (min-width: 1601px) {
+    .marginOfTinhTinhGiaiNganDonVi {
+        margin-top: 40px;
+    }
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1600px) {
+    .marginOfTinhTinhGiaiNganDonVi {
+        margin-top: 40px;
+    }
+}
+
+@media screen and (max-width: 1599px) and (min-width: 1201px) {
+    .textArea2col {
+        padding-right: 35px;
+        padding-left: 8px;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+}
+
+@media screen and (max-width: 1366px) and (min-width:1025px) {
+    .boxChartNamLanhDaoNguonVon {
+        margin-top: 0px
+    }
+
+    .boxChartNamLanhDaoDuAn {
+        margin-top: 43px;
+    }
+
+    .marginOfTinhTinhGiaiNganDonVi {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width:1025px) {
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+
+    .cardTreeMap {
+        height: 49vh;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width:992px) {
+    .groupBoxTatalItem {
+        margin-right: -10vh;
+    }
+
+    .cardTreeMap {
+        height: 49vh;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+
+    .col-6-1024 {
+        width: 50% !important;
+    }
+
+    .marginOfTinhTinhGiaiNganDonVi {
+        margin-top: 35px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .marginBottomXs {
+        margin-bottom: 7px;
+    }
+}
+
+@media screen and (max-width: 991px) and (min-width:768px) {
+    .boxItem {
+        grid-template-columns: repeat(3,1fr) !important;
+    }
+
+    .cardTreeMap {
+        height: 49vh;
+    }
+
+    .groupBoxTatalItem {
+        margin-right: -10vh;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+}
+
+@media screen and (max-width:767px) and (min-width:480px) {
+    .only-menu-mobile {
+        z-index: 9999;
+        top: 60px;
+        height: 100vh;
+        width: calc(100% - 45px);
+        float: left;
+        display: block;
+        position: absolute;
+    }
+
+    .sidebar.responsive {
+        transform: initial;
+        -webkit-transform: inherit;
+    }
+
+    .boxItem {
+        grid-template-columns: repeat(3,1fr) !important;
+    }
+
+    .cardTreeMap {
+        height: 47vh;
+    }
+
+    .groupBoxTatalItem {
+        margin-right: -35vh;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+}
+
+@media screen and (max-width:479px) and (min-width:425px) {
+    #chartdivLoaiDaoTao {
+        height: 800px !important;
+    }
+
+    .cardTreeMap {
+        height: 47vh;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+
+    table.fixed-table.clone {
+        display: none;
+    }
+
+    .hntbl-page-size {
+        display: none;
+    }
+
+    .groupBoxTatalItem {
+        margin-right: -35vh;
+    }
+
+    .action-right-bar {
+        float: none;
+    }
+
+    .boxItem {
+        grid-template-columns: repeat(2,1fr) !important;
+    }
+}
+
+@media screen and (max-width:424px) and (min-width:375px) {
+    #chartdivLoaiDaoTao {
+        height: 800px !important;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+
+    .cardTreeMap {
+        height: 47vh;
+    }
+
+    table.fixed-table.clone {
+        display: none;
+    }
+
+    .groupBoxTatalItem {
+        margin-right: -35vh;
+    }
+
+    .action-right-bar {
+        float: none;
+    }
+
+    .boxItem {
+        grid-template-columns: repeat(2,1fr) !important;
+    }
+}
+
+@media screen and (max-width:374px) and (min-width:320px) {
+    .cardTreeMap {
+        height: 47vh;
+    }
+
+    .BCNamChuDauTu {
+        height: 70vh;
+    }
+
+    .groupBoxTatalItem {
+        margin-right: -35vh;
+    }
+
+    #chartdivLoaiDaoTao {
+        height: 800px !important;
+    }
+
+    table.fixed-table.clone {
+        display: none;
+    }
+
+    .hntbl-page-size {
+        display: none;
+    }
+
+    .action-right-bar {
+        float: none;
+    }
+
+    .btn-labeled {
+        margin-bottom: 5px;
+    }
+
+    .runtext-container {
+        display: none;
+    }
+
+    .page-content {
+        padding: 5px;
+    }
+
+    .boxItem {
+        grid-template-columns: repeat(2,1fr) !important;
+    }
+}

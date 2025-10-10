@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Hinet.Service.TinTucService.Dto.TinTucDto>
+
+@foreach (var tin in Model)
+{
+    <div class="item-article c-mb-16">
+        <a href="/tin-tuc/@tin.Slug">
+            <div class="card">
+                <div class="card-body c-p-16 c-p-lg-8">
+                    <div class="article-thumb c-mb-lg-0">
+                        <img onerror="imgError(this)" src="@tin.AnhBia" class="article-thumb-image" alt="article-thumbnail">
+                    </div>
+                    <div class="article-body" style="flex: 1">
+                        <div class="article-title text-limit limit-2 limit-lg-3 fz-lg-13 lh-lg-20 c-ml-12">
+                            @tin.TieuDe
+                        </div>
+                        <div class="article--description clean-content text-truncate-3 d-none d-lg-block c-pt-16 c-ml-12">
+                            @Html.Raw(CommonHelper.String.StringUtilities.CleanAndNormalizeHtml(tin.NoiDung))
+                        </div>
+                        <div class="article-info c-mt-16 c-mt-lg-6 c-ml-12">
+                            <div class="datetime">
+                                <i class="bi bi-alarm"></i> @CommonHelper.String.StringUtilities.ToDateVNFormat(tin.CreatedDate)
+                            </div>
+                            <div class="author c-ml-4 bread-word text-limit limit-1">
+                                <i class="bi bi-person"></i> @tin.TacGia
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

@@ -1,0 +1,356 @@
+﻿@{
+    ViewBag.Title = "Quản lý tài khoản";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý người dùng";
+    ViewBag.PageName = "Danh sách người dùng";
+    ViewBag.ModuleCode = "QLTaiKhoan";
+
+}
+@using Hinet.Model.IdentityEntities;
+@using Newtonsoft.Json;
+@using Hinet.Service.Common;
+@using Hinet.Service.AppUserService.Dto;
+@model PageListResultBO<UserDto>
+@{
+    var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
+}
+
+@section ActionBarRight{
+    <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
+        <i class="bi bi-search"></i> Tìm kiếm
+    </a>
+    @*<a href="/" onclick="JustAction('/UserArea/User/CreateAllAccount')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Tạo tài khoản tất cả người dùng</a>*@
+
+    @*<a href="/UserArea/User/Import" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Import</a>*@
+    <a href="javascript:void(0)" onclick="CreateAction('/UserArea/User/Create')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
+}
+@Html.Partial("_SearchPartial")
+
+<div id="tbl-user" class="hntbl-cover table-scroll">
+    <div class="table-wrap">
+        <table class="hinet-table table table-striped table-hover fixed-table" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    @*<th class="fixed-side"></th>*@
+                    <th class="fixed-side">#</th>
+                    <th class="fixed-side">Tác vụ</th>
+                    <th>Họ tên</th>
+                    <th>Tên tài khoản</th>
+                    <th>Phòng, ban, đơn vị</th>
+                    @*<th>Thiết lập chấm công</th>
+                        <th>Lĩnh vực</th>*@
+                    <th>Chức vụ</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Địa chỉ</th>
+                    @*<th>Tỉnh/Thành phố</th>*@
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        var lstData = eval(@lstData);
+        var moduleTableSelector="#tbl-user";
+        function pagefunction() {
+
+            var conf=[
+                {
+                    tdClass:"center fixed-side",
+                    isSort:false,
+                    nameModel: "",
+                    isCounter:true,
+                    content: function (data) {
+                        return "<input type='checkbox' />"
+                    }
+				},
+				{
+					isSort: false,
+					nameModel: "",
+					tdClass: "center  fixed-side",
+					content: function (data) {
+						var result = `<div class="btn-group">
+                               <button data-toggle="dropdown" id="btn-thaotac" data-id="${data.Id}" class="btn btn-xs btn-primary btn-white dropdown-toggle" aria-expanded="false">Thao tác<i class="ace-icon fa fa-angle-down icon-on-right"></i>
+                               </button>
+
+                               <ul class="dropdown-menu">`;
+                        result += "<li><a href='javascript:void(0)' onclick='ResetPass("+data.Id+")'   title = 'Reset Password'><i class='bi bi-pencil-square'> </i> Reset Password</a> </li>";
+                        //result += "<li><a href='javascript:void(0)' onclick='ConfirmAction(\"/UserArea/User/SendMailInfo/" + data.Id + "\",\"post\",null,\"Xác nhận gửi mail thông báo tài khoản\")'   title = 'Gửi mail thông báo tài khoản'><i class='glyphicon glyphicon-envelope'> </i> Gửi mail thông báo tài khoản</a> </li>";
+                        result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/UserArea/User/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa thông tin</a> </li>";
+                        result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/UserArea/User/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' bi bi-x-lg' style='color:red'> </i> Xóa người dùng</a></li>";
+                        result += "<li><a href='javascript:void(0)' onclick='OpenModalAction(\"/UserArea/User/SetupRole/" + data.Id + "\")'  title = 'Thiết lập vai trò'><i class='fa fa-registered' > </i> Phân vai trò</a> </li>";
+                        result += "<li><a href='javascript:void(0)' onclick='OpenModalAction(\"/UserArea/User/SetupRoleHuyenXa/" + data.Id + "\")'  title = 'Phân quyền theo đơn vị hành chính'><i class='fa fa-registered' > </i> Phân quyền theo đơn vị hành chính</a> </li>";
+                        //result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/UserArea/User/EditConfigChuyenMuc?userId=" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i>Thiết lập chuyên mục</a> </li>";
+                        //result += "<li><a href='/UserArea/User/ConfigureOperation/" + data.Id + "'   title = 'Phân quyền cá nhân'><i class='bi bi-gear-wide' > </i> Phân quyền cá nhân</a> </li>";
+                        result += "<li class='box1'><a href='/UserArea/User/ConfigureOperation/" + data.Id + "'   title = 'Phân quyền cá nhân'><i class='bi bi-gear-wide' > </i> Cập nhật quyền cá nhân</a> </li>";
+                        result += "<li class='box2'><a href='/UserArea/User/ConfigureOperation/" + data.Id + "'   title = 'Phân quyền cá nhân'><i class='bi bi-gear-wide' > </i> Thêm mới quyền cá nhân</a> </li>";
+
+                        console.log(data.LockoutEndDateUtc);
+                        if (data.IsLock == true) {
+							result += "<li><a href='javascript:void(0)' onclick='LockUser(\"/UserArea/User/LockUser?id=" + data.Id + "&islock=false" + "\",false)'  title = 'Mở khóa tài khoản'><i class='fa fa-unlock-alt' style='color:green;' > </i> Mở khóa tài khoản</a> </li>";
+						} else {
+							result += "<li><a href='javascript:void(0)' onclick='LockUser(\"/UserArea/User/LockUser?id=" + data.Id + "&islock=true" + "\",true)'  title = 'Khóa tài khoản'><i class='fa fa-lock' style='color:red;' > </i> Khóa tài khoản</a> </li>";
+                            result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/UserArea/User/DsQuyenTruyCap/" + data.Id +"\")'  title = 'Danh sách quyền truy cập'><i class='fa fa-info' > </i> Danh sách quyền truy cập</a> </li>";
+						}
+						result += "</ul></div>";
+						return result;
+					}
+				},
+                {
+                    isSort:true,
+                    nameModel:'FullName',
+					content: function (data) {
+						var result = "";
+						var str = "";
+						if (data.IsCongTacVien == true) {
+							str += '&nbsp;' + '<i class="fa fa-user" style="color:#3498db;" title="Cộng tác viên"></i>' + '&nbsp;';
+						//	result += '<b class="label label-primary">Cộng tác viên</b>' + '&nbsp;';
+						}
+						for (var i = 0; i < data.ListRoles.length; i++) {
+							result += '<b class="label label-warning">' + data.ListRoles[i].Name + '</b>' + '&nbsp;';
+						}
+						return data.FullName + str + "</br>" + result;
+                    }
+                },
+                 {
+                     isSort:true,
+                     nameModel:'UserName',
+                     content: function (data) {
+						 var str = "";
+						 str += "<a href='/UserArea/User/Detail/" + data.Id + "'> " + data.UserName + "</a><br />";
+						 if (data.IsLock == true) {
+							 str += '<b class="label label-danger">Bị khóa tài khoản</b>'
+                         }
+                         if (data.IsSendMail) {
+                             str += "<i class='green glyphicon glyphicon-envelope'> </i>";
+                         }
+						 return str;
+                     }
+				},
+				{
+					isSort: false,
+					nameModel: '',
+					content: function (data) {
+						var str = "";
+						str += ShowMessageIfEmpty(data.DepartmentName);
+						if (data.IsTruongPhongDepartment == true) {
+							str += '<br /><b class="label label-primary">Trưởng phòng</b>'
+						}
+						//return data.IdDepartment != null ? data.DepartmentName : "Chưa cập nhật";
+						return str;
+					}
+                },
+                //{
+                //    isSort: false,
+                //    nameModel: '',
+                //    content: function (data) {
+                //        return data.IsAllLinhVuc ? "Tất cả" : data.LinhVucDisplay;
+
+                //    }
+                //},
+                //{
+                //    isSort: false,
+                //    nameModel: '',
+                //    content: function (data) {
+                //        var result = "";
+                //        if (data.lstChamCong != null) {
+                //            for (const item of data.lstChamCong) {
+                //                result += "- " + item.Name;
+                //                result += "<span><a href='javascript:void(0)' onclick='EditAction(\"/QLThietLapChamCongArea/QLThietLapChamCong/Edit?id=" + item.IdThietLap + "\")'   title = 'Thiết lập chấm công'> <i class='fa fa-edit'> </i></a> </span>";
+                //                result += "<span><a href='javascript:void(0)' onclick='DeleteAction(\"/QLThietLapChamCongArea/QLThietLapChamCong/Delete?id=" + item.IdThietLap + "\")'   title = 'Thiết lập chấm công'> <i class='bi bi-trash3' style=\"color:red\"> </i></a> </span>";
+                //                result += "<span><a href='javascript:void(0)' onclick='CreateAction(\"/QlAddHanChamCongArea/QlAddHanChamCong/Create?id=" + item.IdThietLap + "&DepartmentId="+item.DepartmentId+"\")'   title = 'Thêm thời gian chấm công'> <i class='fa fa-cog' style=\"color:blue\"> </i></a> </span>" +"</br>";
+                //            }
+                //        }
+                //       result += "<span><a href='javascript:void(0)' onclick='CreateAction(\"/QLThietLapChamCongArea/QLThietLapChamCong/Create?idNhanSu=" + data.Id + "\")'   title = 'Thiết lập chấm công'><i class='bi bi-plus-lg'> </i></a> </span>";
+                //        return result;
+                //    }
+                //},
+                {
+                    isSort: false,
+                    nameModel: '',
+                    content: function (data) {
+						return data.IdChucVuName;
+                    }
+                },
+                {
+                    isSort: true,
+                    nameModel: 'Email',
+                    content: function (data) {
+						return ShowMessageIfEmpty(data.Email)
+                    }
+                },
+                {
+                    isSort: true,
+                    nameModel: 'PhoneNumber',
+                    content: function (data) {
+						return ShowMessageIfEmpty(data.PhoneNumber);
+                    }
+                },
+                 {
+                     isSort:true,
+                     nameModel:'BirthDay',
+                     content: function (data) {
+                         return ToDate(data.BirthDay)
+                     }
+                 },
+                 {
+                     isSort:true,
+                     nameModel:'Gender',
+                     content: function (data) {
+
+                         return data.Gender==1?"Nam":"Nữ";
+                     }
+                 },
+                 {
+                      isSort:false,
+                      nameModel:"Address",
+                      content: function (data) {
+                          return ShowMessageIfEmpty(data.Address);
+                      }
+				},
+				//{
+				//	isSort: false,
+				//	nameModel: "TinhId",
+				//	content: function (data) {
+				//		return ShowMessageIfEmpty(data.ProvinceManagement);
+				//	}
+				//},
+
+            ];
+
+            var getdatafunc=function(page,sortQuery,pageSize){
+                $.ajax({
+                    url: '/UserArea/User/getData',
+                    type: 'post',
+                    cache: false,
+                    data:{"indexPage":page,"sortQuery":sortQuery,"pageSize":pageSize},
+                    success: function (data) {
+                        $(moduleTableSelector).hinetTable("data",{
+                            pageSize:pageSize!=-1?pageSize:data.Count,
+                            pageIndex:page,
+                            pagecount: data.TotalPage,
+                            recordCount: data.Count,
+                            listItem: data.ListItem,
+                        });
+
+                    },
+                    error: function (err) {
+                        CommonJS.alert(xhr.responseText);
+                    }
+                });
+
+            }
+
+            var tblData=$("#tbl-user").hinetTable("init",{
+                pageSizeList: { size: [10, 20, 50, 100, -1], label: ['10', '20', '50', '100', 'Tất cả'] },
+                pagecount: @Model.TotalPage,
+                recordCount: @Model.Count,
+                //actionToolBar: '<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
+                actionToolBar: '',
+                getData: getdatafunc,
+                listItem:lstData,
+                config: conf,
+                showCheckBox: false
+            });
+
+        }
+
+        function AfterSussessActionAjaxform(){
+            $(moduleTableSelector).hinetTable("reload");
+        }
+        function AjaxSearchSuccess(rs) {
+            $(moduleTableSelector).hinetTable("data", {
+                pageIndex: 1,
+                pagecount: rs.TotalPage,
+                recordCount: rs.Count,
+                listItem: rs.ListItem,
+            });
+            }
+            function ResetPass(id) {
+                AjaxCall("/UserArea/user/ResetPassword/" + id, "post", null, function (rs) {
+                    if (rs.Status) {
+                        NotiSuccess("Khôi phục mật khẩu thành công");
+                    } else {
+                        NotiError(rs.Message);
+                    }
+                })
+		}
+
+		function LockUser(url, typeLock) {
+			var content = "";
+			var successstring = "";
+			if (typeLock == true) {
+				content = "Bạn chắc chắn muốn khóa tài khoản này?";
+				successstring = "Khóa tài khoản thành công!";
+			} else if (typeLock == false) {
+				content = "Bạn chắc chắn muốn mở khóa tài khoản này?"
+				successstring = "Mở khóa tài khoản thành công!";
+			}
+			$.confirm({
+				title: "Xác nhận thao tác",
+				content: content,
+				draggable: false,
+				theme: 'material',
+				buttons: {
+					confirm: {
+						btnClass: 'btn-primary',
+						text: "Xác nhận",
+						action: function () {
+							AjaxCall(url, 'post', null, function (rs) {
+								if (rs.Status) {
+									NotiSuccess("Thành công", successstring);
+									AfterSussessActionAjaxform();
+								} else {
+									NotiError("Lỗi xử lý", rs.Message);
+								}
+							})
+						}
+					},
+					cancel: {
+						text: "Đóng",
+						action: function () {
+
+						}
+					}
+				}
+			});
+        }
+
+        function isChecked(id) {
+            $.ajax({
+                url: '/UserArea/User/Checked/' + id,
+                type: 'GET',
+                success: function (response) {
+                    // Process response here
+                    if (response) {
+                        // Do something if the response is true
+                        $('.box2').hide();
+                        $('.box1').show();
+
+                    } else {
+                        // Do something if the response is false
+                        $('.box1').hide();
+                        $('.box2').show();
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+        pagefunction();
+
+        $(document).ready(function () {
+            $(document).on('click', '#btn-thaotac', function () {
+                const id = ($(this).data('id'))
+                isChecked(id);
+            })
+        })
+    </script>
+}
