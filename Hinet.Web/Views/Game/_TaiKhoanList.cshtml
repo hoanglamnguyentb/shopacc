@@ -3,6 +3,7 @@
 @{
     var danhMuc = ViewData["DanhMuc"] as Hinet.Model.Entities.DanhMucGame;
     var game = ViewData["Game"] as Hinet.Model.Entities.Game;
+    var config = ViewData["SiteConfig"] as Hinet.Model.Entities.SiteConfig;
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
     var giaThanhToan = danhMuc.GiaKhuyenMai.HasValue ? danhMuc.GiaKhuyenMai : danhMuc.GiaGoc;
 
@@ -100,7 +101,6 @@
                 </div>
             </div>
         }
-
     }
 </div>
 
@@ -223,28 +223,51 @@
                 <p class="modal-title center">Nạp tiền</p>
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-3">
+            <div class="modal-body px-3 py-0" style="max-height: calc(100vh - 175px); overflow-y: auto">
                 <div class="text-center">
                     <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
-                    <img id="rechargeQrImageList" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
-                    <div id="qrInfoTextList" class="c-mt-8 fz-13"></div>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            Nếu sau 5 phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
-                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
-                                <u><strong>Chăm Sóc Khách Hàng</strong></u>
-                            </a>&nbsp;hoặc Hotline
-                            <a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">
-                                &nbsp;<strong>0889.151.079</strong>
-                            </a>&nbsp;để được xử lý.
-                        </span>
+                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;" class="border shadow-sm rounded-lg">
+                    <table class="table table-bordered text-center align-middle table-sm mt-4">
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="width: 40%;">Thụ hưởng</th>
+                                <td>@config.AccountName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tài khoản</th>
+                                <td>@config.AccountNumber</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tiền</th>
+                                <td><span id="displayAmount"></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nội dung chuyển khoản</th>
+                                <td><strong id="displayNoiDung"></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Nếu sau <strong>5 phút</strong> không được cộng tiền, vui lòng liên hệ:
                     </p>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            <strong>
-                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
-                            </strong>
-                        </span>
+
+                    <p>
+                        Fanpage:&nbsp;
+                        <a href="@config.LinkFacebook" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong><u>Chăm Sóc Khách Hàng</u></strong>
+                        </a>
+                        <br />
+                        Hotline:&nbsp;
+                        <a href="tel:@config.SoDienThoai" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong>@config.SoDienThoai</strong>
+                        </a>
+                    </p>
+
+                    <hr style="width: 60%; margin: 12px auto; border-top: 1px dashed #ccc;">
+
+                    <p style="color: #d9534f; font-weight: bold;">
+                        *Chú ý: Chuyển đúng cú pháp.
+                        Sai nội dung dẫn đến chuyển qua ID khác, shop sẽ không chịu trách nhiệm.
                     </p>
                 </div>
             </div>
@@ -337,7 +360,7 @@ function generateVietQR(bankCode, accountNumber, accountName, amount, transferCo
 
     // 🧠 Khi người dùng ấn nút "Thanh toán" -> hiện SweetAlert2 xác nhận
     $('body').on('submit', '#ajaxOrderFormList', function (e) {
-        e.preventDefault(); // ❌ Ngăn submit mặc định
+        e.preventDefault();
 
         const $form = $(this);
 
@@ -393,21 +416,16 @@ $('body').on('click', '#orderModalList .handle-recharge-modal', function (e) {
     const amount = parseInt(priceText) || 0;
 
     // Tạo mã chuyển khoản
-    const transferCode = 'NAP' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
-
-    // Thông tin tài khoản ngân hàng của shop (có thể tuỳ chỉnh)
-    const bankCode = 'TPB';
-    const accountNumber = '64162761703';
-    const accountName = 'TRUONG DAN TRUONG';
+    const bankCode = '@config.BankCode';
+    const transferCode = 'MUAACCRANDOM ' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
+    const accountNumber = '@config.AccountNumber';
+    const accountName = '@config.AccountName';
 
     try {
         const qrUrl = generateVietQR(bankCode, accountNumber, accountName, amount, transferCode);
-
-        $('#rechargeQrImageList').attr('src', qrUrl).show();
-        $('#qrInfoTextList').html(
-            `<strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
-             <strong>Nội dung chuyển khoản:</strong> ${transferCode}`
-        );
+        $('#rechargeQrImage').attr('src', qrUrl).show();
+        $("#displayAmount").text(amount.toLocaleString('vi-VN') + ' VND')
+        $("#displayNoiDung").text(transferCode)
 
     } catch (err) {
         console.error(err);

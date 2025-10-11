@@ -5,6 +5,7 @@
     var game = Model.Game;
     var danhMuc = Model.DanhMucGame;
     var taiKhoanPagedResult = Model.TaiKhoanPagedResult;
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
 }
 
 <div class="container c-container" id="account-list">
@@ -65,6 +66,7 @@
             @Html.Partial("_TaiKhoanList", Model.TaiKhoanPagedResult, new ViewDataDictionary {
                 { "DanhMuc", danhMuc },
                 { "Game", game },
+                { "SiteConfig", config },
             })
         </div>
     </section>
@@ -98,7 +100,6 @@
 
     @if (danhMuc.LaLoaiDongGia != true)
     {
-
         <!-- Modal Filter -->
         <div class="modal fade" id="modal-filter">
             <div class="modal-dialog modal-dialog-centered">
