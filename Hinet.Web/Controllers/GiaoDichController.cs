@@ -10,6 +10,8 @@ using Hinet.Service.BannerService;
 using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService;
 using Hinet.Service.DanhMucGameTaiKhoanService;
+using Hinet.Service.DepositService;
+using Hinet.Service.DepositService.Dto;
 using Hinet.Service.DichVuService;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GameService;
@@ -19,12 +21,18 @@ using Hinet.Service.RoleService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Service.TinTucService;
+using Hinet.Web.Areas.UserArea.Controllers;
+using Hinet.Web.Common;
 using Hinet.Web.Filters;
 using Hinet.Web.Models;
 using Hinet.Web.Models.GameVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -131,7 +139,7 @@ namespace Hinet.Web.Controllers
                         return Json(new { success = false, message = "Tài khoản không tồn tại hoặc đã được bán." });
                     }
                     var danhMucGame = _danhMucGameService.GetById(taiKhoan.DanhMucGameId);
-        
+
                     var giaBan = danhMucGame.GiaKhuyenMai ?? danhMucGame.GiaGoc;
                     if (CurrentUserInfo.Balance < giaBan)
                     {
@@ -196,18 +204,141 @@ namespace Hinet.Web.Controllers
             EntityModel.PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG;
             EntityModel.NgayGiaoDich = DateTime.Now;
             EntityModel.NgayThanhToan = DateTime.Now;
-
+            EntityModel.UserId = CurrentUserId ?? 0;
+            var generatedCode = GenertePopUpCode();
+            EntityModel.NoiDung = generatedCode;
             _giaoDichService.Create(EntityModel);
 
-            string qrUrl = $"https://img.vietqr.io/image/MB-9704228372-compact.png?amount={model.SoTien}&addInfo=Topup{EntityModel.Id}";
+            string qrUrl = $"https://img.vietqr.io/image/TPB-64162761703-compact2.png?amount={model.SoTien}&addInfo={generatedCode}";
 
             return Json(new
             {
                 success = true,
                 transactionId = EntityModel.Id,
                 amount = model.SoTien,
-                qrData = qrUrl
+                qrData = qrUrl,
+                content = generatedCode
             });
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmTopup(SePayTransaction transaction)
+        {
+            try
+            {
+                var now = DateTime.Now;
+                var code = transaction.Content.Trim().ToUpper();
+                var existingTrans = _giaoDichService.FindBy(x => x.NoiDung.Trim().ToUpper() == code).FirstOrDefault();
+                var currentUser = existingTrans != null ? _appUserService.GetById(existingTrans.UserId) : null;
+                var notification = $"[{now:dd/MM/yyyy HH:mm:ss}] THÔNG BÁO: Giao dịch nạp topup {existingTrans?.NoiDung} của {currentUser?.UserName} với mệnh giá {existingTrans?.SoTien}đ";
+
+                // Không tìm thấy giao dịch hợp lệ
+                if (existingTrans == null)
+                {
+                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: không tìm thấy giao dịch hợp lệ");
+                    if (currentUser != null)
+                    {
+                        _notificationService.CreateNoti(
+                            currentUser.Id,
+                            "/lich-su-giao-dich",
+                            $"Giao dịch không hợp lệ: Không tìm thấy mã giao dịch {code}."
+                        );
+                    }
+
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { success = false, message = "Transaction not found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Giao dịch đã được xử lý hoặc huỷ
+                if (existingTrans.TrangThai != TrangThaiGiaoDichConstant.CHOXULY)
+                {
+                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: giao dịch đã được xử lý hoặc bị huỷ");
+                    _notificationService.CreateNoti(
+                        currentUser.Id,
+                        "/lich-su-giao-dich",
+                        $"Giao dịch {existingTrans.NoiDung} đã được xử lý hoặc bị huỷ trước đó. Vui lòng kiểm tra lại lịch sử giao dịch."
+                    );
+
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { success = false, message = "Transaction already processed" }, JsonRequestBehavior.AllowGet);
+                }
+
+
+                // Số tiền không khớp
+                var tranferAmount = int.TryParse(transaction.TransferAmount.ToString(), out var res) ? res : 0;
+                if (existingTrans.SoTien != tranferAmount)
+                {
+                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: số tiền gửi không khớp với giá trị nạp");
+                    existingTrans.TrangThai = TrangThaiGiaoDichConstant.THATBAI;
+                    _giaoDichService.Update(existingTrans);
+                    _notificationService.CreateNoti(
+                        currentUser.Id,
+                        "/lich-su-giao-dich",
+                        $"Giao dịch {existingTrans.NoiDung} thất bại do số tiền chuyển không khớp ({transaction.TransferAmount:N0}đ)."
+                    );
+
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { success = false, message = "Invalid amount transaction expired" }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Thành công
+                existingTrans.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
+                _giaoDichService.Update(existingTrans);
+                var userDto = _appUserService.GetDtoById(currentUser.Id);
+                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
+                await TelegramHelper.SendAsync($"{notification} thành công");
+
+                _notificationService.CreateNoti(
+                    userDto.Id,
+                    "/lich-su-giao-dich",
+                    $"Nạp tiền thành công! Giao dịch {existingTrans.NoiDung} với mệnh giá {existingTrans.SoTien:N0}đ đã được cộng vào tài khoản của bạn."
+                );
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                await TelegramHelper.SendAsync($"Giao dịch thất bại, lý do:Lỗi xác nhận giao dịch nạp tiền {ex}");
+                _notificationService.CreateNoti(
+                    CurrentUserId ?? 0,
+                    "/lich-su-giao-dich",
+                    $"Có lỗi xảy ra trong quá trình xác nhận giao dịch {ex}. Hệ thống đang kiểm tra, vui lòng thử lại sau."
+                );
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(new { success = false, message = "Internal server error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CheckTransactionStatus(string code)
+        {
+            var success = _giaoDichService
+                .FindBy(x => x.NoiDung.Trim().ToUpper() == code && x.TrangThai == TrangThaiGiaoDichConstant.DATHANHTOAN)
+                .Any();
+            return Json(new { success }, JsonRequestBehavior.AllowGet);
+        }
+        private string GenertePopUpCode(string prefix = "PAY", int randomChars = 5)
+        {
+            var ts = DateTime.UtcNow.ToString("yyyyMMddHHmmss"); // dùng UTC để nhất quán
+            var randomPart = RandomBase36(randomChars);
+            return $"{prefix}{ts}{randomPart}";
+        }
+
+        private string RandomBase36(int length)
+        {
+            const string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var data = new byte[length];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(data);
+            }
+            var sb = new StringBuilder(length);
+            foreach (var b in data)
+            {
+                sb.Append(chars[b % chars.Length]);
+            }
+            return sb.ToString();
         }
     }
 }

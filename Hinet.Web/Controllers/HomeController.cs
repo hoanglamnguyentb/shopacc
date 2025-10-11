@@ -19,8 +19,11 @@ using Hinet.Service.TinTucService;
 using Hinet.Web.Filters;
 using Hinet.Web.Models;
 using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Hinet.Web.Controllers
@@ -182,5 +185,7 @@ namespace Hinet.Web.Controllers
             var listTop = _danhMucGameService.FindBy(x => x.NoiBat == true).ToList();
             return PartialView("_DichVuNoiBatPartial", listTop);
         }
+
+        
     }
 }

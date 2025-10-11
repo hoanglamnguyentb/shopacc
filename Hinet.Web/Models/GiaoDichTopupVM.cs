@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static ServiceStack.LicenseUtils;
 
 namespace Hinet.Web.Models
 {
     public class GiaoDichTopupVM
     {
+        [Required(ErrorMessage = "Vui lòng thể loại game")]
         public long DoiTuongId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số tiền")]
