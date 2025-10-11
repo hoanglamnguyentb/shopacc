@@ -6,6 +6,7 @@ using Hinet.Service.NotificationService;
 using Hinet.Service.NotificationService.Dto;
 using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Web.Filters;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Hinet.Web.Controllers
@@ -62,7 +63,7 @@ namespace Hinet.Web.Controllers
             var search = new GiaoDichSearchDto
             {
                 UserIdFilter = CurrentUserId.GetValueOrDefault(),
-                LoaiGiaoDichFilter = LoaiGiaoDichConstant.NAP,
+                ListLoaiGiaoDichFilter = new List<string> { LoaiGiaoDichConstant.NAP, LoaiGiaoDichConstant.NAPTOPUP },
             };
             var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
             ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.NAP;

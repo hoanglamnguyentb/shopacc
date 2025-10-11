@@ -15,7 +15,7 @@
             @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
             {
                 <th scope="col">Tài khoản</th>
-            } 
+            }
             @if (loaiGiaoDich == null)
             {
                 <th scope="col">Loại giao dịch</th>
@@ -33,7 +33,13 @@
                 index++;
                 <tr>
                     <td>@index</td>
-                    <td>@item.NgayGiaoDich.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        @item.NgayGiaoDich.ToString("dd/MM/yyyy HH:mm")
+                        @if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                        {
+                            <span class="badge badge-info"><i class="bi bi-wallet2"></i> Nạp topup</span>
+                        }
+                    </td>
                     @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
                     {
                         <td><a href="/acc/@item.TaiKhoanTxt">#@item.TaiKhoanTxt</a></td>
@@ -42,7 +48,42 @@
                     {
                         <td>@item.LoaiGiaoDichTxt</td>
                     }
-                    <td>@item.NoiDung</td>
+                    <td>
+                        <div>@item.NoiDung</div>
+                        <ul class="mb-0">
+                            @if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                            {
+                                <li class="d-flex justify-content-between">
+                                    <span class="link-color">
+                                        + Tài khoản
+                                    </span>
+
+                                    <span>
+                                        @item.TenTaiKhoanCanNap
+                                    </span>
+
+                                </li>
+                                <li class="d-flex justify-content-between">
+                                    <span class="link-color">
+                                        + Mật khẩu
+                                    </span>
+                                    <div class="password-wrapper" style="display: inline-flex; align-items: center; gap: 4px;">
+                                        <input type="password"
+                                               value="@item.MatKhauTaiKhoanNap"
+                                               readonly
+                                               class="password-field"
+                                               style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right; height: 13px;" />
+
+                                        <span class="toggle-password p-0"
+                                              title="Hiện/ẩn mật khẩu"
+                                              style="text-decoration: none;">
+                                            <i class="bi bi-eye"></i>
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </td>
                     <td class="text-right @(item.SoTien > 0 ? "text-success" : "text-danger")">
                         @(item.SoTien > 0 ? "+" : "") @NumberHelper.FormatMoneyVN(item.SoTien)
                     </td>
@@ -72,3 +113,23 @@
 
 <!-- Render pagination -->
 @Html.Partial("~/Views/Shared/Components/_PaginationAjax.cshtml", Model)
+
+@if (loaiGiaoDich == LoaiGiaoDichConstant.NAP)
+{
+    <text>
+        <script>
+            $(document).on('click', '.toggle-password', function () {
+                const $btn = $(this);
+                const $input = $btn.siblings('.password-field');
+
+                if ($input.attr('type') === 'password') {
+                    $input.attr('type', 'text');
+                    $btn.find('i').removeClass('bi-eye').addClass('bi-eye-slash');
+                } else {
+                    $input.attr('type', 'password');
+                    $btn.find('i').removeClass('bi-eye-slash').addClass('bi-eye');
+                }
+            });
+        </script>
+    </text>
+}

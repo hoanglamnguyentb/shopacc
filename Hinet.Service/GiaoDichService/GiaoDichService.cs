@@ -83,6 +83,7 @@ namespace Hinet.Service.GiaoDichService
 							SoTien = GiaoDichtbl.SoTien,
                             TenTaiKhoanCanNap = GiaoDichtbl.TenTaiKhoanCanNap,
                             MatKhauTaiKhoanNap = GiaoDichtbl.MatKhauTaiKhoanNap,
+							
 		};
 
             if (searchModel != null)
@@ -103,7 +104,11 @@ namespace Hinet.Service.GiaoDichService
 		{
 			query = query.Where(x => x.LoaiGiaoDich.Contains(searchModel.LoaiGiaoDichFilter));
 		}
-		if (!string.IsNullOrEmpty(searchModel.TrangThaiFilter))
+        if (searchModel.ListLoaiGiaoDichFilter != null)
+        {
+            query = query.Where(x => searchModel.ListLoaiGiaoDichFilter.Contains(x.LoaiGiaoDich));
+        }
+        if (!string.IsNullOrEmpty(searchModel.TrangThaiFilter))
 		{
 			query = query.Where(x => x.TrangThai.Contains(searchModel.TrangThaiFilter));
 		}
@@ -127,8 +132,6 @@ namespace Hinet.Service.GiaoDichService
 		{
 			query = query.Where(x => x.NgayGiaoDich <= searchModel.DenNgayFilter);
 		}
-
-
                 if (!string.IsNullOrEmpty(searchModel.sortQuery))
                 {
                     query = query.OrderBy(searchModel.sortQuery);
@@ -166,7 +169,6 @@ namespace Hinet.Service.GiaoDichService
         {
             return _GiaoDichRepository.GetById(id);
         }
-    
 
 		public List<TopNapTheVM> GetTopNapTheThang(int top = 5)
 		{
