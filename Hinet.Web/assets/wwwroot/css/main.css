@@ -134,6 +134,11 @@ select {
     -webkit-appearance: none;
 }
 
+.form-control {
+    font-size: 13px;
+    color: var(--text-color);
+}
+
 /*Xoá mũi tên mặc định của select*/
 select {
     text-indent: 1px;

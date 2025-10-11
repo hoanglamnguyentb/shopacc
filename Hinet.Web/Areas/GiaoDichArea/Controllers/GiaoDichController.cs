@@ -1,8 +1,10 @@
 using AutoMapper;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Hinet.Model.Entities;
 using Hinet.Service.AppUserService;
 using Hinet.Service.Common;
 using Hinet.Service.Constant;
+using Hinet.Service.DanhMucGameService.Dto;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.GiaoDichService.Dto;
@@ -43,15 +45,20 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
 
 		// GET: GiaoDichArea/GiaoDich
 		//[PermissionAccess(Code = permissionIndex)]
-		public ActionResult Index()
+		public ActionResult Index(string loaiGiaoDich  = null)
 		{
-			 var listData = _GiaoDichService.GetDaTaByPage(null);
-			SessionManager.SetValue(searchKey, null);
+            var searchModel = new GiaoDichSearchDto
+            {
+                LoaiGiaoDichFilter = loaiGiaoDich
+            };
+            SessionManager.SetValue(searchKey, searchModel);
 			ViewBag.dropdownListNguoiGiaoDich = _appUserService.GetDropDownMultiple("UserName", "Id");
-			ViewBag.dropdownListLoaiDoiTuong = ConstantExtension.GetDropdownData<LoaiDoiTuongConstant>();
+			ViewBag.loaiGiaoDich = loaiGiaoDich;
+            ViewBag.dropdownListLoaiDoiTuong = ConstantExtension.GetDropdownData<LoaiDoiTuongConstant>();
 			ViewBag.dropdownListLoaiGiaoDich = ConstantExtension.GetDropdownData<LoaiGiaoDichConstant>();
 			ViewBag.dropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiGiaoDichConstant>();
 			ViewBag.dropdownListPhuongThucThanhToan = ConstantExtension.GetDropdownData<PhuongThucThanhToanConstant>();
+			 var listData = _GiaoDichService.GetDaTaByPage(searchModel);
 			return View(listData);
 		}
 
@@ -165,8 +172,10 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
 			searchModel.PhuongThucThanhToanFilter = form.PhuongThucThanhToanFilter;
 			searchModel.NgayGiaoDichFilter = form.NgayGiaoDichFilter;
 			searchModel.NgayThanhToanFilter = form.NgayThanhToanFilter;
+            searchModel.ListLoaiGiaoDichFilter = form.ListLoaiGiaoDichFilter;
 
-			SessionManager.SetValue((searchKey), searchModel);
+
+            SessionManager.SetValue((searchKey), searchModel);
 
 			var data = _GiaoDichService.GetDaTaByPage(searchModel, 1, searchModel.pageSize);
 			return Json(data);

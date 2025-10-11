@@ -13,7 +13,9 @@
 @using Hinet.Service.GiaoDichService.Dto;
 @model PageListResultBO<GiaoDichDto>
 @{
+    var loaiGiaoDich = ViewBag.loaiGiaoDich as string;
     var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
+    var dropdownListLoaiGiaoDich = ViewBag.dropdownListLoaiGiaoDich as List<SelectListItem>;
 }
 
 @section ActionBarRight{
@@ -24,25 +26,42 @@
 }
 @Html.Partial("_SearchPartial")
 
-<div id="tbl-GiaoDich" class="hntbl-cover table-scroll">
-	<div class="table-wrap">
-    <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th class="fixed-side">#</th>
-                <th class="fixed-side">Thao tác</th>
-				<th>Người giao dịch</th>
-                <th>Đối tượng <br /> Loại đối tượng</th>
-				<th>Loại giao dịch</th>
-				<th>Trạng thái</th>
-				<th>Phương thức thanh toán</th>
-				<th>Ngày giao dịch</th>
-				<th>Ngày thanh toán</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+<div>@loaiGiaoDich</div>
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="nav-item @(string.IsNullOrEmpty(loaiGiaoDich) ? "active" : "")">
+            <a class="nav-link" href="/GiaoDichArea/GiaoDich">Tất cả</a>
+        </li>
+        @foreach (var item in dropdownListLoaiGiaoDich)
+        {
+            <li class="nav-item @(!string.IsNullOrEmpty(loaiGiaoDich) && loaiGiaoDich == item.Value ? "active" : "")">
+                <a class="nav-link" href="/GiaoDichArea/GiaoDich?loaiGiaoDich=@item.Value">@item.Text</a>
+            </li>
+        }
+    </ul>
+    <div class="tab-content">
+        <div id="tbl-GiaoDich" class="hntbl-cover table-scroll">
+            <div class="table-wrap">
+                <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="fixed-side">#</th>
+                            <th class="fixed-side">Thao tác</th>
+                            <th>Người giao dịch</th>
+                            <th>Đối tượng <br /> Loại đối tượng</th>
+                            <th>Loại giao dịch</th>
+                            <th>Trạng thái</th>
+                            <th>Phương thức thanh toán</th>
+                            <th>Ngày giao dịch</th>
+                            <th>Ngày thanh toán</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section scripts{

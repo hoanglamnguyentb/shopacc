@@ -81,9 +81,8 @@ namespace Hinet.Web.Filters
 						}
 						else
 						{
-							filterContext.Result =
-						   RedirectToAction("login", "account", new { area = "" });
-						}
+							filterContext.Result = RedirectToAction("Index", "Home", new { area = "" });
+                        }
 
 						return;
 					}

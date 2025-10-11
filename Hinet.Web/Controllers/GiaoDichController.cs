@@ -196,6 +196,7 @@ namespace Hinet.Web.Controllers
             EntityModel.PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG;
             EntityModel.NgayGiaoDich = DateTime.Now;
             EntityModel.NgayThanhToan = DateTime.Now;
+            EntityModel.UserId = CurrentUserId.GetValueOrDefault();
 
             _giaoDichService.Create(EntityModel);
 
