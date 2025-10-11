@@ -11,6 +11,8 @@ using log4net;
 using System;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -200,7 +202,7 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                 var newDeposit = new Deposit()
                 {
                     UserId = CurrentUserId.Value,
-                    Code = now.Ticks.ToString(),
+                    Code = GenertePopUpCode(),
                     Amount = amount,
                     Expiry = now.AddMinutes(10)
                 };
@@ -215,6 +217,27 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                 return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        private string GenertePopUpCode(string prefix = "PAY", int randomChars = 5)
+        {
+            var ts = DateTime.UtcNow.ToString("yyyyMMddHHmmss"); // dùng UTC để nhất quán
+            var randomPart = RandomBase36(randomChars);
+            return $"{prefix}{ts}{randomPart}";
+        }
 
+        private string RandomBase36(int length)
+        {
+            const string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var data = new byte[length];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(data);
+            }
+            var sb = new StringBuilder(length);
+            foreach (var b in data)
+            {
+                sb.Append(chars[b % chars.Length]);
+            }
+            return sb.ToString();
+        }
     }
 }

@@ -107,7 +107,7 @@
         });
 
         function generateQR(autoNumericInstance, errorSelector, buttonSelector, contentSelector, qrSelector, sectionSelector) {
-            const amount = autoNumericInstance.getNumber(); 
+            const amount = autoNumericInstance.getNumber();
             const $errorDiv = $(errorSelector);
             const $button = $(buttonSelector);
 
@@ -117,39 +117,45 @@
                 $errorDiv.text('Vui lòng nhập số tiền tối thiểu 10,000 VND');
                 return;
             }
+            const url = "/DepositArea/Deposit/GenerateCode"
+            $.post(url, { amount }, function (res) {
+                debugger
+                if (res.success) {
+                    $('#displayAmount').text(amount.toLocaleString('vi-VN') + ' VND');
+                    $button.prop('disabled', true).addClass('btn-loading')
+                        .html('<i class="bi bi-arrow-repeat spin c-mr-8"></i>Đang tạo mã QR...');
 
-            $('#displayAmount').text(amount.toLocaleString('vi-VN') + ' VND');
+                    try {
+                        const transactionCode = res.code;
+                        $(contentSelector).text(transactionCode);
 
-            $button.prop('disabled', true).addClass('btn-loading')
-                .html('<i class="bi bi-arrow-repeat spin c-mr-8"></i>Đang tạo mã QR...');
+                        const bankCode = '@config.BankCode';
+                        const accountNumber = '@config.AccountNumber';
+                        const accountName = encodeURIComponent('@config.AccountName');
 
-            try {
-                const transactionCode = `NAPTHUONG #@currentUser.Id`;
-                $(contentSelector).text(transactionCode);
+                        const qrUrl = `https://img.vietqr.io/image/${bankCode}-${accountNumber}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(transactionCode)}&accountName=${accountName}`;
 
-                const bankCode = '@config.BankCode';
-                const accountNumber = '@config.AccountNumber';
-                const accountName = encodeURIComponent('@config.AccountName');
+                        $(qrSelector).attr('src', qrUrl).show();
+                        $(sectionSelector).show();
+                        $('#qrCountdownBlock').show();
+                        startQrCountdown();
 
-                const qrUrl = `https://img.vietqr.io/image/${bankCode}-${accountNumber}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(transactionCode)}&accountName=${accountName}`;
+                        $button.prop('disabled', false).removeClass('btn-loading')
+                            .html('<i class="bi bi-check-circle c-mr-8"></i>Tạo thành công');
 
-                $(qrSelector).attr('src', qrUrl).show();
-                $(sectionSelector).show();
-                $('#qrCountdownBlock').show();
-                startQrCountdown();
+                        setTimeout(function () {
+                            $button.html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR');
+                        }, 2000);
 
-                $button.prop('disabled', false).removeClass('btn-loading')
-                    .html('<i class="bi bi-check-circle c-mr-8"></i>Tạo thành công');
-
-                setTimeout(function () {
-                    $button.html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR');
-                }, 2000);
-
-            } catch (e) {
-                $errorDiv.text('Không thể tạo mã QR. Vui lòng thử lại.');
-                $button.prop('disabled', false).removeClass('btn-loading')
-                    .html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR');
-            }
+                    } catch (e) {
+                        $errorDiv.text('Không thể tạo mã QR. Vui lòng thử lại.');
+                        $button.prop('disabled', false).removeClass('btn-loading')
+                            .html('<i class="bi bi-qr-code c-mr-8"></i>Tạo mã QR');
+                            }
+                    }
+            }).fail(() => {
+                console.error("An error occurss");
+            });
         }
 
         // 📌 Tạo QR cho input chính
