@@ -210,6 +210,39 @@ namespace Hinet.Web.Controllers
         }
 
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult NapTien(GiaoDichTopupVM model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return Json(new { success = false, message = "Dữ liệu không hợp lệ" });
+
+        //    var EntityModel = _mapper.Map<GiaoDich>(model);
+        //    EntityModel.LoaiGiaoDich = LoaiGiaoDichConstant.NAPTOPUP;
+        //    EntityModel.TrangThai = TrangThaiGiaoDichConstant.CHOXULY;
+        //    EntityModel.PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG;
+        //    EntityModel.NgayGiaoDich = DateTime.Now;
+        //    EntityModel.NgayThanhToan = DateTime.Now;
+        //    EntityModel.UserId = CurrentUserId ?? 0;
+        //    var generatedCode = GenertePopUpCode();
+        //    EntityModel.NoiDung = generatedCode;
+        //    _giaoDichService.Create(EntityModel);
+
+        //    var configSite = _siteConfigService.GetActiveConfig();
+
+        //    string qrUrl = $"https://img.vietqr.io/image/{configSite.BankCode}-{configSite.AccountNumber}-compact2.png?amount={model.SoTien}&addInfo={generatedCode}&accountName=${configSite.AccountName}";
+
+        //    return Json(new
+        //    {
+        //        success = true,
+        //        transactionId = EntityModel.Id,
+        //        amount = model.SoTien,
+        //        qrData = qrUrl,
+        //        content = generatedCode
+        //    });
+        //}
+
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmTopup(SePayTransaction transaction)
