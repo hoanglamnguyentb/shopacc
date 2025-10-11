@@ -1,39 +1,23 @@
 ﻿using AutoMapper;
-using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Office2016.Presentation.Command;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Hinet.Model;
 using Hinet.Model.Entities;
-using Hinet.Repository.TaiKhoanRepository;
 using Hinet.Service.AppUserService;
-using Hinet.Service.BannerService;
 using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService;
-using Hinet.Service.DanhMucGameTaiKhoanService;
-using Hinet.Service.DepositService;
 using Hinet.Service.DepositService.Dto;
-using Hinet.Service.DichVuService;
-using Hinet.Service.DM_DulieuDanhmucService;
-using Hinet.Service.GameService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.NotificationService;
-using Hinet.Service.RoleService;
+using Hinet.Service.SiteConfigService;
 using Hinet.Service.TaiKhoanService;
-using Hinet.Service.TaiKhoanService.Dto;
-using Hinet.Service.TinTucService;
-using Hinet.Web.Areas.UserArea.Controllers;
 using Hinet.Web.Common;
 using Hinet.Web.Filters;
 using Hinet.Web.Models;
-using Hinet.Web.Models.GameVM;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Hinet.Web.Controllers
@@ -47,8 +31,9 @@ namespace Hinet.Web.Controllers
         private readonly INotificationService _notificationService;
         private readonly IDanhMucGameService _danhMucGameService;
         private readonly IMapper _mapper;
+        private readonly ISiteConfigService _siteConfigService;
 
-        public GiaoDichController(IGiaoDichService giaoDichService, ITaiKhoanService taiKhoanService, IAppUserService appUserService, INotificationService notificationService, IDanhMucGameService danhMucGameService, IMapper mapper)
+        public GiaoDichController(IGiaoDichService giaoDichService, ITaiKhoanService taiKhoanService, IAppUserService appUserService, INotificationService notificationService, IDanhMucGameService danhMucGameService, IMapper mapper, ISiteConfigService siteConfigService)
         {
             _giaoDichService = giaoDichService;
             _taiKhoanService = taiKhoanService;
@@ -56,6 +41,7 @@ namespace Hinet.Web.Controllers
             _notificationService = notificationService;
             _danhMucGameService = danhMucGameService;
             _mapper = mapper;
+            _siteConfigService = siteConfigService;
         }
 
         [HttpPost]
@@ -209,7 +195,9 @@ namespace Hinet.Web.Controllers
             EntityModel.NoiDung = generatedCode;
             _giaoDichService.Create(EntityModel);
 
-            string qrUrl = $"https://img.vietqr.io/image/TPB-64162761703-compact2.png?amount={model.SoTien}&addInfo={generatedCode}";
+            var configSite = _siteConfigService.GetActiveConfig();
+
+            string qrUrl = $"https://img.vietqr.io/image/{configSite.BankCode}-{configSite.AccountNumber}-compact2.png?amount={model.SoTien}&addInfo={generatedCode}&accountName=${configSite.AccountName}";
 
             return Json(new
             {

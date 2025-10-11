@@ -8,9 +8,15 @@ using Hinet.Service.SiteConfigService.Dto;
 using Hinet.Web.Areas.SiteConfigArea.Models;
 using Hinet.Web.Filters;
 using log4net;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Hinet.Web.Areas.SiteConfigArea.Controllers
 {
@@ -27,8 +33,6 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
         public const string searchKey = "SiteConfigPageSearchModel";
         private readonly ISiteConfigService _SiteConfigService;
         private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
-
-
         public SiteConfigController(ISiteConfigService SiteConfigService, ILog Ilog,
 
         IDM_DulieuDanhmucService dM_DulieuDanhmucService,
@@ -70,10 +74,18 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             var data = _SiteConfigService.GetDaTaByPage(searchModel, indexPage, pageSize);
             return Json(data);
         }
-        public PartialViewResult Create()
+
+        public async Task<PartialViewResult> Create()
         {
             var myModel = new CreateVM();
+            var banks = await FetchBanks();
+            var bankSelectList = banks.Select(b => new SelectListItem
+            {
+                Value = b.code,
+                Text = b.name
+            }).ToList();
 
+            ViewBag.BankList = bankSelectList;
             return PartialView("_CreatePartial", myModel);
         }
 
@@ -116,7 +128,7 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             return Json(result);
         }
 
-        public PartialViewResult Edit(int id)
+        public async Task<PartialViewResult> Edit(int id)
         {
             var myModel = new EditVM();
 
@@ -125,6 +137,14 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             {
                 throw new HttpException(404, "Không tìm thấy thông tin");
             }
+            var banks = await FetchBanks();
+            var bankSelectList = banks.Select(b => new SelectListItem
+            {
+                Value = b.code,
+                Text = b.name
+            }).ToList();
+
+            ViewBag.BankList = bankSelectList;
 
             myModel = _mapper.Map(obj, myModel);
             return PartialView("_EditPartial", myModel);
@@ -223,7 +243,6 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             return Json(result);
         }
 
-
         public ActionResult Detail(int id)
         {
             var model = new DetailVM();
@@ -231,7 +250,32 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             return View(model);
         }
 
-
-
+        private async Task<List<Bank>> FetchBanks()
+        {
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync("https://api.vietqr.io/v2/banks");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    var apiResult = JsonConvert.DeserializeObject<ApiResponse>(json);
+                    return apiResult.data ?? new List<Bank>();
+                }
+                return new List<Bank>();
+            }
+        }
     }
+    public class Bank
+    {
+        public string code { get; set; }
+        public string name { get; set; }
+    }
+
+    public class ApiResponse
+    {
+        public string code { get; set; }
+        public string desc { get; set; }
+        public List<Bank> data { get; set; }
+    }
+
 }

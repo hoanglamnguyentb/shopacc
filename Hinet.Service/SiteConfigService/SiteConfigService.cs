@@ -170,9 +170,11 @@ namespace Hinet.Service.SiteConfigService
                             LinkHoverColor = SiteConfigtbl.LinkHoverColor,
                             LinkFacebook = SiteConfigtbl.LinkFacebook,
                             SoDienThoai = SiteConfigtbl.SoDienThoai,
+                            BankCode = SiteConfigtbl.BankCode,
+                            AccountNumber = SiteConfigtbl.AccountNumber,
+                            AccountName = SiteConfigtbl.AccountName,
                         };
             return query.FirstOrDefault();
         }
-
     }
 }

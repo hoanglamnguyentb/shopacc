@@ -89,7 +89,6 @@ namespace Hinet.Web.Controllers
         }
 
         //nạp thẻ
-        [AllowAnonymous]
         public ActionResult Recharge()
         {
             RefreshSession();

@@ -2,6 +2,7 @@
 @model Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto
 @{
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
     var game = Model.Game;
     var danhMuc = Model.DanhMucGame;
     var giaThanhToan = Model.GiaKhuyenMai.HasValue ? Model.GiaKhuyenMai : Model.GiaGoc;
@@ -176,7 +177,7 @@
                                 </div>
                             }
 
-                            @if (Model.TrangThai == Hinet.Service.Constant.TrangThaiTaiKhoanConstant.CHUABAN)
+                            @if (Model.TrangThai == Hinet.Service.Constant.TrangThaiTaiKhoanConstant.CHUABAN || isNguoiMua)
                             {
                                 <div class="card disabled-color">
                                     <div class="card-body text-center c-p-0">
@@ -394,7 +395,7 @@
                     @if (currentUser != null)
                     {
                         <button type="submit" class="btn ghost" @(thanhToanDuoc ? "" : "disabled")>Thanh toán</button>
-                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Nạp tiền</button>
+                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal">Nạp tiền</button>
                     }
                     else
                     {
@@ -416,32 +417,51 @@
                 </p>
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-3">
+            <div class="modal-body px-3 py-0" style="max-height: calc(100vh - 175px); overflow-y: auto">
                 <div class="text-center">
                     <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
-                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
-                    <div id="qrInfoText" class="c-mt-8 fz-13"></div>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            Nếu sau 5
-                            phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
-                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
-                                <u>
-                                    <strong>
-                                        Chăm Sóc Khách
-                                        Hàng
-                                    </strong>
-                                </u>
-                            </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để
-                            được xử lý.
-                        </span>
+                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;" class="border shadow-sm rounded-lg">
+                    <table class="table table-bordered text-center align-middle table-sm mt-4">
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="width: 40%;">Thụ hưởng</th>
+                                <td>@config.AccountName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tài khoản</th>
+                                <td>@config.AccountNumber</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tiền</th>
+                                <td><span id="displayAmount"></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nội dung chuyển khoản</th>
+                                <td><strong id="displayNoiDung"></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Nếu sau <strong>5 phút</strong> không được cộng tiền, vui lòng liên hệ:
                     </p>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            <strong>
-                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
-                            </strong>
-                        </span>
+
+                    <p>
+                        Fanpage:&nbsp;
+                        <a href="@config.LinkFacebook" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong><u>Chăm Sóc Khách Hàng</u></strong>
+                        </a>
+                        <br />
+                        Hotline:&nbsp;
+                        <a href="tel:@config.SoDienThoai" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong>@config.SoDienThoai</strong>
+                        </a>
+                    </p>
+
+                    <hr style="width: 60%; margin: 12px auto; border-top: 1px dashed #ccc;">
+
+                    <p style="color: #d9534f; font-weight: bold;">
+                        *Chú ý: Chuyển đúng cú pháp.
+                        Sai nội dung dẫn đến chuyển qua ID khác, shop sẽ không chịu trách nhiệm.
                     </p>
                 </div>
             </div>
@@ -496,8 +516,8 @@
             cancelButtonColor: '#d33'
         }).then((result) => {
             if (result.isConfirmed) {
-                $form.off('submit'); // ⬅️ Gỡ sự kiện submit chặn
-                $form.submit();      // ✅ Lúc này form sẽ gửi thật qua Ajax.BeginForm
+                $form.off('submit');
+                $form.submit();
             }
         });
     });
@@ -575,17 +595,15 @@
 
         const amount = @giaThanhToan;
         const transferCode = 'NAP' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
-        const bankCode = 'TPB';
-        const accountNumber = '64162761703';
-        const accountName = 'TRUONG DAN TRUONG';
+        const bankCode = '@config.BankCode';
+        const accountNumber = '@config.AccountNumber';
+        const accountName = '@config.AccountName';
 
         try {
             const qrUrl = generateVietQR(bankCode, accountNumber, accountName, amount, transferCode);
             $('#rechargeQrImage').attr('src', qrUrl).show();
-            $('#qrInfoText').html(
-                `<strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
-                 <strong>Nội dung chuyển khoản:</strong> ${transferCode}`
-            );
+            $("#displayAmount").text(amount.toLocaleString('vi-VN') + ' VND')
+            $("#displayNoiDung").text("NAPTHUONG "+'@currentUser?.Id')
         } catch (err) {
             console.error(err);
             $('#qrInfoText').text('Không thể tạo mã QR. Vui lòng thử lại.');

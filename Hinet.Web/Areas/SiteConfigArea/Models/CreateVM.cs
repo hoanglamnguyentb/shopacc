@@ -32,6 +32,9 @@ namespace Hinet.Web.Areas.SiteConfigArea.Models
         public string MoTa { get; set; }
         public string LinkFacebook { get; set; }
         public string SoDienThoai { get; set; }
+        public string BankCode { get; set; }
+        public string AccountNumber { get; set; }
+        public string AccountName { get; set; }
 
     }
 }

@@ -7,15 +7,13 @@ namespace Hinet.Web.Models
 {
     public class GiaoDichTopupVM
     {
-        [Required(ErrorMessage = "Vui lòng thể loại game")]
-        public long DoiTuongId { get; set; }
+        public long? DoiTuongId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập số tiền")]
         [Range(1000, long.MaxValue, ErrorMessage = "Số tiền phải lớn hơn hoặc bằng 1.000")]
         [Display(Name = "Số tiền nạp")]
         public int SoTien { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập nội dung")]
         [StringLength(250, ErrorMessage = "Nội dung không được vượt quá 250 ký tự")]
         [Display(Name = "Nội dung")]
         public string NoiDung { get; set; }

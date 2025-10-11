@@ -506,4 +506,9 @@ div.ui-tooltip {
     width: 20px;
     cursor: pointer;
 }
+
+.modal-dialog.modal-scroll .modal-content .modal-body {
+    max-height: calc(100vh - 175px);
+    overflow-y: auto;
+}
 /* END OF Upload dialog */

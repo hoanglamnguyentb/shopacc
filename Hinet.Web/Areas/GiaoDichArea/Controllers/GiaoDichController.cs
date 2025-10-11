@@ -45,11 +45,11 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
 
 		// GET: GiaoDichArea/GiaoDich
 		//[PermissionAccess(Code = permissionIndex)]
-		public ActionResult Index(string loaiGiaoDich  = null)
+		public ActionResult Index(string loaiGiaoDich)
 		{
             var searchModel = new GiaoDichSearchDto
             {
-                LoaiGiaoDichFilter = loaiGiaoDich
+                LoaiGiaoDichFilter = string.IsNullOrEmpty(loaiGiaoDich) ? null : loaiGiaoDich,
             };
             SessionManager.SetValue(searchKey, searchModel);
 			ViewBag.dropdownListNguoiGiaoDich = _appUserService.GetDropDownMultiple("UserName", "Id");

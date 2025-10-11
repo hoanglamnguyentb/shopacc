@@ -1,6 +1,8 @@
 ﻿@model Hinet.Web.Models.GiaoDichTopupVM
 @{
     var listGame = ViewBag.ListGame as List<Hinet.Model.Entities.Game>;
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
 }
 
 <style>
@@ -51,7 +53,7 @@
 
     <div class="row">
         <!-- Danh sách game -->
-        <div class="col-sm-12">
+        <div class="col-12">
             <div class="sidebar">
                 <div class="sidebar-section brs-12">
                     <p class="sidebar-section-title c-mb-16 text-center fz-20 text-uppercase">Chọn game</p>
@@ -127,7 +129,8 @@
                     <div class="input-group">
                         <label class="control-label col-sm-12">Số tiền</label>
                         <div class="col-sm-12 w-full-select2">
-                            @Html.TextBoxFor(x => x.SoTien, new { @class = "form-control", type = "number" })
+                            <input type="text" id="SoTienDisplay" class="form-control" autocomplete="off" />
+                            @Html.TextBoxFor(x => x.SoTien, new { @type = "hidden", id = "SoTien" })
                             @Html.ValidationMessageFor(x => x.SoTien, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -164,32 +167,51 @@
                 </p>
                 <button type="button" class="close" data-dismiss="modal"></button>
             </div>
-            <div class="modal-body p-3">
+            <div class="modal-body px-3 py-0" style="max-height: calc(100vh - 175px); overflow-y: auto">
                 <div class="text-center">
-                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
-                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;">
-                    <div id="qrInfoText" class="c-mt-8 fz-13"></div>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            Nếu sau 5
-                            phút&nbsp;không được cộng tiền vui lòng&nbsp;liên hệ
-                            fanpage:&nbsp;<a href="https://www.facebook.com/ShopThayDong/" rel="nofollow" target="_blank">
-                                <u>
-                                    <strong>
-                                        Chăm Sóc Khách
-                                        Hàng
-                                    </strong>
-                                </u>
-                            </a>&nbsp;hoặc Hotline<a href="https://zalo.me/0889151079" rel="nofollow" target="_blank">&nbsp;<strong>0889.151.079</strong></a>&nbsp;để
-                            được xử lý.
-                        </span>
+                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để thanh toán</p>
+                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;" class="border shadow-sm rounded-lg">
+                    <table class="table table-bordered text-center align-middle table-sm mt-4">
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="width: 40%;">Thụ hưởng</th>
+                                <td>@config.AccountName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tài khoản</th>
+                                <td>@config.AccountNumber</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Số tiền</th>
+                                <td><span id="displayAmount"></span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nội dung chuyển khoản</th>
+                                <td><strong id="displayNoiDung">NAPTHUONG #@currentUser.Id</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Nếu sau <strong>5 phút</strong> không được cộng tiền, vui lòng liên hệ:
                     </p>
-                    <p style="text-align:center">
-                        <span style="font-size:14px">
-                            <strong>
-                                *Chú ý: Chuyển đúng cú pháp, sai nội dung bị chuyển qua ID khác shop không chịu trách nhiệm
-                            </strong>
-                        </span>
+
+                    <p>
+                        Fanpage:&nbsp;
+                        <a href="@config.LinkFacebook" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong><u>Chăm Sóc Khách Hàng</u></strong>
+                        </a>
+                        <br />
+                        Hotline:&nbsp;
+                        <a href="tel:@config.SoDienThoai" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
+                            <strong>@config.SoDienThoai</strong>
+                        </a>
+                    </p>
+
+                    <hr style="width: 60%; margin: 12px auto; border-top: 1px dashed #ccc;">
+
+                    <p style="color: #d9534f; font-weight: bold;">
+                        *Chú ý: Chuyển đúng cú pháp.
+                        Sai nội dung dẫn đến chuyển qua ID khác, shop sẽ không chịu trách nhiệm.
                     </p>
                 </div>
             </div>
@@ -201,10 +223,18 @@
 </div>
 <!-- End Modal nạp tiền -->
 
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/autonumeric@4.6.0/dist/autoNumeric.min.js"></script>
 <script>
     $(document).ready(function () {
+        const soTienAutoNumeric = new AutoNumeric('#SoTienDisplay', {
+            digitGroupSeparator: '.',
+            decimalCharacter: ',',
+            decimalPlaces: 0,
+            minimumValue: '0',
+            modifyValueOnWheel: false
+        });
+
         // Chọn game
         $(".game-card .card").on("click", function () {
             $(".game-card .card").removeClass("selected");
@@ -216,13 +246,27 @@
             $("#DoiTuongId").val(gameId);
             $("#gameName").html(`Nạp topup cho tài khoản <b>${gameName}</b>`);
         });
+
+        $('#createTopupForm').on('submit', function () {
+            const rawValue = soTienAutoNumeric.getNumber();
+            $('#SoTien').val(rawValue);
+        });
+
         const savedCode = sessionStorage.getItem("transCode");
         if (savedCode) {
             startPolling(savedCode);
         }
+
+        const initialValue = $('#SoTien').val();
+        if (initialValue) {
+            soTienAutoNumeric.set(initialValue);
+        }
     });
 
     function onTopupBegin() {
+        const rawValue = AutoNumeric.getAutoNumericElement('#SoTienDisplay').getNumber();
+        $('#SoTien').val(rawValue);
+
         Swal.fire({
             title: 'Đang tạo đơn nạp...',
             text: 'Vui lòng chờ trong giây lát',
@@ -242,10 +286,8 @@
             // Lưu code vào session
             sessionStorage.setItem("transCode", content);
             $('#rechargeQrImage').attr('src', qrUrl).show();   // đúng ID
-            $('#qrInfoText').html(`
-            <strong>Số tiền:</strong> ${amount.toLocaleString()} VND<br>
-            <strong>Nội dung chuyển khoản:</strong> ${content}
-        `);
+            $("#displayAmount").text(amount.toLocaleString('vi-VN') + ' VND')
+            $("#displayNoiDung").text(content)
 
             $('#rechargeModal').modal('show'); // đúng ID modal
             // Bắt đầu polling kiểm tra trạng thái
@@ -302,13 +344,7 @@
             });
         }, 5000); // Mỗi 5 giây gọi 1 lần
     }
-
 </script>
 
-//xử lý server event
-<script>
-   
-    
-</script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 @Scripts.Render("~/bundles/jqueryval")
