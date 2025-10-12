@@ -22,5 +22,6 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Models
         public int? DanhMucGameId { get; set; }
         public List<ThuocTinhDto> ThuocTinhs { get; set; }
         public List<GiaTriThuocTinh> GiaTriThuocTinhs { get; set; } = new List<GiaTriThuocTinh>();
+        public string ThongTinSauThanhToan { get; set; }
     }
 }

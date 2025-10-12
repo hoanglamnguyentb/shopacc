@@ -153,7 +153,7 @@ namespace Hinet.Service.TaiKhoanService
             return _TaiKhoanRepository.GetById(id);
         }
 
-        public TaiKhoan GetRanDomByDMGameId(long danhMucGameId)
+        public TaiKhoan GetRandomByDMGameId(long danhMucGameId)
         {
             var list = _TaiKhoanRepository
                 .FindBy(x => x.DanhMucGameId == danhMucGameId && x.TrangThai != TrangThaiTaiKhoanConstant.DABAN)

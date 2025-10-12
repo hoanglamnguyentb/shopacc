@@ -143,7 +143,6 @@ namespace Hinet.Service.SiteConfigService
             return _SiteConfigRepository.GetById(id);
         }
 
-
         //[OutputCache(Duration = 31536000, VaryByParam = "none")]
         public SiteConfig GetActiveConfig()
         {
@@ -173,6 +172,18 @@ namespace Hinet.Service.SiteConfigService
                             BankCode = SiteConfigtbl.BankCode,
                             AccountNumber = SiteConfigtbl.AccountNumber,
                             AccountName = SiteConfigtbl.AccountName,
+                        };
+            return query.FirstOrDefault();
+        }
+
+
+        public SiteConfig GetTelegramInfo()
+        {
+            var query = from SiteConfigtbl in _SiteConfigRepository.GetAllAsQueryable().Where(x => x.KichHoat == true)
+                        select new SiteConfigDto
+                        {
+                            TelegramBotToken = SiteConfigtbl.TelegramBotToken,
+                            TelegramChatId = SiteConfigtbl.TelegramChatId,
                         };
             return query.FirstOrDefault();
         }

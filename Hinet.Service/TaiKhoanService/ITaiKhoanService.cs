@@ -14,6 +14,6 @@ namespace Hinet.Service.TaiKhoanService
     {
         PageListResultBO<TaiKhoanDto> GetDaTaByPage(TaiKhoanSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         TaiKhoan GetById(long id);
-        TaiKhoan GetRanDomByDMGameId(long danhMucGameId);
+        TaiKhoan GetRandomByDMGameId(long danhMucGameId);
     }
 }

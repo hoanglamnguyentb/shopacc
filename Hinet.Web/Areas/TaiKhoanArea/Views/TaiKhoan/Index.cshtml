@@ -20,15 +20,16 @@
 }
 
 <link href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
 
 @section ActionBarRight{
     <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
         <i class="bi bi-search"></i> Tìm kiếm
     </a>
-    @if(game != null)
+    @if (game != null)
     {
-        <a href="javascript:void(0)"  onclick="CreateAction('@createUrl')"  class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
+        <a href="javascript:void(0)" onclick="CreateAction('@createUrl')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
     }
 }
 @Html.Partial("_SearchPartial")
@@ -70,6 +71,7 @@
 
 
 @section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
         //
         var multipleUploader;
@@ -126,7 +128,7 @@
                               <div class="text-title">${data.Code}</div>
                               <div>${label} </div>
                           </div>`;
-  
+
 				}
 				},
 				{
@@ -223,5 +225,6 @@
             });
         }
         pagefunction();
+        var quill;
     </script>
 }

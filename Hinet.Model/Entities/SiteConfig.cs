@@ -28,8 +28,12 @@ namespace Hinet.Model.Entities
         public string MoTa { get; set; }
         public string LinkFacebook { get; set; }
         public string SoDienThoai { get; set; }
+        //TaiKhoanNganHang
         public string BankCode { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }
+        //Telegram
+        public string TelegramBotToken { get; set; }
+        public string TelegramChatId { get; set; }
     }
 }

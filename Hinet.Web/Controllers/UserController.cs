@@ -63,10 +63,10 @@ namespace Hinet.Web.Controllers
             var search = new GiaoDichSearchDto
             {
                 UserIdFilter = CurrentUserId.GetValueOrDefault(),
-                ListLoaiGiaoDichFilter = new List<string> { LoaiGiaoDichConstant.NAP, LoaiGiaoDichConstant.NAPTOPUP },
+                ListLoaiGiaoDichFilter = new List<string> { LoaiGiaoDichConstant.NAPTHUONG, LoaiGiaoDichConstant.NAPTOPUP },
             };
             var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
-            ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.NAP;
+            ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.NAPTHUONG;
             ViewBag.MenuBottom = "tai-khoan";
             return View(data);
         }
@@ -77,10 +77,10 @@ namespace Hinet.Web.Controllers
             var search = new GiaoDichSearchDto
             {
                 UserIdFilter = CurrentUserId.GetValueOrDefault(),
-                LoaiGiaoDichFilter = LoaiGiaoDichConstant.MUA,
+                LoaiGiaoDichFilter = LoaiGiaoDichConstant.MUAACC,
             };
             var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
-            ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.MUA;
+            ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.MUAACC;
             ViewBag.MenuBottom = "tai-khoan";
             return View(data);
         }

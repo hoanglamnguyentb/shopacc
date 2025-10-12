@@ -19,7 +19,7 @@
     <hr />
     <div class="row">
         <div class="col-12 col-lg-8">
-            <div class=" --custom p-3 mb-3 content-detail">
+            <div class="--custom p-3 mb-3 content-detail bg-white c-mt-16 border shadow-sm">
                 <article id="article--detail">
                     <h1 class="article--title">
                         @Model.TieuDe
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="col-lg-4 d-none d-lg-block mt-4">
+        <div class="col-lg-4 d-none d-lg-block c-mt-16">
             @Html.Action("DMGameLienQuan", "TinTuc", new { id = Model.Id, gameSlug = gameSlug, area = "" })
             @Html.Action("DichVuLienQuan", "TinTuc", new { id = Model.Id, area = "" })
         </div>

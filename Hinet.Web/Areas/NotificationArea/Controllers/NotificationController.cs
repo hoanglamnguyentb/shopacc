@@ -95,7 +95,7 @@ namespace Hinet.Web.Areas.NotificationArea.Controllers
                     model.IsRead = false;
                     var EntityModel = _mapper.Map<Notification>(model);
                     _NotificationService.Create(EntityModel);
-                    NotificationProvider.SendMessage(EntityModel);
+                    //NotificationProvider.SendMessage(EntityModel);
                 }
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace Hinet.Web.Areas.NotificationArea.Controllers
                     model.IsRead = false;
 
                     _NotificationService.Update(obj);
-                    NotificationProvider.SendMessage(obj);
+                    //NotificationProvider.SendMessage(obj);
                 }
             }
             catch (Exception ex)

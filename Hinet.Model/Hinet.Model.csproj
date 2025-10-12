@@ -115,6 +115,18 @@
     <Compile Include="Migrations\202510102117056_add_1.Designer.cs">
       <DependentUpon>202510102117056_add_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510120619520_alter_tbl_GiaoDich2.cs" />
+    <Compile Include="Migrations\202510120619520_alter_tbl_GiaoDich2.Designer.cs">
+      <DependentUpon>202510120619520_alter_tbl_GiaoDich2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.cs" />
+    <Compile Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.Designer.cs">
+      <DependentUpon>202510120954144_alter_tbl_SiteConfig_TelegramBot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs" />
+    <Compile Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.Designer.cs">
+      <DependentUpon>202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -170,6 +182,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510102117056_add_1.resx">
       <DependentUpon>202510102117056_add_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510120619520_alter_tbl_GiaoDich2.resx">
+      <DependentUpon>202510120619520_alter_tbl_GiaoDich2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.resx">
+      <DependentUpon>202510120954144_alter_tbl_SiteConfig_TelegramBot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.resx">
+      <DependentUpon>202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

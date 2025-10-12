@@ -168,74 +168,75 @@ namespace Hinet.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return Json(new { success = false, message = "Vui lòng điền đầy đủ thông tin đăng nhập." });
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
             var user = await UserManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
-                ModelState.AddModelError("", "Thông tin đăng nhập không tồn tại");
-                return View(model);
+                return Json(new { success = false, message = "Tên đăng nhập hoặc mật khẩu không chính xác." });
             }
 
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, true, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(
+                model.UserName,
+                model.Password,
+                isPersistent: true,
+                shouldLockout: false
+            );
 
             switch (result)
             {
                 case SignInStatus.Success:
-                    //return RedirectToLocal(returnUrl);
                     var userId = SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId<long>();
-
                     var userDto = _appUserService.GetDtoById(userId);
 
                     SessionManager.SetValue(SessionManager.USER_INFO, userDto);
                     var listOperation = _operationService.GetListOperationOfUser(userId);
-                    //_cacheDatabase.StringSet("Operation:" + userId, JsonConvert.SerializeObject(listOperation));
                     SessionManager.SetValue(SessionManager.LIST_PERMISSTION, listOperation);
 
-                    //if (userDto.TypeAccount == AccountTypeConstant.BussinessUser)
-                    //{
-                    //	return RedirectToAction("Index", "Dashboard", new { area = "DashboardArea" });
-                    //}
-                    //else if (userDto.TypeAccount == AccountTypeConstant.NvXang)
-                    //{
-                    //	return RedirectToAction("Index", "Dashboard", new { area = "DashboardArea" });
-                    //}
-                    return Json(new { success = true, message = "Đăng nhập thành công!" });
+                    return Json(new
+                    {
+                        success = true,
+                        message = "Đăng nhập thành công! Hệ thống sẽ tự động chuyển hướng..."
+                    });
 
                 case SignInStatus.LockedOut:
-                    ViewBag.TimeAutoUnlock = UserManager.GetLockoutEndDate(user.Id).AddHours(7);
-                    return Json(new { success = false, message = "Đăng nhập không thành công!" });
-
-
-                //case SignInStatus.RequiresVerification:
-                //	return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = true });
+                    var unlockTime = UserManager.GetLockoutEndDate(user.Id).AddHours(7);
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"Tài khoản của bạn đã bị khóa tạm thời. Vui lòng thử lại sau lúc {unlockTime:HH:mm dd/MM/yyyy}"
+                    });
 
                 case SignInStatus.Failure:
                     if (user != null)
                     {
                         await UserManager.AccessFailedAsync(user.Id);
-                        var message = string.Empty;
-                        if (UserManager.GetAccessFailedCount(user.Id) < UserManager.MaxFailedAccessAttemptsBeforeLockout)
+                        var failCount = UserManager.GetAccessFailedCount(user.Id);
+                        var maxFail = UserManager.MaxFailedAccessAttemptsBeforeLockout;
+
+                        string message;
+                        if (failCount < maxFail)
                         {
-                            message = "Bạn đã nhập sai thông tin tài khoản " + UserManager.GetAccessFailedCount(user.Id) + "/" + UserManager.MaxFailedAccessAttemptsBeforeLockout;
+                            message = $"Tên đăng nhập hoặc mật khẩu không chính xác. Bạn đã nhập sai {failCount}/{maxFail} lần";
                         }
                         else
                         {
-                            message = "Tài khoản của bạn đã bị khóa. Sẽ tự động mở lúc " + UserManager.GetLockoutEndDate(user.Id).AddHours(7);
+                            var lockoutTime = UserManager.GetLockoutEndDate(user.Id).AddHours(7);
+                            message = $"Tài khoản của bạn đã bị tạm khóa do nhập sai quá nhiều lần. Hệ thống sẽ tự mở vào {lockoutTime:HH:mm dd/MM/yyyy}";
                         }
+
                         return Json(new { success = false, message });
-
                     }
-                    //ModelState.AddModelError("", "");
-                    return Json(new { success = false, message = "Thông tin đăng nhập không đúng!" });
 
+                    return Json(new { success = false, message = "Tên đăng nhập hoặc mật khẩu không chính xác" });
 
                 default:
-                    return Json(new { success = false, message = "Thông tin đăng nhập không đúng!" });
-
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Đã có lỗi xảy ra trong quá trình đăng nhập. Vui lòng thử lại sau"
+                    });
             }
         }
 
@@ -305,7 +306,7 @@ namespace Hinet.Web.Controllers
                 var existingUser = await UserManager.FindByNameAsync(model.UserName);
                 if (existingUser != null)
                 {
-                    return Json(new { success = false, message = "Tài khoản đã tồn tại, vui lòng chọn tên khác." });
+                    return Json(new { success = false, message = "Tài khoản đã tồn tại, vui lòng chọn tên khác" });
                 }
 
                 var user = new AppUser
@@ -343,7 +344,7 @@ namespace Hinet.Web.Controllers
                     catch (Exception ex)
                     {
                         _Ilog.Error("Lỗi khi gán role/khởi tạo session", ex);
-                        return Json(new { success = false, message = "Đăng ký thành công nhưng xảy ra lỗi khi khởi tạo session." });
+                        return Json(new { success = false, message = "Đăng ký thành công nhưng xảy ra lỗi khi khởi tạo session" });
                     }
                 }
 

@@ -19,5 +19,11 @@ namespace Hinet.Model.Entities
 		public string NoiDung { get; set; }
         public string TenTaiKhoanCanNap { get; set; }
         public string MatKhauTaiKhoanNap { get; set; }
+        //Full giao dịch
+        public string MaGiaoDich { get; set; }
+        public string MaGiaoDichDoiTac { get; set; }
+        public string NoiDungChuyenKhoan { get; set; }
+        public string WebhookTrangThai { get; set; }
+        public DateTime? ThoiGianWebhook { get; set; }
     }
 }

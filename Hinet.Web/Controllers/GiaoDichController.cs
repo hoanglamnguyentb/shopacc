@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using CommonHelper.Number;
+using DocumentFormat.OpenXml.Office2016.Presentation.Command;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Hinet.Model;
 using Hinet.Model.Entities;
 using Hinet.Service.AppUserService;
@@ -11,13 +14,17 @@ using Hinet.Service.SiteConfigService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Web.Common;
 using Hinet.Web.Filters;
+using Hinet.Web.HubControl;
 using Hinet.Web.Models;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net.Http;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Hinet.Web.Controllers
@@ -32,6 +39,7 @@ namespace Hinet.Web.Controllers
         private readonly IDanhMucGameService _danhMucGameService;
         private readonly IMapper _mapper;
         private readonly ISiteConfigService _siteConfigService;
+        private readonly static string SePayApiKey = WebConfigurationManager.AppSettings["SePayApiKey"];
 
         public GiaoDichController(IGiaoDichService giaoDichService, ITaiKhoanService taiKhoanService, IAppUserService appUserService, INotificationService notificationService, IDanhMucGameService danhMucGameService, IMapper mapper, ISiteConfigService siteConfigService)
         {
@@ -84,7 +92,7 @@ namespace Hinet.Web.Controllers
                         UserId = CurrentUserId.GetValueOrDefault(),
                         DoiTuongId = id,
                         LoaiDoiTuong = nameof(TaiKhoan),
-                        LoaiGiaoDich = LoaiGiaoDichConstant.MUA,
+                        LoaiGiaoDich = LoaiGiaoDichConstant.MUAACC,
                         TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                         PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                         NgayGiaoDich = DateTime.Now,
@@ -100,6 +108,8 @@ namespace Hinet.Web.Controllers
                     );
                     transaction.Commit();
 
+                    var message = $"Người dùng {CurrentUserInfo.FullName} #{CurrentUserId} đã thanh toán thành công tài khoản {taiKhoan.Id}\nXem chi tiết [tại đây](https://example.com/chi-tiet/{taiKhoan.Id})";
+                    TelegramHelper.SendAsync($"Người dùng {CurrentUserInfo.FullName} #{CurrentUserId} đã thanh toán thành công tài khoản {taiKhoan.Id}");
                     return Json(new { success = true, message = "Thanh toán thành công!" });
                 }
                 catch (Exception ex)
@@ -119,7 +129,7 @@ namespace Hinet.Web.Controllers
             {
                 try
                 {
-                    var taiKhoan = _taiKhoanService.GetRanDomByDMGameId(id);
+                    var taiKhoan = _taiKhoanService.GetRandomByDMGameId(id);
                     if (taiKhoan == null || taiKhoan.TrangThai != TrangThaiTaiKhoanConstant.CHUABAN)
                     {
                         return Json(new { success = false, message = "Tài khoản không tồn tại hoặc đã được bán." });
@@ -150,7 +160,7 @@ namespace Hinet.Web.Controllers
                         UserId = CurrentUserId.GetValueOrDefault(),
                         DoiTuongId = id,
                         LoaiDoiTuong = nameof(TaiKhoan),
-                        LoaiGiaoDich = LoaiGiaoDichConstant.MUA,
+                        LoaiGiaoDich = LoaiGiaoDichConstant.MUAACC,
                         TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                         PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                         NgayGiaoDich = DateTime.Now,
@@ -166,6 +176,7 @@ namespace Hinet.Web.Controllers
                     );
                     transaction.Commit();
 
+                    TelegramHelper.SendAsync($"Người dùng {CurrentUserInfo.FullName} #{CurrentUserId} đã thanh toán thành công tài khoản {taiKhoan.Id}");
                     return Json(new { success = true, message = "Thanh toán thành công!" });
                 }
                 catch (Exception ex)
@@ -176,159 +187,192 @@ namespace Hinet.Web.Controllers
             }
         }
 
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult NapTopup(GiaoDichTopupVM model)
-        {
-            if (!ModelState.IsValid)
-                return Json(new { success = false, message = "Dữ liệu không hợp lệ" });
-
-            var EntityModel = _mapper.Map<GiaoDich>(model);
-            EntityModel.LoaiGiaoDich = LoaiGiaoDichConstant.NAPTOPUP;
-            EntityModel.TrangThai = TrangThaiGiaoDichConstant.CHOXULY;
-            EntityModel.PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG;
-            EntityModel.NgayGiaoDich = DateTime.Now;
-            EntityModel.NgayThanhToan = DateTime.Now;
-            EntityModel.UserId = CurrentUserId ?? 0;
-            var generatedCode = GenertePopUpCode();
-            EntityModel.NoiDung = generatedCode;
-            _giaoDichService.Create(EntityModel);
-
-            var configSite = _siteConfigService.GetActiveConfig();
-
-            string qrUrl = $"https://img.vietqr.io/image/{configSite.BankCode}-{configSite.AccountNumber}-compact2.png?amount={model.SoTien}&addInfo={generatedCode}&accountName=${configSite.AccountName}";
-
-            return Json(new
-            {
-                success = true,
-                transactionId = EntityModel.Id,
-                amount = model.SoTien,
-                qrData = qrUrl,
-                content = generatedCode
-            });
-        }
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult NapTien(GiaoDichTopupVM model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return Json(new { success = false, message = "Dữ liệu không hợp lệ" });
-
-        //    var EntityModel = _mapper.Map<GiaoDich>(model);
-        //    EntityModel.LoaiGiaoDich = LoaiGiaoDichConstant.NAPTOPUP;
-        //    EntityModel.TrangThai = TrangThaiGiaoDichConstant.CHOXULY;
-        //    EntityModel.PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG;
-        //    EntityModel.NgayGiaoDich = DateTime.Now;
-        //    EntityModel.NgayThanhToan = DateTime.Now;
-        //    EntityModel.UserId = CurrentUserId ?? 0;
-        //    var generatedCode = GenertePopUpCode();
-        //    EntityModel.NoiDung = generatedCode;
-        //    _giaoDichService.Create(EntityModel);
-
-        //    var configSite = _siteConfigService.GetActiveConfig();
-
-        //    string qrUrl = $"https://img.vietqr.io/image/{configSite.BankCode}-{configSite.AccountNumber}-compact2.png?amount={model.SoTien}&addInfo={generatedCode}&accountName=${configSite.AccountName}";
-
-        //    return Json(new
-        //    {
-        //        success = true,
-        //        transactionId = EntityModel.Id,
-        //        amount = model.SoTien,
-        //        qrData = qrUrl,
-        //        content = generatedCode
-        //    });
-        //}
-
-
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> ConfirmTopup(SePayTransaction transaction)
+        public async Task<JsonResult> TaoGiaoDichVaQRCode(GiaoDich giaoDich)
         {
             try
             {
-                var now = DateTime.Now;
-                var code = transaction.Content.Trim().ToUpper();
-                var existingTrans = _giaoDichService.FindBy(x => x.NoiDung.Trim().ToUpper() == code).FirstOrDefault();
-                var currentUser = existingTrans != null ? _appUserService.GetById(existingTrans.UserId) : null;
-                var notification = $"[{now:dd/MM/yyyy HH:mm:ss}] THÔNG BÁO: Giao dịch nạp topup {existingTrans?.NoiDung} của {currentUser?.UserName} với mệnh giá {existingTrans?.SoTien}đ";
-
-                // Không tìm thấy giao dịch hợp lệ
-                if (existingTrans == null)
+                var kiemTraResult = KiemTraGiaoDich(giaoDich);
+                if(kiemTraResult.Status == false)
                 {
-                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: không tìm thấy giao dịch hợp lệ");
-                    if (currentUser != null)
-                    {
-                        _notificationService.CreateNoti(
-                            currentUser.Id,
-                            "/lich-su-giao-dich",
-                            $"Giao dịch không hợp lệ: Không tìm thấy mã giao dịch {code}."
-                        );
-                    }
-
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { success = false, message = "Transaction not found" }, JsonRequestBehavior.AllowGet);
+                    return ApiResponse.ErrorResponse("Tạo giao dịch thất bại", kiemTraResult.Message);
                 }
 
-                // Giao dịch đã được xử lý hoặc huỷ
-                if (existingTrans.TrangThai != TrangThaiGiaoDichConstant.CHOXULY)
+                var siteConfig = _siteConfigService.GetActiveConfig();
+                var newGiaoDich = new GiaoDich
                 {
-                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: giao dịch đã được xử lý hoặc bị huỷ");
-                    _notificationService.CreateNoti(
-                        currentUser.Id,
-                        "/lich-su-giao-dich",
-                        $"Giao dịch {existingTrans.NoiDung} đã được xử lý hoặc bị huỷ trước đó. Vui lòng kiểm tra lại lịch sử giao dịch."
-                    );
-
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { success = false, message = "Transaction already processed" }, JsonRequestBehavior.AllowGet);
-                }
-
-
-                // Số tiền không khớp
-                var tranferAmount = int.TryParse(transaction.TransferAmount.ToString(), out var res) ? res : 0;
-                if (existingTrans.SoTien != tranferAmount)
+                    UserId = CurrentUserId.GetValueOrDefault(),
+                    DoiTuongId = giaoDich.DoiTuongId,
+                    LoaiDoiTuong = giaoDich.LoaiDoiTuong,
+                    LoaiGiaoDich = giaoDich.LoaiGiaoDich,
+                    TrangThai = "KHOITAO",
+                    PhuongThucThanhToan = giaoDich.PhuongThucThanhToan,
+                    NgayGiaoDich = DateTime.Now,
+                    SoTien = giaoDich.SoTien,
+                    TenTaiKhoanCanNap = giaoDich.TenTaiKhoanCanNap,
+                    MatKhauTaiKhoanNap = giaoDich.MatKhauTaiKhoanNap,
+                };
+                _giaoDichService.Create(newGiaoDich);
+                var maGiaoDich = $"{giaoDich.LoaiGiaoDich}_{newGiaoDich.Id}_{CurrentUserId}";
+                newGiaoDich.MaGiaoDich = maGiaoDich;
+                newGiaoDich.NoiDungChuyenKhoan = maGiaoDich;
+                _giaoDichService.Update(newGiaoDich);
+                var qrUrl = $"https://img.vietqr.io/image/{siteConfig.BankCode}-{siteConfig.AccountNumber}-compact2.png?amount={newGiaoDich.SoTien}&addInfo={HttpUtility.UrlEncode(newGiaoDich.NoiDungChuyenKhoan)}&accountName={HttpUtility.UrlEncode(siteConfig.AccountName)}";
+                var giaoDichVM = new GiaoDichVM
                 {
-                    await TelegramHelper.SendAsync($"{notification} thất bại, lý do: số tiền gửi không khớp với giá trị nạp");
-                    existingTrans.TrangThai = TrangThaiGiaoDichConstant.THATBAI;
-                    _giaoDichService.Update(existingTrans);
-                    _notificationService.CreateNoti(
-                        currentUser.Id,
-                        "/lich-su-giao-dich",
-                        $"Giao dịch {existingTrans.NoiDung} thất bại do số tiền chuyển không khớp ({transaction.TransferAmount:N0}đ)."
-                    );
+                    NoiDungChuyenKhoan = newGiaoDich.NoiDungChuyenKhoan,
+                    SoTien = newGiaoDich.SoTien,
+                    QrUrl = qrUrl
+                };
 
-                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { success = false, message = "Invalid amount transaction expired" }, JsonRequestBehavior.AllowGet);
-                }
-
-                // Thành công
-                existingTrans.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
-                _giaoDichService.Update(existingTrans);
-                var userDto = _appUserService.GetDtoById(currentUser.Id);
-                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
-                await TelegramHelper.SendAsync($"{notification} thành công");
-
-                _notificationService.CreateNoti(
-                    userDto.Id,
-                    "/lich-su-giao-dich",
-                    $"Nạp tiền thành công! Giao dịch {existingTrans.NoiDung} với mệnh giá {existingTrans.SoTien:N0}đ đã được cộng vào tài khoản của bạn."
-                );
-                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                return ApiResponse.SuccessResponse(giaoDichVM, "Tạo giao dịch thành công");
             }
             catch (Exception ex)
             {
-                await TelegramHelper.SendAsync($"Giao dịch thất bại, lý do:Lỗi xác nhận giao dịch nạp tiền {ex}");
-                _notificationService.CreateNoti(
-                    CurrentUserId ?? 0,
-                    "/lich-su-giao-dich",
-                    $"Có lỗi xảy ra trong quá trình xác nhận giao dịch {ex}. Hệ thống đang kiểm tra, vui lòng thử lại sau."
-                );
-                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return Json(new { success = false, message = "Internal server error" }, JsonRequestBehavior.AllowGet);
+                return ApiResponse.ErrorResponse("Tạo giao dịch thất bại", ex.Message);
             }
+        }
+
+
+        [HttpDelete]
+        public async Task HuyGiaoDich(string maGiaoDich)
+        {
+            var giaoDich = _giaoDichService.FindBy(x => x.MaGiaoDich == maGiaoDich).FirstOrDefault();
+            if(giaoDich != null && giaoDich.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+            {
+                _giaoDichService.Delete(giaoDich);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> SePayCallback(SePayTransaction transaction)
+        {
+            try
+            {
+                string apiKeyInHeader = Request.Headers["Authorization"];
+                var expectedPrefix = "Apikey ";
+                if (string.IsNullOrEmpty(apiKeyInHeader) || !apiKeyInHeader.StartsWith(expectedPrefix))
+                {
+                    return Json(new { success = false, message = "Thiếu hoặc sai định dạng API Key" });
+                }
+                string apiKey = apiKeyInHeader.Substring(expectedPrefix.Length);
+                if (apiKey != SePayApiKey)
+                {
+                    return ApiResponse.ErrorResponse("API Key không hợp lệ");
+                }
+
+                if (transaction == null || string.IsNullOrEmpty(transaction.Content))
+                {
+                    return ApiResponse.ErrorResponse("Dữ liệu không hợp lệ");
+                }
+
+                var code = transaction.Content.Trim().ToUpper();
+                var giaoDich = _giaoDichService.FindBy(x => x.NoiDungChuyenKhoan.Trim().ToUpper() == code).FirstOrDefault();
+
+                if (giaoDich == null)
+                {
+                    return ApiResponse.ErrorResponse("Không tìm thấy giao dịch");
+                }
+
+                // Kiểm tra trạng thái thành công từ SePay (giả sử transaction.Status == "SUCCESS")
+                if (giaoDich.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+                {
+                    giaoDich.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
+                    giaoDich.NgayThanhToan = DateTime.Now;
+                    giaoDich.MaGiaoDichDoiTac = transaction.Id.ToString();
+                    giaoDich.SoTien = (int)transaction.TransferAmount;
+                    _giaoDichService.Update(giaoDich);
+
+                    XuLySauKhiThanhToan(giaoDich);
+
+                    return ApiResponse.SuccessResponse(null, "Giao dịch thành công");
+                }
+                else
+                {
+                    return ApiResponse.ErrorResponse("Trạng thái giao dịch không hợp lệ hoặc đã xử lý");
+                }
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.ErrorResponse("Lỗi xử lý", ex.Message);
+            }
+        }
+
+        public void XuLySauKhiThanhToan(GiaoDich giaoDich)
+        {
+            var code = giaoDich.NoiDungChuyenKhoan;
+            if (string.IsNullOrWhiteSpace(code)) return;
+            var message = "";
+            var url = "";
+
+            var parts = code.Split('_');
+            var loaiGiaoDich = parts[0];
+            var id = parts.Length > 1 ? int.Parse(parts[1]) : 0; //Id đối tượng
+            var userId = parts.Length > 2 ? int.Parse(parts[2]) : 0;
+
+            if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACCRANDOM, StringComparison.OrdinalIgnoreCase))
+            {
+                // Cập nhật trạng thái tài khoản random
+                var taiKhoan = _taiKhoanService.GetRandomByDMGameId(id);
+                if (taiKhoan != null)
+                {
+                    taiKhoan.TrangThai = TrangThaiTaiKhoanConstant.DABAN;
+                    _taiKhoanService.Update(taiKhoan);
+
+                    // Tạo giao dịch mua acc random cho user
+                    var newGiaoDich = new GiaoDich
+                    {
+                        UserId = userId,
+                        DoiTuongId = taiKhoan.Id,
+                        LoaiDoiTuong = nameof(TaiKhoan),
+                        LoaiGiaoDich = LoaiGiaoDichConstant.MUAACC,
+                        TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
+                        PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
+                        NgayGiaoDich = DateTime.Now,
+                        NgayThanhToan = DateTime.Now,
+                        SoTien = giaoDich.SoTien,
+                        NoiDung = $"Mua tài khoản ngẫu nhiên #DM_{giaoDich.DoiTuongId} #TK_CODE_{taiKhoan.Code}",
+                    };
+                    _giaoDichService.Create(newGiaoDich);
+                }
+                message = $"🎉 Giao dịch thành công! Bạn đã sở hữu tài khoản <strong>#{taiKhoan.Code}</strong>. Hãy kiểm tra ngay nhé.";
+                url = $"/acc/{taiKhoan.Code}";
+            }
+            else if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACC, StringComparison.OrdinalIgnoreCase))
+            {
+                // Mua acc bình thường
+                var taiKhoan = _taiKhoanService.GetById(id);
+                if (taiKhoan != null)
+                {
+                    taiKhoan.TrangThai = TrangThaiTaiKhoanConstant.DABAN;
+                    _taiKhoanService.Update(taiKhoan);
+                }
+                message = $"🎉 Thanh toán thành công! Tài khoản <strong>#{taiKhoan.Code}</strong> đã thuộc về bạn";
+                url = $"/acc/{taiKhoan.Code}";
+            }
+            else if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTHUONG, StringComparison.OrdinalIgnoreCase))
+            {
+                // Nạp tiền
+                var user = _appUserService.GetById(userId);
+                if (user != null)
+                {
+                    user.Balance += giaoDich.SoTien;
+                    _appUserService.Update(user);
+                }
+                message = $"💰 Nạp tiền thành công! Tài khoản của bạn đã được cộng <strong>+{NumberHelper.FormatNumberVN(giaoDich.SoTien)} VNĐ</strong>";
+                url = "/lich-su-giao-dich";
+            }
+            giaoDich.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
+            _giaoDichService.Update(giaoDich);
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            hubContext.Clients.Group(userId.ToString()).receiveNotification(new
+            {
+                message = message,
+                url = url,
+            });
+            _notificationService.CreateNoti(userId, url,message);
+            SendTelegramMessage(giaoDich);
         }
 
         [HttpGet]
@@ -339,27 +383,125 @@ namespace Hinet.Web.Controllers
                 .Any();
             return Json(new { success }, JsonRequestBehavior.AllowGet);
         }
-        private string GenertePopUpCode(string prefix = "PAY", int randomChars = 5)
+
+        private async Task SendTelegramMessage(GiaoDich giaoDich)
         {
-            var ts = DateTime.UtcNow.ToString("yyyyMMddHHmmss"); // dùng UTC để nhất quán
-            var randomPart = RandomBase36(randomChars);
-            return $"{prefix}{ts}{randomPart}";
+            var baseInfo = $"- Giao dịch ID: {giaoDich.Id}\n" +
+                           $"- UserId: {giaoDich.UserId}\n" +
+                           $"- Số tiền: {giaoDich.SoTien:N0} VNĐ\n" +
+                           $"- Nội dung chuyển khoản: {giaoDich.NoiDungChuyenKhoan}\n" +
+                           $"- Thời gian: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n" +
+                           $"- Mã giao dịch đối tác: {giaoDich.MaGiaoDichDoiTac}";
+
+            string message = "";
+
+            if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACC, StringComparison.OrdinalIgnoreCase) ||
+                giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACCRANDOM, StringComparison.OrdinalIgnoreCase))
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"💎 MUA ACC thành công!\n" +
+                          $"- Loại: {(giaoDich.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACCRANDOM ? "Random" : "Mua ngay")}\n"
+                          + baseInfo;
+            }
+            else if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTHUONG, StringComparison.OrdinalIgnoreCase))
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"💰 NẠP TIỀN thành công!\n"
+                          + baseInfo;
+            }
+            else
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"🔔 Giao dịch khác được thực hiện\n"
+                          + baseInfo;
+            }
+
+            // Gọi helper thực tế để gửi telegram
+            await SendTelegramMessageAsync(message);
         }
 
-        private string RandomBase36(int length)
+        private async Task SendTelegramMessageAsync(string message)
         {
-            const string chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var data = new byte[length];
-            using (var rng = RandomNumberGenerator.Create())
+            try
             {
-                rng.GetBytes(data);
+                var siteConfig = _siteConfigService.GetTelegramInfo();
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                using (var httpClient = new HttpClient())
+                {
+                    var encodedMsg = System.Net.WebUtility.UrlEncode(message);
+                    var url = $"https://api.telegram.org/bot{siteConfig.TelegramBotToken}/sendMessage?chat_id={siteConfig.TelegramChatId}&text={encodedMsg}";
+                    await httpClient.GetAsync(url);
+                }
             }
-            var sb = new StringBuilder(length);
-            foreach (var b in data)
+            catch (Exception ex)
             {
-                sb.Append(chars[b % chars.Length]);
             }
-            return sb.ToString();
         }
+
+        public GiaoDichCheckerResult KiemTraGiaoDich(GiaoDich giaoDich)
+        {
+            var loaiGiaoDich = giaoDich.LoaiGiaoDich;
+
+            // Mua acc random
+            if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACCRANDOM, StringComparison.OrdinalIgnoreCase))
+            {
+                var taiKhoan = _taiKhoanService.GetRandomByDMGameId(giaoDich.DoiTuongId);
+                if (taiKhoan == null)
+                {
+                    return GiaoDichCheckerResult.Error(
+                        "⚠️ Rất tiếc, hiện tại không còn tài khoản phù hợp. Vui lòng thử lại sau hoặc chọn một danh mục khác nhé."
+                    );
+                }
+            }
+            // Mua acc cụ thể
+            else if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACC, StringComparison.OrdinalIgnoreCase))
+            {
+                var taiKhoan = _taiKhoanService.GetById(giaoDich.DoiTuongId);
+                if (taiKhoan == null)
+                {
+                    return GiaoDichCheckerResult.Error(
+                        "❌ Tài khoản bạn chọn không tồn tại hoặc đã bị gỡ. Vui lòng kiểm tra lại hoặc chọn tài khoản khác."
+                    );
+                }
+                if (taiKhoan.TrangThai == TrangThaiTaiKhoanConstant.DABAN)
+                {
+                    return GiaoDichCheckerResult.Error(
+                        $"⚠️ Rất tiếc, tài khoản <b>#{taiKhoan.Code}</b> đã được người khác mua trước. Vui lòng chọn một tài khoản khác nhé."
+                    );
+                }
+            }
+
+            return GiaoDichCheckerResult.Success();
+        }
+
+
+        [AllowAnonymous]
+        public void TEST()
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            hubContext.Clients.Group("10").receiveNotification(new
+            {
+                message = "HELLO",
+                url = "URL",
+            });
+        }
+
+    }
+
+    public class GiaoDichCheckerResult
+    {
+        public bool Status { get; set; }
+        public string Message { get; set; }
+
+        public GiaoDichCheckerResult(bool status, string message)
+        {
+            Status = status;
+            Message = message;
+        }
+
+        public static GiaoDichCheckerResult Success(string msg = "Giao dịch hợp lệ")
+            => new GiaoDichCheckerResult(true, msg);
+        public static GiaoDichCheckerResult Error(string msg)
+            => new GiaoDichCheckerResult(false, msg);
     }
 }

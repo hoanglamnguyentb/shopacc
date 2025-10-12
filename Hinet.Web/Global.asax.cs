@@ -44,8 +44,6 @@ namespace Hinet.Web
             builder.RegisterModule(new AutoMapperModule());
             builder.RegisterModule(new WebModule());
 
-            builder.RegisterType<XinChaoHub>().ExternallyOwned();
-
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));

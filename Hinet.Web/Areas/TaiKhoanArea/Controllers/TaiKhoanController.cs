@@ -74,7 +74,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 			};
 			ViewBag.Game = _gameService.GetById(id) as Game;
             ViewBag.dropdownListGameId = _gameService.GetDropdown("Name", "Id");
-			SessionManager.SetValue(searchKey, searchModel);
+            ViewBag.dropdownListTrangThaiTaiKhoan = ConstantExtension.GetDropdownData<TrangThaiTaiKhoanConstant>();
+            SessionManager.SetValue(searchKey, searchModel);
             var listData = _TaiKhoanService.GetDaTaByPage(searchModel);
 			return View(listData);
 		}
@@ -124,7 +125,8 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public JsonResult Create(CreateVM model, string[] UploadedFiles)
+        [ValidateInput(false)]
+        public JsonResult Create(CreateVM model, string[] UploadedFiles)
 		{
 			var result = new JsonResultBO(true, "Tạo  thành công");
 			try
@@ -232,6 +234,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[ValidateInput(false)]
 		public JsonResult Edit(EditVM model, string[] UploadedFiles)
 		{
 			var result = new JsonResultBO(true, "Cập nhật thành công");

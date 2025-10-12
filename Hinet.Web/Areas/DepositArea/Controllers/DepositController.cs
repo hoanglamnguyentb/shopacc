@@ -127,7 +127,7 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                     UserId = currentUser.Id,
                     DoiTuongId = 2,
                     LoaiDoiTuong = "NapTien",
-                    LoaiGiaoDich = LoaiGiaoDichConstant.NAP,
+                    LoaiGiaoDich = LoaiGiaoDichConstant.NAPTHUONG,
                     TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                     PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                     NgayGiaoDich = now,
@@ -147,7 +147,7 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                     UserId = currentUser.Id,
                     DoiTuongId = existingTrans.Id,
                     LoaiDoiTuong = nameof(Deposit),
-                    LoaiGiaoDich = LoaiGiaoDichConstant.NAP,
+                    LoaiGiaoDich = LoaiGiaoDichConstant.NAPTHUONG,
                     TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                     PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                     NgayGiaoDich = now,
@@ -190,8 +190,6 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                 return Json(new { success = false, message = "Internal server error" }, JsonRequestBehavior.AllowGet);
             }
         }
-
-
 
         [HttpPost]
         public ActionResult GenerateCode(long amount)

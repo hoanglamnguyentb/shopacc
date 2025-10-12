@@ -35,6 +35,8 @@ namespace Hinet.Web.Areas.SiteConfigArea.Models
         public string BankCode { get; set; }
         public string AccountNumber { get; set; }
         public string AccountName { get; set; }
+        public string TelegramBotToken { get; set; }
+        public string TelegramChatId { get; set; }
 
     }
 }

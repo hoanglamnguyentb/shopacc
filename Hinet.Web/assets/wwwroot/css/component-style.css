@@ -1,6 +1,10 @@
 /* footer */
 .footer-default {
-    background: var(--w-ghost-focus-color);
+    background: #111827;
+}
+
+.footer-default *{
+    color: white;
 }
 
 .footer-default-body-row span {
@@ -590,10 +594,6 @@
     }
 
     .--custom.content-detail {
-        border: none;
-        margin-left: 0;
-        margin-right: 0;
-        border-radius: 0;
     }
 }
 

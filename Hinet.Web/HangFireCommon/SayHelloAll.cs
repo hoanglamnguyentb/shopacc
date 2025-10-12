@@ -15,7 +15,7 @@ namespace Hinet.Web.HangFireCommon
                 Type = NotificationTypeConstant.Global,
             };
 
-            NotificationProvider.SendMessage(notifycation);
+            //NotificationProvider.SendMessage(notifycation);
         }
     }
 }

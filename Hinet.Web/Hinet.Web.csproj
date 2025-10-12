@@ -673,7 +673,6 @@
     <Compile Include="Core\LongModelBinder.cs" />
     <Compile Include="Core\LuceneSearchArticle.cs" />
     <Compile Include="Core\MapperExtensions.cs" />
-    <Compile Include="Core\NotificationProvider.cs" />
     <Compile Include="Core\PagingExtention.cs" />
     <Compile Include="Core\RepositoryConnectUser.cs" />
     <Compile Include="Core\RepositoryConnectUserToaDam.cs" />
@@ -689,9 +688,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HangFireCommon\SayHelloAll.cs" />
-    <Compile Include="HubControl\ThongBaoHub.cs" />
-    <Compile Include="HubControl\XinChaoHub.cs" />
+    <Compile Include="HubControl\NotificationHub.cs" />
+    <Compile Include="Models\GiaoDichVM.cs" />
+    <Compile Include="Models\GiaoDichNapVM.cs" />
     <Compile Include="Models\GiaoDichTopupVM.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AttachTempFileItem.cs" />
@@ -699,6 +698,7 @@
     <Compile Include="Models\EndUserNotificationViewModel.cs" />
     <Compile Include="Models\GameVM\DanhMucGameVM.cs" />
     <Compile Include="Models\GameVM\IndexVM.cs" />
+    <Compile Include="Models\ApiResponse.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Map\ThongKeTheoTinh.cs" />
     <Compile Include="Models\MenuViewModel.cs" />
@@ -11550,6 +11550,7 @@
     <Content Include="assets\wwwroot\js\toctoc.js" />
     <Content Include="assets\wwwroot\js\top_charge.js" />
     <Content Include="assets\wwwroot\js\validate.js" />
+    <Content Include="assets\wwwroot\js\giao-dich.js" />
     <Content Include="assets\wwwroot\js\vi.js" />
     <Content Include="assets\wwwroot\js\wNumb.min.js" />
     <Content Include="Content\ADashboard.css" />
@@ -14781,6 +14782,7 @@
     <Folder Include="Areas\BinhLuanArea\Views\Shared\" />
     <Folder Include="Areas\DepositArea\Models\" />
     <Folder Include="Areas\DepositArea\Views\Role\" />
+    <Folder Include="HangFireCommon\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

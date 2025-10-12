@@ -27,7 +27,7 @@
                 <div class="col-md-6 row-block">
                     <div class="col-md-4 txt-label">Trạng thái</div>
                     <div class="col-md-8">
-                        <input class="form-control width100" type="text" name="TrangThaiFilter" />
+                        @Html.DropDownList("TrangThaiFilter", ViewBag.dropdownListTrangThaiTaiKhoan as List<SelectListItem>, "-- Chọn trạng thái --", new { @class = "form-control" })
                     </div>
                 </div>
 

@@ -1,4 +1,6 @@
 ﻿@using CommonHelper.Number;
+@using Hinet.Service.Constant;
+
 @model Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto
 @{
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
@@ -7,7 +9,7 @@
     var danhMuc = Model.DanhMucGame;
     var giaThanhToan = Model.GiaKhuyenMai.HasValue ? Model.GiaKhuyenMai : Model.GiaGoc;
     var thanhToanDuoc = currentUser != null && currentUser.Balance >= giaThanhToan;
-    var isNguoiMua = currentUser != null &&  currentUser.Id == Model.IdNguoiMuaAcc;
+    var isNguoiMua = currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc;
     var isChoPhepTruyCap = (currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc)
                        || danhMuc.LaLoaiDongGia != true;
     if (!isChoPhepTruyCap)
@@ -48,7 +50,7 @@
                 <div class="card account-thumb">
                     <div class="card-body">
                         <!-- Swiper -->
-                        <div class="swiper swiper-chitiet-tk brs-8" style="height: 400px">
+                        <div class="swiper swiper-chitiet-tk" style="height: 400px; overflow: hidden">
                             <div class="swiper-wrapper">
                                 @foreach (var item in Model.TaiLieuDinhKemList)
                                 {
@@ -63,45 +65,30 @@
                             <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
                         </div>
                         <div class="swiper-pagination"></div>
-
-
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body c-px-16">
-                        <!-- Swiper thumbnail (ảnh nhỏ) -->
-                        <div thumbsSlider="" class="swiper swiper-chitiet-thumbs c-mt-12">
-                            <div class="swiper-wrapper">
-                                @foreach (var item in Model.TaiLieuDinhKemList)
+                    @if (!string.IsNullOrEmpty(Model.Mota))
+                    {
+                        <div class="c-p-8">
+                            <h2 class="text-title-bold c-mb-8 detailViewBlockTitle">Thông tin mô tả</h2>
+                            <div class="content-desc">
+                                @Model.Mota
+                                @if (isNguoiMua)
                                 {
-                                    <div class="swiper-slide" style="width:80px;height:80px;cursor:pointer;">
-                                        <img src="@Url.Content(item.DuongDanFile)"
-                                             alt="@item.TenTaiLieu"
-                                             class="w-100 h-100 object-cover brs-4"
-                                             onerror="imgError(this)" />
-                                    </div>
+                                    <p>
+                                        @Html.Raw(Model.ThongTinSauThanhToan)
+                                    </p>
                                 }
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
-                @if (!string.IsNullOrEmpty(Model.Mota))
-                {
-                    <div class="card border shadow-sm c-p-16 c-mt-16">
-                        <div class="card-body">
-                            <h2 class="text-title-bold d-none d-lg-block c-mb-24 detailViewBlockTitle">Chi tiết dịch vụ</h2>
-                            <div class="content-desc detailViewBlockContent">
-                                @Model.Mota
-                            </div>
-                        </div>
-                    </div>
-                }
+
 
             </div>
 
-            <div class="col-12 col-lg-5 c-pl-8 c-pl-lg-15">
+            <div class="col-12 col-lg-5 c-pl-8 c-pl-lg-15 c-mt-16">
                 <div class="js_sticky" data-top="140">
-                    <div class="card account-detail-info">
+                    <div class="card account-detail-info c-px-8">
                         <div class="card-body c-p-16 mx-n3 mx-lg-0">
                             <div class="section-title title-color fz-lg-18 lh-lg-24">
                                 @danhMuc.Name
@@ -159,12 +146,11 @@
                                                                        value="@Model.Password"
                                                                        readonly
                                                                        class="password-field"
-                                                                       style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right;" />
+                                                                       style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right; height: 14px" />
 
-                                                                <span 
-                                                                        class="toggle-password p-0"
-                                                                        title="Hiện/ẩn mật khẩu"
-                                                                        style="text-decoration: none;">
+                                                                <span class="toggle-password p-0"
+                                                                      title="Hiện/ẩn mật khẩu"
+                                                                      style="text-decoration: none;">
                                                                     <i class="bi bi-eye"></i>
                                                                 </span>
                                                             </div>
@@ -395,7 +381,7 @@
                     @if (currentUser != null)
                     {
                         <button type="submit" class="btn ghost" @(thanhToanDuoc ? "" : "disabled")>Thanh toán</button>
-                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal">Nạp tiền</button>
+                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal">Mua ngay</button>
                     }
                     else
                     {
@@ -407,73 +393,7 @@
     </div>
 </div>
 <!-- End Modal thanh toán -->
-<!-- Start Modal nạp tiền -->
-<div class="modal fade modal-big loadModal__acount show" id="rechargeModal" aria-modal="true">
-    <div class="modal-dialog modal-dialog-centered modal-custom">
-        <div class="modal-content">
-            <div class="modal-header p-2">
-                <p class="modal-title center">
-                    Nạp tiền
-                </p>
-                <button type="button" class="close" data-dismiss="modal"></button>
-            </div>
-            <div class="modal-body px-3 py-0" style="max-height: calc(100vh - 175px); overflow-y: auto">
-                <div class="text-center">
-                    <p class="fz-14 fw-500 c-mb-8">Quét mã QR bên dưới để nạp tiền</p>
-                    <img id="rechargeQrImage" alt="QR chuyển khoản" style="width: 320px; height: auto; display:none;" class="border shadow-sm rounded-lg">
-                    <table class="table table-bordered text-center align-middle table-sm mt-4">
-                        <tbody>
-                            <tr>
-                                <th scope="row" style="width: 40%;">Thụ hưởng</th>
-                                <td>@config.AccountName</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Số tài khoản</th>
-                                <td>@config.AccountNumber</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Số tiền</th>
-                                <td><span id="displayAmount"></span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Nội dung chuyển khoản</th>
-                                <td><strong id="displayNoiDung"></strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p>
-                        Nếu sau <strong>5 phút</strong> không được cộng tiền, vui lòng liên hệ:
-                    </p>
-
-                    <p>
-                        Fanpage:&nbsp;
-                        <a href="@config.LinkFacebook" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
-                            <strong><u>Chăm Sóc Khách Hàng</u></strong>
-                        </a>
-                        <br />
-                        Hotline:&nbsp;
-                        <a href="tel:@config.SoDienThoai" rel="nofollow" target="_blank" style="color: #1e73be; text-decoration: none;">
-                            <strong>@config.SoDienThoai</strong>
-                        </a>
-                    </p>
-
-                    <hr style="width: 60%; margin: 12px auto; border-top: 1px dashed #ccc;">
-
-                    <p style="color: #d9534f; font-weight: bold;">
-                        *Chú ý: Chuyển đúng cú pháp.
-                        Sai nội dung dẫn đến chuyển qua ID khác, shop sẽ không chịu trách nhiệm.
-                    </p>
-                </div>
-            </div>
-            <div class="modal-footer data__dangnhap p-3">
-                <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal" data-toggle="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Modal nạp tiền -->
 <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 <script>
@@ -489,14 +409,14 @@
         $('#orderModal').modal('show');
     });
 
-    // Mở modal nạp tiền
+    // Khi click nút nạp tiền
     $('body').on('click', '.handle-recharge-modal', function (e) {
         e.preventDefault();
-        if (!isLoggedIn) {
-            openLoginModal();
-            return;
-        }
-        $('#rechargeModal').modal('show');
+        openGiaoDichModal({
+            SoTien: @giaThanhToan,
+            LoaiGiaoDich: '@LoaiGiaoDichConstant.MUAACC',
+            DoiTuongId: @Model.Id,
+        });
     });
 
     // 🧠 Xác nhận khi bấm nút Thanh toán
@@ -570,62 +490,6 @@
             location.reload();
         });
     }
-
-    // Hàm tạo mã QR cho nạp tiền
-    function generateVietQR(bankCode, accountNumber, accountName, amount, transferContent) {
-        if (!bankCode || !accountNumber || !accountName || !amount || !transferContent) {
-            throw new Error("Thiếu thông tin cần thiết để tạo mã QR");
-        }
-        const baseUrl = `https://img.vietqr.io/image/${encodeURIComponent(bankCode)}-${encodeURIComponent(accountNumber)}-compact2.png`;
-        const params = new URLSearchParams({
-            amount: amount,
-            addInfo: transferContent,
-            accountName: accountName
-        });
-        return `${baseUrl}?${params.toString()}`;
-    }
-
-    // Nạp tiền
-    $('body').on('click', '.handle-recharge-modal', function (e) {
-        e.preventDefault();
-        if (!isLoggedIn) {
-            openLoginModal();
-            return;
-        }
-
-        const amount = @giaThanhToan;
-        const transferCode = 'NAP' + '@(currentUser != null ? currentUser.Id.ToString() : "")';
-        const bankCode = '@config.BankCode';
-        const accountNumber = '@config.AccountNumber';
-        const accountName = '@config.AccountName';
-
-        try {
-            const qrUrl = generateVietQR(bankCode, accountNumber, accountName, amount, transferCode);
-            $('#rechargeQrImage').attr('src', qrUrl).show();
-            $("#displayAmount").text(amount.toLocaleString('vi-VN') + ' VND')
-            $("#displayNoiDung").text("NAPTHUONG "+'@currentUser?.Id')
-        } catch (err) {
-            console.error(err);
-            $('#qrInfoText').text('Không thể tạo mã QR. Vui lòng thử lại.');
-        }
-
-        $('#rechargeModal').modal('show');
-    });
-
-    // Thumbnail swiper
-    var thumbTKSwiper = new Swiper(".swiper-chitiet-thumbs", {
-        loop: false,
-        spaceBetween: 10,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-        watchSlidesVisibility: true,
-        breakpoints: {
-            0: { slidesPerView: 3 },
-            768: { slidesPerView: 4 },
-            1024: { slidesPerView: 5 },
-        },
-    });
 
     var chitietTK_slide = new Swiper(".swiper-chitiet-tk", {
         loop: false,

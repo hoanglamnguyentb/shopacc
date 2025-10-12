@@ -37,23 +37,25 @@
                                              alt="@danhMuc.Id"
                                              class="account-thumb-image lazy">
                                     </div>
-                                    <div class="account-title">
-                                        <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
-                                    </div>
-                                    <div class="price">
-                                        @if (danhMuc.GiaKhuyenMai.HasValue)
-                                        {
-                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaKhuyenMai)</div>
-                                            <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
-                                            <div class="discount">@NumberHelper.TinhPhanTramGiamText(danhMuc.GiaGoc, danhMuc.GiaKhuyenMai.Value)</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
-                                        }
-                                    </div>
-                                    <div class="price c-pt-12 c-pt-lg-8">
-                                        <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                                    <div class="c-px-8">
+                                        <div class="account-title">
+                                            <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
+                                        </div>
+                                        <div class="price">
+                                            @if (danhMuc.GiaKhuyenMai.HasValue)
+                                            {
+                                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaKhuyenMai)</div>
+                                                <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                                                <div class="discount">@NumberHelper.TinhPhanTramGiamText(danhMuc.GiaGoc, danhMuc.GiaKhuyenMai.Value)</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(danhMuc.GiaGoc)</div>
+                                            }
+                                        </div>
+                                        <div class="price c-pt-12 c-pt-lg-8">
+                                            <button type="button" class="w-100 btn secondary">Mua ngay</button>
+                                        </div>
                                     </div>
                                 </a>
                             </div>
@@ -70,34 +72,36 @@
                                              alt="@tk.Code"
                                              class="account-thumb-image lazy">
                                     </div>
-                                    <div class="account-title">
-                                        <div class="text-title fw-700 text-limit limit-1">Nick @tk.Game.Name</div>
-                                    </div>
-                                    <div class="account-info c-mb-8">
-                                        <div class="info-attr c-mb-8">
-                                            ID: #@tk.Code
+                                    <div class="c-px-8">
+                                        <div class="account-title">
+                                            <div class="text-title fw-700 text-limit limit-1">Nick @tk.Game.Name</div>
                                         </div>
-                                        @foreach (var gt in tk.ListGTTT)
-                                        {
-                                            if (!string.IsNullOrEmpty(gt.GiaTriTxt))
+                                        <div class="account-info c-mb-8">
+                                            <div class="info-attr c-mb-8">
+                                                ID: #@tk.Code
+                                            </div>
+                                            @foreach (var gt in tk.ListGTTT)
                                             {
-                                                <div class="info-attr">
-                                                    @gt.ThuocTinhTxt: @gt.GiaTriTxt
-                                                </div>
+                                                if (!string.IsNullOrEmpty(gt.GiaTriTxt))
+                                                {
+                                                    <div class="info-attr">
+                                                        @gt.ThuocTinhTxt: @gt.GiaTriTxt
+                                                    </div>
+                                                }
                                             }
-                                        }
-                                    </div>
-                                    <div class="price">
-                                        @if (tk.GiaKhuyenMai.HasValue)
-                                        {
-                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaKhuyenMai)</div>
-                                            <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
-                                            <div class="discount">@NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai.Value)</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
-                                        }
+                                        </div>
+                                        <div class="price">
+                                            @if (tk.GiaKhuyenMai.HasValue)
+                                            {
+                                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaKhuyenMai)</div>
+                                                <div class="price-old c-mr-8">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                                                <div class="discount">@NumberHelper.TinhPhanTramGiamText(tk.GiaGoc, tk.GiaKhuyenMai.Value)</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="price-current w-100">@NumberHelper.FormatMoneyVN(tk.GiaGoc)</div>
+                                            }
+                                        </div>
                                     </div>
                                 </a>
                             </div>

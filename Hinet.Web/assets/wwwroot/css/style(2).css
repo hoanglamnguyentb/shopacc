@@ -1611,9 +1611,6 @@ input[type=text].buy-card-amount-input {
 
 /* Type 1: Hover card in swiper slide */
 .card-list .swiper-slide {
-    margin-top: 4px;
-    margin-bottom: 12px;
-    top: 0;
 }
 
 /* Type 2: Hover card without slide */

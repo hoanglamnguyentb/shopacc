@@ -77,8 +77,8 @@ namespace Hinet.Service.DashboardService
                 .Where(t => t.CreatedDate >= startDate && t.CreatedDate <= endDate);
 
             var totalRevenue = transQuery
-                .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.MUA)
-                .Sum(t => Math.Abs(t.SoTien));
+                .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
+                .Sum(t => (decimal?)t.SoTien) ?? 0;
 
             //// Đếm số tài khoản bán ra
             var totalAccountSold = transQuery
@@ -90,8 +90,8 @@ namespace Hinet.Service.DashboardService
 
             //// Tính tổng nạp tiền 
             var totalDeposit = transQuery
-                .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.NAP)
-                .Sum(t => Math.Abs(t.SoTien));
+                .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTHUONG)
+                .Sum(t => (decimal?)t.SoTien) ?? 0;
 
             return new SummaryData
             {

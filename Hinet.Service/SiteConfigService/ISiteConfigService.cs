@@ -15,5 +15,6 @@ namespace Hinet.Service.SiteConfigService
         PageListResultBO<SiteConfigDto> GetDaTaByPage(SiteConfigSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         SiteConfig GetById(long id);
         SiteConfig GetActiveConfig();
+        SiteConfig GetTelegramInfo();
     }
 }

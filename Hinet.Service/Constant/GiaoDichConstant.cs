@@ -10,6 +10,10 @@ namespace Hinet.Service.Constant
 {
 	public class TrangThaiGiaoDichConstant
 	{
+        [DisplayName("Khởi tạo")]
+        [Color(Color = "#FFC107", BgColor = "#FFF8E1", Icon = "bi bi-clock")]
+        public static string KHOITAO => "KHOITAO";
+
         [DisplayName("Chờ xử lý")]
         [Color(Color = "#FFC107", BgColor = "#FFF8E1", Icon = "bi bi-clock")]
         public static string CHOXULY => "CHOXULY";
@@ -44,11 +48,14 @@ namespace Hinet.Service.Constant
 
 	public class LoaiGiaoDichConstant
 	{
-		[DisplayName("Mua")]
-		public static string MUA => "MUA";
+		[DisplayName("Mua acc")]
+		public static string MUAACC => "MUAACC";
 
-		[DisplayName("Nạp tiền")]
-		public static string NAP => "NAP";
+        [DisplayName("Mua acc random")]
+        public static string MUAACCRANDOM => "MUAACCRANDOM";
+
+        [DisplayName("Nạp tiền")]
+		public static string NAPTHUONG => "NAPTHUONG";
 
 		[DisplayName("Rút tiền")]
 		public static string RUT => "RUT";

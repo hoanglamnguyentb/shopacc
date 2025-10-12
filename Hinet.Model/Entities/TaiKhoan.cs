@@ -16,5 +16,6 @@ namespace Hinet.Model.Entities
 		public int? GiaKhuyenMai { get; set; }
 		public string Mota { get; set; }
 		public int ViTri { get; set; }
+        public string ThongTinSauThanhToan { get; set; }
     }
 }

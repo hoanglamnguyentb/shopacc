@@ -206,7 +206,7 @@ namespace Hinet.Service.GameService
             var danhMucGame = _danhMucGameRepository.GetQueryable().FirstOrDefault(x => x.Slug.Equals(slug));
             var tlQuery = _taiLieuDinhKemRepository.GetQueryable();
 
-            var query = from tk in _taiKhoanRepository.GetQueryable()
+            var query = from tk in _taiKhoanRepository.GetQueryable().Where(x => x.TrangThai == TrangThaiTaiKhoanConstant.CHUABAN)
                         .Where(x => x.TrangThai != TrangThaiTaiKhoanConstant.DABAN && x.DanhMucGameId == danhMucGame.Id)
 
                         join gttt in _giaTriThuocTinhRepository.GetAllAsQueryable()

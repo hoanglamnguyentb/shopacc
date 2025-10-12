@@ -12,7 +12,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Ngày</th>
-            @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
+            @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
             {
                 <th scope="col">Tài khoản</th>
             }
@@ -40,7 +40,7 @@
                             <span class="badge badge-info"><i class="bi bi-wallet2"></i> Nạp topup</span>
                         }
                     </td>
-                    @if (loaiGiaoDich == LoaiGiaoDichConstant.MUA)
+                    @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
                     {
                         <td><a href="/acc/@item.TaiKhoanTxt">#@item.TaiKhoanTxt</a></td>
                     }
@@ -114,7 +114,7 @@
 <!-- Render pagination -->
 @Html.Partial("~/Views/Shared/Components/_PaginationAjax.cshtml", Model)
 
-@if (loaiGiaoDich == LoaiGiaoDichConstant.NAP)
+@if (loaiGiaoDich == LoaiGiaoDichConstant.NAPTHUONG)
 {
     <text>
         <script>

@@ -17,6 +17,7 @@ namespace Hinet.Web
                 return next();
             });
             ConfigureAuth(app);
-		}
+            app.MapSignalR();
+        }
 	}
 }
