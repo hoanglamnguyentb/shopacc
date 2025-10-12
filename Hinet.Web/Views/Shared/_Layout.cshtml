@@ -2372,5 +2372,43 @@
      </script>
      @*noned59925@inilas.com*@
      <!--End of Tawk.to Script-->
+     <script>
+         var Tawk_API = Tawk_API || {};
+         Tawk_API.onLoad = function () {
+             const observerTargetSelector = 'iframe[title="chat widget"]';
+             const adjustBottom = (val) => {
+                 const iframe = document.querySelector(observerTargetSelector);
+                 if (iframe) {
+                     iframe.style.bottom = val + "px";
+                     iframe.style.transition = "bottom 0.2s ease";
+                 }
+             };
+
+             // Lần đầu load
+             adjustBottom(90);
+
+             const interval = setInterval(() => {
+                 const iframe = document.querySelector(observerTargetSelector);
+                 if (iframe) {
+                     clearInterval(interval);
+
+                     // Quan sát mọi thay đổi của style iframe
+                     const observer = new MutationObserver((mutations) => {
+                         for (const m of mutations) {
+                             if (m.attributeName === "style") {
+                                 const currentBottom = iframe.style.bottom;
+                                 if (currentBottom === "20px") {
+                                     adjustBottom(90); // Tự động chỉnh lại nếu Tawk.to reset
+                                 }
+                             }
+                         }
+                     });
+
+                     observer.observe(iframe, { attributes: true, attributeFilter: ["style"] });
+                 }
+             }, 500);
+         };
+     </script>
+
  </body>
 </html>
