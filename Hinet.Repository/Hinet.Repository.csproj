@@ -85,12 +85,20 @@
     <Compile Include="DM_DulieuDanhmucRepository\IDM_DulieuDanhmucRepository.cs" />
     <Compile Include="DM_NhomDanhmucRepository\DM_NhomDanhmucRepository.cs" />
     <Compile Include="DM_NhomDanhmucRepository\IDM_NhomDanhmucRepository.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhRepository\DonHangGiaTriThuocTinhRepository.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhRepository\IDonHangGiaTriThuocTinhRepository.cs" />
+    <Compile Include="DonHangRepository\DonHangRepository.cs" />
+    <Compile Include="DonHangRepository\IDonHangRepository.cs" />
     <Compile Include="GameRepository\GameRepository.cs" />
     <Compile Include="GameRepository\IGameRepository.cs" />
+    <Compile Include="GianHangRepository\GianHangRepository.cs" />
+    <Compile Include="GianHangRepository\IGianHangRepository.cs" />
     <Compile Include="GiaoDichRepository\GiaoDichRepository.cs" />
     <Compile Include="GiaoDichRepository\IGiaoDichRepository.cs" />
     <Compile Include="GiaTriThuocTinhRepository\GiaTriThuocTinhRepository.cs" />
     <Compile Include="GiaTriThuocTinhRepository\IGiaTriThuocTinhRepository.cs" />
+    <Compile Include="MaGiamGiaRepository\IMaGiamGiaRepository.cs" />
+    <Compile Include="MaGiamGiaRepository\MaGiamGiaRepository.cs" />
     <Compile Include="ModuleRepository\IModuleRepository.cs" />
     <Compile Include="ModuleRepository\ModuleRepository.cs" />
     <Compile Include="NotificationRepository\INotificationRepository.cs" />
@@ -107,6 +115,8 @@
     <Compile Include="TaiKhoanRepository\TaiKhoanRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\ITaiLieuDinhKemRepository.cs" />
     <Compile Include="TaiLieuDinhKemRepository\TaiLieuDinhKemRepository.cs" />
+    <Compile Include="ThuocTinhGianHangRepository\IThuocTinhGianHangRepository.cs" />
+    <Compile Include="ThuocTinhGianHangRepository\ThuocTinhGianHangRepository.cs" />
     <Compile Include="ThuocTinhRepository\IThuocTinhRepository.cs" />
     <Compile Include="ThuocTinhRepository\ThuocTinhRepository.cs" />
     <Compile Include="TinTucRepository\ITinTucRepository.cs" />
@@ -115,6 +125,8 @@
     <Compile Include="UserOperationRepository\UserOperationRepository.cs" />
     <Compile Include="UserRoleRepository\IUserRoleRepository.cs" />
     <Compile Include="UserRoleRepository\UserRoleRepository.cs" />
+    <Compile Include="VatPhamRepository\IVatPhamRepository.cs" />
+    <Compile Include="VatPhamRepository\VatPhamRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

@@ -93,45 +93,13 @@
     <Compile Include="Entities\UserRole.cs" />
     <Compile Include="HinetContext.cs" />
     <Compile Include="IdentityEntities\AppUser.cs" />
-    <Compile Include="Migrations\202510060503128_init_db.cs" />
-    <Compile Include="Migrations\202510060503128_init_db.Designer.cs">
-      <DependentUpon>202510060503128_init_db.cs</DependentUpon>
+    <Compile Include="Migrations\202510131223531_add_tbls.cs" />
+    <Compile Include="Migrations\202510131223531_add_tbls.Designer.cs">
+      <DependentUpon>202510131223531_add_tbls.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202510070410284_alter_tbl_GiaoDich.cs" />
-    <Compile Include="Migrations\202510070410284_alter_tbl_GiaoDich.Designer.cs">
-      <DependentUpon>202510070410284_alter_tbl_GiaoDich.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510100347532_alter_tbl_SiteConfig.cs" />
-    <Compile Include="Migrations\202510100347532_alter_tbl_SiteConfig.Designer.cs">
-      <DependentUpon>202510100347532_alter_tbl_SiteConfig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510100752205_alter_tbl_DanhMucGame.cs" />
-    <Compile Include="Migrations\202510100752205_alter_tbl_DanhMucGame.Designer.cs">
-      <DependentUpon>202510100752205_alter_tbl_DanhMucGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510101656016_alter_tbl_GiaoDich1.cs" />
-    <Compile Include="Migrations\202510101656016_alter_tbl_GiaoDich1.Designer.cs">
-      <DependentUpon>202510101656016_alter_tbl_GiaoDich1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510101835599_alter_tbl_GiaoDich_2.cs" />
-    <Compile Include="Migrations\202510101835599_alter_tbl_GiaoDich_2.Designer.cs">
-      <DependentUpon>202510101835599_alter_tbl_GiaoDich_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510102117056_add_1.cs" />
-    <Compile Include="Migrations\202510102117056_add_1.Designer.cs">
-      <DependentUpon>202510102117056_add_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510120619520_alter_tbl_GiaoDich2.cs" />
-    <Compile Include="Migrations\202510120619520_alter_tbl_GiaoDich2.Designer.cs">
-      <DependentUpon>202510120619520_alter_tbl_GiaoDich2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.cs" />
-    <Compile Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.Designer.cs">
-      <DependentUpon>202510120954144_alter_tbl_SiteConfig_TelegramBot.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs" />
-    <Compile Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.Designer.cs">
-      <DependentUpon>202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs</DependentUpon>
+    <Compile Include="Migrations\202510131710425_alter_tbls.cs" />
+    <Compile Include="Migrations\202510131710425_alter_tbls.Designer.cs">
+      <DependentUpon>202510131710425_alter_tbls.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
@@ -168,35 +136,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202510060503128_init_db.resx">
-      <DependentUpon>202510060503128_init_db.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202510131223531_add_tbls.resx">
+      <DependentUpon>202510131223531_add_tbls.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510070410284_alter_tbl_GiaoDich.resx">
-      <DependentUpon>202510070410284_alter_tbl_GiaoDich.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510100347532_alter_tbl_SiteConfig.resx">
-      <DependentUpon>202510100347532_alter_tbl_SiteConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510100752205_alter_tbl_DanhMucGame.resx">
-      <DependentUpon>202510100752205_alter_tbl_DanhMucGame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510101656016_alter_tbl_GiaoDich1.resx">
-      <DependentUpon>202510101656016_alter_tbl_GiaoDich1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510101835599_alter_tbl_GiaoDich_2.resx">
-      <DependentUpon>202510101835599_alter_tbl_GiaoDich_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510102117056_add_1.resx">
-      <DependentUpon>202510102117056_add_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510120619520_alter_tbl_GiaoDich2.resx">
-      <DependentUpon>202510120619520_alter_tbl_GiaoDich2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510120954144_alter_tbl_SiteConfig_TelegramBot.resx">
-      <DependentUpon>202510120954144_alter_tbl_SiteConfig_TelegramBot.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.resx">
-      <DependentUpon>202510121221557_alter_tbl_TaiKhoan_ThongTinSauThanhToan.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202510131710425_alter_tbls.resx">
+      <DependentUpon>202510131710425_alter_tbls.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

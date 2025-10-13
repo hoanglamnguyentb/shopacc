@@ -11,6 +11,7 @@ namespace Hinet.Web.Models
         public List<Banner> ListBanner { set; get; }
         public List<GameDto> ListGame { set; get; }
         public List<TinTuc> ListTinTuc { get; set; }
+        public List<GianHang> ListGianHang { get; set; }
         public SiteConfig SiteConfig { get; set; }
     }
 }

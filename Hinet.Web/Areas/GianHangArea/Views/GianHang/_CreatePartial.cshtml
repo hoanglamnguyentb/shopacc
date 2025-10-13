@@ -1,0 +1,119 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.GianHangArea.Models
+
+@model CreateVM
+@{
+	var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
+
+}
+
+<div class="modal-dialog modal-full">
+    @using (Ajax.BeginForm("Create", "GianHang", new { @area = "GianHangArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "createGianHangForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Tạo mới </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">STT <span class="red">*</span></label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.STT, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.STT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Tên gian hàng </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Mô tả </label>
+                        <div class="col-sm-8">
+                            <div id="editor">
+                            </div>
+                            @Html.HiddenFor(m => m.MoTa, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.MoTa, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Lưu ý </label>
+                        <div class="col-sm-8">
+                            <div id="editorLuuY">
+                            </div>
+                            @Html.HiddenFor(m => m.LuuY, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.LuuY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Slug </label>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Slug, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Slug, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Ảnh </label>
+                        <div class="col-sm-8">
+                            <div class="image-upload-box">
+                                <img id="previewAnh" src="#" alt="Preview ảnh" class="image-preview" />
+                                <p id="uploadText" class="upload-text">+ Chọn ảnh</p>
+                                <input type="file" id="uploadAnh" name="FileAnh" accept="image/*" class="file-input" />
+                            </div>
+                            @Html.HiddenFor(m => m.AnhBia, new { id = "AnhBia" })
+                            @Html.ValidationMessageFor(m => m.AnhBia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+
+    quill = new Quill('#editor', { theme: 'snow' });
+    quillLuuY = new Quill('#editorLuuY', { theme: 'snow' });
+
+    $("#createGianHangForm").on("submit", function () {
+        $("#MoTa").val(quill.root.innerHTML);
+        $("#LuuY").val(quillLuuY.root.innerHTML);
+    })
+
+    $("#uploadAnh").change(function () {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#previewAnh")
+                    .attr("src", e.target.result)
+                    .show();
+            }
+            reader.readAsDataURL(input.files[0]);;
+        }
+    });
+
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

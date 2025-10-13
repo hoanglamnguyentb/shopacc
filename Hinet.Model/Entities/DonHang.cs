@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Hinet.Model.Entities
 {
+    [Table("DonHang")]
     public class DonHang : AuditableEntity<int>
     {
         public int DonHangId { get; set; }

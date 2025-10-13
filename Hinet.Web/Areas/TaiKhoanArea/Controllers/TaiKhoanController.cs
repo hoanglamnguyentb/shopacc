@@ -341,7 +341,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 			return Json(result);
 		}
 
-		[HttpPost]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public JsonResult searchData(TaiKhoanSearchDto form)
 		{

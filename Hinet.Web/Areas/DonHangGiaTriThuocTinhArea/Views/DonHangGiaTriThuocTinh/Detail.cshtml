@@ -1,0 +1,45 @@
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutAce.cshtml";
+    ViewBag.ModuleName = "Quản lý ";
+    ViewBag.PageName = "Thông tin ";
+    ViewBag.ModuleCode = "DonHangGiaTriThuocTinh_detail";
+}
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Models
+
+@model DetailVM
+@section ActionBarRight{
+    <a href="/DonHangGiaTriThuocTinhArea/DonHangGiaTriThuocTinh/Index')" class="btn btn-primary btn-sm">Quay lại</a>
+}
+
+<div class="row">
+     <div class="col-sm-12">
+           <table class="table-info">
+           	
+<tr><td>Đơn hàng Id</td><td>@Model.objInfo.DonHangId</td></tr>
+<tr><td>Thuộc tính Id</td><td>@Model.objInfo.ThuocTinhId</td></tr>
+<tr><td>Thuộc tính Txt</td><td>@Model.objInfo.ThuocTinhTxt</td></tr>
+<tr><td>Giá trị</td><td>@Model.objInfo.GiaTri</td></tr>
+<tr><td>Giá trị Txt</td><td>@Model.objInfo.GiaTriTxt</td></tr>
+<tr><td>Kiểu dữ liệu</td><td>@Model.objInfo.KieuDuLieu</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedBy</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedDate</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteTime</td></tr>
+<tr><td></td><td>@Model.objInfo.IsDelete</td></tr>
+<tr><td></td><td>@Model.objInfo.CreatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.UpdatedID</td></tr>
+<tr><td></td><td>@Model.objInfo.DeleteId</td></tr>
+
+           </table>
+     </div>
+    
+</div>
+
+<script>
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

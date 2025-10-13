@@ -10,6 +10,7 @@ using Hinet.Service.DepositService;
 using Hinet.Service.DichVuService;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GameService;
+using Hinet.Service.GianHangService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.NotificationService;
 using Hinet.Service.NotificationService.Dto;
@@ -46,6 +47,7 @@ namespace Hinet.Web.Controllers
         private readonly IGiaoDichService _giaoDichService;
         private readonly ISiteConfigService _siteConfigService;
         private readonly IDanhMucGameService _danhMucGameService;
+        private readonly IGianHangService _gianHangService;
 
         public HomeController(
                 IDM_DulieuDanhmucService dM_DulieuDanhmucService,
@@ -55,7 +57,7 @@ namespace Hinet.Web.Controllers
                 IBannerService bannerService, IGameService gameService,
                 ITinTucService tinTucService, IDepositService depositService,
                 INotificationService notificationService, IGiaoDichService giaoDichService,
-                ISiteConfigService siteConfigService, IDanhMucGameService danhMucGameService)
+                ISiteConfigService siteConfigService, IDanhMucGameService danhMucGameService, IGianHangService gianHangService)
         {
             _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
             _mapper = mapper;
@@ -71,6 +73,7 @@ namespace Hinet.Web.Controllers
             _giaoDichService = giaoDichService;
             _siteConfigService = siteConfigService;
             _danhMucGameService = danhMucGameService;
+            _gianHangService = gianHangService;
         }
 
         [AllowAnonymous]
@@ -82,8 +85,9 @@ namespace Hinet.Web.Controllers
             homeVM.ListBanner = _bannerService.FindBy(x => x.KichHoat == true).OrderBy(x => x.STT).ToList();
             homeVM.ListGame = _gameService.GetListGame();
             homeVM.ListTinTuc = _tinTucService.FindBy(x => x.TrangThai == TrangThaiTinTucConstant.XUATBAN)
-                .OrderByDescending(x => x.CreatedDate).Take(3).ToList();
+                .OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             homeVM.SiteConfig = _siteConfigService.FindBy(x => x.KichHoat == true).FirstOrDefault();
+            homeVM.ListGianHang = _gianHangService.FindBy(x => true).OrderBy(x => x.STT).ToList();
             ViewBag.MenuBottom = "home";
             return View(homeVM);
         }

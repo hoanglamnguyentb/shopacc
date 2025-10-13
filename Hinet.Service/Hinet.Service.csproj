@@ -173,6 +173,7 @@
     <Compile Include="BinhLuanService\Dto\BinhLuanSearchDto.cs" />
     <Compile Include="BinhLuanService\IBinhLuanService.cs" />
     <Compile Include="CommonModel\GroupKeyDto.cs" />
+    <Compile Include="Constant\GianHangConstant.cs" />
     <Compile Include="DashboardService\DTO\DashboardDto.cs" />
     <Compile Include="Common\ActionConstant.cs" />
     <Compile Include="Common\BaseService.cs" />
@@ -239,12 +240,24 @@
     <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucImportDto.cs" />
     <Compile Include="DM_NhomDanhmucService\DTO\DM_NhomDanhmucSearchDTO.cs" />
     <Compile Include="DM_NhomDanhmucService\IDM_NhomDanhmucService.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhService\DonHangGiaTriThuocTinhService.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhService\Dto\DonHangGiaTriThuocTinhDto.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhService\Dto\DonHangGiaTriThuocTinhSearchDto.cs" />
+    <Compile Include="DonHangGiaTriThuocTinhService\IDonHangGiaTriThuocTinhService.cs" />
+    <Compile Include="DonHangService\DonHangService.cs" />
+    <Compile Include="DonHangService\Dto\DonHangDto.cs" />
+    <Compile Include="DonHangService\Dto\DonHangSearchDto.cs" />
+    <Compile Include="DonHangService\IDonHangService.cs" />
     <Compile Include="GameService\Dto\GameDto.cs" />
     <Compile Include="GameService\Dto\GameExportDto.cs" />
     <Compile Include="GameService\Dto\GameImportDto.cs" />
     <Compile Include="GameService\Dto\GameSearchDto.cs" />
     <Compile Include="GameService\GameService.cs" />
     <Compile Include="GameService\IGameService.cs" />
+    <Compile Include="GianHangService\Dto\GianHangDto.cs" />
+    <Compile Include="GianHangService\Dto\GianHangSearchDto.cs" />
+    <Compile Include="GianHangService\GianHangService.cs" />
+    <Compile Include="GianHangService\IGianHangService.cs" />
     <Compile Include="GiaoDichService\Dto\GiaoDichDto.cs" />
     <Compile Include="GiaoDichService\Dto\GiaoDichSearchDto.cs" />
     <Compile Include="GiaoDichService\Dto\TopNapTheVM.cs" />
@@ -254,6 +267,10 @@
     <Compile Include="GiaTriThuocTinhService\Dto\GiaTriThuocTinhSearchDto.cs" />
     <Compile Include="GiaTriThuocTinhService\GiaTriThuocTinhService.cs" />
     <Compile Include="GiaTriThuocTinhService\IGiaTriThuocTinhService.cs" />
+    <Compile Include="MaGiamGiaService\Dto\MaGiamGiaDto.cs" />
+    <Compile Include="MaGiamGiaService\Dto\MaGiamGiaSearchDto.cs" />
+    <Compile Include="MaGiamGiaService\IMaGiamGiaService.cs" />
+    <Compile Include="MaGiamGiaService\MaGiamGiaService.cs" />
     <Compile Include="ModuleService\DTO\ModuleDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleMenuDTO.cs" />
     <Compile Include="ModuleService\DTO\ModuleSearchDTO.cs" />
@@ -287,6 +304,10 @@
     <Compile Include="TaiKhoanService\TaiKhoanService.cs" />
     <Compile Include="TaiLieuDinhKemService\ITaiLieuDinhKemService.cs" />
     <Compile Include="TaiLieuDinhKemService\TaiLieuDinhKemService.cs" />
+    <Compile Include="ThuocTinhGianHangService\Dto\ThuocTinhGianHangDto.cs" />
+    <Compile Include="ThuocTinhGianHangService\Dto\ThuocTinhGianHangSearchDto.cs" />
+    <Compile Include="ThuocTinhGianHangService\IThuocTinhGianHangService.cs" />
+    <Compile Include="ThuocTinhGianHangService\ThuocTinhGianHangService.cs" />
     <Compile Include="ThuocTinhService\Dto\ThuocTinhDto.cs" />
     <Compile Include="ThuocTinhService\Dto\ThuocTinhSearchDto.cs" />
     <Compile Include="ThuocTinhService\IThuocTinhService.cs" />
@@ -301,6 +322,10 @@
     <Compile Include="UserOperationService\UserOperationService.cs" />
     <Compile Include="UserRoleService\IUserRoleService.cs" />
     <Compile Include="UserRoleService\UserRoleService.cs" />
+    <Compile Include="VatPhamService\Dto\VatPhamDto.cs" />
+    <Compile Include="VatPhamService\Dto\VatPhamSearchDto.cs" />
+    <Compile Include="VatPhamService\IVatPhamService.cs" />
+    <Compile Include="VatPhamService\VatPhamService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

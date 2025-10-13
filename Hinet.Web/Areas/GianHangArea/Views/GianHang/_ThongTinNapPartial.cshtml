@@ -1,0 +1,172 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Web.Areas.GianHangArea.Models
+
+@model EditVM
+
+@{
+    var dropdownListKieuDuLieu = ViewBag.dropdownListKieuDuLieu as List<SelectListItem>;
+    var dropdownListNhomDanhMuc = ViewBag.dropdownListNhomDanhMuc as List<SelectListItem>;
+}
+
+<div class="modal-dialog" style="width: 45%;">
+    @using (Ajax.BeginForm("ThongTinNap", "GianHang", new { @area = "GianHangArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "editThongTinNapForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Thông tin nạp </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(x => x.Id)
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <table class="table table-bordered table-striped" id="thuocTinhTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 35%;">Tên thuộc tính</th>
+                                        <th style="width: 25%;">Kiểu dữ liệu</th>
+                                        <th style="width: 25%;">Nhóm danh mục</th>
+                                        <th style="width: 10%;">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="thuocTinhContainer">
+                                    @for (int i = 0; i < Model.ThuocTinhs.Count; i++)
+                                    {
+                                        <tr class="thuoc-tinh-item">
+                                            <!-- Ẩn ID nếu cần -->
+                                            <td style="display:none;">
+                                                <input type="hidden" name="ThuocTinhs[@i].Id" value="@Model.ThuocTinhs[i].Id" />
+                                            </td>
+                                            <td>
+                                                <input type="text" name="ThuocTinhs[@i].TenThuocTinh"
+                                                       value="@Model.ThuocTinhs[i].TenThuocTinh"
+                                                       class="form-control" placeholder="Tên thuộc tính" />
+                                            </td>
+                                            <td>
+                                                @Html.DropDownList("ThuocTinhs[" + i + "].KieuDuLieu",
+                                                    new SelectList(dropdownListKieuDuLieu, "Value", "Text", Model.ThuocTinhs[i].KieuDuLieu),
+                                                    "-- Chọn kiểu dữ liệu --",
+                                                    new { @class = "form-control kieu-du-lieu select2", onchange = "toggleLuaChon(this)" })
+                                            </td>
+                                            <td>
+                                                <div class="wrap-nhom" style="display:@(Model.ThuocTinhs[i].KieuDuLieu == "DROPDOWN" ? "block" : "none")">
+                                                    @Html.DropDownList("ThuocTinhs[" + i + "].NhomDanhmucCode",
+                                                        new SelectList(dropdownListNhomDanhMuc, "Value", "Text", Model.ThuocTinhs[i].NhomDanhmucCode),
+                                                        "-- Chọn nhóm --",
+                                                        new { @class = "form-control lua-chon select2" })
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger btn-xs" onclick="removeThuocTinh(this)">
+                                                    <i class="bi bi-x-lg"></i> Xóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="button" class="btn btn-sm btn-success" onclick="addThuocTinh()">
+                    + Thêm thuộc tính
+                </button>
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    var dropdownListKieuDuLieu = @Html.Raw(Json.Encode(dropdownListKieuDuLieu));
+    var dropdownListNhomDanhMuc = @Html.Raw(Json.Encode(dropdownListNhomDanhMuc));
+
+    function createSelect(name, data, cssClass, onchange) {
+        let html = `<select name="${name}" class="form-control ${cssClass} select2" ${onchange ? 'onchange="' + onchange + '"' : ''}>`;
+        html += `<option value="">-- Chọn --</option>`;
+        data.forEach(function (item) {
+            html += `<option value="${item.Value}">${item.Text}</option>`;
+        });
+        html += `</select>`;
+        return html;
+    }
+
+    function addThuocTinh() {
+        let idx = $("#thuocTinhContainer .thuoc-tinh-item").length;
+        let selectKieu = createSelect(`ThuocTinhs[${idx}].KieuDuLieu`, dropdownListKieuDuLieu, "kieu-du-lieu", "toggleLuaChon(this)");
+        let selectNhom = createSelect(`ThuocTinhs[${idx}].DmNhomDanhmuc`, dropdownListNhomDanhMuc, "lua-chon");
+
+        let html = `
+            <tr class="thuoc-tinh-item">
+                <td>
+                    <input type="text" name="ThuocTinhs[${idx}].TenThuocTinh"
+                        class="form-control" placeholder="Tên thuộc tính" />
+                </td>
+                <td>
+                    ${selectKieu}
+                </td>
+                <td>
+                    <div class="wrap-nhom" style="display:none">
+                        ${selectNhom}
+                    </div>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs" onclick="removeThuocTinh(this)">
+                        <i class="bi bi-x-lg"></i> Xóa
+                    </button>
+                </td>
+            </tr>`;
+
+        $("#thuocTinhContainer").append(html);
+        reIndexThuocTinh();
+    }
+
+    function toggleLuaChon(select) {
+        let $row = $(select).closest(".thuoc-tinh-item");
+        let $wrapNhom = $row.find(".wrap-nhom");
+
+        if ($(select).val() === "DROPDOWN") {
+            $wrapNhom.show();
+            $wrapNhom.find("select").select2({
+                width: "100%",
+                placeholder: "-- Chọn --"
+            });
+        } else {
+            $wrapNhom.hide();
+            $wrapNhom.find("select").val("").trigger("change");
+        }
+    }
+
+    function removeThuocTinh(button) {
+        $(button).closest(".thuoc-tinh-item").remove();
+        reIndexThuocTinh();
+    }
+
+    function reIndexThuocTinh() {
+        $("#thuocTinhContainer .thuoc-tinh-item").each(function (i, el) {
+            $(el).find("input, select").each(function () {
+                var name = $(this).attr("name");
+                if (name) {
+                    var newName = name.replace(/ThuocTinhs\[\d+\]/, "ThuocTinhs[" + i + "]");
+                    $(this).attr("name", newName);
+                }
+            });
+        });
+
+        // re-init select2
+        $("#thuocTinhContainer .select2").select2({ width: "100%", placeholder: "-- Chọn --" });
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

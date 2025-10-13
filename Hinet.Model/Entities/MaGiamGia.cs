@@ -9,10 +9,10 @@ namespace Hinet.Model.Entities
 	{
         public string ThongTin { get; set; }
         public string GianHangApDung { get; set; }
-        public bool ToanHeThong { get; set; }
-        public int SoLuong { get; set; }
-        public DateTime TuNgay { get; set; }
-        public DateTime DenNgay { get; set; }
+        public bool? ToanHeThong { get; set; }
+        public int? SoLuong { get; set; }
+        public DateTime? TuNgay { get; set; }
+        public DateTime? DenNgay { get; set; }
         public bool TrangThai { get; set; }
     }
 }

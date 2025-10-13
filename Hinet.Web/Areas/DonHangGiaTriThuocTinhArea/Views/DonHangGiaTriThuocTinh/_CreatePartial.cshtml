@@ -1,0 +1,90 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Models
+
+@model CreateVM
+@{
+
+}
+
+<div class="modal-dialog">
+    @using (Ajax.BeginForm("Create", "DonHangGiaTriThuocTinh", new { @area = "DonHangGiaTriThuocTinhArea" }, new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnFailure = "AjaxFormError",
+        OnSuccess = "AjaxFormSuccess",
+    }, new { id = "createDonHangGiaTriThuocTinhForm" }))
+    {
+        @Html.AntiForgeryToken()
+        //HtmlHelper.UnobtrusiveJavaScriptEnabled = false;
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Tạo mới </h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+				<div class="form-group">
+				<label class="control-label col-sm-4">Đơn hàng Id <span class="red">*</span></label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.DonHangId, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.DonHangId, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Thuộc tính Id </label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.ThuocTinhId, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.ThuocTinhId, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Thuộc tính Txt </label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.ThuocTinhTxt, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.ThuocTinhTxt, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Giá trị </label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.GiaTri, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.GiaTri, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Giá trị Txt </label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.GiaTriTxt, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.GiaTriTxt, "", new { @class = "text-danger" })
+				</div>
+				</div>
+				<div class="form-group">
+				<label class="control-label col-sm-4">Kiểu dữ liệu </label>
+				<div class="col-sm-8">
+				@Html.TextBoxFor(m => m.KieuDuLieu, new { @class = "form-control" })
+				@Html.ValidationMessageFor(m => m.KieuDuLieu, "", new { @class = "text-danger" })
+				</div>
+				</div>
+
+                </div>
+            </div>
+            <div class="modal-footer center">
+                <button type="submit" class="btn btn-primary">Hoàn thành</button>
+
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+
+
+
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

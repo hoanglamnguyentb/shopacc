@@ -154,7 +154,6 @@ namespace Hinet.Web.Areas.GameArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public JsonResult Edit(EditVM model)
         {
             var result = new JsonResultBO(true);
@@ -319,7 +318,6 @@ namespace Hinet.Web.Areas.GameArea.Controllers
             }
             return View(result);
         }
-
 
         [HttpPost]
         public JsonResult GetExportError(List<List<string>> lstData)
