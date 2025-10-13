@@ -43,7 +43,15 @@ namespace Hinet.Model
 		public DbSet<SiteConfig> SiteConfig { get; set; }
 		public DbSet<Deposit> Deposits { get; set; }
 
-		public static DbContext Create()
+        //NapTopup
+        public DbSet<GianHang> GianHang { get; set; }
+        public DbSet<VatPham> VatPham { get; set; }
+        public DbSet<ThuocTinhGianHang> ThuocTinhGianHang { get; set; }
+        public DbSet<DonHang> DonHang { get; set; }
+        public DbSet<DonHangGiaTriThuocTinh> DonHangGiaTriThuocTinh { get; set; }
+        public DbSet<MaGiamGia> MaGiamGia { get; set; }
+
+        public static DbContext Create()
 		{
 			return new DbContext();
 		}
