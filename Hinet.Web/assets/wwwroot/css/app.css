@@ -843,8 +843,8 @@ html {
 .btn {
     display: -ms-inline-flexbox;
     display: inline-flex;
-    height: 3rem;
-    min-height: 3rem;
+/*    height: 3rem;
+    min-height: 3rem;*/
     -ms-flex-negative: 0;
     flex-shrink: 0;
     cursor: pointer;
@@ -864,8 +864,8 @@ html {
     padding-left: 1rem;
     padding-right: 1rem;
     text-align: center;
-    font-size: .875rem;
-    line-height: 1em;
+/*    font-size: .875rem;
+    line-height: 1em;*/
     gap: .5rem;
     font-weight: 600;
     -webkit-text-decoration-line: none;
@@ -5922,7 +5922,8 @@ body {
     background-color: transparent;
     font-family: Signika Negative,sans-serif;
     font-optical-sizing: auto;
-    font-style: normal
+    font-style: normal;
+    background-color: #F2F4F7;
 }
 
 .toastify-info {
@@ -6167,17 +6168,17 @@ html, body {
 
 .peer:checked ~ .peer-checked\:border-blue-600 {
     --tw-border-opacity: 1;
-    border-color: rgb(37 99 235 / var(--tw-border-opacity, 1))
+    border-color: rgb(37 99 235 / var(--tw-border-opacity, 1)) !important;
 }
 
 .peer:checked ~ .peer-checked\:border-blue-700 {
     --tw-border-opacity: 1;
-    border-color: rgb(29 78 216 / var(--tw-border-opacity, 1))
+    border-color: rgb(29 78 216 / var(--tw-border-opacity, 1)) !important;
 }
 
 .peer:checked ~ .peer-checked\:border-green-500 {
     --tw-border-opacity: 1;
-    border-color: rgb(34 197 94 / var(--tw-border-opacity, 1))
+    border-color: rgb(34 197 94 / var(--tw-border-opacity, 1)) !important;
 }
 
 @media (min-width: 640px) {

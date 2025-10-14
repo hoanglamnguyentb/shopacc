@@ -58,7 +58,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach (var item in Model.ListGianHang)
                 {
-                    <a href="/game/genshin-impact" class="block">
+                    <a href="/gian-hang/@item.Slug" class="block">
                         <div class="bg-white rounded-lg hover:border-blue-400 transition-colors border border-zinc-200 group" style="padding: 8px">
                             <div class="flex items-center gap-4">
                                 <div class="w-16 h-16 flex-shrink-0">
@@ -85,363 +85,364 @@
                 }
             </div>
         </div>
-        <hr class="c-my-24"/>
+        <hr class="c-my-24" />
         <!-- End gian hàng nổi bật -->
         <!-- Start Dịch vụ -->
-        <div class="container c-container">
+        <div class="container mt-6">
             <div class="mb-2">
                 <div class="flex items-center gap-2">
                     <span class="text-orange-500">🔥</span>
                     <h2 class="text-zinc-800 font-medium uppercase text-xl">DỊCH VỤ NỔI BẬT</h2>
                 </div>
-                <p class="text-gray-400 text-sm">Các tựa game được ưu chuộng nhất hiện nay</p>
+                <p class="text-gray-400 text-sm">Các dịch vụ được ưu chuộng nhất hiện nay</p>
             </div>
-            <div class="row justify-content-between c-pt-16">
-                @foreach (var item in Model.ListDichVu)
-                {
-                    <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
-                        <a href="@item.Link" target="_blank"
-                           class="text-decoration-none text-center d-block h-100">
-                            <div class="d-flex flex-column align-items-center h-100">
-                                <div class="w-100 mb-2" style="height: 50px; background-image: url('@item.DuongDanAnh'); background-size: contain; background-position: center; background-repeat: no-repeat;"> </div>
-                                <div class="service-name text-color" style="max-width: 100px">
+            <div class="category-content active" data-category="all">
+                <div class="grid grid-cols-12 lg:grid-cols-15 gap-8 mb-3">
+                    @foreach (var item in Model.ListDichVu)
+                    {
+                        <div class="col-span-4 lg:col-span-3 md:col-span-3 sm:col-span-4 game-item show">
+
+                            <a href="@item.Link" class="block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
+                                <div class="relative overflow-hidden rounded-lg">
+                                    <img src="@item.DuongDanAnh" alt="Banner" class="w-full rounded-lg transform transition duration-300 ease-in-out hover:scale-110 aspect-square object-cover">
+                                </div>
+                                <div class="w-full text-lg text-center mt-1 h-14 overflow-hidden game-name">
                                     @item.Name
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                }
+                            </a>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
-        <!-- End Dịch vụ -->
-        <!-- Start Kho nick -->
-        @foreach (var item in listGameTrangChu)
-        {
+            <!-- End Dịch vụ -->
+            <!-- Start Kho nick -->
+            @foreach (var item in listGameTrangChu)
+            {
+                <section class="section-related-service c-pt-16">
+                    <div class="section-header c-mb-8 c-mb-lg-16 justify-content-between">
+                        <h2 class="section-title fz-lg-15 lh-lg-24">
+                            <i class="bi bi-controller icon-title"></i>
+                            @item.Name
+                        </h2>
+                        <a href="/game/@item.Slug"
+                           class="link arr-right btn-link">Xem tất cả</a>
+                    </div>
+                    <div class="list-category">
+                        @foreach (var dmGame in item.ListDanhMucGame)
+                        {
+                            @Html.Partial("_ItemDMGameCategory", dmGame)
+                        }
+                    </div>
+                </section>
+                <hr />
+            }
+            <!-- End Kho nick -->
+            <!-- Start Kho nick khác -->
             <section class="section-related-service c-pt-16">
-                <div class="section-header c-mb-8 c-mb-lg-16 justify-content-between">
+                <div class="section-header justify-content-between">
                     <h2 class="section-title fz-lg-15 lh-lg-24">
                         <i class="bi bi-controller icon-title"></i>
-                        @item.Name
+                        Kho Nick Game Khác
                     </h2>
-                    <a href="/game/@item.Slug"
+                    <a href="/game"
                        class="link arr-right btn-link">Xem tất cả</a>
                 </div>
                 <div class="list-category">
-                    @foreach (var dmGame in item.ListDanhMucGame)
+                    @foreach (var item in listGameKhac)
                     {
-                        @Html.Partial("_ItemDMGameCategory", dmGame)
+                        foreach (var dmGame in item.ListDanhMucGame)
+                        {
+                            @Html.Partial("_ItemDMGameCategory", dmGame)
+                        }
                     }
                 </div>
             </section>
             <hr />
-        }
-        <!-- End Kho nick -->
-        <!-- Start Kho nick khác -->
-        <section class="section-related-service c-pt-16">
-            <div class="section-header justify-content-between">
-                <h2 class="section-title fz-lg-15 lh-lg-24">
-                    <i class="bi bi-controller icon-title"></i>
-                    Kho Nick Game Khác
-                </h2>
-                <a href="/game"
-                   class="link arr-right btn-link">Xem tất cả</a>
-            </div>
-            <div class="list-category">
-                @foreach (var item in listGameKhac)
-                {
-                    foreach (var dmGame in item.ListDanhMucGame)
-                    {
-                        @Html.Partial("_ItemDMGameCategory", dmGame)
-                    }
-                }
-            </div>
-        </section>
-        <hr />
-        <!-- End Kho nick khác -->
-        <!-- Start Tin tức -->
-        <section class="news c-pt-24">
-            <div class="section-header justify-content-between">
-                <h2 class="section-title">
-                    <i class="bi bi-newspaper icon-title"></i>
-                    Tin tức
-                </h2>
-                <a href="/tin-tuc"
-                   class="link arr-right btn-link">Xem thêm</a>
-            </div>
-            <div class="swiper js-swiper-news card-list swiper-container-horizontal">
-                <div class="swiper-wrapper">
-                    @foreach (var item in Model.ListTinTuc)
-                    {
-                        <div class="swiper-slide" style="width: 296px; margin-right: 16px">
-                            <div class="card news shadow-sm">
-                                <a href="/tin-tuc/@item.Slug" class="news-link scale-thumb">
-                                    <div class="card-body">
-                                        <div class="news-thumb">
-                                            <img onerror="imgError(this)"
-                                                 data-src="@item.AnhBia"
-                                                 src="@item.AnhBia"
-                                                 alt="@item.TieuDe"
-                                                 class="lazyload news-thumb-image" />
-                                        </div>
-                                        <div class="c-px-8">
-                                            <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
-                                                @item.TieuDe
+            <!-- End Kho nick khác -->
+            <!-- Start Tin tức -->
+            <section class="news c-pt-24">
+                <div class="section-header justify-content-between">
+                    <h2 class="section-title">
+                        <i class="bi bi-newspaper icon-title"></i>
+                        Tin tức
+                    </h2>
+                    <a href="/tin-tuc"
+                       class="link arr-right btn-link">Xem thêm</a>
+                </div>
+                <div class="swiper js-swiper-news card-list swiper-container-horizontal">
+                    <div class="swiper-wrapper">
+                        @foreach (var item in Model.ListTinTuc)
+                        {
+                            <div class="swiper-slide" style="width: 296px; margin-right: 16px">
+                                <div class="card news shadow-sm">
+                                    <a href="/tin-tuc/@item.Slug" class="news-link scale-thumb">
+                                        <div class="card-body">
+                                            <div class="news-thumb">
+                                                <img onerror="imgError(this)"
+                                                     data-src="@item.AnhBia"
+                                                     src="@item.AnhBia"
+                                                     alt="@item.TieuDe"
+                                                     class="lazyload news-thumb-image" />
                                             </div>
-                                            <div class="datetime"><i class="bi bi-alarm"></i>&nbsp;@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                                            <div class="c-px-8">
+                                                <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
+                                                    @item.TieuDe
+                                                </div>
+                                                <div class="datetime"><i class="bi bi-alarm"></i>&nbsp;@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
+                    <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
+                    <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
                 </div>
-                <div class="navigation slider-next"><i class="bi bi-chevron-right"></i></div>
-                <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
-            </div>
-        </section>
-        <div class="c-pt-8 border-bottom-destop"></div>
-        <!-- End Tin tức -->
+            </section>
+            <div class="c-pt-8 border-bottom-destop"></div>
+            <!-- End Tin tức -->
 
-        @if (HasRealContent(siteConfig.MoTa))
-        {
-            <div class="c-mb-16 c-mt-16">
-                <div class="card overflow-hidden detailViewBlock">
-                    <div class="card-body c-px-16">
-                        <div class="content-desc hide detailViewBlockContent">
-                            <div class="data-content">
-                                @Html.Raw(siteConfig.MoTa)
+            @if (HasRealContent(siteConfig.MoTa))
+            {
+                <div class="c-mb-16 c-mt-16">
+                    <div class="card overflow-hidden detailViewBlock">
+                        <div class="card-body c-px-16">
+                            <div class="content-desc hide detailViewBlockContent">
+                                <div class="data-content">
+                                    @Html.Raw(siteConfig.MoTa)
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Nút toggle -->
-                    <div class="card-footer bg-white text-center">
-                        <div class="d-flex align-items-center justify-content-center my-4 flex-wrap">
-                            <div class="flex-grow-1 border-top d-none d-sm-block"></div>
-                            <button id="toggleBtn"
-                                    class="btn btn-light rounded-pill d-flex align-items-center justify-content-center flex-row mx-3 my-2"
-                                    style="min-width: 180px;">
-                                <span id="toggleContent">Hiện thêm </span>
-                                <i id="toggleIcon" class="ml-1 bi bi-chevron-down"></i>
-                            </button>
-                            <div class="flex-grow-1 border-top d-none d-sm-block"></div>
+                        <!-- Nút toggle -->
+                        <div class="card-footer bg-white text-center">
+                            <div class="d-flex align-items-center justify-content-center my-4 flex-wrap">
+                                <div class="flex-grow-1 border-top d-none d-sm-block"></div>
+                                <button id="toggleBtn"
+                                        class="btn btn-light rounded-pill d-flex align-items-center justify-content-center flex-row mx-3 my-2"
+                                        style="min-width: 180px;">
+                                    <span id="toggleContent">Hiện thêm </span>
+                                    <i id="toggleIcon" class="ml-1 bi bi-chevron-down"></i>
+                                </button>
+                                <div class="flex-grow-1 border-top d-none d-sm-block"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
 
 
-        <div class="mt-fix-20 c-container c-pb-24 c-pt-17 section-about">
-            <div class="box-product c-mt-md-18">
-                <div class="row">
+            <div class="mt-fix-20 c-container c-pb-24 c-pt-17 section-about">
+                <div class="box-product c-mt-md-18">
+                    <div class="row">
 
-                    <!-- Item 1 -->
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
-                            <div class="item-intro-img c-pt-16 mb-3">
-                                <i class="bi bi-arrow-repeat display-4"></i>
-                            </div>
-                            <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
-                                Sản phẩm, dịch vụ đa dạng, cập nhật thường xuyên
-                            </div>
-                            <div class="list-intro-content fz-13 fw-400">
-                                Hệ thống luôn cung cấp, cập nhật những sản phẩm mới/hot
-                                nhất của các dòng game trên thị trường.
+                        <!-- Item 1 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
+                                <div class="item-intro-img c-pt-16 mb-3">
+                                    <i class="bi bi-arrow-repeat display-4"></i>
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
+                                    Sản phẩm, dịch vụ đa dạng, cập nhật thường xuyên
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Hệ thống luôn cung cấp, cập nhật những sản phẩm mới/hot
+                                    nhất của các dòng game trên thị trường.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Item 2 -->
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
-                            <div class="item-intro-img c-pt-16 mb-3">
-                                <i class="bi bi-star-fill display-4"></i>
-                            </div>
-                            <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
-                                Hàng nghìn khách hàng tin tưởng
-                            </div>
-                            <div class="list-intro-content fz-13 fw-400">
-                                Hơn 260.000 giao dịch thành công mỗi ngày. Chúng tôi
-                                luôn đặt uy tín, chất lượng dịch vụ lên hàng đầu.
+                        <!-- Item 2 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
+                                <div class="item-intro-img c-pt-16 mb-3">
+                                    <i class="bi bi-star-fill display-4"></i>
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
+                                    Hàng nghìn khách hàng tin tưởng
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Hơn 260.000 giao dịch thành công mỗi ngày. Chúng tôi
+                                    luôn đặt uy tín, chất lượng dịch vụ lên hàng đầu.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Item 3 -->
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
-                            <div class="item-intro-img c-pt-16 mb-3">
-                                <i class="bi bi-headset display-4"></i>
-                            </div>
-                            <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
-                                Trung tâm trợ giúp hỗ trợ tư vấn 24/24
-                            </div>
-                            <div class="list-intro-content fz-13 fw-400">
-                                Đội ngũ chăm sóc khách hàng luôn tư vấn và hỗ trợ nhiệt
-                                tình khi gặp sự cố trong quá trình trải nghiệm sản phẩm.
+                        <!-- Item 3 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
+                                <div class="item-intro-img c-pt-16 mb-3">
+                                    <i class="bi bi-headset display-4"></i>
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
+                                    Trung tâm trợ giúp hỗ trợ tư vấn 24/24
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Đội ngũ chăm sóc khách hàng luôn tư vấn và hỗ trợ nhiệt
+                                    tình khi gặp sự cố trong quá trình trải nghiệm sản phẩm.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Item 4 -->
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
-                            <div class="item-intro-img c-pt-16 mb-3">
-                                <i class="bi bi-currency-dollar display-4"></i>
-                            </div>
-                            <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
-                                Giá cả ưu đãi, siêu rẻ trên thị trường
-                            </div>
-                            <div class="list-intro-content fz-13 fw-400">
-                                Cung cấp những sản phẩm với giá cả tốt nhất cùng với đó
-                                là những ưu đãi vô cùng hấp dẫn.
+                        <!-- Item 4 -->
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="text-center p-3 h-100 border shadow-sm bg-white" style="border-radius: 8px;">
+                                <div class="item-intro-img c-pt-16 mb-3">
+                                    <i class="bi bi-currency-dollar display-4"></i>
+                                </div>
+                                <div class="list-intro-title list-intro-title-mobile fw-500 mb-2 px-0">
+                                    Giá cả ưu đãi, siêu rẻ trên thị trường
+                                </div>
+                                <div class="list-intro-content fz-13 fw-400">
+                                    Cung cấp những sản phẩm với giá cả tốt nhất cùng với đó
+                                    là những ưu đãi vô cùng hấp dẫn.
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
-        </div>
 
 
-        @if (HasRealContent(siteConfig.ThongBao))
-        {
-            <div class="modal fade modal__buyacount loadModal__acount modal-big"
-                 id="noticeModal"
-                 style="display: none"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-custom"
-                     role="document">
+            @if (HasRealContent(siteConfig.ThongBao))
+            {
+                <div class="modal fade modal__buyacount loadModal__acount modal-big"
+                     id="noticeModal"
+                     style="display: none"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-custom"
+                         role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title text-center text-uppercase">
+                                    Thông báo
+                                </h4>
+                                <button type="button"
+                                        class="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body"
+                                 style="font-family: helvetica, arial, sans-serif"
+                                 id="noticeImage">
+                                @Html.Raw(siteConfig.ThongBao)
+                            </div>
+                            <div class="modal-footer c-p-8 text-right">
+                                <button class="btn btn-light"
+                                        type="button"
+                                        data-dismiss="modal">
+                                    Đóng
+                                </button>
+                                <button class="btn primary openModalNoti"
+                                        data-dismiss="modal">
+                                    Tắt trong 1h
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="modal fade modal-big modal__buyacount loadModal__acount_home"
+                 id="LoadModalHome">
+                <div class="modal-dialog modal-dialog-centered modal-custom">
+                    <div class="modal-content c-p-24 data__form__random_home"></div>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function () {
+                    $('.copy-text-vouc').on('click', function () {
+                        let text_value = $(this).parent().find('.id-vou').html().trim()
+                        navigator.clipboard.writeText(text_value)
+                    })
+                    tippy('.copy-text-vouc', {
+                        // default
+                        trigger: 'click',
+                        content: 'Đã copy !',
+                        placement: 'right',
+                    })
+
+                    $('#toggleBtn').on('click', function () {
+                        $('.detailViewBlockContent').toggleClass('hide');
+                        if ($('.detailViewBlockContent').hasClass('hide')) {
+                            $('#toggleContent').text('Hiện thêm');
+                            $('#toggleIcon').removeClass('bi-chevron-up').addClass('bi-chevron-down');
+                        } else {
+                            $('#toggleContent').text('Ẩn bớt');
+                            $('#toggleIcon').removeClass('bi-chevron-down').addClass('bi-chevron-up');
+                        }
+                    });
+                })
+            </script>
+
+            <div class="modal fade login show" id="viewMore" aria-modal="true">
+                <div class="modal-dialog step-tab-panel modal-xl modal-dialog-centered login animated">
+                    <!--        <div class="image-login"></div>-->
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title text-center text-uppercase">
-                                Thông báo
-                            </h4>
-                            <button type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body"
-                             style="font-family: helvetica, arial, sans-serif"
-                             id="noticeImage">
-                            @Html.Raw(siteConfig.ThongBao)
-                        </div>
-                        <div class="modal-footer c-p-8 text-right">
-                            <button class="btn btn-light"
-                                    type="button"
-                                    data-dismiss="modal">
-                                Đóng
-                            </button>
-                            <button class="btn primary openModalNoti"
-                                    data-dismiss="modal">
-                                Tắt trong 1h
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-
-        <div class="modal fade modal-big modal__buyacount loadModal__acount_home"
-             id="LoadModalHome">
-            <div class="modal-dialog modal-dialog-centered modal-custom">
-                <div class="modal-content c-p-24 data__form__random_home"></div>
-            </div>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                $('.copy-text-vouc').on('click', function () {
-                    let text_value = $(this).parent().find('.id-vou').html().trim()
-                    navigator.clipboard.writeText(text_value)
-                })
-                tippy('.copy-text-vouc', {
-                    // default
-                    trigger: 'click',
-                    content: 'Đã copy !',
-                    placement: 'right',
-                })
-
-                $('#toggleBtn').on('click', function () {
-                    $('.detailViewBlockContent').toggleClass('hide');
-                    if ($('.detailViewBlockContent').hasClass('hide')) {
-                        $('#toggleContent').text('Hiện thêm');
-                        $('#toggleIcon').removeClass('bi-chevron-up').addClass('bi-chevron-down');
-                    } else {
-                        $('#toggleContent').text('Ẩn bớt');
-                        $('#toggleIcon').removeClass('bi-chevron-down').addClass('bi-chevron-up');
-                    }
-                });
-            })
-        </script>
-
-        <div class="modal fade login show" id="viewMore" aria-modal="true">
-            <div class="modal-dialog step-tab-panel modal-xl modal-dialog-centered login animated">
-                <!--        <div class="image-login"></div>-->
-                <div class="modal-content">
-                    <div class="modal-header p-0" style="border-bottom: 0">
-                        <div class="row marginauto modal-header-order-ct">
-                            <div class="col-12 span__donhang text-center"
-                                 style="position: relative">
-                                <span id="detailTitle" class="text-title-bold fz-20"></span>
-                                <div class="close"
-                                     data-dismiss="modal"
-                                     aria-label="Close"></div>
+                        <div class="modal-header p-0" style="border-bottom: 0">
+                            <div class="row marginauto modal-header-order-ct">
+                                <div class="col-12 span__donhang text-center"
+                                     style="position: relative">
+                                    <span id="detailTitle" class="text-title-bold fz-20"></span>
+                                    <div class="close"
+                                         data-dismiss="modal"
+                                         aria-label="Close"></div>
+                                </div>
                             </div>
                         </div>
+
+                        <div class="modal-body modal-viewmore-body"
+                             id="detailContent"></div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="modal-body modal-viewmore-body"
-                         id="detailContent"></div>
+            <!-- handle bottom sheet -->
+            <div class="bottom-sheet"
+                 id="sheet-view-more"
+                 aria-hidden="true"
+                 data-height="80">
+                <div class="layer"></div>
+                <div class="content-bottom-sheet bar-slide">
+                    <div class="sheet-header">
+                        <h2 class="text-title center" id="detailTitleSheet"></h2>
+                        <label for="check-bottom-sheet" class="close"></label>
+                    </div>
+                    <div class="sheet-body">
+                        <!-- body -->
+                        <div id="detailContentSheet"></div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function getParameterByName(name, url) {
+                    if (!url) url = window.location.href
+                    name = name.replace(/[\[\]]/g, '\\$&')
+                    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                        results = regex.exec(url)
+                    if (!results) return null
+                    if (!results[2]) return ''
+                    return decodeURIComponent(results[2].replace(/\+/g, ' '))
+                }
+
+                var parameterValue = getParameterByName('ref_id')
+                if (parameterValue != '' && parameterValue != null) {
+                    openRegisterModal()
+                    $('#refId').val(parameterValue)
+                }
+
+            </script>
+
+            <div class="c_scroll-top go-to-top">
+                <div class="c_circle">
+                    <i class="bi bi-arrow-bar-up"></i>
                 </div>
             </div>
         </div>
-
-        <!-- handle bottom sheet -->
-        <div class="bottom-sheet"
-             id="sheet-view-more"
-             aria-hidden="true"
-             data-height="80">
-            <div class="layer"></div>
-            <div class="content-bottom-sheet bar-slide">
-                <div class="sheet-header">
-                    <h2 class="text-title center" id="detailTitleSheet"></h2>
-                    <label for="check-bottom-sheet" class="close"></label>
-                </div>
-                <div class="sheet-body">
-                    <!-- body -->
-                    <div id="detailContentSheet"></div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            function getParameterByName(name, url) {
-                if (!url) url = window.location.href
-                name = name.replace(/[\[\]]/g, '\\$&')
-                var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                    results = regex.exec(url)
-                if (!results) return null
-                if (!results[2]) return ''
-                return decodeURIComponent(results[2].replace(/\+/g, ' '))
-            }
-
-            var parameterValue = getParameterByName('ref_id')
-            if (parameterValue != '' && parameterValue != null) {
-                openRegisterModal()
-                $('#refId').val(parameterValue)
-            }
-
-        </script>
-
-        <div class="c_scroll-top go-to-top">
-            <div class="c_circle">
-                <i class="bi bi-arrow-bar-up"></i>
-            </div>
-        </div>
-    </div>
 </div>
 
 @functions {

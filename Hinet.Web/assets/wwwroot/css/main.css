@@ -2450,6 +2450,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
 
 .layout {
     min-height: calc(100vh - 258px);
+    background-color: #F2F4F7;
 }
 
 .clean-content {

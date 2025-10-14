@@ -177,7 +177,7 @@ namespace Hinet.Web.Areas.DonHangArea.Controllers
             }
 			searchModel.DonHangIdFilter = form.DonHangIdFilter;
 			searchModel.VatPhamIdFilter = form.VatPhamIdFilter;
-			searchModel.MaGiamGiaFilter = form.MaGiamGiaFilter;
+			searchModel.MaGiamGiaIdFilter = form.MaGiamGiaIdFilter;
 			searchModel.GiaGocFilter = form.GiaGocFilter;
 			searchModel.GiaKhuyenMaiFilter = form.GiaKhuyenMaiFilter;
 			searchModel.TrangThaiFilter = form.TrangThaiFilter;

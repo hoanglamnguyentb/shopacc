@@ -681,6 +681,7 @@
     <Compile Include="Controllers\CommonDashboardController.cs" />
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\BinhLuanController.cs" />
+    <Compile Include="Controllers\GianHangController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\GiaoDichController.cs" />
     <Compile Include="Controllers\GameController.cs" />
@@ -719,6 +720,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HubControl\NotificationHub.cs" />
+    <Compile Include="Models\GianHangVM\OrderVM.cs" />
+    <Compile Include="Models\GianHangVM\IndexVM.cs" />
     <Compile Include="Models\GiaoDichVM.cs" />
     <Compile Include="Models\GiaoDichNapVM.cs" />
     <Compile Include="Models\GiaoDichTopupVM.cs" />
@@ -14803,6 +14806,8 @@
     <Content Include="Views\User\_ThongBaoList.cshtml" />
     <Content Include="Views\Home\_DichVuNoiBatPartial.cshtml" />
     <Content Include="Views\Home\NapTopup.cshtml" />
+    <Content Include="Views\GianHang\Index.cshtml" />
+    <Content Include="Views\GianHang\DonHang.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

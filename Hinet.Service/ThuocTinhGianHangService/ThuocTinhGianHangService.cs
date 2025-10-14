@@ -1,19 +1,16 @@
-using log4net;
-using Hinet.Model.IdentityEntities;
+using AutoMapper;
 using Hinet.Model.Entities;
 using Hinet.Repository;
+using Hinet.Repository.DanhmucRepository;
 using Hinet.Repository.ThuocTinhGianHangRepository;
-using Hinet.Service.ThuocTinhGianHangService.Dto;
 using Hinet.Service.Common;
-using System.Linq.Dynamic;
-using System;
+using Hinet.Service.ThuocTinhGianHangService.Dto;
+using Hinet.Service.ThuocTinhService.Dto;
+using log4net;
+using PagedList;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PagedList;
-using AutoMapper;
-using Hinet.Service.Constant;
+using System.Linq.Dynamic;
 
 
 
@@ -24,26 +21,22 @@ namespace Hinet.Service.ThuocTinhGianHangService
     {
         IUnitOfWork _unitOfWork;
         IThuocTinhGianHangRepository _ThuocTinhGianHangRepository;
-	ILog _loger;
+        ILog _loger;
         IMapper _mapper;
+        IDM_DulieuDanhmucRepository _dM_DulieuDanhmucRepository;
 
-
-        
-        public ThuocTinhGianHangService(IUnitOfWork unitOfWork, 
-		IThuocTinhGianHangRepository ThuocTinhGianHangRepository, 
-		ILog loger,
-
-            	IMapper mapper	
-            )
+        public ThuocTinhGianHangService(IUnitOfWork unitOfWork,
+                IThuocTinhGianHangRepository ThuocTinhGianHangRepository,
+                ILog loger,
+                IMapper mapper,
+                IDM_DulieuDanhmucRepository dM_DulieuDanhmucRepository)
             : base(unitOfWork, ThuocTinhGianHangRepository)
         {
             _unitOfWork = unitOfWork;
             _ThuocTinhGianHangRepository = ThuocTinhGianHangRepository;
             _loger = loger;
             _mapper = mapper;
-
-
-
+            _dM_DulieuDanhmucRepository = dM_DulieuDanhmucRepository;
         }
 
         public PageListResultBO<ThuocTinhGianHangDto> GetDaTaByPage(ThuocTinhGianHangSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
@@ -52,46 +45,46 @@ namespace Hinet.Service.ThuocTinhGianHangService
 
                         select new ThuocTinhGianHangDto
                         {
-							GianHangId = ThuocTinhGianHangtbl.GianHangId,
-							NhomDanhMucId = ThuocTinhGianHangtbl.NhomDanhMucId,
-							TenThuocTinh = ThuocTinhGianHangtbl.TenThuocTinh,
-							KieuDuLieu = ThuocTinhGianHangtbl.KieuDuLieu,
-							NhomDanhmucCode = ThuocTinhGianHangtbl.NhomDanhmucCode,
-							CreatedBy = ThuocTinhGianHangtbl.CreatedBy,
-							UpdatedBy = ThuocTinhGianHangtbl.UpdatedBy,
-							Id = ThuocTinhGianHangtbl.Id,
-							CreatedID = ThuocTinhGianHangtbl.CreatedID,
-							UpdatedID = ThuocTinhGianHangtbl.UpdatedID,
-							DeleteId = ThuocTinhGianHangtbl.DeleteId,
-							CreatedDate = ThuocTinhGianHangtbl.CreatedDate,
-							UpdatedDate = ThuocTinhGianHangtbl.UpdatedDate,
-							DeleteTime = ThuocTinhGianHangtbl.DeleteTime,
-							IsDelete = ThuocTinhGianHangtbl.IsDelete
-                            
+                            GianHangId = ThuocTinhGianHangtbl.GianHangId,
+                            NhomDanhMucId = ThuocTinhGianHangtbl.NhomDanhMucId,
+                            TenThuocTinh = ThuocTinhGianHangtbl.TenThuocTinh,
+                            KieuDuLieu = ThuocTinhGianHangtbl.KieuDuLieu,
+                            NhomDanhmucCode = ThuocTinhGianHangtbl.NhomDanhmucCode,
+                            CreatedBy = ThuocTinhGianHangtbl.CreatedBy,
+                            UpdatedBy = ThuocTinhGianHangtbl.UpdatedBy,
+                            Id = ThuocTinhGianHangtbl.Id,
+                            CreatedID = ThuocTinhGianHangtbl.CreatedID,
+                            UpdatedID = ThuocTinhGianHangtbl.UpdatedID,
+                            DeleteId = ThuocTinhGianHangtbl.DeleteId,
+                            CreatedDate = ThuocTinhGianHangtbl.CreatedDate,
+                            UpdatedDate = ThuocTinhGianHangtbl.UpdatedDate,
+                            DeleteTime = ThuocTinhGianHangtbl.DeleteTime,
+                            IsDelete = ThuocTinhGianHangtbl.IsDelete
+
                         };
 
             if (searchModel != null)
             {
-		if (searchModel.GianHangIdFilter!=null)
-		{
-			query = query.Where(x => x.GianHangId==searchModel.GianHangIdFilter);
-		}
-		if (searchModel.NhomDanhMucIdFilter!=null)
-		{
-			query = query.Where(x => x.NhomDanhMucId==searchModel.NhomDanhMucIdFilter);
-		}
-		if (!string.IsNullOrEmpty(searchModel.TenThuocTinhFilter))
-		{
-			query = query.Where(x => x.TenThuocTinh.Contains(searchModel.TenThuocTinhFilter));
-		}
-		if (!string.IsNullOrEmpty(searchModel.KieuDuLieuFilter))
-		{
-			query = query.Where(x => x.KieuDuLieu.Contains(searchModel.KieuDuLieuFilter));
-		}
-		if (!string.IsNullOrEmpty(searchModel.NhomDanhmucCodeFilter))
-		{
-			query = query.Where(x => x.NhomDanhmucCode.Contains(searchModel.NhomDanhmucCodeFilter));
-		}
+                if (searchModel.GianHangIdFilter != null)
+                {
+                    query = query.Where(x => x.GianHangId == searchModel.GianHangIdFilter);
+                }
+                if (searchModel.NhomDanhMucIdFilter != null)
+                {
+                    query = query.Where(x => x.NhomDanhMucId == searchModel.NhomDanhMucIdFilter);
+                }
+                if (!string.IsNullOrEmpty(searchModel.TenThuocTinhFilter))
+                {
+                    query = query.Where(x => x.TenThuocTinh.Contains(searchModel.TenThuocTinhFilter));
+                }
+                if (!string.IsNullOrEmpty(searchModel.KieuDuLieuFilter))
+                {
+                    query = query.Where(x => x.KieuDuLieu.Contains(searchModel.KieuDuLieuFilter));
+                }
+                if (!string.IsNullOrEmpty(searchModel.NhomDanhmucCodeFilter))
+                {
+                    query = query.Where(x => x.NhomDanhmucCode.Contains(searchModel.NhomDanhmucCodeFilter));
+                }
 
 
                 if (!string.IsNullOrEmpty(searchModel.sortQuery))
@@ -135,6 +128,25 @@ namespace Hinet.Service.ThuocTinhGianHangService
             var list = _ThuocTinhGianHangRepository.GetQueryable().Where(x => x.GianHangId == gianHangId);
             _ThuocTinhGianHangRepository.DeleteRange(list);
             _ThuocTinhGianHangRepository.Save();
+        }
+
+        public List<ThuocTinhGianHangDto> GetDaTaByGianHangId(int gianHangId)
+        {
+            var queryDanhMuc = _dM_DulieuDanhmucRepository.GetAllAsQueryable();
+
+            var query = from ThuocTinhtbl in _ThuocTinhGianHangRepository.GetQueryable().Where(x => x.GianHangId == gianHangId)
+
+                        select new ThuocTinhGianHangDto
+                        {
+                            GianHangId = ThuocTinhtbl.GianHangId,
+                            TenThuocTinh = ThuocTinhtbl.TenThuocTinh,
+                            KieuDuLieu = ThuocTinhtbl.KieuDuLieu,
+                            NhomDanhmucCode = ThuocTinhtbl.NhomDanhmucCode,
+                            NhomDanhMucId = ThuocTinhtbl.NhomDanhMucId,
+                            Id = ThuocTinhtbl.Id,
+                            ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.GroupId == ThuocTinhtbl.NhomDanhMucId).ToList()
+                        };
+            return query.ToList();
         }
     }
 }

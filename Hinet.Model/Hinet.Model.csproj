@@ -101,6 +101,26 @@
     <Compile Include="Migrations\202510131710425_alter_tbls.Designer.cs">
       <DependentUpon>202510131710425_alter_tbls.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510141450232_alter_tbl_MaGiamGia.cs" />
+    <Compile Include="Migrations\202510141450232_alter_tbl_MaGiamGia.Designer.cs">
+      <DependentUpon>202510141450232_alter_tbl_MaGiamGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510141523222_alter_tbl_MaGiamGia_2.cs" />
+    <Compile Include="Migrations\202510141523222_alter_tbl_MaGiamGia_2.Designer.cs">
+      <DependentUpon>202510141523222_alter_tbl_MaGiamGia_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510141607030_alter_tbl_MaGiamGia_3.cs" />
+    <Compile Include="Migrations\202510141607030_alter_tbl_MaGiamGia_3.Designer.cs">
+      <DependentUpon>202510141607030_alter_tbl_MaGiamGia_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510141650273_alter_tbl_MaGiamGia_4.cs" />
+    <Compile Include="Migrations\202510141650273_alter_tbl_MaGiamGia_4.Designer.cs">
+      <DependentUpon>202510141650273_alter_tbl_MaGiamGia_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510141651500_alter_tbl_MaGiamGia_6.cs" />
+    <Compile Include="Migrations\202510141651500_alter_tbl_MaGiamGia_6.Designer.cs">
+      <DependentUpon>202510141651500_alter_tbl_MaGiamGia_6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -141,6 +161,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510131710425_alter_tbls.resx">
       <DependentUpon>202510131710425_alter_tbls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510141450232_alter_tbl_MaGiamGia.resx">
+      <DependentUpon>202510141450232_alter_tbl_MaGiamGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510141523222_alter_tbl_MaGiamGia_2.resx">
+      <DependentUpon>202510141523222_alter_tbl_MaGiamGia_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510141607030_alter_tbl_MaGiamGia_3.resx">
+      <DependentUpon>202510141607030_alter_tbl_MaGiamGia_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510141650273_alter_tbl_MaGiamGia_4.resx">
+      <DependentUpon>202510141650273_alter_tbl_MaGiamGia_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510141651500_alter_tbl_MaGiamGia_6.resx">
+      <DependentUpon>202510141651500_alter_tbl_MaGiamGia_6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

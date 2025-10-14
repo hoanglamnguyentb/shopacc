@@ -136,7 +136,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
 					var entity = _mapper.Map<TaiKhoan>(model);
 					_TaiKhoanService.Create(entity);
 
-                    // 2Lưu giá trị thuộc tính động
+                    // Lưu giá trị thuộc tính động
                     if (model.GiaTriThuocTinhs != null && model.GiaTriThuocTinhs.Any())
                     {
                         var listGiaTri = new List<GiaTriThuocTinh>();

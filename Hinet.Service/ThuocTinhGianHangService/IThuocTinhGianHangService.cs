@@ -15,5 +15,6 @@ namespace Hinet.Service.ThuocTinhGianHangService
         PageListResultBO<ThuocTinhGianHangDto> GetDaTaByPage(ThuocTinhGianHangSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         ThuocTinhGianHang GetById(long id);
         void DeleteByGianHangId(long gianHangId);
+        List<ThuocTinhGianHangDto> GetDaTaByGianHangId(int gianHangId);
     }
 }

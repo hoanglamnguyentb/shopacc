@@ -14,5 +14,9 @@ namespace Hinet.Model.Entities
         public DateTime? TuNgay { get; set; }
         public DateTime? DenNgay { get; set; }
         public bool TrangThai { get; set; }
+        public string Code { get; set; }
+        [MaxLength(20)]
+        public string KieuGiam { get; set; }
+        public decimal GiaTriGiam { get; set; }
     }
 }

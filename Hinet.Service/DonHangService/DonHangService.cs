@@ -54,7 +54,7 @@ namespace Hinet.Service.DonHangService
                         {
 							DonHangId = DonHangtbl.DonHangId,
 							VatPhamId = DonHangtbl.VatPhamId,
-							MaGiamGia = DonHangtbl.MaGiamGia,
+							MaGiamGiaId = DonHangtbl.MaGiamGiaId,
 							GiaGoc = DonHangtbl.GiaGoc,
 							GiaKhuyenMai = DonHangtbl.GiaKhuyenMai,
 							TrangThai = DonHangtbl.TrangThai,
@@ -82,9 +82,9 @@ namespace Hinet.Service.DonHangService
 		{
 			query = query.Where(x => x.VatPhamId==searchModel.VatPhamIdFilter);
 		}
-		if (searchModel.MaGiamGiaFilter!=null)
+		if (searchModel.MaGiamGiaIdFilter!=null)
 		{
-			query = query.Where(x => x.MaGiamGia==searchModel.MaGiamGiaFilter);
+			query = query.Where(x => x.MaGiamGiaId==searchModel.MaGiamGiaIdFilter);
 		}
 		if (searchModel.GiaGocFilter!=null)
 		{

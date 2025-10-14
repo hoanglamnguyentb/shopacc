@@ -11,7 +11,7 @@ namespace Hinet.Service.DonHangService.Dto
     {
 		public int DonHangIdFilter { get; set; }
 		public int VatPhamIdFilter { get; set; }
-		public int MaGiamGiaFilter { get; set; }
+		public int MaGiamGiaIdFilter { get; set; }
 		public int GiaGocFilter { get; set; }
 		public int GiaKhuyenMaiFilter { get; set; }
 		public string TrangThaiFilter { get; set; }
