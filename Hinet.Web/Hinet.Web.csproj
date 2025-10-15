@@ -13445,6 +13445,7 @@
     <Content Include="Areas\SiteConfigArea\Views\SiteConfig\_EditPartial.cshtml" />
     <Content Include="Areas\SiteConfigArea\Views\SiteConfig\_SearchPartial.cshtml" />
     <Content Include="Areas\SiteConfigArea\Views\web.config" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
