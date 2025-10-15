@@ -12,6 +12,7 @@ using Hinet.Service.GameService;
 using Hinet.Service.GianHangService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.MaGiamGiaService;
+using Hinet.Service.SiteConfigService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Service.ThuocTinhGianHangService;
@@ -23,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -38,8 +40,9 @@ namespace Hinet.Web.Controllers
         private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
         private readonly IDonHangService _donHangService;
         private readonly IDonHangGiaTriThuocTinhService _donHangGiaTriThuocTinhService;
+        private readonly ISiteConfigService _siteConfigService;
 
-        public GianHangController(IGianHangService gianHangService, IVatPhamService vatPhamService, IThuocTinhGianHangService thuocTinhGianHangService, IMaGiamGiaService maGiamGiaService, IDM_DulieuDanhmucService dM_DulieuDanhmucService, IDonHangService donHangService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService)
+        public GianHangController(IGianHangService gianHangService, IVatPhamService vatPhamService, IThuocTinhGianHangService thuocTinhGianHangService, IMaGiamGiaService maGiamGiaService, IDM_DulieuDanhmucService dM_DulieuDanhmucService, IDonHangService donHangService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService, ISiteConfigService siteConfigService)
         {
             _gianHangService = gianHangService;
             _vatPhamService = vatPhamService;
@@ -48,6 +51,7 @@ namespace Hinet.Web.Controllers
             _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
             _donHangService = donHangService;
             _donHangGiaTriThuocTinhService = donHangGiaTriThuocTinhService;
+            _siteConfigService = siteConfigService;
         }
 
         // GET: Game
@@ -125,7 +129,6 @@ namespace Hinet.Web.Controllers
                 }
             }
 
-            // ✅ Nếu tất cả hợp lệ → trả thông tin về cho client
             var data = new
             {
                 Id = maGiam.Id,
@@ -133,26 +136,28 @@ namespace Hinet.Web.Controllers
                 ThongTin = maGiam.ThongTin,
                 KieuGiamGia = maGiam.KieuGiam,
                 GiaTriGiam = maGiam.GiaTriGiam,
-                // có thể trả thêm kiểu giảm giá / giá trị nếu bạn mở rộng model sau này
             };
 
             return ApiResponse.SuccessResponse(data, "Áp dụng mã giảm giá thành công");
         }
 
         [Route("~/don-hang/{id?}")]
-        public ActionResult DonHang(string id)
+        public ActionResult DonHang(long id)
         {
-            return View();
+            var siteConfig = _siteConfigService.GetActiveConfig();
+            var donHang = _donHangService.GetDtoById(id);
+            return View(donHang);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ThanhToan(OrderVM model)
+        public async Task<ActionResult> ThanhToan(OrderCreateVM model)
         {
             if (!ModelState.IsValid)
             {
                 return View("Error");
             }
+            var siteConfig = _siteConfigService.GetActiveConfig();
 
             // 1. Kiểm tra gian hàng có tồn tại không
             var gianHang = _gianHangService.GetById(model.GianHangId);
@@ -204,11 +209,17 @@ namespace Hinet.Web.Controllers
                 SoLuong = model.SoLuong,
                 TongTien = (int)total,
                 MaGiamGiaId = model.MaGiamGiaId,
-                TrangThai = TrangThaiDonHangConstant.KHOITAO
+                TrangThai = TrangThaiDonHangConstant.KHOITAO,
+                GiaGoc = vatPham.GiaGoc * model.SoLuong,
+                GiaKhuyenMai = (int)total,
+                NoiDungChuyenKhoan = $"Thanh toán đơn hàng {Guid.NewGuid().ToString().Substring(0, 8)}",
             };
             _donHangService.Create(donHang);
+            donHang.MaGiaoDich = $"{LoaiGiaoDichConstant.NAPTOPUP}W{donHang.Id}W{CurrentUserId}";
+            donHang.QrUrl = $"https://img.vietqr.io/image/{siteConfig.BankCode}-{siteConfig.AccountNumber}-qr_only.png?amount={donHang.TongTien}&addInfo={HttpUtility.UrlEncode(donHang.MaGiaoDich)}&accountName={HttpUtility.UrlEncode(siteConfig.AccountName)}";
+            _donHangService.Update(donHang);
 
-            // 2Lưu giá trị thuộc tính động
+            // Lưu giá trị thuộc tính động
             if (model.GiaTriThuocTinhs != null && model.GiaTriThuocTinhs.Any())
             {
                 var listGiaTri = new List<DonHangGiaTriThuocTinh>();
@@ -237,8 +248,8 @@ namespace Hinet.Web.Controllers
 
                 _donHangGiaTriThuocTinhService.InsertRange(listGiaTri);
             }
-            // 6. Điều hướng sang trang thanh toán (hoặc cổng thanh toán ngoài)
-            return RedirectToAction("ThanhToanThanhCong", new { id = donHang.Id });
+            //Điều hướng sang trang thanh toán (hoặc cổng thanh toán ngoài)
+            return Redirect("/don-hang/" + donHang.Id);
         }
     }
 }

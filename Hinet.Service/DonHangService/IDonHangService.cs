@@ -14,5 +14,6 @@ namespace Hinet.Service.DonHangService
     {
         PageListResultBO<DonHangDto> GetDaTaByPage(DonHangSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         DonHang GetById(long id);
+        DonHangDto GetDtoById(long id);
     }
 }

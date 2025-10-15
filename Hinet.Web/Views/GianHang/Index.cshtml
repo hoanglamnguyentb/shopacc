@@ -37,6 +37,7 @@
             <form action="/GianHang/ThanhToan" method="POST" class="col-span-12 md:col-span-7 flex flex-col gap-4">
                 <input id="selectedVatPhamId" name="VatPhamId" value="" />
                 <input id="selectedGianHangId" name="GianHangId" value="@gianHang.Id" />
+                <input id="selectedVoucherId" name="MaGiamGiaId" />
                 @Html.AntiForgeryToken()
                 <div class="bg-white rounded-md p-4 shadow-sm">
                     <div class="badge badge-primary">1</div>
@@ -73,8 +74,8 @@
                             </label>
                         }
                         <div class="col-span-12">
-                            <label for="quantity" class="block mb-2 text-sm font-medium text-gray-700">Số lượng</label>
-                            <input type="number" id="quantity" name="quantity" min="1" placeholder="Nhập số lượng" value="1" class="border border-gray-300 w-full outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
+                            <label for="SoLuong" class="block mb-2 text-sm font-medium text-gray-700">Số lượng</label>
+                            <input type="number" id="SoLuong" name="SoLuong" min="1" placeholder="Nhập số lượng" value="1" class="border border-gray-300 w-full outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
                         </div>
                     </div>
                 </div>
@@ -170,7 +171,8 @@
                     <div class="mt-3">
                         <label class="block mb-1 text-sm font-medium text-gray-700">Mã giảm giá</label>
                         <div class="flex gap-2">
-                            <input type="text" id="coupon_code" name="voucher" value="" placeholder="Nhập mã giảm giá" class="border border-gray-300 flex-1 outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
+                            <input type="text" id="coupon_code" name="voucher" value="" placeholder="Nhập mã giảm giá" class="border border-gray-300 flex-1 outline-none 
+                                   p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out text-uppercase">
                             <button type="button" id="apply_coupon" class="bg-blue-500 text-white px-4 rounded-lg hover:bg-blue-600 transition duration-150 ease-in-out">
                                 Áp dụng
                             </button>
@@ -201,7 +203,7 @@
                             }
                             else
                             {
-                                <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base">
+                                <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
                                     Thanh
                                     toán
                                 </button>
@@ -225,12 +227,14 @@
             $('#selectedVatPhamId').val(vatPhamId);
             updateTotal();
             checkBalanceAndShowWarning(); // 👈 Kiểm tra lại khi thay đổi gói
+            togglePayButton();
         });
 
         // Khi thay đổi số lượng
-        $('#quantity').on('input', function () {
+        $('#SoLuong').on('input', function () {
             updateTotal();
             checkBalanceAndShowWarning(); // 👈 Kiểm tra lại khi thay đổi số lượng
+            togglePayButton();
         });
 
         // Khi áp dụng mã giảm giá
@@ -246,7 +250,8 @@
             $.post('/GianHang/CheckMaGiamGia', { code: code, gianHangId: gianHangId })
                 .done(function (res) {
                     if (res.Success) {
-                        $('#selectedVoucherId').val(res.Data.id);
+                        console.log("selectedVoucherId", res);
+                        $('#selectedVoucherId').val(res.Data.Id);
                         $('#coupon_code').data('discount', res.Data);
                         showCouponMessage(res.Message, true);
                     } else {
@@ -256,7 +261,8 @@
                     }
 
                     updateTotal();
-                    checkBalanceAndShowWarning(); // 👈 Kiểm tra lại sau khi áp mã
+                    checkBalanceAndShowWarning();
+                    togglePayButton();
                 })
                 .fail(function () {
                     showCouponMessage('Lỗi kết nối đến server', false);
@@ -266,6 +272,7 @@
         // Khi thay đổi phương thức thanh toán
         $('input[name="PhuongThucThanhToan"]').on('change', function () {
             checkBalanceAndShowWarning();
+            togglePayButton();
         });
 
         // 🧠 Hàm tính tổng tiền hiển thị
@@ -277,8 +284,8 @@
         // 🧮 Hàm tính tổng tiền hiện tại (có giảm giá)
         function getCurrentTotal() {
             var price = $('input[name="package"]:checked').data('price') || 0;
-            var quantity = parseInt($('#quantity').val()) || 1;
-            var total = price * quantity;
+            var SoLuong = parseInt($('#SoLuong').val()) || 1;
+            var total = price * SoLuong;
 
             var discountData = $('#coupon_code').data('discount');
             if (discountData) {
@@ -294,11 +301,11 @@
             return total;
         }
 
-        // ✅ Hàm kiểm tra số dư nếu chọn thanh toán bằng tài khoản
+
         function checkBalanceAndShowWarning() {
             var method = $('input[name="PhuongThucThanhToan"]:checked').val();
             if (method === 'TRUTIENTAIKHOAN') {
-                var balance = parseFloat('@(currentUser.Balance)');
+                var balance = parseFloat('@((currentUser != null) ? currentUser.Balance : 0)');
                 var total = getCurrentTotal();
 
                 if (balance < total) {
@@ -308,8 +315,9 @@
                 }
             } else {
                 clearPaymentWarning();
-            }
+                }
         }
+
 
         // ⚠️ Hàm hiện cảnh báo thanh toán
         function showPaymentWarning(msg) {
@@ -324,5 +332,37 @@
 
         // ✅ Kiểm tra ngay khi trang load lần đầu
         $('input[name="PhuongThucThanhToan"]:checked').trigger('change');
+
+        function togglePayButton() {
+            let total = getCurrentTotal();
+            let packageSelected = $('input[name="package"]:checked').length > 0;
+            let method = $('input[name="PhuongThucThanhToan"]:checked').val();
+            let btn = $('button[type="submit"]#btn-thanhtoan');
+
+            let canPay = packageSelected && total > 0;
+
+            // Nếu chọn thanh toán bằng số dư → kiểm tra thêm số dư
+            if (method === 'TRUTIENTAIKHOAN') {
+                let balance = parseFloat('@((currentUser != null) ? currentUser.Balance : 0)');
+                if (balance < total) {
+                    canPay = false;
+                }
+            }
+
+            btn.prop('disabled', !canPay);
+
+            if (!canPay) {
+                btn.addClass('opacity-50 cursor-not-allowed');
+            } else {
+                btn.removeClass('opacity-50 cursor-not-allowed');
+            }
+        }
+
+        function showCouponMessage(message, isSuccess) {
+            let el = $('#coupon_message');
+            el.text(message)
+                .removeClass('hidden text-green-500 text-red-500')
+                .addClass(isSuccess ? 'text-green-500' : 'text-red-500');
+        }
     });
 </script>

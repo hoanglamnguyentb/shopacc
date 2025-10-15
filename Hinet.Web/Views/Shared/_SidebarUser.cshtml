@@ -3,95 +3,67 @@
     var showTitle = ViewData["ShowTitle"] as bool? ?? true;
 }
 
-<!-- Tìm parent trước -->
-<div class="sidebar-section brs-12">
-    @if (showTitle)
-    {
-        <p class="sidebar-section-title c-mb-16">Menu tài khoản</p>
-    }
-    <div class="sidebar-item @(Model == "thong-tin" ? "active" : "")">
-        <a href="/thong-tin" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-person-circle mr-2"></i>
-            <p class="sidebar-item-text mb-0">Thông tin tài khoản</p>
-        </a>
-    </div>
+<!-- Menu tài khoản -->
+@if (showTitle)
+{
+    <p class="sidebar-section-title c-mb-16">Menu tài khoản</p>
+}
 
-    <div class="sidebar-item @(Model == "thong-bao" ? "active" : "")">
-        <a href="/thong-bao" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-bell mr-2"></i>
-            <p class="sidebar-item-text mb-0">Thông báo</p>
-        </a>
-    </div>
+<a href="/thong-tin"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "thong-tin" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-person-circle"></i>Hồ sơ
+</a>
 
-    <div class="sidebar-item @(Model == "doi-mat-khau" ? "active" : "")">
-        <a href="/doi-mat-khau" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-shield-lock mr-2"></i>
-            <p class="sidebar-item-text mb-0">Đổi mật khẩu</p>
-        </a>
-    </div>
-</div>
-<hr />
+<a href="/thong-bao"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "thong-bao" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-bell"></i>Thông báo
+</a>
+
+<a href="/doi-mat-khau"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "doi-mat-khau" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-shield-lock"></i>Đổi mật khẩu
+</a>
+
+<div class="h-[1px] bg-gray-300 my-2"></div>
 
 <!-- Menu giao dịch -->
-<div class="sidebar-section brs-12">
-    @if (showTitle)
-    {
-        <p class="sidebar-section-title c-mb-16">Menu giao dịch</p>
-    }
+@if (showTitle)
+{
+    <p class="sidebar-section-title c-mb-16">Menu giao dịch</p>
+}
 
-    <div class="sidebar-item @(Model == "lich-su-giao-dich" ? "active" : "")">
-        <a href="/lich-su-giao-dich" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-clock-history mr-2"></i>
-            <p class="sidebar-item-text mb-0">Lịch sử giao dịch</p>
-        </a>
-    </div>
+<a href="/lich-su-giao-dich"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "lich-su-giao-dich" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-clock-history"></i>Lịch sử giao dịch
+</a>
 
-    <div class="sidebar-item @(Model == "tai-khoan-da-mua" ? "active" : "")">
-        <a href="/tai-khoan-da-mua" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-cart-check mr-2"></i>
-            <p class="sidebar-item-text mb-0">Tài khoản đã mua</p>
-        </a>
-    </div>
+<a href="/tai-khoan-da-mua"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "tai-khoan-da-mua" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-cart-check"></i>Tài khoản đã mua
+</a>
 
-    <div class="sidebar-item @(Model == "lich-su-nap-tien" ? "active" : "")">
-        <a href="/lich-su-nap-tien" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-credit-card-2-front mr-2"></i>
-            <p class="sidebar-item-text mb-0">Lịch sử nạp tiền</p>
-        </a>
-    </div>
-</div>
-<hr />
+<a href="/lich-su-nap-tien"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer @(Model == "lich-su-nap-tien" ? "bg-zinc-100 font-semibold" : "")">
+    <i class="bi bi-credit-card-2-front"></i>Lịch sử nạp tiền
+</a>
 
-<!-- Menu nạp tiền -->
-<div class="sidebar-section brs-12">
-    @if (showTitle)
-    {
-        <p class="sidebar-section-title c-mb-16">Menu nạp</p>
-    }
+<div class="h-[1px] bg-gray-300 my-2"></div>
 
-    <div class="sidebar-item">
-        <a href="/home/recharge" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-wallet2 mr-2"></i>
-            <p class="sidebar-item-text mb-0">Nạp tiền tài khoản</p>
-        </a>
-    </div>
+<!-- Menu nạp -->
+@if (showTitle)
+{
+    <p class="sidebar-section-title c-mb-16">Menu nạp</p>
+}
 
-    <div class="sidebar-item">
-        <a href="/home/naptopup" class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-phone mr-2"></i>
-            <p class="sidebar-item-text mb-0">Nạp Topup</p>
-        </a>
-    </div>
-</div>
-<hr />
+<a href="/home/recharge"
+   class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer">
+    <i class="bi bi-wallet2"></i>Nạp tiền tài khoản
+</a>
+
+<div class="h-[1px] bg-gray-300 my-2"></div>
 
 <!-- Đăng xuất -->
-<div class="sidebar-section brs-12">
-    <div class="sidebar-item log-out-button">
-        <a href="/Account/LogOff"
-           class="align-items-center d-flex p-2 px-3">
-            <i class="bi bi-box-arrow-right mr-2"></i>
-            <p class="sidebar-item-text mb-0">Đăng xuất</p>
-        </a>
-    </div>
-</div>
+<a class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer"
+   href="/Account/LogOff">
+    <i class="bi bi-box-arrow-right"></i>Đăng xuất
+</a>

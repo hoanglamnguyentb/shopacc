@@ -213,7 +213,7 @@ namespace Hinet.Web.Controllers
                     MatKhauTaiKhoanNap = giaoDich.MatKhauTaiKhoanNap,
                 };
                 _giaoDichService.Create(newGiaoDich);
-                var maGiaoDich = $"{giaoDich.LoaiGiaoDich}_{newGiaoDich.Id}_{CurrentUserId}";
+                var maGiaoDich = $"{giaoDich.LoaiGiaoDich}W{newGiaoDich.Id}W{CurrentUserId}";
                 newGiaoDich.MaGiaoDich = maGiaoDich;
                 newGiaoDich.NoiDungChuyenKhoan = maGiaoDich;
                 _giaoDichService.Update(newGiaoDich);
@@ -306,7 +306,7 @@ namespace Hinet.Web.Controllers
             var message = "";
             var url = "";
 
-            var parts = code.Split('_');
+            var parts = code.Split('W');
             var loaiGiaoDich = parts[0];
             var id = parts.Length > 1 ? int.Parse(parts[1]) : 0; //Id đối tượng
             var userId = parts.Length > 2 ? int.Parse(parts[2]) : 0;

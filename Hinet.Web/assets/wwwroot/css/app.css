@@ -327,6 +327,11 @@ button, input:where([type=button]), input:where([type=reset]), input:where([type
     background-image: none
 }
 
+    button[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
 :-moz-focusring {
     outline: auto
 }
@@ -5345,64 +5350,64 @@ details.collapse {
 }
 
 .p-0 {
-    padding: 0
+    padding: 0 !important;
 }
 
 .p-1 {
-    padding: .25rem
+    padding: .25rem !important;
 }
 
 .p-2 {
-    padding: .5rem
+    padding: .5rem !important;
 }
 
 .p-3 {
-    padding: .75rem
+    padding: .75rem !important;
 }
 
 .p-4 {
-    padding: 1rem
+    padding: 1rem !important;
 }
 
 .p-5 {
-    padding: 1.25rem
+    padding: 1.25rem !important;
 }
 
 .p-6 {
-    padding: 1.5rem
+    padding: 1.5rem !important;
 }
 
 .p-8 {
-    padding: 2rem
+    padding: 2rem !important;
 }
 
 .p-\[3px\] {
-    padding: 3px
+    padding: 3px !important;
 }
 
 .px-0 {
-    padding-left: 0;
-    padding-right: 0
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .px-2 {
-    padding-left: .5rem;
-    padding-right: .5rem
+    padding-left: .5rem !important;
+    padding-right: .5rem !important;
 }
 
 .px-3 {
-    padding-left: .75rem;
-    padding-right: .75rem
+    padding-left: .75rem !important;
+    padding-right: .75rem !important;
 }
 
 .px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
 }
 
 .px-8 {
-    padding-left: 2rem;
-    padding-right: 2rem
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
 }
 
 .py-0 {

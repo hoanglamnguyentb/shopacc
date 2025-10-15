@@ -8,13 +8,23 @@
     var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
 }
 
-<div class="container c-container" id="account-list">
+<div class="container mx-auto">
+    <div class="breadcrumbs text-sm my-3">
+        <ul>
+            <li><a href="/">Trang chủ</a></li>
+            <li><a href="/game/@game.Slug">@game.Name</a></li>
+            <li>@danhMuc.Name</li>
+        </ul>
+    </div>
+</div>
+
+<div class="container mt-3 mb-8 px-4 md:px-0" id="account-list">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="/game/@game.Slug" class="breadcrumb-link">@game.Name</a>
+            <a href="" class="breadcrumb-link">@game.Name</a>
         </li>
         <li class="breadcrumb-item">
             <a href="javascript:void(0)" class="breadcrumb-link">@danhMuc.Name</a>

@@ -121,6 +121,18 @@
     <Compile Include="Migrations\202510141651500_alter_tbl_MaGiamGia_6.Designer.cs">
       <DependentUpon>202510141651500_alter_tbl_MaGiamGia_6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510151511361_alter_tbl_gianHang_7.cs" />
+    <Compile Include="Migrations\202510151511361_alter_tbl_gianHang_7.Designer.cs">
+      <DependentUpon>202510151511361_alter_tbl_gianHang_7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510151516205_alter_tbl_gianHang_8.cs" />
+    <Compile Include="Migrations\202510151516205_alter_tbl_gianHang_8.Designer.cs">
+      <DependentUpon>202510151516205_alter_tbl_gianHang_8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510151602131_alter_tbl_gianHang_9.cs" />
+    <Compile Include="Migrations\202510151602131_alter_tbl_gianHang_9.Designer.cs">
+      <DependentUpon>202510151602131_alter_tbl_gianHang_9.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -176,6 +188,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510141651500_alter_tbl_MaGiamGia_6.resx">
       <DependentUpon>202510141651500_alter_tbl_MaGiamGia_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510151511361_alter_tbl_gianHang_7.resx">
+      <DependentUpon>202510151511361_alter_tbl_gianHang_7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510151516205_alter_tbl_gianHang_8.resx">
+      <DependentUpon>202510151516205_alter_tbl_gianHang_8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510151602131_alter_tbl_gianHang_9.resx">
+      <DependentUpon>202510151602131_alter_tbl_gianHang_9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

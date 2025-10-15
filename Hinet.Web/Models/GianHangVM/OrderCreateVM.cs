@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace Hinet.Web.Models.GianHangVM
 {
-    public class OrderVM
+    public class OrderCreateVM
     {
         public List<ThuocTinhGianHangDto> ThuocTinhs { get; set; }
         public List<DonHangGiaTriThuocTinh> GiaTriThuocTinhs { get; set; } = new List<DonHangGiaTriThuocTinh>();
+        public int GianHangId { get; set; }
+        public int VatPhamId { get; set; }
+        public int? MaGiamGiaId { get; set; }
         public int SoLuong { get; set; } = 1;
         public string PhuongThucThanhToan { get; set; }
-        public GianHang GianHang { get; set; }
-        public VatPham VatPham { get; set; }
-        public MaGiamGia MaGiamGia { get; set; }
     }
 }
