@@ -41,7 +41,6 @@ function openGiaoDichModal(data) {
 
 function huyGiaoDich(el) {
     var maGiaoDich = $('#displayNoiDung').text().trim();
-    console.log("Hủy giao dịch:", maGiaoDich);
 
     $.ajax({
         url: '/GiaoDich/HuyGiaoDich?maGiaoDich=' + encodeURIComponent(maGiaoDich),

@@ -174,7 +174,7 @@
                         @foreach (var item in Model.ListTinTuc)
                         {
                             <div class="swiper-slide" style="width: 296px; margin-right: 16px">
-                                <div class="card news shadow-sm">
+                                <div class="card news block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
                                     <a href="/tin-tuc/@item.Slug" class="news-link scale-thumb">
                                         <div class="card-body">
                                             <div class="news-thumb">
@@ -184,8 +184,8 @@
                                                      alt="@item.TieuDe"
                                                      class="lazyload news-thumb-image" />
                                             </div>
-                                            <div class="c-px-8">
-                                                <div class="news-title c-mt-12 c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
+                                            <div>
+                                                <div class="news-title c-mb-4 text-limit limit-2 c_max-header-tin-tuc">
                                                     @item.TieuDe
                                                 </div>
                                                 <div class="datetime"><i class="bi bi-alarm"></i>&nbsp;@item.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss")</div>
@@ -200,13 +200,13 @@
                     <div class="navigation slider-prev"><i class="bi bi-chevron-left"></i></div>
                 </div>
             </section>
-            <div class="c-pt-8 border-bottom-destop"></div>
+            <div class="c-py-8"></div>
             <!-- End Tin tức -->
 
             @if (HasRealContent(siteConfig.MoTa))
             {
-                <div class="c-mb-16 c-mt-16">
-                    <div class="card overflow-hidden detailViewBlock">
+                <div class="c-mb-16 c-mt-16 bg-white rounded-md p-4 shadow-sm">
+                    <div class="card overflow-hidden detailViewBlock" style="border-radius: unset !important">
                         <div class="card-body c-px-16">
                             <div class="content-desc hide detailViewBlockContent">
                                 <div class="data-content">

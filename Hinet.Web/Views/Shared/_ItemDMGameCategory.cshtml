@@ -1,7 +1,7 @@
 ﻿@using CommonHelper.Number;
 @model Hinet.Service.DanhMucGameService.Dto.DanhMucGameDto
 <div class="item-category">
-    <div class="card shadow-sm border">
+    <div class="card block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
         <div class="card-body scale-thumb">
             <a href="/mua-acc/@Model.Slug">
                 <div class="card-thumb c-mb-8">
@@ -31,7 +31,7 @@
                             else
                             {
                                 <div class="price-current w-100">@NumberHelper.FormatMoneyVN(Model.GiaGoc)</div>
-                                <div class="price-old c-mr-8 hidden">0</div>
+                                <div class="price-old c-mr-8 visu">0</div>
                                 <div class="discount hidden">0</div>
                             }
                         </div>

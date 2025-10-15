@@ -45,7 +45,6 @@ namespace Hinet.Web.Controllers
             return View(data);
         }
 
-
         [Route("~/lich-su-giao-dich")]
         public ActionResult LichSuGiaoDich(GiaoDichSearchDto search, int page = 1, int pageSize = 10)
         {
@@ -63,7 +62,7 @@ namespace Hinet.Web.Controllers
             var search = new GiaoDichSearchDto
             {
                 UserIdFilter = CurrentUserId.GetValueOrDefault(),
-                ListLoaiGiaoDichFilter = new List<string> { LoaiGiaoDichConstant.NAPTHUONG, LoaiGiaoDichConstant.NAPTOPUP },
+                LoaiGiaoDichFilter = LoaiGiaoDichConstant.NAPTHUONG
             };
             var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
             ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.NAPTHUONG;
@@ -78,9 +77,25 @@ namespace Hinet.Web.Controllers
             {
                 UserIdFilter = CurrentUserId.GetValueOrDefault(),
                 LoaiGiaoDichFilter = LoaiGiaoDichConstant.MUAACC,
+                TrangThaiFilter = TrangThaiGiaoDichConstant.DATHANHTOAN,
             };
             var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
             ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.MUAACC;
+            ViewBag.MenuBottom = "tai-khoan";
+            return View(data);
+        }
+
+
+        [Route("~/nap-topup")]
+        public ActionResult NapTopup()
+        {
+            var search = new GiaoDichSearchDto
+            {
+                UserIdFilter = CurrentUserId.GetValueOrDefault(),
+                LoaiGiaoDichFilter = LoaiGiaoDichConstant.NAPTOPUP
+            };
+            var data = _giaoDichService.GetDaTaByPage(search, 1, 10);
+            ViewData["LoaiGiaoDich"] = LoaiGiaoDichConstant.NAPTOPUP;
             ViewBag.MenuBottom = "tai-khoan";
             return View(data);
         }

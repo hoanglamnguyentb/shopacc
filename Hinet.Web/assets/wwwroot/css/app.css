@@ -4627,7 +4627,8 @@ details.collapse {
 }
 
 .hidden {
-    display: none
+    /*display: none*/
+    visibility: hidden;
 }
 
 .aspect-\[16\/10\] {

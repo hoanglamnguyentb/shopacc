@@ -98,7 +98,7 @@ namespace Hinet.Web.Controllers
                         NgayGiaoDich = DateTime.Now,
                         NgayThanhToan = DateTime.Now,
                         SoTien = -giaBan,
-                        NoiDung = $"Mua tài khoản {taiKhoan.Code}",
+                        NoiDung = $"Mua tài khoản #{taiKhoan.Code}",
                     };
                     _giaoDichService.Create(giaoDich);
                     _notificationService.CreateNoti(
@@ -438,7 +438,7 @@ namespace Hinet.Web.Controllers
             }
         }
 
-        public GiaoDichCheckerResult KiemTraGiaoDich(GiaoDich giaoDich)
+        public CheckerResult KiemTraGiaoDich(GiaoDich giaoDich)
         {
             var loaiGiaoDich = giaoDich.LoaiGiaoDich;
 
@@ -448,7 +448,7 @@ namespace Hinet.Web.Controllers
                 var taiKhoan = _taiKhoanService.GetRandomByDMGameId(giaoDich.DoiTuongId);
                 if (taiKhoan == null)
                 {
-                    return GiaoDichCheckerResult.Error(
+                    return CheckerResult.Error(
                         "⚠️ Rất tiếc, hiện tại không còn tài khoản phù hợp. Vui lòng thử lại sau hoặc chọn một danh mục khác nhé."
                     );
                 }
@@ -459,19 +459,19 @@ namespace Hinet.Web.Controllers
                 var taiKhoan = _taiKhoanService.GetById(giaoDich.DoiTuongId);
                 if (taiKhoan == null)
                 {
-                    return GiaoDichCheckerResult.Error(
+                    return CheckerResult.Error(
                         "❌ Tài khoản bạn chọn không tồn tại hoặc đã bị gỡ. Vui lòng kiểm tra lại hoặc chọn tài khoản khác."
                     );
                 }
                 if (taiKhoan.TrangThai == TrangThaiTaiKhoanConstant.DABAN)
                 {
-                    return GiaoDichCheckerResult.Error(
+                    return CheckerResult.Error(
                         $"⚠️ Rất tiếc, tài khoản <b>#{taiKhoan.Code}</b> đã được người khác mua trước. Vui lòng chọn một tài khoản khác nhé."
                     );
                 }
             }
 
-            return GiaoDichCheckerResult.Success();
+            return CheckerResult.Success();
         }
 
 
@@ -486,22 +486,5 @@ namespace Hinet.Web.Controllers
             });
         }
 
-    }
-
-    public class GiaoDichCheckerResult
-    {
-        public bool Status { get; set; }
-        public string Message { get; set; }
-
-        public GiaoDichCheckerResult(bool status, string message)
-        {
-            Status = status;
-            Message = message;
-        }
-
-        public static GiaoDichCheckerResult Success(string msg = "Giao dịch hợp lệ")
-            => new GiaoDichCheckerResult(true, msg);
-        public static GiaoDichCheckerResult Error(string msg)
-            => new GiaoDichCheckerResult(false, msg);
     }
 }

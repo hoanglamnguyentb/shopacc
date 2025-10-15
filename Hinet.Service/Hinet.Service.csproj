@@ -175,6 +175,7 @@
     <Compile Include="CommonModel\GroupKeyDto.cs" />
     <Compile Include="Constant\GianHangConstant.cs" />
     <Compile Include="Constant\DonHangConstant.cs" />
+    <Compile Include="Constant\MaGiamGiaConstant.cs" />
     <Compile Include="DashboardService\DTO\DashboardDto.cs" />
     <Compile Include="Common\ActionConstant.cs" />
     <Compile Include="Common\BaseService.cs" />

@@ -74,60 +74,23 @@ namespace Hinet.Web.Controllers
         public async Task<JsonResult> CheckMaGiamGia(string code, int gianHangId)
         {
             if (string.IsNullOrWhiteSpace(code))
-            {
                 return ApiResponse.ErrorResponse("Vui lòng nhập mã giảm giá");
-            }
 
-            // Tìm mã giảm giá theo code (case-insensitive)
             var maGiam = _maGiamGiaService.FindBy(x => x.Code.ToLower() == code.ToLower()).FirstOrDefault();
-
             if (maGiam == null)
-            {
                 return ApiResponse.ErrorResponse("Mã giảm giá không tồn tại");
-            }
 
-            // 1. Trạng thái
-            if (!maGiam.TrangThai)
+            var fakeModel = new OrderCreateVM
             {
-                return ApiResponse.ErrorResponse("Mã giảm giá đã bị khóa");
-            }
+                GianHangId = gianHangId,
+                MaGiamGiaId = maGiam.Id,
+                VatPhamId = 0, // nếu cần có thể bỏ qua check vật phẩm
+                SoLuong = 1
+            };
 
-            // 2. Thời gian áp dụng
-            var now = DateTime.Now;
-            if (maGiam.TuNgay.HasValue && now < maGiam.TuNgay.Value)
-            {
-                return ApiResponse.ErrorResponse("Mã giảm giá chưa bắt đầu áp dụng");
-            }
-            if (maGiam.DenNgay.HasValue && now > maGiam.DenNgay.Value)
-            {
-                return ApiResponse.ErrorResponse("Mã giảm giá đã hết hạn");
-            }
-
-            // 3. Số lượng còn lại
-            if (maGiam.SoLuong.HasValue && maGiam.SoLuong.Value <= 0)
-            {
-                return ApiResponse.ErrorResponse("Mã giảm giá đã hết lượt sử dụng");
-            }
-
-            // 4. Kiểm tra phạm vi áp dụng
-            if (!(maGiam.ToanHeThong ?? false))
-            {
-                if (string.IsNullOrEmpty(maGiam.GianHangApDung))
-                {
-                    return ApiResponse.ErrorResponse("Mã giảm giá không áp dụng cho gian hàng này");
-                }
-
-                // GianHangApDung có thể là chuỗi chứa nhiều ID ngăn cách bởi dấu phẩy
-                var gianHangIds = maGiam.GianHangApDung
-                    .Split(',')
-                    .Select(id => int.Parse(id.Trim()))
-                    .ToList();
-
-                if (!gianHangIds.Contains(gianHangId))
-                {
-                    return ApiResponse.ErrorResponse("Mã giảm giá không áp dụng cho gian hàng này");
-                }
-            }
+            var kiemTra = KiemTraDonHang(fakeModel);
+            if (!kiemTra.Status)
+                return ApiResponse.ErrorResponse(kiemTra.Message);
 
             var data = new
             {
@@ -157,51 +120,33 @@ namespace Hinet.Web.Controllers
             {
                 return View("Error");
             }
+
+            var kiemTra = KiemTraDonHang(model);
+            if (!kiemTra.Status)
+            {
+                return ApiResponse.ErrorResponse(kiemTra.Message);
+            }
+
             var siteConfig = _siteConfigService.GetActiveConfig();
-
-            // 1. Kiểm tra gian hàng có tồn tại không
-            var gianHang = _gianHangService.GetById(model.GianHangId);
-            if (gianHang == null)
-            {
-                return Json(new { success = false, message = "Gian hàng không hợp lệ" });
-            }
-
-            // 2. Kiểm tra vật phẩm
             var vatPham = _vatPhamService.GetById(model.VatPhamId);
-            if (vatPham == null)
-            {
-                return Json(new { success = false, message = "Vật phẩm không hợp lệ" });
-            }
-
-            // 3. Tính giá trị đơn hàng gốc
             decimal total = vatPham.GiaGoc * model.SoLuong;
 
-            // 4. Áp dụng mã giảm giá (nếu có)
+            // Áp dụng mã giảm giá (nếu có)
             if (model.MaGiamGiaId > 0)
             {
                 var voucher = _maGiamGiaService.GetById(model.MaGiamGiaId);
-                if (voucher != null && voucher.TrangThai)
+                if (voucher != null)
                 {
-                    var now = DateTime.Now;
-                    if (voucher.TuNgay <= now && voucher.DenNgay >= now)
-                    {
-                        decimal discountValue = 0;
+                    decimal discountValue = 0;
+                    if (voucher.KieuGiam == KieuGiamGiaConstant.PERCENT)
+                        discountValue = total * (voucher.GiaTriGiam / 100);
+                    else if (voucher.KieuGiam == KieuGiamGiaConstant.AMOUNT)
+                        discountValue = voucher.GiaTriGiam;
 
-                        if (voucher.KieuGiam == "PERCENT")
-                        {
-                            discountValue = total * (voucher.GiaTriGiam / 100);
-                        }
-                        else if (voucher.KieuGiam == "AMOUNT")
-                        {
-                            discountValue = voucher.GiaTriGiam;
-                        }
-
-                        total = Math.Max(total - discountValue, 0);
-                    }
+                    total = Math.Max(total - discountValue, 0);
                 }
             }
 
-            // 5. Tạo đối tượng DonHang để lưu DB
             var donHang = new DonHang
             {
                 GianHangId = model.GianHangId,
@@ -215,41 +160,106 @@ namespace Hinet.Web.Controllers
                 NoiDungChuyenKhoan = $"Thanh toán đơn hàng {Guid.NewGuid().ToString().Substring(0, 8)}",
             };
             _donHangService.Create(donHang);
+
             donHang.MaGiaoDich = $"{LoaiGiaoDichConstant.NAPTOPUP}W{donHang.Id}W{CurrentUserId}";
             donHang.QrUrl = $"https://img.vietqr.io/image/{siteConfig.BankCode}-{siteConfig.AccountNumber}-qr_only.png?amount={donHang.TongTien}&addInfo={HttpUtility.UrlEncode(donHang.MaGiaoDich)}&accountName={HttpUtility.UrlEncode(siteConfig.AccountName)}";
             _donHangService.Update(donHang);
 
-            // Lưu giá trị thuộc tính động
-            if (model.GiaTriThuocTinhs != null && model.GiaTriThuocTinhs.Any())
+            //Lưu giao dịch
+            var newGiaoDich = new GiaoDich
             {
-                var listGiaTri = new List<DonHangGiaTriThuocTinh>();
-                foreach (var item in model.GiaTriThuocTinhs)
-                {
-                    string giaTriTxt = item.GiaTri;
-                    if (item.KieuDuLieu == KieuDuLieuThuocTinhGameConstant.DROPDOWN)
-                    {
-                        var duLieu = int.TryParse(item.GiaTri, out var guidId) ? _dM_DulieuDanhmucService.GetById(guidId) : null;
-                        giaTriTxt = duLieu != null ? duLieu.Name : giaTriTxt;
-                    }
+                UserId = CurrentUserId.GetValueOrDefault(),
+                DoiTuongId = donHang.Id,
+                LoaiDoiTuong = LoaiDoiTuongConstant.NAPTOPUP,
+                LoaiGiaoDich = LoaiGiaoDichConstant.NAPTOPUP,
+                TrangThai = TrangThaiGiaoDichConstant.KHOITAO,
+                PhuongThucThanhToan = model.PhuongThucThanhToan,
+                NgayGiaoDich = DateTime.Now,
+                SoTien = donHang.TongTien,
+            };
 
-                    if (item.ThuocTinhId > 0 && !string.IsNullOrEmpty(item.GiaTri))
-                    {
-                        listGiaTri.Add(new DonHangGiaTriThuocTinh
-                        {
-                            DonHangId = donHang.Id,
-                            ThuocTinhId = item.ThuocTinhId,
-                            ThuocTinhTxt = item.ThuocTinhTxt,
-                            GiaTri = item.GiaTri,
-                            KieuDuLieu = item.KieuDuLieu,
-                            GiaTriTxt = giaTriTxt,
-                        });
-                    }
+            return Redirect("/don-hang/" + donHang.Id);
+        }
+
+
+        [HttpDelete]
+        public async Task HuyDonHang(int donHangId)
+        {
+            var donHang = _donHangService.FindBy(x => x.Id == donHangId).FirstOrDefault();
+            if (donHang != null && donHang.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+            {
+                _donHangService.Delete(donHang);
+            }
+        }
+
+        public CheckerResult KiemTraDonHang(OrderCreateVM model)
+        {
+            // 1. Gian hàng
+            var gianHang = _gianHangService.GetById(model.GianHangId);
+            if (gianHang == null)
+            {
+                return CheckerResult.Error("Gian hàng không hợp lệ");
+            }
+
+            if(model.VatPhamId > 0)
+            {
+                // 2. Vật phẩm
+                var vatPham = _vatPhamService.GetById(model.VatPhamId);
+                if (vatPham == null)
+                {
+                    return CheckerResult.Error("Vật phẩm không hợp lệ");
+                }
+            }
+
+            // 3. Mã giảm giá
+            if (model.MaGiamGiaId > 0)
+            {
+                var maGiam = _maGiamGiaService.GetById(model.MaGiamGiaId);
+                if (maGiam == null)
+                {
+                    return CheckerResult.Error("Mã giảm giá không tồn tại");
                 }
 
-                _donHangGiaTriThuocTinhService.InsertRange(listGiaTri);
+                if (!maGiam.TrangThai)
+                {
+                    return CheckerResult.Error("Mã giảm giá đã bị khóa");
+                }
+
+                var now = DateTime.Now;
+                if (maGiam.TuNgay.HasValue && now < maGiam.TuNgay.Value)
+                {
+                    return CheckerResult.Error("Mã giảm giá chưa bắt đầu áp dụng");
+                }
+                if (maGiam.DenNgay.HasValue && now > maGiam.DenNgay.Value)
+                {
+                    return CheckerResult.Error("Mã giảm giá đã hết hạn");
+                }
+
+                if (maGiam.SoLuong.HasValue && maGiam.SoLuong.Value <= 0)
+                {
+                    return CheckerResult.Error("Mã giảm giá đã hết lượt sử dụng");
+                }
+
+                if (!(maGiam.ToanHeThong ?? false))
+                {
+                    if (string.IsNullOrEmpty(maGiam.GianHangApDung))
+                    {
+                        return CheckerResult.Error("Mã giảm giá không áp dụng cho gian hàng này");
+                    }
+
+                    var gianHangIds = maGiam.GianHangApDung
+                        .Split(',')
+                        .Select(id => int.Parse(id.Trim()))
+                        .ToList();
+
+                    if (!gianHangIds.Contains(model.GianHangId))
+                    {
+                        return CheckerResult.Error("Mã giảm giá không áp dụng cho gian hàng này");
+                    }
+                }
             }
-            //Điều hướng sang trang thanh toán (hoặc cổng thanh toán ngoài)
-            return Redirect("/don-hang/" + donHang.Id);
+
+            return CheckerResult.Success();
         }
     }
 }

@@ -465,7 +465,7 @@ button:focus {
 
 .breadcrumb-list {
     padding: 8px 0;
-    margin: 0;
+    margin: 8px 0;
     display: flex;
     align-items: center;
 }
@@ -2003,11 +2003,11 @@ i.title-info:after {
     }
 
     .card  .card-thumb {
-        border-radius: 8px 8px 0 0;
+        border-radius: 6px;
     }
 
     .card .card-attr {
-        padding: 0 8px;
+        /*padding: 0 8px;*/
     }
 
     @media (min-width: 1200px) {
@@ -2574,7 +2574,7 @@ ins.adsbygoogle[data-ad-status="unfilled"] {
     height: 100%;
     object-fit: cover;
     position: absolute;
-    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-radius: 6px;
     z-index: 100;
 }
 
@@ -2725,5 +2725,8 @@ div:where(.swal2-icon) .swal2-icon-content {
     gap: 12px;
 }
 
-</style >
+.w-0 {
+    width: 0;
+}
+
 /*Config*/

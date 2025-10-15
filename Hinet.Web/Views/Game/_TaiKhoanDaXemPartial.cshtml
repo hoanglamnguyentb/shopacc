@@ -17,9 +17,9 @@
                     {
                         <div class="swiper-slide acc-related-@item.Code" style="width: 233.6px; margin-right: 16px;">
                             <div class="item-category">
-                                <div class="card">
+                                <div class="card block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
                                     <a href="/acc/@item.Code" class="card-body scale-thumb c-p-16 c-p-lg-12">
-                                        <div class="account-thumb c-mb-8">
+                                        <div class="account-thumb">
                                             <img onerror="imgError(this)"
                                                  src="@(string.IsNullOrEmpty(item.AnhBia)
                                                          ? Url.Content("~/Content/images/no-image.jpg")
@@ -27,8 +27,8 @@
                                                  alt="@item.Code"
                                                  class="account-thumb-image lazy" />
                                         </div>
-                                        <div class="c-px-8">
-                                            <div class="account-title c-mb-8">
+                                        <div>
+                                            <div class="account-title c-mb-4">
                                                 <div class="text-title fw-700 text-limit limit-1">
                                                     #@item.Code
                                                 </div>

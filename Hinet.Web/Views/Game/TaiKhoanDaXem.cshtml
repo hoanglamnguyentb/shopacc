@@ -29,15 +29,15 @@
                     if (danhMuc.LaLoaiDongGia.GetValueOrDefault())
                     {
                         <div class="item-account">
-                            <div class="card card-hover h-100">
+                            <div class="card card-hover h-100 block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
                                 <a href="/mua-acc/@danhMuc.Slug" class="card-body scale-thumb buyacc" data-payment="1">
-                                    <div class="account-thumb c-mb-8 position-realative">
+                                    <div class="account-thumb position-realative">
                                         <img onerror="imgError(this)"
                                              src="@(string.IsNullOrEmpty(danhMuc.DuongDanAnh) ? Url.Content("~/assets/wwwroot/images/no-image.png") : danhMuc.DuongDanAnh)"
                                              alt="@danhMuc.Id"
                                              class="account-thumb-image lazy">
                                     </div>
-                                    <div class="c-px-8">
+                                    <div>
                                         <div class="account-title">
                                             <div class="text-title fw-700 text-limit limit-1">@danhMuc.Name</div>
                                         </div>
@@ -64,15 +64,15 @@
                     else
                     {
                         <div class="item-account">
-                            <div class="card card-hover h-100">
+                            <div class="card card-hover h-100 block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
                                 <a href="/acc/@tk.Code" class="card-body scale-thumb">
-                                    <div class="account-thumb c-mb-8 position-realative">
+                                    <div class="account-thumb position-realative">
                                         <img onerror="imgError(this)"
                                              src="@(string.IsNullOrEmpty(tk.AnhBia) ? Url.Content("~/assets/wwwroot/images/no-image.png") : tk.AnhBia)"
                                              alt="@tk.Code"
                                              class="account-thumb-image lazy">
                                     </div>
-                                    <div class="c-px-8">
+                                    <div>
                                         <div class="account-title">
                                             <div class="text-title fw-700 text-limit limit-1">Nick @tk.Game.Name</div>
                                         </div>

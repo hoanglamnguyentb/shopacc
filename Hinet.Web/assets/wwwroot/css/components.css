@@ -323,7 +323,7 @@ section.outstanding-service {
     width: 100%;
     padding-bottom: 66.2%;
     overflow: hidden;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px;
 }
 
 .news .news-thumb .news-thumb-image {
@@ -466,7 +466,7 @@ section.outstanding-service {
 .item-category .account-thumb {
     position: relative;
     padding-bottom: 60%;
-    border-radius: 8px 8px 0 0;
+    border-radius: 6px;
     overflow: hidden;
 }
 

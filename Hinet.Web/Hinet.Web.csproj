@@ -720,6 +720,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HubControl\NotificationHub.cs" />
+    <Compile Include="Models\CheckerResult.cs" />
     <Compile Include="Models\GianHangVM\OrderVM.cs" />
     <Compile Include="Models\GianHangVM\OrderCreateVM.cs" />
     <Compile Include="Models\GianHangVM\IndexVM.cs" />
@@ -14809,6 +14810,7 @@
     <Content Include="Views\Home\NapTopup.cshtml" />
     <Content Include="Views\GianHang\Index.cshtml" />
     <Content Include="Views\GianHang\DonHang.cshtml" />
+    <Content Include="Views\User\NapTopup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

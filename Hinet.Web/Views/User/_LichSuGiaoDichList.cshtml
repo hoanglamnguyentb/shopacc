@@ -10,7 +10,7 @@
 <table class="table table-striped table-hover align-middle table-bordered">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="w-0">#</th>
             <th scope="col">Ngày</th>
             @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
             {
@@ -32,7 +32,7 @@
             {
                 index++;
                 <tr>
-                    <td>@index</td>
+                    <td class="w-0">@index</td>
                     <td>
                         @item.NgayGiaoDich.ToString("dd/MM/yyyy HH:mm")
                         @if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
@@ -42,7 +42,7 @@
                     </td>
                     @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
                     {
-                        <td><a href="/acc/@item.TaiKhoanTxt">#@item.TaiKhoanTxt</a></td>
+                        <td><a href="/acc/@item.TaiKhoanTxt" class="text-blue-500" target="_blank">#@item.TaiKhoanTxt</a></td>
                     }
                     @if (loaiGiaoDich == null)
                     {
@@ -50,42 +50,16 @@
                     }
                     <td>
                         <div>@item.NoiDung</div>
-                        <ul class="mb-0">
-                            @if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
-                            {
-                                <li class="d-flex justify-content-between">
-                                    <span class="link-color">
-                                        + Tài khoản
-                                    </span>
-
-                                    <span>
-                                        @item.TenTaiKhoanCanNap
-                                    </span>
-
-                                </li>
-                                <li class="d-flex justify-content-between">
-                                    <span class="link-color">
-                                        + Mật khẩu
-                                    </span>
-                                    <div class="password-wrapper" style="display: inline-flex; align-items: center; gap: 4px;">
-                                        <input type="password"
-                                               value="@item.MatKhauTaiKhoanNap"
-                                               readonly
-                                               class="password-field"
-                                               style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right; height: 13px;" />
-
-                                        <span class="toggle-password p-0"
-                                              title="Hiện/ẩn mật khẩu"
-                                              style="text-decoration: none;">
-                                            <i class="bi bi-eye"></i>
-                                        </span>
-                                    </div>
-                                </li>
-                            }
-                        </ul>
                     </td>
                     <td class="text-right @(item.SoTien > 0 ? "text-success" : "text-danger")">
-                        @(item.SoTien > 0 ? "+" : "") @NumberHelper.FormatMoneyVN(item.SoTien)
+                        @if (item.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+                        {
+                            <span class="text-gray-500">@NumberHelper.FormatMoneyVN(item.SoTien)</span>
+                        }
+                        else
+                        {
+                            @(item.SoTien > 0 ? "+" : "") @NumberHelper.FormatMoneyVN(item.SoTien)
+                        }
                     </td>
                     <td class="text-center">
                         @if (item.TrangThai == "Thành công")

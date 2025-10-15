@@ -4,7 +4,6 @@
     var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
 }
 
-
 <div class="container c-container" id="account-category">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
@@ -109,7 +108,95 @@
                     <img src="@Model.QrUrl" alt="" class=" md:w-60 w-full">
                 </div>
             </div>
-
+            <div class="p-4 flex flex-col md:flex-row gap-2 justify-content-end">
+                <button type="button" class="bg-red-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-huybo" onclick="huyDonHang(this)">
+                    Hủy bỏ
+                </button>
+                <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
+                    Thanh toán bằng tài khoản
+                </button>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function huyDonHang(el) {
+        var donHangId = @Model.Id;//Mã đơn hàng
+
+        $.ajax({
+            url: '/GiaoDich/HuyGiaoDich?=donHangId' + encodeURIComponent(donHangId),
+            type: 'DELETE',
+            success: function (res) {
+                if (res.Success) {
+                    console.log("Hủy giao dịch thành công:", maGiaoDich);
+                    window.history.back();
+                } else {
+                    console.log("Có lỗi khi hủy giao dịch:", res.Message);
+                }
+            },
+            error: function () {
+                console.log("Lỗi kết nối khi huỷ giao dịch");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var tenDonHang = '@Model.MaGiaoDich';
+        var tongTien = @Model.TongTien;
+        $('#btn-thanhtoan').on('click', function () {
+            Swal.fire({
+                title: 'Xác nhận thanh toán',
+                html: 'Bạn có chắc muốn thanh toán đơn hàng <b>#' + tenDonHang + '</b> với giá trị <b>' + tongTien.toLocaleString('vi-VN') + ' đ</b> không?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    thanhToanDonHang();
+                }
+            });
+        });
+    });
+
+    function thanhToanDonHang() {
+        var donHangId = @Model.Id;
+
+        $.ajax({
+            url: '/GiaoDich/ThanhToanTaiKhoan',
+            type: 'POST',
+            data: { donHangId: donHangId },
+            success: function (res) {
+                if (res.Success) {
+                    Swal.fire({
+                        title: 'Thành công!',
+                        text: 'Đơn hàng đã được thanh toán thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Chuyển hướng sau khi thanh toán thành công
+                        window.location.href = '/order/' + donHangId;
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: res.Message || 'Không thể thanh toán đơn hàng.',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    title: 'Lỗi kết nối',
+                    text: 'Không thể kết nối đến máy chủ.',
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+            }
+        });
+    }
+</script>

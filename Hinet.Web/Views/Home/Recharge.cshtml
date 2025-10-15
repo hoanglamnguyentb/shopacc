@@ -24,7 +24,7 @@
                 <div class="input-group d-flex flex-column">
                     <input class="input-form m-auto" id="rechargeAmount"
                            inputmode="numeric"
-                           type="text" placeholder="Nhập số tiền muốn nạp (VND)" style="height: 34px; max-width: 250px">
+                           type="text" placeholder="Nhập số tiền muốn nạp (VNĐ)" style="height: 34px; max-width: 250px">
                     <p class="text-error c-mb-0 c-mt-4 w-full text-center" id="amountError"></p>
                 </div>
                 <div class="text-center c-mt-12">
@@ -103,7 +103,7 @@
                         console.log("Thanh cong");
 
                         $('#rechargeQrImage').attr('src', res.Data.QrUrl).show();
-                        $("#displayAmount").text(res.Data.SoTien.toLocaleString('vi-VN') + ' VND')
+                        $("#displayAmount").text(res.Data.SoTien.toLocaleString('vi-VN') + ' VNĐ')
                         $("#displayNoiDung").text(res.Data.NoiDungChuyenKhoan)
                         $('#rechargeModal').modal('show');
                     } else {
@@ -145,7 +145,7 @@
         $('#rechargeAmount, #rechargeAmountModal').on('focus', function () {
             $(this).attr('placeholder', 'Ví dụ: 50.000');
         }).on('blur', function () {
-            $(this).attr('placeholder', 'Nhập số tiền (VND)');
+            $(this).attr('placeholder', 'Nhập số tiền (VNĐ)');
         });
 
         $(document).on('click', '#btnTransferDone, #btnTransferDoneModal', function () {

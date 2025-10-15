@@ -10,7 +10,7 @@
             <a href="/" class="breadcrumb-link">Trang chủ</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="#" class="breadcrumb-link">Lịch sử biến động số dư</a>
+            <a href="#" class="breadcrumb-link">Tài khoản đã mua</a>
         </li>
     </ul>
     <hr />
@@ -18,12 +18,12 @@
     <div class="row">
         <div class="c-history-left media-web">
             <div class="sidebar">
-                @Html.Partial("_SidebarUser", "lich-su-nap-tien")
+                @Html.Partial("_SidebarUser", "nap-topup")
             </div>
         </div>
         <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
             <div class="section-header d-flex justify-content-between align-items-center flex-wrap c-py-16" style="gap: 8px;">
-                <h1 class="fw-700 fz-20 lh-28 c-my-0">Lịch sử biến động số dư</h1>
+                <h1 class="fw-700 fz-20 lh-28 c-my-0">Lịch sử giao dịch tài khoản</h1>
                 @using (Ajax.BeginForm(
                     "LoadLichSuGiaoDich",       // Action
                     "User",                     // Controller
@@ -36,7 +36,7 @@
                     new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
                     ))
                 {
-                    <input type="hidden" id="LoaiGiaoDichFilter" name="LoaiGiaoDichFilter" value="@Hinet.Service.Constant.LoaiGiaoDichConstant.NAPTHUONG"/>
+                    <input type="hidden" id="LoaiGiaoDichFilter" name="LoaiGiaoDichFilter" value="@Hinet.Service.Constant.LoaiGiaoDichConstant.MUAACC" />
                     <input type="date" class="form-control form-control-sm" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
                     <input type="date" class="form-control form-control-sm" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
                     <button type="submit" class="btn ghost flex-shrink-0">
