@@ -55,12 +55,9 @@ namespace Hinet.Web.Models
         //public string Email { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập thông tin này")]
         [Display(Name = "Tên đăng nhập")]
-        [MinLength(3, ErrorMessage = "Độ dài tối thiểu là 3 ký tự")]
-        [MaxLength(50, ErrorMessage = "Độ dài tối đa là 50 ký tự")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập thông tin này")]
-        [DataType(DataType.Password)]
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
 

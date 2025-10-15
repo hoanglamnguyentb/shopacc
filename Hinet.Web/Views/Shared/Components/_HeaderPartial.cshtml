@@ -45,6 +45,30 @@
                                     <li class="w-100 c-px-4">
                                         @if (currentUser != null)
                                         {
+                                            <a href="/home/recharge">
+                                                <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                     style="white-space: nowrap">
+                                                    <i class="bi bi-wallet fz-16"></i>
+                                                    <span class="fw-500 fz-15 lh-24">Nạp Tiền</span>
+                                                </div>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0);" onclick="openLoginModal();">
+                                                <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
+                                                     style="white-space: nowrap">
+                                                    <i class="bi bi-wallet fz-16"></i>
+                                                    <span class="fw-500 fz-15 lh-24">Nạp Tiền</span>
+                                                </div>
+                                            </a>
+                                        }
+                                    </li>
+
+                                    <!-- Nạp topup -->
+                                    <li class="w-100 c-px-4">
+                                        @if (currentUser != null)
+                                        {
                                             <a href="/home/naptopup">
                                                 <div class="c-p-8 brs-8 d-flex justify-content-center align-items-center gap-1 text-primary"
                                                      style="white-space: nowrap">

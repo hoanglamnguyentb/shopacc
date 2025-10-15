@@ -762,7 +762,7 @@ namespace Hinet.Web.Controllers
             var clientId = WebConfigurationManager.AppSettings["Google_ClientID"];
             var clientSecret = WebConfigurationManager.AppSettings["Google_ClientSecret"];
             //var redirectUri = Url.Action("GoogleCallback", "Account", null, Request.Url.Scheme);
-            var redirectUri ="https://www.poygems.com/Account/GoogleCallback";
+            var redirectUri ="https://poygems.com/Account/GoogleCallback";
             var encodedRedirectUri = HttpUtility.UrlEncode(redirectUri);
             var url =
                 $"https://accounts.google.com/o/oauth2/v2/auth?client_id={clientId}" +
@@ -777,7 +777,7 @@ namespace Hinet.Web.Controllers
         {
             var clientId = WebConfigurationManager.AppSettings["Google_ClientID"];
             var clientSecret = WebConfigurationManager.AppSettings["Google_ClientSecret"];
-            var redirectUri = "https://www.poygems.com/Account/GoogleCallback";
+            var redirectUri = "https://poygems.com/Account/GoogleCallback";
             if (string.IsNullOrEmpty(code))
             {
                 return Content("Không nhận được mã code từ Google!");

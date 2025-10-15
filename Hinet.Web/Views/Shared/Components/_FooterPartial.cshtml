@@ -105,6 +105,34 @@
         @if (currentUser != null)
         {
             <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "recharge" ? "is-active" : "" )">
+                <a href="/home/recharge"
+                   class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                    <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                        <i class="bi bi-cash-coin fz-16 text-color"></i>
+                    </span>
+
+                    <span class="menu-bottom_text fz-12">Nạp Tiền</span>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "recharge" ? "is-active" : "" )">
+                <a href="javascript:void(0);"
+                   onclick="openLoginModal();"
+                   class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                    <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                        <i class="bi bi-cash-coin fz-16 text-color"></i>
+                    </span>
+
+                    <span class="menu-bottom_text fz-12">Nạp Tiền</span>
+                </a>
+            </li>
+        }
+
+        @if (currentUser != null)
+        {
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == null ? "is-active" : "" )">
                 <a href="/home/naptopup"
                    class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
                     <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
@@ -117,7 +145,7 @@
         }
         else
         {
-            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "recharge" ? "is-active" : "" )">
+            <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == null ? "is-active" : "" )">
                 <a href="javascript:void(0);"
                    onclick="openLoginModal();"
                    class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
@@ -125,7 +153,7 @@
                         <i class="bi bi-wallet-fill fz-16 text-color"></i>
                     </span>
 
-                    <span class="menu-bottom_text fz-12">Nạp tiền</span>
+                    <span class="menu-bottom_text fz-12">Nạp Topup</span>
                 </a>
             </li>
         }
@@ -151,7 +179,7 @@
                 <span class="menu-bottom_text fz-12">Tin tức</span>
             </a>
         </li>
-        @if (currentUser != null)
+        @*@if (currentUser != null)
         {
             <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "tai-khoan" ? "is-active" : "" )">
                 <a href="/thong-tin"
@@ -162,7 +190,7 @@
                     <span class="menu-bottom_text fz-12">Tài khoản</span>
                 </a>
             </li>
-        }
+        }*@
 
     </ul>
 </div>

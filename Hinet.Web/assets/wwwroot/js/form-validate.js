@@ -22,228 +22,120 @@
  *
  * Outfocus hoặc Submit form thì form mới bắt đầu validate chứ không phải lỗi đâu nhớ ^^
  * */
-Validator({
-  form: '#form-validate-demo',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('.username', 'Chưa nhập tên tài khoản'),
-    Validator.isRequired('.confirm-rules', 'Bạn chưa đồng ý với điều khoản'),
-    Validator.isRequired('[name=gender]'),
-    Validator.isRequired('.service-select', 'Cần chọn ít nhất 1 dịch vụ'),
-    Validator.isRequired('.password'),
-    Validator.isRequired('.confirm_password'),
-    Validator.isRequired('.files'),
-    Validator.isEmail('.email'),
-    Validator.minLength('.password', 4),
-    Validator.maxLength('.password', 6),
-    Validator.isConfirm(
-      '.confirm_password',
-      function () {
-        return document.querySelector('#form-validate-demo .password').value
-      },
-      'Mật khẩu xác nhận chưa chính xác'
-    ),
-  ],
-  onSubmit: function (data) {
-    alert('Form đã được submit')
-  },
-})
 
 Validator({
-  form: '#formLoginMobile',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=username]', 'Bạn chưa nhập tên tài khoản'),
-    Validator.isRequired('[name=password]', 'Bạn chưa nhập mật khẩu'),
-  ],
-  onSubmit: function (data) {},
-})
-
-Validator({
-  form: '#formRegisterMobile',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=username]', 'Bạn chưa nhập tên tài khoản'),
-    Validator.isRequired('[name=password]', 'Bạn chưa nhập mật khẩu'),
-    Validator.isRequired(
-      '[name=password_confirmation]',
-      'Bạn chưa nhập mật khẩu xác nhận'
-    ),
-    Validator.isConfirm(
-      '[name=password_confirmation]',
-      function () {
-        return document.querySelector('#formRegisterMobile [name=password]')
-          .value
-      },
-      'Mật khẩu xác nhận chưa chính xác'
-    ),
-  ],
-  onSubmit: function (data) {},
-})
-Validator({
-  form: '#formLogin',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=Username]', 'Bạn chưa nhập tên tài khoản'),
-    Validator.isRequired('[name=Password]', 'Bạn chưa nhập mật khẩu'),
-  ],
-  onSubmit: function (data) {
-    const loginBtn = '#btnLogin';
-    showButtonSpinner(loginBtn);
-    $.ajax({
-      url: '/Account/Login', // action trong AccountController
-      type: 'POST',
-      data: data, // Gửi các trường ở dạng phẳng và kèm token
-      success: function (res) {
-        if (res.success) {
-          // ✅ Đăng ký thành công
-          $('#loginError')
-            .removeClass('text-error')
-            .addClass('text-success')
-            .text('Đăng ký thành công!')
-          // Reset form
-          $('#formLogin')[0].reset()
-            location.reload()
-        } else {
-          // ⚠️ Có lỗi từ server
-          $('#loginError')
-            .removeClass('text-success')
-            .addClass('text-error')
-            .text(res.message || 'Có lỗi xảy ra')
-        }
-      },
-      error: function (xhr) {
-        $('#loginError')
-          .removeClass('text-success')
-          .addClass('text-error')
-          .text('Lỗi hệ thống, vui lòng thử lại sau.')
-        },
-        complete: function () {
-            hideButtonSpinner(loginBtn);
-        },
-    })
-  },
-})
-
-Validator({
-  form: '#formRegister',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=UserName]', 'Bạn chưa nhập tên tài khoản'),
-    Validator.isRequired('[name=Password]', 'Bạn chưa nhập mật khẩu'),
-    Validator.isRequired(
-      '[name=ConfirmPassword]',
-      'Bạn chưa nhập mật khẩu xác nhận'
-    ),
-  ],
+    form: '#formLogin',
+    formGroupSelector: '.input-group',
+    errorSelector: '.text-error',
+    rules: [
+        Validator.isRequired('[name=Username]', 'Bạn chưa nhập tên tài khoản'),
+        Validator.isRequired('[name=Password]', 'Bạn chưa nhập mật khẩu'),
+    ],
     onSubmit: function (data) {
-    const registerBtn = '#btnRegister';
-    showButtonSpinner(registerBtn);
-    $.ajax({
-      url: '/Account/Register',
-      type: 'POST',
-      data: data,
-      success: function (res) {
-        if (res.success) {
-          // ✅ Đăng ký thành công
-          $('#registError')
-            .removeClass('text-error')
-            .addClass('text-success')
-            .text('Đăng ký thành công!')
-          // Reset form
-          $('#formRegister')[0].reset()
-            location.reload()
-        } else {
-          // ⚠️ Có lỗi từ server
-          $('#registError')
-            .removeClass('text-success')
-            .addClass('text-error')
-            .text(res.message || 'Có lỗi xảy ra')
-        }
-      },
-      error: function (xhr) {
-        $('#registError')
-          .removeClass('text-success')
-          .addClass('text-error')
-          .text('Lỗi hệ thống, vui lòng thử lại sau.')
-        },
-        complete: function () {
-            hideButtonSpinner(registerBtn);
-        },
-    })
-  },
+        const loginBtn = '#btnLogin';
+        showButtonSpinner(loginBtn);
+        $.ajax({
+            url: '/Account/Login',
+            type: 'POST',
+            data: data,
+            success: function (res) {
+                if (res.success) {
+                    $('#loginError')
+                        .removeClass('text-error')
+                        .addClass('text-success')
+                        .text(res.message)
+                    // Reset form
+                    $('#formLogin')[0].reset()
+                    location.reload()
+                } else {
+                    $('#loginError')
+                        .removeClass('text-success')
+                        .addClass('text-error')
+                        .text(res.message || 'Có lỗi xảy ra')
+                }
+            },
+            error: function (xhr) {
+                $('#loginError')
+                    .removeClass('text-success')
+                    .addClass('text-error')
+                    .text('Lỗi hệ thống, vui lòng thử lại sau.')
+            },
+            complete: function () {
+                hideButtonSpinner(loginBtn);
+            },
+        })
+    },
 })
 
 Validator({
-  form: '#form-changePassword',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=old_password]', 'Bạn chưa nhập mật khẩu'),
-    Validator.isRequired('[name=password]', 'Bạn chưa nhập mật khẩu mới'),
-    Validator.isRequired(
-      '[name=password_confirmation]',
-      'Bạn chưa nhập mật khẩu xác nhận'
-    ),
-    Validator.isConfirm(
-      '[name=password_confirmation]',
-      function () {
-        return document.querySelector('#form-changePassword [name=password]')
-          .value
-      },
-      'Mật khẩu xác nhận chưa chính xác'
-    ),
-  ],
-  onSubmit: function (data) {
-    changePassword(data)
-  },
+    form: '#formRegister',
+    formGroupSelector: '.input-group',
+    errorSelector: '.text-error',
+    rules: [
+        Validator.isRequired('[name=UserName]', 'Bạn chưa nhập tên tài khoản'),
+        Validator.isRequired('[name=Password]', 'Bạn chưa nhập mật khẩu'),
+        Validator.isRequired(
+            '[name=ConfirmPassword]',
+            'Bạn chưa nhập mật khẩu xác nhận'
+        ),
+    ],
+    onSubmit: function (data) {
+        const registerBtn = '#btnRegister';
+        showButtonSpinner(registerBtn);
+        $.ajax({
+            url: '/Account/Register',
+            type: 'POST',
+            data: data,
+            success: function (res) {
+                if (res.success) {
+                    $('#registError')
+                        .removeClass('text-error')
+                        .addClass('text-success')
+                        .text(res.message)
+                    // Reset form
+                    $('#formRegister')[0].reset()
+                    location.reload()
+                } else {
+                    $('#registError')
+                        .removeClass('text-success')
+                        .addClass('text-error')
+                        .text(res.message || 'Có lỗi xảy ra')
+                }
+            },
+            error: function (xhr) {
+                $('#registError')
+                    .removeClass('text-success')
+                    .addClass('text-error')
+                    .text('Lỗi hệ thống, vui lòng thử lại sau.')
+            },
+            complete: function () {
+                hideButtonSpinner(registerBtn);
+            },
+        })
+    },
 })
 
 Validator({
-  form: '#chargeCardForm',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=pin]', 'Bạn chưa nhập mã pin'),
-    Validator.isRequired('[name=serial]', 'Bạn chưa nhập số sê-ri'),
-    // Validator.isRequired('[name=captcha]','Bạn chưa nhập mã captcha'),
-  ],
-  onSubmit: function () {
-    showConfirmContent()
-  },
+    form: '#form-changePassword',
+    formGroupSelector: '.input-group',
+    errorSelector: '.text-error',
+    rules: [
+        Validator.isRequired('[name=old_password]', 'Bạn chưa nhập mật khẩu'),
+        Validator.isRequired('[name=password]', 'Bạn chưa nhập mật khẩu mới'),
+        Validator.isRequired(
+            '[name=password_confirmation]',
+            'Bạn chưa nhập mật khẩu xác nhận'
+        ),
+        Validator.isConfirm(
+            '[name=password_confirmation]',
+            function () {
+                return document.querySelector('#form-changePassword [name=password]')
+                    .value
+            },
+            'Mật khẩu xác nhận chưa chính xác'
+        ),
+    ],
+    onSubmit: function (data) {
+        changePassword(data)
+    },
 })
-
-Validator({
-  form: '#chargeCardHomeForm',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=pin]', 'Bạn chưa nhập mã pin'),
-    Validator.isRequired('[name=serial]', 'Bạn chưa nhập số sê-ri'),
-    // Validator.isRequired('[name=captcha]','Bạn chưa nhập mã captcha'),
-  ],
-  onSubmit: function () {
-    showHomeConfirmContent()
-  },
-})
-
-Validator({
-  form: '#chargeCardModalForm',
-  formGroupSelector: '.input-group',
-  errorSelector: '.text-error',
-  rules: [
-    Validator.isRequired('[name=pin]', 'Bạn chưa nhập mã pin'),
-    Validator.isRequired('[name=serial]', 'Bạn chưa nhập số sê-ri'),
-    // Validator.isRequired('[name=captcha]','Bạn chưa nhập mã captcha'),
-  ],
-  onSubmit: function () {
-    showModalConfirmContent()
-  },
-})
-
-
