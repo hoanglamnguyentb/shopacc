@@ -14810,7 +14810,7 @@
     <Content Include="Views\Home\NapTopup.cshtml" />
     <Content Include="Views\GianHang\Index.cshtml" />
     <Content Include="Views\GianHang\DonHang.cshtml" />
-    <Content Include="Views\User\NapTopup.cshtml" />
+    <Content Include="Views\User\LichSuNapTopup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

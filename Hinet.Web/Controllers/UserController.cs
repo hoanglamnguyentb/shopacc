@@ -86,8 +86,8 @@ namespace Hinet.Web.Controllers
         }
 
 
-        [Route("~/nap-topup")]
-        public ActionResult NapTopup()
+        [Route("~/lich-su-nap-topup")]
+        public ActionResult LichSuNapTopup()
         {
             var search = new GiaoDichSearchDto
             {
