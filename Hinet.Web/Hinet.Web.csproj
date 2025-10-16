@@ -542,6 +542,7 @@
     <Compile Include="Areas\DashboardArea\DashboardAreaAreaRegistration.cs" />
     <Compile Include="Areas\DashboardArea\Models\AppInfoVM.cs" />
     <Compile Include="Areas\DashboardArea\Models\ChartRenderVM.cs" />
+    <Compile Include="Areas\DashboardArea\Models\DashboardDto.cs" />
     <Compile Include="Areas\DashboardArea\Models\DetailVM.cs" />
     <Compile Include="Areas\DashboardArea\Models\IndexVM.cs" />
     <Compile Include="Areas\DashboardArea\Models\WebInfoVM.cs" />
