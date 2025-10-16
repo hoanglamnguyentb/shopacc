@@ -16,6 +16,7 @@ using AutoMapper;
 using Hinet.Service.Constant;
 using Hinet.Repository.AppUserRepository;
 using Hinet.Repository.TaiKhoanRepository;
+using Hinet.Repository.DonHangRepository;
 
 
 
@@ -30,24 +31,27 @@ namespace Hinet.Service.GiaoDichService
         IMapper _mapper;
         IAppUserRepository _appUserRepository;
 		ITaiKhoanRepository _taiKhoanRepository;
+		IDonHangRepository _donHangRepository;
 
-		public GiaoDichService(IUnitOfWork unitOfWork,
-				IGiaoDichRepository GiaoDichRepository,
-				ILog loger,
-				IMapper mapper,
-				IAppUserRepository appUserRepository,
-				ITaiKhoanRepository taiKhoanRepository)
-			: base(unitOfWork, GiaoDichRepository)
-		{
-			_unitOfWork = unitOfWork;
-			_GiaoDichRepository = GiaoDichRepository;
-			_loger = loger;
-			_mapper = mapper;
-			_appUserRepository = appUserRepository;
-			_taiKhoanRepository = taiKhoanRepository;
-		}
+        public GiaoDichService(IUnitOfWork unitOfWork,
+                IGiaoDichRepository GiaoDichRepository,
+                ILog loger,
+                IMapper mapper,
+                IAppUserRepository appUserRepository,
+                ITaiKhoanRepository taiKhoanRepository,
+                IDonHangRepository donHangRepository)
+            : base(unitOfWork, GiaoDichRepository)
+        {
+            _unitOfWork = unitOfWork;
+            _GiaoDichRepository = GiaoDichRepository;
+            _loger = loger;
+            _mapper = mapper;
+            _appUserRepository = appUserRepository;
+            _taiKhoanRepository = taiKhoanRepository;
+            _donHangRepository = donHangRepository;
+        }
 
-		public PageListResultBO<GiaoDichDto> GetDaTaByPage(GiaoDichSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
+        public PageListResultBO<GiaoDichDto> GetDaTaByPage(GiaoDichSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
         {
             var query = from GiaoDichtbl in _GiaoDichRepository.GetAllAsQueryable()
                         join user in _appUserRepository.GetAllAsQueryable()
@@ -57,7 +61,11 @@ namespace Hinet.Service.GiaoDichService
 						on GiaoDichtbl.DoiTuongId equals taiKhoan.Id into taiKhoanGrp
 						from taiKhoan in taiKhoanGrp.DefaultIfEmpty()
 
-						select new GiaoDichDto
+                        join gianHang in _donHangRepository.GetAllAsQueryable()
+						on GiaoDichtbl.DoiTuongId equals gianHang.Id into gianHangGrp
+                        from gianHang in gianHangGrp.DefaultIfEmpty()
+
+                        select new GiaoDichDto
                         {
 							UserId = GiaoDichtbl.UserId,
 							DoiTuongId = GiaoDichtbl.DoiTuongId,
