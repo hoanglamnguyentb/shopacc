@@ -40,7 +40,8 @@ $(function () {
                 html = html.trim();
 
                 if (html.length > 0) {
-                    $result.append(html);
+                    var decodedHtml = $('<textarea/>').html(html).text();
+                    $result.append(decodedHtml);
                     var nextPage = parseInt($loadMore.attr('data-page')) + 1;
                     $loadMore.attr('data-page', nextPage);
                     $loadMore.find('span').text('Xem thêm');

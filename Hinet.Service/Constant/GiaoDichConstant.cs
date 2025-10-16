@@ -74,5 +74,5 @@ namespace Hinet.Service.Constant
 
 		[DisplayName("Paypal")]
 		public static string PAYPAL => "PAYPAL";
-	}
+    }
 }

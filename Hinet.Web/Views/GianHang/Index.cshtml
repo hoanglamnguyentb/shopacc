@@ -35,9 +35,9 @@
                 </div>
             </div>
             <form action="/GianHang/ThanhToan" method="POST" class="col-span-12 md:col-span-7 flex flex-col gap-4">
-                <input id="selectedVatPhamId" name="VatPhamId" value="" />
-                <input id="selectedGianHangId" name="GianHangId" value="@gianHang.Id" />
-                <input id="selectedVoucherId" name="MaGiamGiaId" />
+                <input id="selectedVatPhamId" type="hidden" name="VatPhamId" value="" />
+                <input id="selectedGianHangId" type="hidden" name="GianHangId" value="@gianHang.Id" />
+                <input id="selectedVoucherId" type="hidden" name="MaGiamGiaId" />
                 @Html.AntiForgeryToken()
                 <div class="bg-white rounded-md p-4 shadow-sm">
                     <div class="badge badge-primary">1</div>
@@ -137,25 +137,26 @@
                     <div class="grid grid-cols-12 gap-3 mt-4">
                         <div class="col-span-12 sm:col-span-6">
                             <label class="block cursor-pointer">
-                                <input type="radio" name="PhuongThucThanhToan" value="TRUTIENTAIKHOAN" class="hidden peer" checked>
+                                <input type="radio" name="PhuongThucThanhToan" value="QUETMAQR" class="hidden peer" checked>
                                 <div class="border border-gray-300 p-4 pb-2 rounded-lg peer-checked:border-blue-700 transition duration-150 ease-in-out">
                                     <div class="flex justify-between">
-                                        <img src="https://cdn-icons-png.flaticon.com/512/6475/6475938.png" class="h-[32px] aspect-auto">
+                                        <img src="https://napgame247.vn/storage/images/1754060808_5566871.png" class="h-[32px] aspect-auto">
                                     </div>
-                                    <div class="mt-1">Thanh toán bằng số dư 
+                                    <div class="mt-1">
+                                        Ngân Hàng 1 (ACB - ưu tiên)
                                     </div>
                                 </div>
                             </label>
                         </div>
                         <div class="col-span-12 sm:col-span-6">
                             <label class="block cursor-pointer">
-                                <input type="radio" name="PhuongThucThanhToan" value="QUETMAQR" class="hidden peer">
+                                <input type="radio" name="PhuongThucThanhToan" value="TRUTIENTAIKHOAN" class="hidden peer" >
                                 <div class="border border-gray-300 p-4 pb-2 rounded-lg peer-checked:border-blue-700 transition duration-150 ease-in-out">
                                     <div class="flex justify-between">
-                                        <img src="https://napgame247.vn/storage/images/1754060808_5566871.png" class="h-[32px] aspect-auto">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/6475/6475938.png" class="h-[32px] aspect-auto">
                                     </div>
                                     <div class="mt-1">
-                                        Ngân Hàng 1 (ACB - ưu tiên) @config.AccountName
+                                        Thanh toán bằng số dư
                                     </div>
                                 </div>
                             </label>
@@ -363,6 +364,12 @@
             el.text(message)
                 .removeClass('hidden text-green-500 text-red-500')
                 .addClass(isSuccess ? 'text-green-500' : 'text-red-500');
+        }
+    });
+
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || (window.performance && window.performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
+            window.location.reload();
         }
     });
 </script>

@@ -232,46 +232,8 @@
                                     @Html.Partial("_SidebarUser", "", new ViewDataDictionary {
                                         { "Showtitle", false }
                                     })
-                                    @*<div class="h-[1px] bg-gray-300 my-2"></div>
-        <a href="/user/profile" class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer"><i class="bi bi bi-person-circle "></i>Hồ sơ</a>
-        <a href="https://napgame247.vn/user/order" class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer"><i class="bi bi bi-card-list"></i>Đơn hàng</a>
-        <div class="h-[1px] bg-gray-300 my-2 "></div>
-        <a class="flex items-center gap-3 p-2 px-3 rounded-md hover:bg-zinc-100 cursor-pointer" onclick="onLogout()">
-            <i class="bi bi-box-arrow-right "></i>Đăng
-            xuất
-        </a>*@
                                 </div>
                             </div>
-
-
-                            @*<div class="box-account-logined position-absolute brs-12" id="account-popup" style="display: none">
-            <div class="account-logined-content box-account_logined" style="display: block">
-                <div class="sidebar">
-                    <div class="sidebar-section d-flex brs-12 psidebar-user-profile p-2">
-                        <div class="sidebar-section-avt brs-100 c-mr-12">
-                            <img class="brs-100" src="~/assets/wwwroot/images/anhdaidien.svg" alt="">
-                        </div>
-                        <div class="sidebar-section-info">
-                            <div class="sidebar-section-title c-mb-4 fz-15 fw-500">
-                                @(currentUser.FullName ?? currentUser.UserName)
-                            </div>
-                            <div class="sidebar-section-info-text c-mb-4 fz-13 fw-500 sidebar-user-balance">
-                                Số dư: @(NumberHelper.FormatNumberVN(currentUser.Balance))<sup>đ</sup>
-                            </div>
-                            <p class="sidebar-section-info-text mb-0 fz-13 fw-500 sidebar-user-id">
-                                ID: <span>@currentUser.Id</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <hr />
-
-                    @Html.Partial("_SidebarUser", "", new ViewDataDictionary {
-                        { "Showtitle", false }
-                    })
-                </div>
-            </div>
-        </div>*@
                         </div>
                     </div>
                 }

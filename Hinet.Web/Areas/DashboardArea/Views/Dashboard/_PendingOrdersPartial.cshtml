@@ -1,0 +1,111 @@
+﻿@model Hinet.Service.Common.PageListResultBO<Hinet.Service.GiaoDichService.Dto.GiaoDichDto>
+
+<section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold">Giao dịch chờ xử lý</h2>
+        <input id="pendingSearch"
+               class="px-3 py-2 form-control"
+               placeholder="Tìm theo mã đơn, KH..."
+               value="@Request.QueryString["search"]" style="max-width: 250px" />
+    </div>
+
+    <div class="overflow-auto">
+        <table class="hinet-table table table-striped table-hover" style="table-layout: auto">
+            <thead class="sticky top-0 bg-slate-100">
+                <tr>
+                    <th class="p-2 w-0">Mã</th>
+                    <th class="p-2">Loại giao dịch</th>
+                    <th class="p-2">Khách</th>
+                    <th class="p-2">Tổng</th>
+                    <th class="p-2">Nội dung</th>
+                    <th class="p-2">Trạng thái</th>
+                    <th class="p-2">Ngày</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model.ListItem)
+                {
+                    <tr>
+                        <td class="p-2 w-0">#@o.Id</td>
+                        <td class="p-2">@o.LoaiGiaoDichTxt</td>
+                        <td class="p-2">@o.CreatedBy</td>
+                        <td class="p-2">@String.Format("{0:N0}₫", o.SoTien)</td>
+                        <td class="p-2">@o.MaGiaoDich</td>
+                        <td class="p-2">@Html.Raw(o.TrangThaiHTML)</td>
+                        <td class="p-2">@o.CreatedDate.ToString("dd/MM/yyyy hh:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.TotalPage > 1)
+    {
+        var start = Math.Max(1, Model.CurrentPage - 2);
+        var end = Math.Min(Model.TotalPage, Model.CurrentPage + 2);
+
+        <div class="text-center">
+            <ul class="pagination pagination-sm navigator hntbl-navigator">
+                @if (Model.CurrentPage > 1)
+                {
+                    <li data-page="@(Model.CurrentPage - 1)">
+                        <a href="javascript:void(0)">«</a>
+                    </li>
+                }
+
+                @if (start > 1)
+                {
+                <li data-page="1"><a href="javascript:void(0)">1</a></li>
+                if (start > 2)
+                {
+                <li><span>...</span></li>
+                }
+                }
+
+                @for (int i = start; i <= end; i++)
+                {
+                <li class="@(i == Model.CurrentPage ? "active" : "")" data-page="@i">
+                    <a href="javascript:void(0)">@i</a>
+                </li>
+                }
+
+                @if (end < Model.TotalPage)
+                {
+                if (end < Model.TotalPage - 1)
+                {
+                <li><span>...</span></li>
+                }
+                <li data-page="@Model.TotalPage">
+                    <a href="javascript:void(0)">@Model.TotalPage</a>
+                </li>
+                }
+
+                @if (Model.CurrentPage < Model.TotalPage)
+                {
+                    <li data-page="@(Model.CurrentPage + 1)">
+                        <a href="javascript:void(0)">»</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</section>
+
+<script>
+    // Bắt sự kiện click vào nút phân trang
+    document.querySelectorAll('[data-page]').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const page = this.getAttribute('data-page');
+            const search = document.getElementById('pendingSearch')?.value || '';
+            loadPendingOrders(page, search);
+        });
+    });
+
+    // Bắt sự kiện enter trong ô tìm kiếm
+    document.getElementById('pendingSearch')?.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            loadPendingOrders(1, this.value);
+        }
+    });
+</script>

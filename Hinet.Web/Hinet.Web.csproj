@@ -13526,6 +13526,10 @@
     <Content Include="Areas\VatPhamArea\Views\VatPham\_SearchPartial.cshtml" />
     <Content Include="Areas\VatPhamArea\Views\web.config" />
     <Content Include="Areas\GianHangArea\Views\GianHang\_ThongTinNapPartial.cshtml" />
+    <Content Include="Areas\DashboardArea\Views\Dashboard\_PendingOrdersPartial.cshtml" />
+    <Content Include="Areas\DashboardArea\Views\Dashboard\_TopChartsPartial.cshtml" />
+    <Content Include="Areas\DashboardArea\Views\Dashboard\_KpiCardsPartial.cshtml" />
+    <Content Include="Areas\DashboardArea\Views\Dashboard\_RevenueChartPartial.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

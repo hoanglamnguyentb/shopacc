@@ -35,10 +35,10 @@
                     <td class="w-0">@index</td>
                     <td>
                         @item.NgayGiaoDich.ToString("dd/MM/yyyy HH:mm")
-                        @if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                        @*@if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
                         {
                             <span class="badge badge-info"><i class="bi bi-wallet2"></i> Nạp topup</span>
-                        }
+                        }*@
                     </td>
                     @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
                     {
@@ -48,19 +48,33 @@
                     {
                         <td>@item.LoaiGiaoDichTxt</td>
                     }
-                    <td>
-                        <div>@item.NoiDung</div>
-                    </td>
-                    <td class="text-right @(item.SoTien > 0 ? "text-success" : "text-danger")">
-                        @if (item.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
-                        {
-                            <span class="text-gray-500">@NumberHelper.FormatMoneyVN(item.SoTien)</span>
-                        }
-                        else
+                <td>
+                    @if (loaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                    {
+                        <a href="/don-hang/@item.DoiTuongId" class="text-blue-500" target="_blank">@item.NoiDungChuyenKhoan</a>
+                    }
+                    else
+                    {
+                        <div>@item.NoiDungChuyenKhoan</div>
+                    }
+                </td>
+                <td class="text-right @(item.SoTien > 0 ? "text-success" : "text-danger")">
+                    @if (item.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+                    {
+                        <span class="text-gray-500">@NumberHelper.FormatMoneyVN(item.SoTien)</span>
+                    }
+                    else
+                    {
+                        if (item.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTHUONG)
                         {
                             @(item.SoTien > 0 ? "+" : "") @NumberHelper.FormatMoneyVN(item.SoTien)
                         }
-                    </td>
+                        else
+                        {
+                            @NumberHelper.FormatMoneyVN(item.SoTien)
+                        }
+                    }
+                </td>
                     <td class="text-center">
                         @if (item.TrangThai == "Thành công")
                         {

@@ -284,7 +284,7 @@ namespace Hinet.Service.NotificationService
 
         public void CreateNoti(long toUser, string link, string message)
         {
-            var noti = new Notification(1, link, message);
+            var noti = new Notification(toUser, link, message);
             _NotificationRepository.Add(noti);
             _NotificationRepository.Save();
         }

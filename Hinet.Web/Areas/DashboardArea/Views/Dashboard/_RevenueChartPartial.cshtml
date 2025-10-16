@@ -1,0 +1,39 @@
+﻿@model List<Hinet.Web.Areas.DashboardArea.Models.MonthlyChartDto>
+@{ 
+    var selectedMonths = ViewBag.Months ?? 12;
+}
+
+
+<section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
+    <div class="flex items-center justify-between mb-3">
+        <h2 class="font-semibold">Doanh thu theo tháng</h2>
+        <select id="rangeSelect" class="px-3 py-2 border rounded-xl">
+            <option value="6" @(selectedMonths == 6 ? "selected" : "")>6 tháng</option>
+            <option value="12" @(selectedMonths == 12 ? "selected" : "")>12 tháng</option>
+            <option value="0" @(selectedMonths == 0 ? "selected" : "")>Toàn thời gian</option>
+        </select>
+    </div>
+    <canvas id="revenueChart" height="100"></canvas>
+</section>
+
+<script>
+    (function(){
+        const data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        const labels = data.map(x => `${x.Month}/${x.Year}`);
+        const revenue = data.map(x => x.Revenue);
+        const profit = data.map(x => x.Profit);
+
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'Doanh thu', data: revenue, tension: 0.3 },
+                    { label: 'Lợi nhuận', data: profit, tension: 0.3 }
+                ]
+            }
+        });
+    })();
+</script>

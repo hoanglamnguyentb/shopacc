@@ -23,7 +23,7 @@
                 index++;
                 <tr>
                     <td>@index</td>
-                    <td><a href="@noti.Link">@noti.Message</a></td>
+                    <td><a href="@noti.Link">@Html.Raw(noti.Message)</a></td>
                     <td>@CommonHelper.Time.TimeHelper.ToTimeAgo(noti.CreatedDate)</td>
                     <td class="text-center">
                         @if (noti.IsRead)

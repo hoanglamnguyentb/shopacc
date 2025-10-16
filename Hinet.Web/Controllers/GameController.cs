@@ -1,4 +1,5 @@
-﻿using Hinet.Service.Constant;
+﻿using Hinet.Service.AppUserService;
+using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService;
 using Hinet.Service.DanhMucGameService.Dto;
 using Hinet.Service.DanhMucGameTaiKhoanService;
@@ -22,14 +23,19 @@ namespace Hinet.Web.Controllers
         private readonly IDanhMucGameService _danhMucGameService;
         private readonly ITaiKhoanService _taiKhoanService;
         private readonly IGiaoDichService _giaoDichService;
+        private readonly IAppUserService _appUserService;
 
-        public GameController(IGameService gameService, IDanhMucGameService danhMucGameService, ITaiKhoanService taiKhoanService, IDanhMucGameTaiKhoanService danhMucGameTaiKhoanService, IGiaoDichService giaoDichService)
+        public GameController(IGameService gameService, 
+            IDanhMucGameService danhMucGameService, ITaiKhoanService taiKhoanService, 
+            IDanhMucGameTaiKhoanService danhMucGameTaiKhoanService, 
+            IGiaoDichService giaoDichService, IAppUserService appUserService)
         {
             _gameService = gameService;
             _danhMucGameService = danhMucGameService;
             _taiKhoanService = taiKhoanService;
             _danhMucGameTaiKhoanService = danhMucGameTaiKhoanService;
             _giaoDichService = giaoDichService;
+            _appUserService = appUserService;
         }
 
         // GET: Game
@@ -52,6 +58,7 @@ namespace Hinet.Web.Controllers
         [Route("~/mua-acc/{slug?}")]
         public ActionResult DanhMuc(string slug, TaiKhoanSearchDto search, int page = 1, int pageSize = 20)
         {
+            RefreshSession();
             var danhMuc = _danhMucGameService.GetBySlug(slug);
             var game = _gameService.GetById(danhMuc.GameId);
             var vm = new DanhMucGameVM
@@ -68,6 +75,7 @@ namespace Hinet.Web.Controllers
         [Route("~/acc/{code}")]
         public ActionResult ChiTietTaiKhoan(string code)
         {
+            RefreshSession();
             var tk = _gameService.GetTaiKhoanByCode(code);
             // Lưu vào session list "DaXem"
             var daXem = Session["TaiKhoanDaXem"] as List<long> ?? new List<long>();
@@ -162,6 +170,20 @@ namespace Hinet.Web.Controllers
         }
 
         #endregion Partial
+
+        private void RefreshSession()
+        {
+            try
+            {
+                SessionManager.Remove(SessionManager.USER_INFO);
+                var userDto = _appUserService.GetDtoById(CurrentUserId.Value);
+                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
+            }
+            catch
+            {
+
+            }
+        }
 
     }
 }

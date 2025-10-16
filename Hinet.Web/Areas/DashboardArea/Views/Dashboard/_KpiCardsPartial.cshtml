@@ -1,0 +1,22 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Web.Areas.DashboardArea.Models.SummaryDataDto
+
+<!-- KPI Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <p class="text-slate-500">Doanh thu hôm nay</p>
+        <p id="kpiRevenue" class="text-2xl font-semibold mt-1">@NumberHelper.FormatNumberVN(Model.RevenueToday)</p>
+    </article>
+    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <p class="text-slate-500">Số lượt giao dịch</p>
+        <p id="kpiOrders" class="text-2xl font-semibold mt-1">@Model.OrderCount</p>
+    </article>
+    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <p class="text-slate-500">Số acc bán ra</p>
+        <p id="kpiMargin" class="text-2xl font-semibold mt-1">@Model.MarginPercent</p>
+    </article>
+    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <p class="text-slate-500">Số lượt nạp topup</p>
+        <p id="kpiDisputes" class="text-2xl font-semibold mt-1">@Model.DisputesCount</p>
+    </article>
+</section>

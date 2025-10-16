@@ -1,0 +1,51 @@
+﻿@model Hinet.Web.Areas.DashboardArea.Models.TopChartsViewModel
+@using Newtonsoft.Json
+
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <!-- Top Game -->
+    <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold">Top game bán chạy</h2>
+            <select class="px-3 py-2 border rounded-xl topchart-filter">
+                <option value="7" @(Model.Days == 7 ? "selected" : "")>7 ngày</option>
+                <option value="30" @(Model.Days == 30 ? "selected" : "")>30 ngày</option>
+                <option value="90" @(Model.Days == 90 ? "selected" : "")>90 ngày</option>
+                <option value="0" @(Model.Days == 0 ? "selected" : "")>Toàn thời gian</option>
+            </select>
+        </div>
+        <canvas id="topGamesChart" height="100"></canvas>
+    </div>
+
+    <!-- Top Dịch vụ -->
+    <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="font-semibold">Top dịch vụ bán chạy</h2>
+        </div>
+        <canvas id="topItemsChart" height="100"></canvas>
+    </div>
+</section>
+
+<script>
+    (function(){
+        const topDMGames = @Html.Raw(JsonConvert.SerializeObject(Model.TopDMGames));
+        const topVatPhamItems = @Html.Raw(JsonConvert.SerializeObject(Model.TopVatpPhams));
+
+        function buildTopChart(elemId, items) {
+            const ctx = document.getElementById(elemId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: items.map(x => x.Label),
+                    datasets: [{ data: items.map(x => x.Value), label: 'Đã bán' }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        buildTopChart('topGamesChart', topDMGames);
+        buildTopChart('topItemsChart', topVatPhamItems);
+    })();
+</script>

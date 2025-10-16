@@ -91,8 +91,9 @@ namespace Hinet.Service.GiaoDichService
 							SoTien = GiaoDichtbl.SoTien,
                             TenTaiKhoanCanNap = GiaoDichtbl.TenTaiKhoanCanNap,
                             MatKhauTaiKhoanNap = GiaoDichtbl.MatKhauTaiKhoanNap,
-							
-		};
+                            NoiDungChuyenKhoan = GiaoDichtbl.NoiDungChuyenKhoan,
+                            MaGiaoDich = GiaoDichtbl.MaGiaoDich,
+                        };
 
             if (searchModel != null)
             {

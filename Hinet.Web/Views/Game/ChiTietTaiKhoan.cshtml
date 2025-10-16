@@ -225,7 +225,7 @@
                                     <div class="group-btn d-none d-lg-flex" style="--data-between: 12px">
                                         @if (currentUser != null)
                                         {
-                                            <a href="javascript:void(0);" class="handle-recharge-modal btn pink two-line d-block">
+                                            <a href="javascript:void(0);" class="handle-recharge-modal btn pink two-line d-block btn-buy-now">
                                                 <span class="line-1" style="white-space: nowrap;">Mua bằng ATM, Momo</span>
                                                 <span class="line-2">
                                                     @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai ?? Model.GiaGoc)
@@ -381,7 +381,7 @@
                     @if (currentUser != null)
                     {
                         <button type="submit" class="btn ghost" @(thanhToanDuoc ? "" : "disabled")>Thanh toán</button>
-                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal">Mua ngay</button>
+                        <button type="button" data-dismiss="modal" class="btn primary handle-recharge-modal btn-buy-now">Mua ngay</button>
                     }
                     else
                     {
@@ -410,7 +410,7 @@
     });
 
     // Khi click nút nạp tiền
-    $('body').on('click', '.handle-recharge-modal', function (e) {
+    $('body').on('click', '.btn-buy-now', function (e) {
         e.preventDefault();
         openGiaoDichModal({
             SoTien: @giaThanhToan,

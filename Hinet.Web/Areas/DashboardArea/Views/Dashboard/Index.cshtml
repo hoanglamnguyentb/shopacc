@@ -12,207 +12,83 @@
 
 <div class="d-flex">
     <div class="col-sm-12 mx-auto p-6">
-        <!-- Giao dịch chờ xử lý -->
-        <section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold">Giao dịch chờ xử lý</h2>
-                <input id="pendingSearch"
-                       class="px-3 py-2 border rounded-xl"
-                       placeholder="Tìm theo mã đơn, KH..." />
-            </div>
-            <div class="overflow-auto">
-                <table class="w-full">
-                    <thead class="sticky top-0 bg-slate-100">
-                        <tr>
-                            <th class="p-2">Mã</th>
-                            <th class="p-2">Khách</th>
-                            <th class="p-2">Tổng</th>
-                            <th class="p-2">Trạng thái</th>
-                            <th class="p-2">Ngày</th>
-                        </tr>
-                    </thead>
-                    <tbody id="pendingOrdersTbody"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- KPI Cards -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <p class="text-slate-500">Doanh thu hôm nay</p>
-                <p id="kpiRevenue" class="text-2xl font-semibold mt-1">—</p>
-            </article>
-            <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <p class="text-slate-500">Nạp tiền</p>
-                <p id="kpiOrders" class="text-2xl font-semibold mt-1">—</p>
-            </article>
-            <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <p class="text-slate-500">Mua acc</p>
-                <p id="kpiMargin" class="text-2xl font-semibold mt-1">—</p>
-            </article>
-            <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <p class="text-slate-500">Nạp topup</p>
-                <p id="kpiDisputes" class="text-2xl font-semibold mt-1">—</p>
-            </article>
-        </section>
-
-        <!-- Doanh thu theo tháng -->
-        <section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold">Doanh thu theo tháng</h2>
-                <select id="rangeSelect" class="px-3 py-2 border rounded-xl">
-                    <option value="6">6 tháng</option>
-                    <option value="12" selected>12 tháng</option>
-                    <option value="0">Toàn thời gian</option>
-                </select>
-            </div>
-            <canvas id="revenueChart" height="100"></canvas>
-        </section>
-
-        <!-- Top bán chạy -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold">Top game bán chạy</h2>
-                    <select id="topGamesRange"
-                            class="px-3 py-2 border rounded-xl">
-                        <option value="7">7 ngày</option>
-                        <option value="30" selected>30 ngày</option>
-                        <option value="90">90 ngày</option>
-                        <option value="all">Toàn thời gian</option>
-                    </select>
-                </div>
-                <canvas id="topGamesChart" height="100"></canvas>
-            </div>
-            <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-semibold">Top dịch vụ bán chạy</h2>
-                    <select id="topGamesRange"
-                            class="px-3 py-2 border rounded-xl">
-                        <option value="7">7 ngày</option>
-                        <option value="30" selected>30 ngày</option>
-                        <option value="90">90 ngày</option>
-                        <option value="all">Toàn thời gian</option>
-                    </select>
-                </div>
-                <canvas id="topItemsChart" height="100"></canvas>
-            </div>
-        </section>
-
-        <!-- Giao dịch gần đây -->
-        <section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="font-semibold">Giao dịch gần đây</h2>
-                <input id="orderSearch"
-                       placeholder="Tìm theo mã đơn, KH, sản phẩm..." />
-            </div>
-            <div class="overflow-auto">
-                <table class="w-full">
-                    <thead class="sticky top-0 bg-slate-100">
-                        <tr>
-                            <th class="p-2">Mã</th>
-                            <th class="p-2">Khách</th>
-                            <th class="p-2">Tổng</th>
-                            <th class="p-2">Trạng thái</th>
-                            <th class="p-2">Ngày</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersTbody"></tbody>
-                </table>
-            </div>
-        </section>
+        <div id="pending-orders-container">
+            @{ Html.RenderAction("PendingOrders", "Dashboard", new { area = "DashboardArea" }); }
+        </div>
+        @{ Html.RenderAction("KpiCards", "Dashboard", new { area = "DashboardArea" }); }
+        <div id="revenue-chart-container">
+            @{ Html.RenderAction("RevenueChart", "Dashboard", new { area = "DashboardArea" }); }
+        </div>
+        <div id="topcharts-container">
+            @{ Html.RenderAction("TopCharts", "Dashboard", new { area = "DashboardArea" }); }
+        </div>    
     </div>
-
 </div>
+
 <script>
-    const dashboardData = @Html.Raw(jsonData);
-
-    const fVND = n => n.toLocaleString('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 });
-
-    function renderKPI() {
-        const kpi = dashboardData.SummaryData;
-        kpiRevenue.textContent = fVND(kpi.RevenueToday);
-        kpiOrders.textContent = kpi.OrderCount.toLocaleString('vi-VN');
-        kpiMargin.textContent = kpi.MarginPercent + '%';
-        kpiDisputes.textContent = kpi.DisputesCount;
-    }
-
-    let revenueChart;
-    function buildRevenueChart(range = 12) {
-        const labels = dashboardData.MonthlyChart.map(x => `${x.Month}/${x.Year}`);
-        const revenue = dashboardData.MonthlyChart.map(x => x.Revenue);
-        const profit = dashboardData.MonthlyChart.map(x => x.Profit);
-        const l = range === 0 ? labels : labels.slice(-range);
-        const r = range === 0 ? revenue : revenue.slice(-range);
-        const p = range === 0 ? profit : profit.slice(-range);
-
-        revenueChart?.destroy();
-        revenueChart = new Chart(document.getElementById('revenueChart'), {
-            type: 'line',
-            data: {
-                labels: l,
-                datasets: [
-                    { label: 'Doanh thu', data: r, tension: 0.35 },
-                    { label: 'Lợi nhuận', data: p, tension: 0.35 }
-                ]
+    function loadPendingOrders(page = 1, search = '') {
+        $.ajax({
+            url: '@Url.Action("PendingOrders", "Dashboard", new { area = "DashboardArea" })',
+            type: 'GET',
+            data: { page: page, search: search },
+            success: function (html) {
+                $('#pending-orders-container').html(html);
+            },
+            error: function () {
+                alert('Tải danh sách đang chờ xử lý thất bại!');
             }
         });
     }
 
-    function buildTopChart(elemId, items) {
-        const labels = items.map(x => x.Label);
-        const data = items.map(x => x.Value);
-        new Chart(document.getElementById(elemId), {
-            type: 'bar',
-            data: { labels, datasets: [{ label: 'Đã bán', data }] },
-            options: { indexAxis: 'y', plugins: { legend: { display: false } } }
+    // Gọi lần đầu khi load trang
+    $(document).ready(function () {
+        //loadPendingOrders();
+
+        // Tìm kiếm theo từ khóa
+        $('#pendingSearch').on('keypress', function (e) {
+            if (e.key === 'Enter') {
+                loadPendingOrders(1, this.value);
+            }
+        });
+    });
+
+    function loadRevenueChart(months = 12) {
+        $.ajax({
+            url: '@Url.Action("RevenueChart", "Dashboard", new { area = "DashboardArea" })',
+            type: 'GET',
+            data: { months: months },
+            success: function (html) {
+                $('#revenue-chart-container').html(html);
+            },
+            error: function () {
+                alert('Tải biểu đồ thất bại!');
+            }
         });
     }
 
-    function renderOrders() {
-        ordersTbody.innerHTML = '';
-        dashboardData.Orders.forEach(o => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="p-2">${o.Id}</td>
-                <td class="p-2">${o.Customer}</td>
-                <td class="p-2">${fVND(o.Total)}</td>
-                <td class="p-2">${o.Status}</td>
-                <td class="p-2">${o.Date.split('T')[0]}</td>`;
-            ordersTbody.appendChild(tr);
+    function loadTopCharts(days = 30) {
+        $.ajax({
+            url: '@Url.Action("TopCharts", "Dashboard", new { area = "DashboardArea" })',
+            data: { days: days },
+            success: function (html) {
+                $('#topcharts-container').html(html);
+                // Gắn lại sự kiện cho filter sau khi load
+                attachTopChartEvents();
+            },
+            error: function () {
+                alert('Không thể tải Top Charts');
+            }
         });
     }
 
-    rangeSelect.addEventListener('change', e => buildRevenueChart(parseInt(e.target.value)));
-
-    function renderPendingOrders() {
-        const search = pendingSearch.value.toLowerCase();
-        pendingOrdersTbody.innerHTML = '';
-        console.log("PendingOrders", dashboardData.PendingOrders);
-
-        dashboardData.PendingOrders
-            .filter(o =>
-                (o.Id + o.Customer).toLowerCase().includes(search)
-            )
-            .forEach(o => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                <td class="p-2">${o.Id}</td>
-                <td class="p-2">${o.Customer}</td>
-                <td class="p-2">${fVND(o.Total)}</td>
-                <td class="p-2">${o.Status}</td>
-                <td class="p-2">${o.Date.split('T')[0]}</td>`;
-                pendingOrdersTbody.appendChild(tr);
-            });
+    function attachTopChartEvents() {
+        $('.top-filter').off('change').on('change', function () {
+            const days = parseInt($(this).val());
+            loadTopCharts(days);
+        });
     }
 
-    pendingSearch.addEventListener('input', renderPendingOrders);
-
-
-    renderKPI();
-    buildRevenueChart(12);
-    buildTopChart('topGamesChart', dashboardData.TopGames);
-    buildTopChart('topItemsChart', dashboardData.TopItems);
-    renderOrders();
-    renderPendingOrders();
+    $(document).on('change', '#rangeSelect', function () {
+        loadRevenueChart(parseInt(this.value));
+    });
 </script>

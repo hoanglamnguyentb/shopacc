@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using Hinet.Model;
 using Hinet.Model.Entities;
+using Hinet.Service.AppUserService;
 using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService;
 using Hinet.Service.DanhMucGameService.Dto;
@@ -12,6 +13,7 @@ using Hinet.Service.GameService;
 using Hinet.Service.GianHangService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.MaGiamGiaService;
+using Hinet.Service.NotificationService;
 using Hinet.Service.SiteConfigService;
 using Hinet.Service.TaiKhoanService;
 using Hinet.Service.TaiKhoanService.Dto;
@@ -27,6 +29,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Net.Http;
+
 
 namespace Hinet.Web.Controllers
 {
@@ -41,8 +45,16 @@ namespace Hinet.Web.Controllers
         private readonly IDonHangService _donHangService;
         private readonly IDonHangGiaTriThuocTinhService _donHangGiaTriThuocTinhService;
         private readonly ISiteConfigService _siteConfigService;
+        private readonly IGiaoDichService _giaoDichService;
+        private readonly IAppUserService _appUserService;
+        private readonly INotificationService _notificationService;
 
-        public GianHangController(IGianHangService gianHangService, IVatPhamService vatPhamService, IThuocTinhGianHangService thuocTinhGianHangService, IMaGiamGiaService maGiamGiaService, IDM_DulieuDanhmucService dM_DulieuDanhmucService, IDonHangService donHangService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService, ISiteConfigService siteConfigService)
+        public GianHangController(IGianHangService gianHangService,
+            IVatPhamService vatPhamService, IThuocTinhGianHangService thuocTinhGianHangService,
+            IMaGiamGiaService maGiamGiaService, IDM_DulieuDanhmucService dM_DulieuDanhmucService,
+            IDonHangService donHangService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService,
+            ISiteConfigService siteConfigService, IGiaoDichService giaoDichService, 
+            IAppUserService appUserService, INotificationService notificationService)
         {
             _gianHangService = gianHangService;
             _vatPhamService = vatPhamService;
@@ -52,6 +64,9 @@ namespace Hinet.Web.Controllers
             _donHangService = donHangService;
             _donHangGiaTriThuocTinhService = donHangGiaTriThuocTinhService;
             _siteConfigService = siteConfigService;
+            _giaoDichService = giaoDichService;
+            _appUserService = appUserService;
+            _notificationService = notificationService;
         }
 
         // GET: Game
@@ -59,6 +74,7 @@ namespace Hinet.Web.Controllers
         [Route("{slug?}")]
         public ActionResult Index(string slug = null)
         {
+            RefreshSession();
             var gianHang = _gianHangService.FindBy(x => x.Slug == slug).FirstOrDefault();
             var vm = new IndexVM
             {
@@ -107,6 +123,7 @@ namespace Hinet.Web.Controllers
         [Route("~/don-hang/{id?}")]
         public ActionResult DonHang(long id)
         {
+            RefreshSession();
             var siteConfig = _siteConfigService.GetActiveConfig();
             var donHang = _donHangService.GetDtoById(id);
             return View(donHang);
@@ -157,11 +174,11 @@ namespace Hinet.Web.Controllers
                 TrangThai = TrangThaiDonHangConstant.KHOITAO,
                 GiaGoc = vatPham.GiaGoc * model.SoLuong,
                 GiaKhuyenMai = (int)total,
-                NoiDungChuyenKhoan = $"Thanh toán đơn hàng {Guid.NewGuid().ToString().Substring(0, 8)}",
             };
             _donHangService.Create(donHang);
-
-            donHang.MaGiaoDich = $"{LoaiGiaoDichConstant.NAPTOPUP}W{donHang.Id}W{CurrentUserId}";
+            var maGiaoDich = $"{LoaiGiaoDichConstant.NAPTOPUP}W{donHang.Id}W{CurrentUserId}";
+            donHang.MaGiaoDich = maGiaoDich;
+            donHang.NoiDungChuyenKhoan = maGiaoDich;
             donHang.QrUrl = $"https://img.vietqr.io/image/{siteConfig.BankCode}-{siteConfig.AccountNumber}-qr_only.png?amount={donHang.TongTien}&addInfo={HttpUtility.UrlEncode(donHang.MaGiaoDich)}&accountName={HttpUtility.UrlEncode(siteConfig.AccountName)}";
             _donHangService.Update(donHang);
 
@@ -176,18 +193,74 @@ namespace Hinet.Web.Controllers
                 PhuongThucThanhToan = model.PhuongThucThanhToan,
                 NgayGiaoDich = DateTime.Now,
                 SoTien = donHang.TongTien,
+                MaGiaoDich = donHang.MaGiaoDich,
+                NoiDungChuyenKhoan = donHang.MaGiaoDich,
             };
+            _giaoDichService.Create(newGiaoDich);
 
             return Redirect("/don-hang/" + donHang.Id);
         }
 
+        [HttpPost]
+        public ActionResult ThanhToanDonHang(int donHangId)
+        {
+            var donHang = _donHangService.GetById(donHangId);
+            if(donHang == null)
+            {
+                return ApiResponse.ErrorResponse("Không tìm thấy đơn hàng. Vui lòng thử lại.");
+            }
+            //Xử lý đơn hàng và giao dịch
+            var user = _appUserService.GetById(CurrentUserId);
+            if(user.Balance < donHang.TongTien)
+            {
+                return ApiResponse.ErrorResponse("Số dư của bạn không đủ để thanh toán đơn hàng này.");
+            }
+            //Trừ tiền
+            user.Balance -= donHang.TongTien;
+            _appUserService.Update(user);
+            donHang.TrangThai = TrangThaiDonHangConstant.DATHANHTOAN;
+            _donHangService.Update(donHang);
+            var giaoDich = new GiaoDich
+            {
+                UserId = CurrentUserId.GetValueOrDefault(),
+                DoiTuongId = donHangId,
+                LoaiDoiTuong = nameof(DonHang),
+                LoaiGiaoDich = LoaiGiaoDichConstant.NAPTOPUP,
+                TrangThai = TrangThaiGiaoDichConstant.CHOXULY,
+                PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
+                NgayGiaoDich = DateTime.Now,
+                NgayThanhToan = DateTime.Now,
+                SoTien = -donHang.TongTien,
+                NoiDung = donHang.MaGiaoDich,
+                NoiDungChuyenKhoan = donHang.MaGiaoDich,
+                MaGiaoDich = donHang.MaGiaoDich,
+                MaGiaoDichDoiTac = $"USER_ID#{CurrentUserId.ToString()}",
+            };
+            _giaoDichService.Create(giaoDich);
+            var notiMessage = $"📌 Đơn hàng <strong>#{donHang.MaGiaoDich}</strong> đã được thanh toán thành công và đang trong quá trình xử lý " +
+                             "Hệ thống sẽ hoàn tất trong ít phút, vui lòng kiểm tra trạng thái trong lịch sử giao dịch.";
+            _notificationService.CreateNoti(
+                CurrentUserId.GetValueOrDefault(),
+                $"/don-hang/{donHang.Id}",
+                notiMessage
+            );
+            SendTelegramMessage(giaoDich);
+            return ApiResponse.SuccessResponse($"Thanh toán đơn hàng nạp topup #{donHang.Id} thành công!");
+        }
 
         [HttpDelete]
         public async Task HuyDonHang(int donHangId)
         {
+            //Xóa đon  hàng
             var donHang = _donHangService.FindBy(x => x.Id == donHangId).FirstOrDefault();
             if (donHang != null && donHang.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
             {
+                //Xóa giao dịch
+                var giaoDich = _giaoDichService.FindBy(x => x.MaGiaoDich == donHang.MaGiaoDich).FirstOrDefault();
+                if(giaoDich != null)
+                {
+                    _giaoDichService.Delete(giaoDich);
+                }
                 _donHangService.Delete(donHang);
             }
         }
@@ -260,6 +333,81 @@ namespace Hinet.Web.Controllers
             }
 
             return CheckerResult.Success();
+        }
+
+        private void RefreshSession()
+        {
+            try
+            {
+                SessionManager.Remove(SessionManager.USER_INFO);
+                var userDto = _appUserService.GetDtoById(CurrentUserId.Value);
+                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private async Task SendTelegramMessage(GiaoDich giaoDich)
+        {
+            var baseInfo = $"- Giao dịch ID: {giaoDich.Id}\n" +
+                           $"- UserId: {giaoDich.UserId}\n" +
+                           $"- Số tiền: {giaoDich.SoTien:N0} VNĐ\n" +
+                           $"- Nội dung chuyển khoản: {giaoDich.NoiDungChuyenKhoan}\n" +
+                           $"- Thời gian: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n" +
+                           $"- Mã giao dịch đối tác: {giaoDich.MaGiaoDichDoiTac}";
+
+            string message = "";
+
+            if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACC, StringComparison.OrdinalIgnoreCase) ||
+                giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACCRANDOM, StringComparison.OrdinalIgnoreCase))
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"💎 MUA ACC thành công!\n" +
+                          $"- Loại: {(giaoDich.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACCRANDOM ? "Random" : "Mua ngay")}\n"
+                          + baseInfo;
+            }
+            else if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTHUONG, StringComparison.OrdinalIgnoreCase))
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"💰 NẠP TIỀN thành công!\n"
+                          + baseInfo;
+            }
+            else if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTOPUP, StringComparison.OrdinalIgnoreCase))
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"⚡ GIAO DỊCH NẠP TOPUP\n" +
+                          $"🕒 Trạng thái: Đang chờ xử lý\n" +
+                          $"{baseInfo}";
+            }
+            else
+            {
+                message = $"[ADMIN THÔNG BÁO]\n" +
+                          $"🔔 Giao dịch khác được thực hiện\n"
+                          + baseInfo;
+            }
+
+            // Gọi helper thực tế để gửi telegram
+            await SendTelegramMessageAsync(message);
+        }
+
+        private async Task SendTelegramMessageAsync(string message)
+        {
+            try
+            {
+                var siteConfig = _siteConfigService.GetTelegramInfo();
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                using (var httpClient = new HttpClient())
+                {
+                    var encodedMsg = System.Net.WebUtility.UrlEncode(message);
+                    var url = $"https://api.telegram.org/bot{siteConfig.TelegramBotToken}/sendMessage?chat_id={siteConfig.TelegramChatId}&text={encodedMsg}";
+                    await httpClient.GetAsync(url);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

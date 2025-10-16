@@ -15,7 +15,7 @@
     </ul>
     <hr />
 
-    <div class="container mx-auto my-10">
+    <div class="mx-auto my-10">
         <div class="bg-white rounded-md border">
             <div class="flex p-4 border-b justify-between">
                 <div class="text-lg">Hoá đơn #@Model.Id</div>
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-md border mt-4">
+        <div class="bg-white rounded-md border mt-4 mb-8">
             <div class="flex p-4 border-b justify-between">
                 <div class="text-lg">Thông tin thanh toán</div>
             </div>
@@ -108,14 +108,17 @@
                     <img src="@Model.QrUrl" alt="" class=" md:w-60 w-full">
                 </div>
             </div>
-            <div class="p-4 flex flex-col md:flex-row gap-2 justify-content-end">
-                <button type="button" class="bg-red-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-huybo" onclick="huyDonHang(this)">
-                    Hủy bỏ
-                </button>
-                <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
-                    Thanh toán bằng tài khoản
-                </button>
-            </div>
+            @if (Model.TrangThai != Hinet.Service.Constant.TrangThaiDonHangConstant.DATHANHTOAN)
+            {
+                <div class="p-4 flex flex-col md:flex-row gap-2 justify-content-end">
+                    <button type="button" class="bg-red-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-huybo" onclick="huyDonHang(this)">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
+                        Thanh toán bằng tài khoản
+                    </button>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -124,19 +127,39 @@
     function huyDonHang(el) {
         var donHangId = @Model.Id;//Mã đơn hàng
 
-        $.ajax({
-            url: '/GiaoDich/HuyGiaoDich?=donHangId' + encodeURIComponent(donHangId),
-            type: 'DELETE',
-            success: function (res) {
-                if (res.Success) {
-                    console.log("Hủy giao dịch thành công:", maGiaoDich);
-                    window.history.back();
-                } else {
-                    console.log("Có lỗi khi hủy giao dịch:", res.Message);
-                }
-            },
-            error: function () {
-                console.log("Lỗi kết nối khi huỷ giao dịch");
+        Swal.fire({
+            title: 'Xác nhận huỷ đơn hàng',
+            text: 'Bạn có chắc chắn muốn huỷ giao dịch này không?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Không',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/GianHang/HuyDonHang?donHangId=' + encodeURIComponent(donHangId),
+                    type: 'DELETE',
+                    success: function (res) {
+                        Swal.fire({
+                            title: 'Đã huỷ đơn hàng',
+                            text: 'Đơn hàng của bạn đã được huỷ thành công.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.history.back();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Lỗi',
+                            text: 'Không thể kết nối đến máy chủ khi huỷ đơn hàng.',
+                            icon: 'error',
+                            confirmButtonText: 'Đóng'
+                        });
+                    }
+                });
             }
         });
     }
@@ -164,9 +187,8 @@
 
     function thanhToanDonHang() {
         var donHangId = @Model.Id;
-
         $.ajax({
-            url: '/GiaoDich/ThanhToanTaiKhoan',
+            url: '/GianHang/ThanhToanDonHang',
             type: 'POST',
             data: { donHangId: donHangId },
             success: function (res) {
@@ -177,8 +199,7 @@
                         icon: 'success',
                         confirmButtonText: 'OK'
                     }).then(() => {
-                        // Chuyển hướng sau khi thanh toán thành công
-                        window.location.href = '/order/' + donHangId;
+                        window.location.href = '/don-hang/' + donHangId;
                     });
                 } else {
                     Swal.fire({

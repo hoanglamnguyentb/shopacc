@@ -20,5 +20,6 @@ namespace Hinet.Service.GiaoDichService.Dto
         public DateTime? TuNgayFilter { get; set; }
         public DateTime? DenNgayFilter { get; set; }
         public List<string> ListLoaiGiaoDichFilter { get; set; }
+        public string KeyWord { get; set; }
     }
 }

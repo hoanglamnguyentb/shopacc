@@ -1,4 +1,5 @@
-﻿using Hinet.Service.GiaoDichService.Dto;
+﻿using Hinet.Model.Entities;
+using Hinet.Service.GiaoDichService.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,13 @@ namespace Hinet.Web.Areas.DashboardArea.Models
         public decimal Total { get; set; }
         public string Status { get; set; }
         public DateTime Date { get; set; }
+    }
+
+    public class TopChartsViewModel
+    {
+        public List<TopItemDto> TopDMGames { get; set; }
+        public List<TopItemDto> TopVatpPhams { get; set; }
+        public int Days { get; set; }
     }
 
 }
