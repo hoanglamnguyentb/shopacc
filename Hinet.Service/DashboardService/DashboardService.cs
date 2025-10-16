@@ -14,7 +14,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
+using System.Linq;      
 using System.Linq.Dynamic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
@@ -78,7 +78,7 @@ namespace Hinet.Service.DashboardService
 
             var totalRevenue = transQuery
                 .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.MUA)
-                .Sum(t => Math.Abs(t.SoTien));
+                .Sum(t => (int?)Math.Abs(t.SoTien)) ?? 0;
 
             //// Đếm số tài khoản bán ra
             var totalAccountSold = transQuery
@@ -91,7 +91,7 @@ namespace Hinet.Service.DashboardService
             //// Tính tổng nạp tiền 
             var totalDeposit = transQuery
                 .Where(t => t.LoaiGiaoDich == LoaiGiaoDichConstant.NAP)
-                .Sum(t => Math.Abs(t.SoTien));
+                .Sum(t => (int?)Math.Abs(t.SoTien)) ?? 0;
 
             return new SummaryData
             {
