@@ -33,7 +33,6 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
         private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
         private readonly IGianHangService _gianHangService;
 
-
         public MaGiamGiaController(IMaGiamGiaService MaGiamGiaService, ILog Ilog,
             IDM_DulieuDanhmucService dM_DulieuDanhmucService,
             IMapper mapper, IGianHangService gianHangService)

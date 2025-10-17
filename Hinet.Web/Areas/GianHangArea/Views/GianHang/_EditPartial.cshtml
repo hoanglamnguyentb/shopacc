@@ -5,8 +5,8 @@
 @model EditVM
 @{
     var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
-
 }
+
 <div class="modal-dialog modal-full">
     @using (Ajax.BeginForm("Edit", "GianHang", new { @area = "GianHangArea" }, new AjaxOptions()
     {
@@ -40,6 +40,13 @@
                         <div class="col-sm-8">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Trạng thái </label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.TrangThai, dropdownListTrangThai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -83,7 +90,6 @@
             </div>
             <div class="modal-footer center">
                 <button type="submit" class="btn btn-primary">Hoàn thành</button>
-
                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
             </div>
         </div>

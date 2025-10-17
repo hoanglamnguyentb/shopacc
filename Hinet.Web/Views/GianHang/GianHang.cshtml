@@ -1,0 +1,383 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Web.Models.GianHangVM.IndexVM
+@{
+    var gianHang = Model.GianHang;
+    var listVatPham = Model.ListVatPhat;
+    var listThuocTinh = Model.ThuocTinhs;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+}
+<div class="container">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">Gian hàng</a>
+        </li>
+    </ul>
+    <hr />
+</div>
+
+
+<div class="container mt-10" id="account-category">
+    <div class="grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-5">
+            <div class="bg-white rounded-md p-4 shadow-sm sticky top-24">
+                <img src="@gianHang.AnhBia" alt="Banner" class="rounded-md w-full">
+
+                <h1 class="text-2xl font-semibold my-2">@gianHang.Name</h1>
+
+                <div>
+                    @Html.Raw(gianHang.MoTa)
+                </div>
+
+            </div>
+        </div>
+        <form action="/GianHang/ThanhToan" method="POST" class="col-span-12 md:col-span-7 flex flex-col gap-4">
+            <input id="selectedVatPhamId" type="hidden" name="VatPhamId" value="" />
+            <input id="selectedGianHangId" type="hidden" name="GianHangId" value="@gianHang.Id" />
+            <input id="selectedVoucherId" type="hidden" name="MaGiamGiaId" />
+            @Html.AntiForgeryToken()
+            <div class="bg-white rounded-md p-4 shadow-sm">
+                <div class="badge badge-primary">1</div>
+                Chọn gói nạp
+
+                <div class="text-sm text-gray-700 bg-slate-100 p-2 rounded-md mt-2 border border-slate-200">
+                    <i class="bi bi-info-circle ti-16px float-left me-2"></i>
+                    @Html.Raw(gianHang.LuuY)
+                </div>
+
+                <div class="grid grid-cols-12 gap-3 mt-4">
+                    @foreach (var item in listVatPham)
+                    {
+                        <label class="col-span-6 sm:col-span-6 md:col-span-6 lg:col-span-3 xl:col-span-3">
+                            <input type="radio" name="package" class="hidden peer" value="@item.GiaGoc" data-price="@item.GiaGoc" data-id="@item.Id">
+                            <div class="border rounded-lg shadow-sm cursor-pointer peer-checked:border-blue-600 overflow-hidden transition duration-150 ease-in-out">
+                                <div class="p-2">
+                                    <img src="@item.DuongDanAnh" alt="Gói nạp" class="aspect-square px-2 mx-auto object-contain">
+                                    <div class="text-center text-base overflow-hidden">
+                                        @item.Name
+                                    </div>
+                                    <div class="text-center text-sm text-gray-600 h-[20px]">
+
+                                    </div>
+                                </div>
+                                <div class="p-2 bg-slate-100 text-end text-sm">
+                                    Giá <br>
+                                    <span class="text-red-500 text-base">
+                                        @NumberHelper.FormatMoneyVN(item.GiaGoc)
+                                        VNĐ
+                                    </span>
+                                </div>
+                            </div>
+                        </label>
+                    }
+                    <div class="col-span-12">
+                        <label for="SoLuong" class="block mb-2 text-sm font-medium text-gray-700">Số lượng</label>
+                        <input type="number" id="SoLuong" name="SoLuong" min="1" placeholder="Nhập số lượng" value="1" class="border border-gray-300 w-full outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-md p-4 shadow-sm mt-4">
+                <div class="badge badge-primary">2</div>
+                Thông tin nạp
+                <div class="grid grid-cols-12 gap-3 mt-3">
+                    @for (int i = 0; i < Model.ThuocTinhs.Count; i++)
+                    {
+                        var thuocTinh = Model.ThuocTinhs[i];
+                        var requiredAttr = thuocTinh.IsRequired == true
+                            ? "required data-val='true' data-val-required='Vui lòng nhập thông tin này'"
+                            : "";
+                        <!-- Hidden giữ Id -->
+                        <input type="hidden" name="GiaTriThuocTinhs[@i].ThuocTinhId" value="@thuocTinh.Id" />
+                        <input type="hidden" name="GiaTriThuocTinhs[@i].ThuocTinhTxt" value="@thuocTinh.TenThuocTinh" />
+                        <input type="hidden" name="GiaTriThuocTinhs[@i].KieuDuLieu" value="@thuocTinh.KieuDuLieu" />
+
+                        <div class="col-span-12 sm:col-span-6">
+                            <label for="form_72" class="block mb-2 text-sm font-medium text-gray-700">
+                                @thuocTinh.TenThuocTinh
+                                @if (thuocTinh.IsRequired == true)
+                                {
+                                    <span class="text-red-500">*</span>
+                                }
+                            </label>
+                            @* Kiểu dữ liệu *@
+                            @if (thuocTinh.KieuDuLieu == "TEXT")
+                            {
+                                <input type="text" placeholder="@thuocTinh.PlaceHolder" name="GiaTriThuocTinhs[@i].GiaTri" @Html.Raw(requiredAttr) />
+                            }
+                            else if (thuocTinh.KieuDuLieu == "NUMBER")
+                            {
+                                <input type="number" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.PlaceHolder" @Html.Raw(requiredAttr) />
+                            }
+                            else if (thuocTinh.KieuDuLieu == "BOOLEAN")
+                            {
+                                <input type="checkbox" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.PlaceHolder" value="true" @Html.Raw(requiredAttr) />
+                            }
+                            else if (thuocTinh.KieuDuLieu == "DROPDOWN")
+                            {
+                                <select name="GiaTriThuocTinhs[@i].GiaTri" class="px-2"
+                                        data-text-field="true"
+                                        data-index="@i"
+                                        @Html.Raw(requiredAttr)>
+                                    <option value="">-- @thuocTinh.PlaceHolder --</option>
+                                    @foreach (var opt in thuocTinh.ListDuLieuDanhMuc)
+                                    {
+                                        <option value="@opt.Id">@opt.Name</option>
+                                    }
+                                </select>
+                                <input type="hidden" name="GiaTriThuocTinhs[@i].GiaTriTxt" />
+                            }
+                            else
+                            {
+                                <input type="text" placeholder="@thuocTinh.PlaceHolder" name="GiaTriThuocTinhs[@i].GiaTri" @Html.Raw(requiredAttr) />
+                            }
+                            @Html.ValidationMessage("GiaTriThuocTinhs[" + i + "].GiaTri", null, new { @class = "text-red-500 text-sm mt-1 block" })
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="bg-white rounded-md p-4 shadow-sm mt-4">
+                <div class="badge badge-primary">3</div>
+                Phương thức thanh toán
+                <div class="grid grid-cols-12 gap-3 mt-4">
+                    <div class="col-span-12 sm:col-span-6">
+                        <label class="block cursor-pointer">
+                            <input type="radio" name="PhuongThucThanhToan" value="QUETMAQR" class="hidden peer" checked>
+                            <div class="border border-gray-300 p-4 pb-2 rounded-lg peer-checked:border-blue-700 transition duration-150 ease-in-out">
+                                <div class="flex justify-between">
+                                    <i class="bi bi-qr-code fz-20"></i>
+                                </div>
+                                <div class="mt-1">
+                                    Quét mã QR qua tài khoản ngân Hàng
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-span-12 sm:col-span-6">
+                        <label class="block cursor-pointer">
+                            <input type="radio" name="PhuongThucThanhToan" value="TRUTIENTAIKHOAN" class="hidden peer">
+                            <div class="border border-gray-300 p-4 pb-2 rounded-lg peer-checked:border-blue-700 transition duration-150 ease-in-out">
+                                <div class="flex justify-between">
+                                    <i class="bi bi-wallet2 fz-20"></i>
+                                </div>
+                                <div class="mt-1">
+                                    Thanh toán bằng số dư
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <p class="text-xs mt-1 hidden" id="payment_warning">Vui lòng chọn phương thức thanh toán.</p>
+            </div>
+
+            <div class="bg-white rounded-md p-4 shadow-sm mt-4">
+                <div class="badge badge-primary">4</div>
+                Mã giảm giá
+
+                <div class="mt-3">
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Mã giảm giá</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="coupon_code" name="voucher" value="" placeholder="Nhập mã giảm giá" class="border border-gray-300 flex-1 outline-none
+                                   p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out text-uppercase">
+                        <button type="button" id="apply_coupon" class="bg-blue-500 text-white px-4 rounded-lg hover:bg-blue-600 transition duration-150 ease-in-out">
+                            Áp dụng
+                        </button>
+                    </div>
+                    <p id="coupon_message" class="text-sm mt-1 hidden"></p>
+                </div>
+            </div>
+
+
+            <div class="bg-white rounded-md p-4 shadow-sm mt-4">
+                <div class="badge badge-primary">3</div>
+                Thanh toán
+
+                <div class="mt-3">
+                    <label for="email" class="block mb-1 text-sm font-medium text-gray-700">
+                        Vui lòng điền đúng
+                        email để nhận hoá đơn
+                    </label>
+                    <input type="text" id="email" name="email" value="" placeholder="Địa chỉ email" class="border border-gray-300 w-full outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
+                    <div class="flex justify-between place-items-end">
+                        <span class="text-red-500 text-xl" id="total">0 VNĐ</span>
+                        @if (currentUser == null)
+                        {
+                            <button type="button" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" onclick="openLoginModal()">
+                                Thanh
+                                toán
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
+                                Thanh
+                                toán
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        // Khi chọn 1 gói nạp
+        $('input[name="package"]').on('change', function () {
+            var vatPhamId = $(this).data('id') || $(this).val();
+            $('#selectedVatPhamId').val(vatPhamId);
+            updateTotal();
+            checkBalanceAndShowWarning(); // 👈 Kiểm tra lại khi thay đổi gói
+            togglePayButton();
+        });
+
+        // Khi thay đổi số lượng
+        $('#SoLuong').on('input', function () {
+            updateTotal();
+            checkBalanceAndShowWarning(); // 👈 Kiểm tra lại khi thay đổi số lượng
+            togglePayButton();
+        });
+
+        // Khi áp dụng mã giảm giá
+        $('#apply_coupon').on('click', function () {
+            var code = $('#coupon_code').val().trim();
+            var gianHangId = $('#selectedGianHangId').val();
+
+            if (code === '') {
+                showCouponMessage('Vui lòng nhập mã giảm giá', false);
+                return;
+            }
+
+            $.post('/GianHang/CheckMaGiamGia', { code: code, gianHangId: gianHangId })
+                .done(function (res) {
+                    if (res.Success) {
+                        console.log("selectedVoucherId", res);
+                        $('#selectedVoucherId').val(res.Data.Id);
+                        $('#coupon_code').data('discount', res.Data);
+                        showCouponMessage(res.Message, true);
+                    } else {
+                        $('#selectedVoucherId').val(0);
+                        $('#coupon_code').removeData('discount');
+                        showCouponMessage(res.Message, false);
+                    }
+
+                    updateTotal();
+                    checkBalanceAndShowWarning();
+                    togglePayButton();
+                })
+                .fail(function () {
+                    showCouponMessage('Lỗi kết nối đến server', false);
+                });
+        });
+
+        // Khi thay đổi phương thức thanh toán
+        $('input[name="PhuongThucThanhToan"]').on('change', function () {
+            checkBalanceAndShowWarning();
+            togglePayButton();
+        });
+
+        // 🧠 Hàm tính tổng tiền hiển thị
+        function updateTotal() {
+            var total = getCurrentTotal();
+            $('#total').text(total.toLocaleString('vi-VN') + ' VNĐ');
+        }
+
+        // 🧮 Hàm tính tổng tiền hiện tại (có giảm giá)
+        function getCurrentTotal() {
+            var price = $('input[name="package"]:checked').data('price') || 0;
+            var SoLuong = parseInt($('#SoLuong').val()) || 1;
+            var total = price * SoLuong;
+
+            var discountData = $('#coupon_code').data('discount');
+            if (discountData) {
+                var discountValue = 0;
+                if (discountData.KieuGiamGia === 'PERCENT') {
+                    discountValue = total * (discountData.GiaTriGiam / 100);
+                } else if (discountData.KieuGiamGia === 'AMOUNT') {
+                    discountValue = discountData.GiaTriGiam;
+                }
+                total = Math.max(total - discountValue, 0);
+            }
+
+            return total;
+        }
+
+
+        function checkBalanceAndShowWarning() {
+            var method = $('input[name="PhuongThucThanhToan"]:checked').val();
+            if (method === 'TRUTIENTAIKHOAN') {
+                var balance = parseFloat('@((currentUser != null) ? currentUser.Balance : 0)');
+                var total = getCurrentTotal();
+
+                if (balance < total) {
+                    showPaymentWarning('Số dư không đủ để thanh toán. Vui lòng chọn phương thức khác hoặc nạp thêm.');
+                } else {
+                    clearPaymentWarning();
+                }
+            } else {
+                clearPaymentWarning();
+                }
+        }
+
+
+        // ⚠️ Hàm hiện cảnh báo thanh toán
+        function showPaymentWarning(msg) {
+            let el = $('#payment_warning');
+            el.text(msg).removeClass('hidden').addClass('text-red-500');
+        }
+
+        // ✅ Hàm ẩn cảnh báo
+        function clearPaymentWarning() {
+            $('#payment_warning').addClass('hidden');
+        }
+
+        // ✅ Kiểm tra ngay khi trang load lần đầu
+        $('input[name="PhuongThucThanhToan"]:checked').trigger('change');
+
+        function togglePayButton() {
+            let total = getCurrentTotal();
+            let packageSelected = $('input[name="package"]:checked').length > 0;
+            let method = $('input[name="PhuongThucThanhToan"]:checked').val();
+            let btn = $('button[type="submit"]#btn-thanhtoan');
+
+            let canPay = packageSelected && total > 0;
+
+            // Nếu chọn thanh toán bằng số dư → kiểm tra thêm số dư
+            if (method === 'TRUTIENTAIKHOAN') {
+                let balance = parseFloat('@((currentUser != null) ? currentUser.Balance : 0)');
+                if (balance < total) {
+                    canPay = false;
+                }
+            }
+
+            btn.prop('disabled', !canPay);
+
+            if (!canPay) {
+                btn.addClass('opacity-50 cursor-not-allowed');
+            } else {
+                btn.removeClass('opacity-50 cursor-not-allowed');
+            }
+        }
+
+        function showCouponMessage(message, isSuccess) {
+            let el = $('#coupon_message');
+            el.text(message)
+                .removeClass('hidden text-green-500 text-red-500')
+                .addClass(isSuccess ? 'text-green-500' : 'text-red-500');
+        }
+    });
+
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted || (window.performance && window.performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
+            window.location.reload();
+        }
+    });
+</script>
+
+@Scripts.Render("~/bundles/jqueryval")

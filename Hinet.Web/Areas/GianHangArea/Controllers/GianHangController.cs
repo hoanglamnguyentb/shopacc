@@ -55,7 +55,7 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
         [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
-
+            ViewBag.dropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiDonHangConstant>();
             var listData = _GianHangService.GetDaTaByPage(null);
             SessionManager.SetValue(searchKey, null);
             return View(listData);
@@ -84,6 +84,7 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
         public PartialViewResult Create()
         {
             var myModel = new CreateVM();
+            ViewBag.dropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiGianHangConstant>();
             return PartialView("_CreatePartial", myModel);
         }
 
@@ -124,6 +125,7 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
                 throw new HttpException(404, "Không tìm thấy thông tin");
             }
 
+            ViewBag.dropdownListTrangThai = ConstantExtension.GetDropdownData<TrangThaiGianHangConstant>();
             myModel = _mapper.Map(obj, myModel);
             return PartialView("_EditPartial", myModel);
         }

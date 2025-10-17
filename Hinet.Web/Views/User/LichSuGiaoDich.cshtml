@@ -5,7 +5,7 @@
     var showTaiKhoan = ViewData["ShowTaiKhoan"] as bool? ?? false;
 }
 
-<div class="container c-container-side c-mb-4 c-mb-lg-0">
+<div class="container">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -14,39 +14,42 @@
             <a href="#" class="breadcrumb-link">Lịch sử giao dịch</a>
         </li>
     </ul>
-    <hr />
+</div>
 
-    <div class="row">
+<hr />
+<div class="container mt-10">
+    <div class="row bg-white rounded-md p-4 shadow-sm">
         <div class="c-history-left media-web">
             <div class="sidebar">
                 @Html.Partial("_SidebarUser", "lich-su-giao-dich")
             </div>
         </div>
         <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
-            <div class="section-header d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center flex-wrap c-py-16" 
-                 style="gap: 8px;">
-                <h1 class="fw-700 fz-20 lh-28 c-my-0 mb-3 mb-lg-0">Lịch sử giao dịch</h1>
-                @using (Ajax.BeginForm(
-                    "LoadLichSuGiaoDich",       // Action
-                    "User",                     // Controller
-                    new AjaxOptions
+            <div class="mb-2">
+                <div class="flex items-center gap-2 justify-content-between">
+                    <h2 class="text-zinc-800 font-medium uppercase text-xl">Lịch sử giao dịch</h2>
+                    @using (Ajax.BeginForm(
+                        "LoadLichSuGiaoDich",
+                        "User",
+                        new AjaxOptions
+                        {
+                            HttpMethod = "GET",
+                            UpdateTargetId = "giaodich-list-container",
+                            InsertionMode = InsertionMode.Replace
+                        },
+                        new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
+                        ))
                     {
-                        HttpMethod = "GET",     // hoặc POST tùy bạn
-                        UpdateTargetId = "giaodich-list-container", // nơi cập nhật nội dung
-                        InsertionMode = InsertionMode.Replace
-                    },
-                    new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
-                    ))
-                {
-                    <input type="date" class="form-control" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
-                    <input type="date" class="form-control" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
-                    <button type="submit" class="btn ghost flex-shrink-0">
-                        <i class="bi bi-search"></i> Tìm kiếm
-                    </button>
-                }
+                        <input type="date" class="form-control" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
+                        <input type="date" class="form-control" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
+                        <button type="submit" class="btn ghost flex-shrink-0">
+                            <i class="bi bi-search"></i> Tìm kiếm
+                        </button>
+                    }
+                </div>
             </div>
             <div id="giaodich-list-container" class="table-responsive">
-                @Html.Partial("_LichSuGiaoDichList", Model ,new ViewDataDictionary {
+                @Html.Partial("_LichSuGiaoDichList", Model, new ViewDataDictionary {
                                         { "ShowTaiKhoan", showTaiKhoan }
                                     })
             </div>

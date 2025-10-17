@@ -4,36 +4,38 @@
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
 }
 
-<div class="content" style="">
+<div class="container">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#" class="breadcrumb-link">Nạp tài khoản</a>
+        </li>
+    </ul>
+    <hr />
+</div>
 
-    <div class="container c-container">
-        <ul class="breadcrumb-list">
-            <li class="breadcrumb-item">
-                <a href="/" class="breadcrumb-link">Trang chủ</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link">Nạp tài khoản</a>
-            </li>
-        </ul>
-        <hr />
-
-        <div class="sidebar-section brs-12">
-            <p class="sidebar-section-title c-mb-16 text-center fz-20 text-uppercase">Tạo mã QR</p>
-            <!-- Input field for amount -->
-            <div class="money-form-group">
-                <div class="input-group d-flex flex-column">
-                    <input class="input-form m-auto" id="rechargeAmount"
-                           inputmode="numeric"
-                           type="text" placeholder="Nhập số tiền muốn nạp (VNĐ)" style="height: 34px; max-width: 250px">
-                    <p class="text-error c-mb-0 c-mt-4 w-full text-center" id="amountError"></p>
-                </div>
-                <div class="text-center c-mt-12">
-                    <button class="btn primary m-auto" id="generateQrBtn" type="button">
-                        <i class="bi bi-qr-code c-mr-8"></i>
-                        Tạo mã QR
-                    </button>
-                </div>
-            </div>
+<div class="container mt-10">
+    <div class="mb-2">
+        <div class="flex items-center gap-2 justify-content-center">
+            <h2 class="text-zinc-800 font-medium uppercase text-xl">Tạo mã QR</h2>
+        </div>
+        <p class="text-gray-400 text-sm text-center">Hệ thống sẽ tạo mã QR tương ứng với số tiền bạn nhập</p>
+    </div>
+    <!-- Input field for amount -->
+    <div class="money-form-group">
+        <div class="input-group d-flex flex-column">
+            <input class="input-form m-auto" id="rechargeAmount"
+                    inputmode="numeric"
+                    type="text" placeholder="Nhập số tiền muốn nạp (VNĐ)" style="height: 34px; max-width: 250px">
+            <p class="text-error c-mb-0 c-mt-4 w-full text-center" id="amountError"></p>
+        </div>
+        <div class="text-center c-mt-12">
+            <button class="btn primary m-auto" id="generateQrBtn" type="button">
+                <i class="bi bi-qr-code c-mr-8"></i>
+                Tạo mã QR
+            </button>
         </div>
     </div>
 </div>

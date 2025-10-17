@@ -1,0 +1,101 @@
+﻿@using CommonHelper.Number;
+@model Hinet.Service.DonHangService.Dto.DonHangDto
+@{
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+}
+
+<div class="mx-auto">
+    <div class="bg-white rounded-md border">
+        <div class="flex p-4 border-b justify-between">
+            <div class="text-base font-semibold">Hoá đơn #@Model.Id</div>
+            <div>@Html.Raw(Model.TrangThaiHTML)</div>
+        </div>
+        <div class="p-4">
+            <div class="flex flex-col gap-2 text-gray-600 ">
+                <div class="flex justify-between">
+                    <div>Trò chơi</div>
+                    <div class="text-gray-900">@Model.GianHang.Name</div>
+                </div>
+                <div class="flex justify-between">
+                    <div>Sản phẩm</div>
+                    <div class="text-gray-900">@Model.VatPham.Name</div>
+                </div>
+                <div class="flex justify-between">
+                    <div>Giá</div>
+                    <div class="text-gray-900">@NumberHelper.FormatMoneyVN(@Model.VatPham.GiaGoc)</div>
+                </div>
+                <div class="flex justify-between">
+                    <div>Số lượng</div>
+                    <div class="text-gray-900">x@(Model.SoLuong)</div>
+                </div>
+                @if (Model.ListGTTT != null && Model.ListGTTT.Count > 0)
+                {
+                    foreach (var item in Model.ListGTTT)
+                    {
+                        <div class="h-[1px] bg-zinc-200"></div>
+                        <div class="flex justify-between">
+                            <div>@item.ThuocTinhTxt</div>
+                            <div class="text-gray-900">@item.GiaTriTxt</div>
+                        </div>
+                    }
+                }
+                @if (Model.MaGiamGia != null)
+                {
+                    <div class="h-[1px] bg-zinc-200"></div>
+                    <div class="flex justify-between">
+                        <div>Mã giảm giá (@Model.MaGiamGia.Code)</div>
+                        <div class="text-gray-900 text-red-500">-@NumberHelper.FormatMoneyVN(Model.GiaGoc - Model.GiaKhuyenMai)</div>
+                    </div>
+                }
+                <div class="h-[1px] bg-zinc-200"></div>
+                <div class="flex justify-between">
+                    <div>Tổng tiền</div>
+                    <div class="text-gray-900 font-semibold">@NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-md border mt-4">
+        <div class="flex p-4 border-b justify-between">
+            <div class="text-base font-semibold">Thông tin thanh toán</div>
+        </div>
+        <div class="p-4 flex flex-col md:flex-row">
+            <table class="table-auto border-collapse border border-gray-300 w-full">
+                <tbody>
+                    <tr>
+                        <td class="border border-gray-300 p-2">Ngân hàng</td>
+                        <td class="border border-gray-300 p-2">
+                            @config.BankCode
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-2">Số tài khoản:</td>
+                        <td class="border border-gray-300 p-2">
+                            @config.AccountNumber
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-2">Chủ tài khoản:</td>
+                        <td class="border border-gray-300 p-2">
+                            @config.AccountName
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-2">Số tiền:</td>
+                        <td class="border border-gray-300 p-2 font-semibold">
+                            @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-2">Nội dung thanh toán:</td>
+                        <td class="border border-gray-300 p-2 font-semibold">@Model.MaGiaoDich</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="p-2 border border-gray-300">
+                <img src="@Model.QrUrl" alt="" class=" md:w-60 w-full">
+            </div>
+        </div>
+    </div>
+</div>

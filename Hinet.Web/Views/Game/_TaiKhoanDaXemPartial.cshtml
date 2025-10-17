@@ -3,12 +3,12 @@
 
 @if (Model != null && Model.Any())
 {
-    <div id="showslideracc">
+    <div class="mt-10">
         <section class="section-category section-category_c same-price">
-            <div class="section-header">
-                <h2 class="section-title">
-                    Tài khoản đã xem
-                </h2>
+            <div class="mb-2">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-zinc-800 font-medium uppercase text-xl">Tài khoản đã xem</h2>
+                </div>
             </div>
 
             <div class="swiper class-config-demo card-list swiper-container-horizontal" style="cursor: grab;">
@@ -22,8 +22,8 @@
                                         <div class="account-thumb">
                                             <img onerror="imgError(this)"
                                                  src="@(string.IsNullOrEmpty(item.AnhBia)
-                                                         ? Url.Content("~/Content/images/no-image.jpg")
-                                                         : item.AnhBia)"
+                                                     ? Url.Content("~/Content/images/no-image.jpg")
+                                                     : item.AnhBia)"
                                                  alt="@item.Code"
                                                  class="account-thumb-image lazy" />
                                         </div>

@@ -24,9 +24,8 @@ namespace Hinet.Service.DonHangGiaTriThuocTinhService
     {
         IUnitOfWork _unitOfWork;
         IDonHangGiaTriThuocTinhRepository _DonHangGiaTriThuocTinhRepository;
-	ILog _loger;
+	    ILog _loger;
         IMapper _mapper;
-
 
         
         public DonHangGiaTriThuocTinhService(IUnitOfWork unitOfWork, 
@@ -134,7 +133,14 @@ namespace Hinet.Service.DonHangGiaTriThuocTinhService
         {
             return _DonHangGiaTriThuocTinhRepository.GetById(id);
         }
-    
 
+        public void DeleteByDonHangId(long donHangId)
+        {
+            var giaTriThuocTinhs =  _DonHangGiaTriThuocTinhRepository
+                .GetQueryable()
+                .Where(x => x.DonHangId == donHangId).ToList();
+            _DonHangGiaTriThuocTinhRepository.DeleteRange(giaTriThuocTinhs);
+            _DonHangGiaTriThuocTinhRepository.Save();
+        }
     }
 }

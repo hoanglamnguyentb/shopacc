@@ -15024,6 +15024,9 @@
     <Content Include="Views\User\LichSuNapTopup.cshtml" />
     <Content Include="Views\Home\UnAuthor.cshtml" />
     <Content Include="Views\Shared\_LayoutBlank.cshtml" />
+    <Content Include="Views\GianHang\_PartialChiTietDonHang.cshtml" />
+    <Content Include="Views\Game\_PartialChiTietTaiKhoan.cshtml" />
+    <Content Include="Views\GianHang\GianHang.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

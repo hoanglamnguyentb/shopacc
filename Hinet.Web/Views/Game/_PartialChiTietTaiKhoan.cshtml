@@ -1,0 +1,102 @@
+﻿@using CommonHelper.Number;
+@using Hinet.Service.Constant;
+@using CommonHelper.String.HTML;
+
+@model Hinet.Service.TaiKhoanService.Dto.TaiKhoanDto
+@{
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+    var game = Model.Game;
+    var danhMuc = Model.DanhMucGame;
+    var giaThanhToan = Model.GiaKhuyenMai.HasValue ? Model.GiaKhuyenMai : Model.GiaGoc;
+    var thanhToanDuoc = currentUser != null && currentUser.Balance >= giaThanhToan;
+    var isNguoiMua = currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc;
+    var isChoPhepTruyCap = (currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc)
+                           || danhMuc.LaLoaiDongGia != true;
+}
+<table class="table table-striped table-hover align-middle table-bordered table-sm">
+    <tbody>
+        <tr class="text-center text-uppercase">
+            <th colspan="2">Thông tin chung</th>
+        </tr>
+        <tr>
+            <th style="width: 35%">ID</th>
+            <td>#@(Model.Id)</td>
+        </tr>
+        <tr>
+            <th style="width: 35%">Tên game</th>
+            <td>@game.Name</td>
+        </tr>
+        <tr>
+            <th>Danh mục</th>
+            <td>@danhMuc.Name</td>
+        </tr>
+        <tr>
+            <th>Giá gốc</th>
+            <td>@NumberHelper.FormatMoneyVN(Model.GiaGoc)</td>
+        </tr>
+        @if (Model.GiaKhuyenMai.HasValue)
+        {
+            <tr>
+                <th>Giá khuyến mãi</th>
+                <td>
+                    <strong class="text-danger">
+                        @NumberHelper.FormatMoneyVN(Model.GiaKhuyenMai.Value)
+                    </strong>
+                    <span class="badge bg-success ms-2">
+                        @NumberHelper.TinhPhanTramGiamText(Model.GiaGoc, Model.GiaKhuyenMai.Value)
+                    </span>
+                </td>
+            </tr>
+        }
+        @if (Model.ListGTTT.Any())
+        {
+            foreach (var tt in Model.ListGTTT)
+            {
+                <tr>
+                    <th>@tt.ThuocTinhTxt</th>
+                    <td>@tt.GiaTriTxt</td>
+                </tr>
+            }
+        }
+        @if (Model.TrangThai == TrangThaiTaiKhoanConstant.DABAN)
+        {
+            <tr>
+                <th colspan="2" class="text-center text-uppercase bg-light">Thông tin tài khoản</th>
+            </tr>
+
+            if (!string.IsNullOrEmpty(Model.UserName))
+            {
+                <tr>
+                    <th style="width: 35%">Tài khoản đăng nhập</th>
+                    <td>@Model.UserName</td>
+                </tr>
+            }
+
+
+            if (!string.IsNullOrEmpty(Model.Password))
+            {
+                <tr>
+                    <th style="width: 35%">Mật khẩu</th>
+                    <td>@Model.Password</td>
+                </tr>
+            }
+
+            if (!string.IsNullOrEmpty(Model.Mota))
+            {
+                <tr>
+                    <th>Mô tả</th>
+                    <td>@Model.Mota</td>
+                </tr>
+            }
+
+            if (HTMLStringUltilities.HasRealContent(Model.ThongTinSauThanhToan))
+            {
+                <tr>
+                    <th>Thông tin bổ sung</th>
+                    <td>@Html.Raw(Model.ThongTinSauThanhToan)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,6 +1,6 @@
 ﻿@using CommonHelper.String;
 @model Hinet.Service.Common.PageListResultBO<Hinet.Service.TinTucService.Dto.TinTucDto>
-<div class="c-container container">
+<div class="container">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -10,18 +10,23 @@
         </li>
     </ul>
     <hr>
+</div>
+<div class="container mt-10">
     <section class="list-account" style="margin-top: 2px">
-        <div class="section-header justify-content-between c-py-16">
-            <h1 class="section-title">Tin mới cập nhật </h1>
-            <div class="box-search w-50 w-lg-25">
-                <form action="/" class="form-search w-auto" autocomplete="off">
-                    <input type="search" placeholder="Tìm kiếm" class="has-submit" name="query" value="@ViewBag.CurrentQuery" id="searchNewsInput">
-                    <button type="submit" class="box-icon btn-with-spinner" id="searchNewsBtn" style="width: 32px; height: 32px">
-                        <i class="bi bi-search" style="color: white; font-size: 16px"></i>
-                        <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
-                    </button>
-                </form>
+        <div class="mb-2">
+            <div class="flex items-center gap-2 justify-content-between">
+                <h2 class="text-zinc-800 font-medium uppercase text-xl">Tin mới cập nhật</h2>
+                <div class="box-search w-50 w-lg-25">
+                    <form action="/" class="form-search w-auto" autocomplete="off">
+                        <input type="search" placeholder="Tìm kiếm" class="has-submit" name="query" value="@ViewBag.CurrentQuery" id="searchNewsInput">
+                        <button type="submit" class="box-icon btn-with-spinner" id="searchNewsBtn" style="width: 32px; height: 32px">
+                            <i class="bi bi-search" style="color: white; font-size: 16px"></i>
+                            <span class="spinner-border spinner-border-sm text-light d-none" role="status"></span>
+                        </button>
+                    </form>
+                </div>
             </div>
+            <p class="text-gray-400 text-sm">Cập nhật những tin tức mới nhất và hot nhất về game mỗi ngày</p>
         </div>
         <div class="tab-content-title mt-2">
             @if (!Model.ListItem.Any())
@@ -34,8 +39,8 @@
                 {
                     <div class="item-article c-mb-16">
                         <a href="/tin-tuc/@tin.Slug">
-                            <div class="card">
-                                <div class="card-body c-p-16 c-p-lg-8">
+                            <div class="card block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
+                                <div class="card-body c-p-16 c-p-lg-8 flex-row">
                                     <div class="article-thumb c-mb-lg-0">
                                         <img onerror="imgError(this)" src="@tin.AnhBia" class="article-thumb-image" alt="article-thumbnail">
                                     </div>

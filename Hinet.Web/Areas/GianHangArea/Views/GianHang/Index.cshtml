@@ -82,8 +82,10 @@
 				{
 					isSort:true,
 					nameModel:'Name',
-					content: function (data) {
+                    content: function (data) {
+                        var trangThai = data.TrangThai == "BAT" ? "<i class='fa fa-check green'></i> Bật" : "<i class='fa fa-close red'></i> Tắt";
                         return `<div>
+                                <div class="text-center">${trangThai}</div>
                                 <div class="text-title">${data.Name}</div>
                                 <div class="image-upload-box aspect-video" style="width: 200px; padding: 2px">
                                     <img src="${data.AnhBia}" alt="" class="image-preview has-image mb-0 aspect-video h-full object-cover" />

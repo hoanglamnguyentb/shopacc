@@ -2,8 +2,7 @@
 @{
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
 }
-
-<div class="container c-container-side c-mb-4 c-mb-lg-0">
+<div class="container">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -13,22 +12,24 @@
         </li>
     </ul>
     <hr />
+</div>
 
-    <div class="row">
+<div class="container mt-10">
+    <div class="row bg-white rounded-md p-4 shadow-sm">
         <div class="c-history-left media-web">
             <div class="sidebar">
                 @Html.Partial("_SidebarUser", "doi-mat-khau")
             </div>
         </div>
         <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
-            <div class="c-p-16">
-                <h1 class="fw-700 fz-20 lh-28 c-my-0">
-                    Đổi mật khẩu
-                </h1>
+            <div class="mb-2">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-zinc-800 font-medium uppercase text-xl">Đổi mật khẩu</h2>
+                </div>
             </div>
             <div class="form-global-error text-danger c-mt-8 c-px-16"></div>
             <div class="form-global-success text-success c-mt-8 c-px-16"></div>
-            <div class="brs-12 c-p-16 c-mb-16">
+            <div class="brs-12 c-py-16 c-mb-16">
                 @using (Ajax.BeginForm(
                     "ChangePassword",
                     "Account",

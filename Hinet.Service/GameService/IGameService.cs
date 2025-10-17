@@ -25,5 +25,6 @@ namespace Hinet.Service.GameService
         TaiKhoanDto GetTaiKhoanByCode(string code);
         List<TaiKhoanDto> GetListTaiKhoanDaXem(List<long> daXemIds);
         List<TaiKhoanDto> GetListTaiKhoanLienQuan(long id);
+        TaiKhoanDto GetTaiKhoanById(int id);
     }
 }

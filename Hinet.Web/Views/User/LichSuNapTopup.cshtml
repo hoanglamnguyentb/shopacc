@@ -3,8 +3,7 @@
 @{
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
 }
-
-<div class="container c-container-side c-mb-4 c-mb-lg-0">
+<div class="container">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -14,38 +13,72 @@
         </li>
     </ul>
     <hr />
+</div>
 
-    <div class="row">
+<div class="container mt-10">
+    <div class="row bg-white rounded-md p-4 shadow-sm">
         <div class="c-history-left media-web">
             <div class="sidebar">
                 @Html.Partial("_SidebarUser", "nap-topup")
             </div>
         </div>
         <div class="c-ml-16 c-ml-lg-0 c-history-right c_history-right">
-            <div class="section-header d-flex justify-content-between align-items-center flex-wrap c-py-16" style="gap: 8px;">
-                <h1 class="fw-700 fz-20 lh-28 c-my-0">Lịch sử giao dịch tài khoản</h1>
-                @using (Ajax.BeginForm(
-                    "LoadLichSuGiaoDich",       // Action
-                    "User",                     // Controller
-                    new AjaxOptions
+            <div class="mb-2">
+                <div class="flex items-center gap-2 justify-content-between">
+                    <h2 class="text-zinc-800 font-medium uppercase text-xl">Lịch sử nạp topup</h2>
+                    @using (Ajax.BeginForm(
+                       "LoadLichSuGiaoDich",
+                       "User",
+                       new AjaxOptions
+                       {
+                           HttpMethod = "GET",
+                           UpdateTargetId = "giaodich-list-container",
+                           InsertionMode = InsertionMode.Replace
+                       },
+                        new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
+                        ))
                     {
-                        HttpMethod = "GET",     // hoặc POST tùy bạn
-                        UpdateTargetId = "giaodich-list-container", // nơi cập nhật nội dung
-                        InsertionMode = InsertionMode.Replace
-                    },
-                    new { id = "form-filter", @class = "d-flex align-items-center", style = "gap:4px" }
-                    ))
-                {
-                    <input type="hidden" id="LoaiGiaoDichFilter" name="LoaiGiaoDichFilter" value="@Hinet.Service.Constant.LoaiGiaoDichConstant.MUAACC" />
-                    <input type="date" class="form-control form-control-sm" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
-                    <input type="date" class="form-control form-control-sm" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
-                    <button type="submit" class="btn ghost flex-shrink-0">
-                        <i class="bi bi-search"></i> Tìm kiếm
-                    </button>
-                }
+                        <input type="hidden" id="LoaiGiaoDichFilter" name="LoaiGiaoDichFilter" value="@Hinet.Service.Constant.LoaiGiaoDichConstant.MUAACC" />
+                        <input type="date" class="form-control form-control-sm" id="TuNgayFilter" name="TuNgayFilter" placeholder="Từ ngày" />
+                        <input type="date" class="form-control form-control-sm" id="DenNgayFilter" name="DenNgayFilter" placeholder="đến ngày" />
+                        <button type="submit" class="btn ghost flex-shrink-0">
+                            <i class="bi bi-search"></i> Tìm kiếm
+                        </button>
+                    }
+                </div>
             </div>
             <div id="giaodich-list-container">
                 @Html.Partial("_LichSuGiaoDichList")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal__buyacount loadModal__acount modal-big"
+     id="chiTietModal"
+     style="display: none"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-custom"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center text-uppercase">
+                    Chi tiết giao dịch
+                </h4>
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body"
+                 style="font-family: helvetica, arial, sans-serif">
+            </div>
+            <div class="modal-footer c-p-8 text-right">
+                <button class="btn btn-light"
+                        type="button"
+                        data-dismiss="modal">
+                    Đóng
+                </button>
             </div>
         </div>
     </div>
@@ -79,5 +112,33 @@
         var page = $(this).data("page");
         if (!page || $(this).parent().hasClass("disabled") || $(this).parent().hasClass("active")) return;
         loadPage(page);
+    });
+</script>
+
+<script>
+    $(document).on('click', '.js-view-detail', function (e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('#chiTietModal').modal('show');
+
+        $('#chiTietModal .modal-body').html(`
+            <div class="d-flex flex-column align-items-center justify-content-center p-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+                <div class="mt-2">Đang tải dữ liệu...</div>
+            </div>
+        `);
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (html) {
+                $('#chiTietModal .modal-body').html(html);
+            },
+            error: function () {
+                $('#chiTietModal .modal-body').html('<div class="text-danger p-3 text-center">Không thể tải chi tiết. Vui lòng thử lại.</div>');
+            }
+        });
     });
 </script>

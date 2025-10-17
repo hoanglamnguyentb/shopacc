@@ -87,7 +87,9 @@ namespace Hinet.Web.Controllers
             homeVM.ListTinTuc = _tinTucService.FindBy(x => x.TrangThai == TrangThaiTinTucConstant.XUATBAN)
                 .OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             homeVM.SiteConfig = _siteConfigService.FindBy(x => x.KichHoat == true).FirstOrDefault();
-            homeVM.ListGianHang = _gianHangService.FindBy(x => true).OrderBy(x => x.STT).ToList();
+            homeVM.ListGianHang = _gianHangService
+                .FindBy(x => x.TrangThai == TrangThaiGianHangConstant.BAT)
+                .OrderBy(x => x.STT).ToList();
             ViewBag.MenuBottom = "home";
             return View(homeVM);
         }

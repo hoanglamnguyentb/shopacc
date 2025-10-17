@@ -4,8 +4,7 @@
 
 @model CreateVM
 @{
-	var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
-
+    var dropdownListTrangThai = ViewBag.dropdownListTrangThai as List<SelectListItem>;
 }
 
 <div class="modal-dialog modal-full">
@@ -40,6 +39,13 @@
                         <div class="col-sm-8">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Trạng thái </label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.TrangThai, dropdownListTrangThai, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -81,7 +87,7 @@
                     </div>
 
                 </div>
-            </div>
+                </div>
             <div class="modal-footer center">
                 <button type="submit" class="btn btn-primary">Hoàn thành</button>
 

@@ -42,7 +42,13 @@
                     </td>
                     @if (loaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
                     {
-                        <td><a href="/acc/@item.TaiKhoanTxt" class="text-blue-500" target="_blank">#@item.TaiKhoanTxt</a></td>
+                        <td>
+                            <a href="javascript:void(0)"
+                               class="text-blue-500 js-view-detail"
+                               data-url="/Game/PartialChiTietTaiKhoan/@item.DoiTuongId">
+                                #@item.TaiKhoanTxt
+                            </a>
+                        </td>
                     }
                     @if (loaiGiaoDich == null)
                     {
@@ -51,7 +57,11 @@
                 <td>
                     @if (loaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
                     {
-                        <a href="/don-hang/@item.DoiTuongId" class="text-blue-500" target="_blank">@item.NoiDungChuyenKhoan</a>
+                        <a href="javascript:void(0)"
+                           class="text-blue-500 js-view-detail"
+                           data-url="/GianHang/PartialChiTietDonHang/@item.DoiTuongId">
+                            @item.NoiDungChuyenKhoan
+                        </a>                    
                     }
                     else
                     {

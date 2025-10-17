@@ -2,9 +2,10 @@
 @model Hinet.Service.DonHangService.Dto.DonHangDto
 @{
     var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+    var phuongThucThanhToan = ViewBag.PhuongThucThanhToan;
 }
 
-<div class="container c-container" id="account-category">
+<div class="container" id="account-category">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -114,9 +115,13 @@
                     <button type="button" class="bg-red-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-huybo" onclick="huyDonHang(this)">
                         Hủy bỏ
                     </button>
-                    <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
-                        Thanh toán bằng tài khoản
-                    </button>
+                    @if (phuongThucThanhToan != "QUETMAQR")
+                    {
+
+                        <button type="submit" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" id="btn-thanhtoan">
+                            Thanh toán bằng tài khoản
+                        </button>
+                    }
                 </div>
             }
         </div>

@@ -451,6 +451,7 @@ section.outstanding-service {
     display: flex;
     flex-wrap: wrap;
     margin: 0 -8px;
+    gap: 16px 0;
 }
 
 .listing-account .item-account,
@@ -458,7 +459,7 @@ section.outstanding-service {
 .listing-category .item-category {
     width: 20%;
     padding: 0 8px;
-    margin-bottom: 16px;
+    /*margin-bottom: 16px;*/
 }
 
 .item-account .account-thumb,
@@ -1052,8 +1053,7 @@ section.outstanding-service {
 }
 
 .list-category .item-category {
-    width: 20%;
-    margin-bottom: 24px;
+    /*width: 20%;*/
 }
 
 /*loading history*/
@@ -1541,7 +1541,7 @@ section.outstanding-service {
         margin: 0 -6px;
     }
     .list-category .item-category {
-        width: 50%;
+        /*width: 50%;*/
     }
 
     /*fix font size*/

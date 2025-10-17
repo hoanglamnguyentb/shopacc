@@ -187,6 +187,7 @@ namespace Hinet.Service.DonHangService
                             NoiDungChuyenKhoan = dh.NoiDungChuyenKhoan,
                             MaGiaoDich = dh.MaGiaoDich,
                             ListGTTT = gtttGrp.ToList(),
+                            CreatedID = dh.CreatedID,
                         };
             return query.FirstOrDefault();
         }

@@ -1,4 +1,5 @@
-﻿using Hinet.Model.Entities;
+﻿using Hinet.Model;
+using Hinet.Model.Entities;
 using Hinet.Service.AppUserService;
 using Hinet.Service.Constant;
 using Hinet.Service.DM_DulieuDanhmucService;
@@ -16,6 +17,7 @@ using Hinet.Web.Filters;
 using Hinet.Web.Models;
 using Hinet.Web.Models.GianHangVM;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -64,8 +66,18 @@ namespace Hinet.Web.Controllers
 
         // GET: Game
         [AllowAnonymous]
+        [Route("")]
+        public ActionResult Index()
+        {
+            var gianHangs = _gianHangService
+                .FindBy(x => x.TrangThai == TrangThaiGianHangConstant.BAT)
+                .OrderBy(x => x.STT).ToList();
+            return View(gianHangs);
+        }
+
+        [AllowAnonymous]
         [Route("{slug?}")]
-        public ActionResult Index(string slug = null)
+        public ActionResult GianHang(string slug = null)
         {
             RefreshSession();
             var gianHang = _gianHangService.FindBy(x => x.Slug == slug).FirstOrDefault();
@@ -93,7 +105,7 @@ namespace Hinet.Web.Controllers
             {
                 GianHangId = gianHangId,
                 MaGiamGiaId = maGiam.Id,
-                VatPhamId = 0, // nếu cần có thể bỏ qua check vật phẩm
+                VatPhamId = 0,
                 SoLuong = 1
             };
 
@@ -114,11 +126,12 @@ namespace Hinet.Web.Controllers
         }
 
         [Route("~/don-hang/{id?}")]
-        public ActionResult DonHang(long id)
+        public ActionResult DonHang(long id, string phuongThucThanhToan)
         {
             RefreshSession();
             var siteConfig = _siteConfigService.GetActiveConfig();
             var donHang = _donHangService.GetDtoById(id);
+            ViewBag.PhuongThucThanhToan = phuongThucThanhToan ?? "QUETMAQR";
             return View(donHang);
         }
 
@@ -191,7 +204,38 @@ namespace Hinet.Web.Controllers
             };
             _giaoDichService.Create(newGiaoDich);
 
-            return Redirect("/don-hang/" + donHang.Id);
+            // Lưu giá trị thuộc tính động
+            if (model.GiaTriThuocTinhs != null && model.GiaTriThuocTinhs.Any())
+            {
+                var listGiaTri = new List<DonHangGiaTriThuocTinh>();
+                foreach (var item in model.GiaTriThuocTinhs)
+                {
+                    string giaTriTxt = item.GiaTri;
+                    if (item.KieuDuLieu == KieuDuLieuThuocTinhGameConstant.DROPDOWN)
+                    {
+                        var duLieu = int.TryParse(item.GiaTri, out var guidId) ? _dM_DulieuDanhmucService.GetById(guidId) : null;
+                        giaTriTxt = duLieu != null ? duLieu.Name : giaTriTxt;
+                    }
+
+                    if (item.ThuocTinhId > 0 && !string.IsNullOrEmpty(item.GiaTri))
+                    {
+                        listGiaTri.Add(new DonHangGiaTriThuocTinh
+                        {
+                            DonHangId = donHang.Id,
+                            ThuocTinhId = item.ThuocTinhId,
+                            ThuocTinhTxt = item.ThuocTinhTxt,
+                            GiaTri = item.GiaTri,
+                            KieuDuLieu = item.KieuDuLieu,
+                            GiaTriTxt = giaTriTxt,
+                           
+                        });
+                    }
+                }
+
+                _donHangGiaTriThuocTinhService.InsertRange(listGiaTri);
+            }
+
+            return Redirect($"/don-hang/{donHang.Id}?phuongThucThanhToan={model.PhuongThucThanhToan}");
         }
 
         [HttpPost]
@@ -211,7 +255,7 @@ namespace Hinet.Web.Controllers
             //Trừ tiền
             user.Balance -= donHang.TongTien;
             _appUserService.Update(user);
-            donHang.TrangThai = TrangThaiDonHangConstant.DATHANHTOAN;
+            donHang.TrangThai = TrangThaiDonHangConstant.CHOXULY;
             _donHangService.Update(donHang);
             var giaoDich = new GiaoDich
             {
@@ -254,6 +298,9 @@ namespace Hinet.Web.Controllers
                 {
                     _giaoDichService.Delete(giaoDich);
                 }
+                //Xóa giá trị thuộc tính đơn hàng
+                _donHangGiaTriThuocTinhService.DeleteByDonHangId(donHangId);
+                //Xóa đơn hàng
                 _donHangService.Delete(donHang);
             }
         }
@@ -327,6 +374,18 @@ namespace Hinet.Web.Controllers
 
             return CheckerResult.Success();
         }
+
+        #region ajax
+        public PartialViewResult PartialChiTietDonHang(long id)
+        {
+            var dh = _donHangService.GetDtoById(id);
+            if (CurrentUserId != dh.CreatedID)
+            {
+                return null;
+            }
+            return PartialView("_PartialChiTietDonHang", dh);
+        }
+        #endregion
 
     }
 }

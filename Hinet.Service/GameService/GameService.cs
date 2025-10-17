@@ -407,6 +407,43 @@ namespace Hinet.Service.GameService
             return query.FirstOrDefault();
         }
 
+        public TaiKhoanDto GetTaiKhoanById(int id)
+        {
+            var tlQuery = _taiLieuDinhKemRepository.GetQueryable();
+            var query = from tk in _taiKhoanRepository.GetQueryable()
+                        .Where(x => x.Id == id)
+
+                        join danhMucGame in _danhMucGameRepository.GetQueryable()
+                        on tk.DanhMucGameId equals danhMucGame.Id into dmgGrp
+                        from danhMucGame in dmgGrp.DefaultIfEmpty()
+
+                        join game in _GameRepository.GetQueryable()
+                        on tk.GameId equals game.Id
+
+                        join gttt in _giaTriThuocTinhRepository.GetAllAsQueryable()
+                        on tk.Id equals gttt.TaiKhoanId into gtttGrp
+
+                        select new TaiKhoanDto
+                        {
+                            Id = tk.Id,
+                            Code = tk.Code,
+                            GameId = tk.GameId,
+                            TrangThai = tk.TrangThai,
+                            UserName = tk.UserName,
+                            Password = tk.Password,
+                            GiaGoc = tk.GiaGoc,
+                            GiaKhuyenMai = tk.GiaKhuyenMai,
+                            Mota = tk.Mota,
+                            ViTri = tk.ViTri,
+                            Game = game,
+                            DanhMucGame = danhMucGame,
+                            TaiLieuDinhKemList = tlQuery.Where(x => x.Item_ID == tk.Id).ToList(),
+                            ListGTTT = gtttGrp.ToList(),
+                            ThongTinSauThanhToan = tk.ThongTinSauThanhToan
+                        };
+            return query.FirstOrDefault();
+        }
+
         public List<TaiKhoanDto> GetListTaiKhoanDaXem(List<long> daXemIds)
         {
             if (daXemIds == null || !daXemIds.Any())

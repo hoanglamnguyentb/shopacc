@@ -9,73 +9,75 @@
         return;
     }
 }
+@if (Model.Count() > 0)
+{
+    <div class="mt-10 bg-white rounded-md p-4 shadow-sm">
+        <div class="rotation-comment chat-history brs-12 c-py-16">
+            <h6 class="fw-600 fz-20 lh-20 c-mb-16">@Model.Count() Bình luận</h6>
+            <ul class="comment-block list-unstyled chat-scroll c-pr-8">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <div class="comment-item d-flex align-items-start c-mb-16 comment-item-khach" data-time="Tue Oct 07 2025 16:56:02 GMT+0700 (GMT+07:00)">
+                            <div class="comment-avatar c-mr-8">
+                                <img class="brs-100" src="~/assets/wwwroot/images/avatar.png" alt="">
+                            </div>
+                            <div class="comment-detail">
+                                <div class="comment-info c-mb-4">
+                                    <h6 class="d-inline-block">@item.CreatedBy</h6>
+                                    <small class="data_time_minigame">@TimeHelper.ToTimeAgo(item.CreatedDate)</small>
+                                </div>
+                                <div class="comment-content fw-400 fz-13">
+                                    @item.NoiDung
+                                </div>
+                                <div class="comment-interact c-mt-4">
+                                    <span id="likeComment" class="c-mr-20">
+                                        <i class="bi bi-hand-thumbs-up"></i>
+                                    </span>
+                                    <span id="likeComment" class="">
+                                        <i class="bi bi-hand-thumbs-down"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+            @if (currentUser != null)
+            {
+                using (Ajax.BeginForm(
+            "ThemBinhLuanAsync",
+            "BinhLuan",
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "binhLuanContainer",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "onBinhLuanSuccess"
+            },
+            new { id = "form-binhluan", @class = "w-100" }
+            ))
+                {
+                    @Html.Hidden("DoiTuongId", doiTuongId);
+                    @Html.Hidden("LoaiDoiTuong", loaiDoiTuong);
 
-<hr />
-<div class="rotation-comment chat-history brs-12 c-py-16">
-    <h6 class="fw-700 fz-20 lh-20 c-mb-16">@Model.Count() Bình luận</h6>
-    <ul class="comment-block list-unstyled chat-scroll c-pr-8">
-        @foreach (var item in Model)
-        {
-            <li>
-                <div class="comment-item d-flex align-items-start c-mb-16 comment-item-khach" data-time="Tue Oct 07 2025 16:56:02 GMT+0700 (GMT+07:00)">
-                    <div class="comment-avatar c-mr-8">
-                        <img class="brs-100" src="~/assets/wwwroot/images/avatar.png" alt="">
+                    <div class="commment-input d-flex align-items-center c-mb-8">
+                        <div class="comment-avatar c-mr-8 d-none d-lg-block">
+                            <img class="brs-100" src="~/assets/wwwroot/images/avatar.png" alt="">
+                        </div>
+                        <input name="NoiDung" type="text" class="input-primary" id="message-to-send" placeholder="Viết bình luận...">
                     </div>
-                    <div class="comment-detail">
-                        <div class="comment-info c-mb-4">
-                            <h6 class="d-inline-block">@item.CreatedBy</h6>
-                            <small class="data_time_minigame">@TimeHelper.ToTimeAgo(item.CreatedDate)</small>
-                        </div>
-                        <div class="comment-content fw-400 fz-13">
-                            @item.NoiDung
-                        </div>
-                        <div class="comment-interact c-mt-4">
-                            <span id="likeComment" class="c-mr-20">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                            </span>
-                            <span id="likeComment" class="">
-                                <i class="bi bi-hand-thumbs-down"></i>
-                            </span>
+                    <div class="comment-button " id="comment-button-group" style="display: none;">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <button type="button" class="btn btn-light mr-2" id="btn-cancel-comment">Hủy</button>
+                            <button type="submit" class="btn primary pill-button" id="btn-submit-comment" disabled>Bình luận</button>
                         </div>
                     </div>
-                </div>
-            </li>
-        }
-    </ul>
-    @if (currentUser != null)
-    {
-        using (Ajax.BeginForm(
-    "ThemBinhLuanAsync",
-    "BinhLuan",
-    new AjaxOptions
-    {
-        HttpMethod = "POST",
-        UpdateTargetId = "binhLuanContainer",
-        InsertionMode = InsertionMode.Replace,
-        OnSuccess = "onBinhLuanSuccess"
-    },
-    new { id = "form-binhluan", @class = "w-100" }
-    ))
-        {
-            @Html.Hidden("DoiTuongId", doiTuongId);
-            @Html.Hidden("LoaiDoiTuong", loaiDoiTuong);
-
-            <div class="commment-input d-flex align-items-center c-mb-8">
-                <div class="comment-avatar c-mr-8 d-none d-lg-block">
-                    <img class="brs-100" src="~/assets/wwwroot/images/avatar.png" alt="">
-                </div>
-                <input name="NoiDung" type="text" class="input-primary" id="message-to-send" placeholder="Viết bình luận...">
-            </div>
-            <div class="comment-button " id="comment-button-group" style="display: none;">
-                <div class="d-flex justify-content-end align-items-center">
-                    <button type="button" class="btn btn-light mr-2" id="btn-cancel-comment">Hủy</button>
-                    <button type="submit" class="btn primary pill-button" id="btn-submit-comment" disabled>Bình luận</button>
-                </div>
-            </div>
-        }
-    }
-
-</div>
+                }
+            }
+        </div>
+    </div>
+}
 
 <script>
     $(document).ready(function () {

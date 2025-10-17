@@ -10,7 +10,7 @@
     var giaThanhToan = Model.GiaKhuyenMai.HasValue ? Model.GiaKhuyenMai : Model.GiaGoc;
     var thanhToanDuoc = currentUser != null && currentUser.Balance >= giaThanhToan;
     var isNguoiMua = currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc;
-    var isChoPhepTruyCap = (currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc)
+    @*var isChoPhepTruyCap = (currentUser != null && currentUser.Id == Model.IdNguoiMuaAcc)
                        || danhMuc.LaLoaiDongGia != true;
     if (!isChoPhepTruyCap)
     {
@@ -21,29 +21,29 @@
             </div>
         </div>
         return;
-    }
+    }*@
 }
 
-<div class="container c-container" id="account-detail">
-    <div class="data__menuacc">
-        <ul class="breadcrumb-list">
-            <li class="breadcrumb-item">
-                <a href="/" class="breadcrumb-link">Trang chủ</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/game/@game.Slug" class="breadcrumb-link">@game.Name</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="/mua-acc/@danhMuc.Slug" class="breadcrumb-link">
-                    @danhMuc.Name
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="javascript:void(0)" class="breadcrumb-link">Chi tiết nick</a>
-            </li>
-        </ul>
-    </div>
+<div class="container">
+    <ul class="breadcrumb-list">
+        <li class="breadcrumb-item">
+            <a href="/" class="breadcrumb-link">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/game/@game.Slug" class="breadcrumb-link">@game.Name</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/mua-acc/@danhMuc.Slug" class="breadcrumb-link">
+                @danhMuc.Name
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="javascript:void(0)" class="breadcrumb-link">Chi tiết nick</a>
+        </li>
+    </ul>
     <hr />
+</div>
+<div class="container mt-10">
     <section class="acc-detail data-account-detail">
         <div class="section-content row">
             <div class="col-12 col-lg-7 c-pr-8 c-pr-lg-15 c-pt-16">
@@ -72,18 +72,16 @@
                             <h2 class="text-title-bold c-mb-8 detailViewBlockTitle">Thông tin mô tả</h2>
                             <div class="content-desc">
                                 @Model.Mota
-                                @if (isNguoiMua)
-                                {
-                                    <p>
-                                        @Html.Raw(Model.ThongTinSauThanhToan)
-                                    </p>
-                                }
+                                @*@if (isNguoiMua)
+                                    {
+                                        <p>
+                                            @Html.Raw(Model.ThongTinSauThanhToan)
+                                        </p>
+                                    }*@
                             </div>
                         </div>
                     }
                 </div>
-
-
             </div>
 
             <div class="col-12 col-lg-5 c-pl-8 c-pl-lg-15 c-mt-16">
@@ -120,50 +118,50 @@
                                                     </tr>
                                                 }
 
-                                                @if (isNguoiMua)
-                                                {
-                                                    <tr>
-                                                        <td>
-                                                            <span class="link-color">
-                                                                Tài khoản
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <span>
-                                                                @Model.UserName
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <span class="link-color">
-                                                                Mật khẩu
-                                                            </span>
-                                                        </td>
-                                                        <td>
-                                                            <div class="password-wrapper" style="display: inline-flex; align-items: center; gap: 4px;">
-                                                                <input type="password"
-                                                                       value="@Model.Password"
-                                                                       readonly
-                                                                       class="password-field"
-                                                                       style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right; height: 14px" />
-
-                                                                <span class="toggle-password p-0"
-                                                                      title="Hiện/ẩn mật khẩu"
-                                                                      style="text-decoration: none;">
-                                                                    <i class="bi bi-eye"></i>
+                                                @*@if (isNguoiMua)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <span class="link-color">
+                                                                    Tài khoản
                                                                 </span>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                }
+                                                            </td>
+                                                            <td>
+                                                                <span>
+                                                                    @Model.UserName
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="link-color">
+                                                                    Mật khẩu
+                                                                </span>
+                                                            </td>
+                                                            <td>
+                                                                <div class="password-wrapper" style="display: inline-flex; align-items: center; gap: 4px;">
+                                                                    <input type="password"
+                                                                           value="@Model.Password"
+                                                                           readonly
+                                                                           class="password-field"
+                                                                           style="border: none; background: transparent; padding: 0; width: auto; display: inline-block; text-align: right; height: 14px" />
+
+                                                                    <span class="toggle-password p-0"
+                                                                          title="Hiện/ẩn mật khẩu"
+                                                                          style="text-decoration: none;">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }*@
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             }
 
-                            @if (Model.TrangThai == Hinet.Service.Constant.TrangThaiTaiKhoanConstant.CHUABAN || isNguoiMua)
+                            @if (Model.TrangThai == TrangThaiTaiKhoanConstant.CHUABAN || isNguoiMua)
                             {
                                 <div class="card disabled-color">
                                     <div class="card-body text-center c-p-0">
@@ -251,14 +249,17 @@
             </div>
         </div>
 
-        <!-- Start Tài khoản liên quan -->
-        @Html.Action("TaiKhoanLienQuan", "Game", new { id = game.Id, area = "" })
-        <!-- End Tài khoản liên quan -->
-        <!-- Start Tài khoản đã xem -->
-        @Html.Action("TaiKhoanDaXem", "Game", new { id = game.Id, area = "" })
-        <!-- End Tài khoản đã xem -->
-
     </section>
+</div>
+<div class="container">
+    <!-- Start Tài khoản liên quan -->
+    @Html.Action("TaiKhoanLienQuan", "Game", new { id = game.Id, area = "" })
+    <!-- End Tài khoản liên quan -->
+</div>
+<div class="container">
+    <!-- Start Tài khoản đã xem -->
+    @Html.Action("TaiKhoanDaXem", "Game", new { id = game.Id, area = "" })
+    <!-- End Tài khoản đã xem -->
 </div>
 <!-- Start Modal thanh toán -->
 <div class="modal fade modal-big loadModal__acount show" id="orderModal" aria-modal="true">

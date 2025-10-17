@@ -8,7 +8,7 @@
     var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
 }
 
-<div class="container c-container" id="account-list">
+<div class="container">
     <ul class="breadcrumb-list">
         <li class="breadcrumb-item">
             <a href="/" class="breadcrumb-link">Trang chủ</a>
@@ -21,15 +21,20 @@
         </li>
     </ul>
     <hr>
+</div>
+<div class="container mt-10">
     <section class="list-account" style="margin-top: 2px">
-        <div class="section-header justify-content-between c-py-16">
-            <h1 class="section-title">@danhMuc.Name </h1>
-            @if (danhMuc.LaLoaiDongGia != true)
-            {
-                <div class="show-modal-filter noselect" data-toggle="modal" data-target="#modal-filter">
-                    <i class="bi bi-search"></i> Tìm kiếm
-                </div>
-            }
+        <div class="mb-2">
+            <div class="flex items-center gap-2 justify-content-between">
+                <h2 class="text-zinc-800 font-medium uppercase text-xl">@danhMuc.Name</h2>
+                @if (danhMuc.LaLoaiDongGia != true)
+                {
+                    <div class="show-modal-filter noselect" data-toggle="modal" data-target="#modal-filter">
+                        <i class="bi bi-search"></i> Tìm kiếm
+                    </div>
+                }
+            </div>
+            <p class="text-gray-400 text-sm">Các tài khoản game @danhMuc.Name</p>
         </div>
         <div class="sort-account c-mb-16 d-none d-lg-flex">
             <div class="text-title fw-700" id="numberResult">@taiKhoanPagedResult.Count sản phẩm</div>
@@ -70,10 +75,12 @@
             })
         </div>
     </section>
-    @if (HasRealContent(danhMuc.MoTa))
-    {
-        <!-- Start Mô tả -->
-        <div class="c-mb-16 c-mt-16 bg-white rounded-md p-4 shadow-sm">
+</div>
+@if (HasRealContent(danhMuc.MoTa))
+{
+    <!-- Start Mô tả -->
+    <div class="container mt-10">
+        <div class="bg-white rounded-md p-4 shadow-sm">
             <div class="card overflow-hidden detailViewBlock" style="border-radius: unset !important">
                 <div class="card-body c-px-16">
                     <div class="content-desc hide detailViewBlockContent">
@@ -95,77 +102,79 @@
                 </div>
             </div>
         </div>
-        <!-- End Mô tả -->
-    }
+    </div>
+    <!-- End Mô tả -->
+}
 
-    @if (danhMuc.LaLoaiDongGia != true)
-    {
-        <!-- Modal Filter -->
-        <div class="modal fade" id="modal-filter">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <form action="" class="form-filter">
-                        <div class="modal-header p-2">
-                            <p class="modal-title center">Tìm kiếm</p>
-                            <button type="button" class="close" data-dismiss="modal"></button>
+@if (danhMuc.LaLoaiDongGia != true)
+{
+    <!-- Modal Filter -->
+    <div class="modal fade" id="modal-filter">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="" class="form-filter">
+                    <div class="modal-header p-2">
+                        <p class="modal-title center">Tìm kiếm</p>
+                        <button type="button" class="close" data-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-3">
+                        <div class="input-group">
+                            <span class="form-label">
+                                Tìm kiếm
+                            </span>
+                            <input type="text" class="find" name="find" placeholder="Nhập skin,tên tướng,level...">
                         </div>
-                        <div class="modal-body p-3">
-                            <div class="input-group">
-                                <span class="form-label">
-                                    Tìm kiếm
-                                </span>
-                                <input type="text" class="find" name="find" placeholder="Nhập skin,tên tướng,level...">
-                            </div>
-                            <div class="input-group">
-                                <label class="form-label">
-                                    Mã số
-                                </label>
-                                <input type="text" class="input-defautf-ct id" name="id_data" placeholder="Nhập mã số nick">
-                            </div>
+                        <div class="input-group">
+                            <label class="form-label">
+                                Mã số
+                            </label>
+                            <input type="text" class="input-defautf-ct id" name="id_data" placeholder="Nhập mã số nick">
+                        </div>
 
-                            <div class="input-group">
-                                <label class="form-label">
-                                    Giá tiền
-                                </label>
-                                <select name="price_data" class="price">
-                                    <option value="" selected="">Chọn giá tiền</option>
-                                    <option value="0-50000">Dưới 50K</option>
-                                    <option value="50000-200000">Từ 50K - 200K</option>
-                                    <option value="200000-500000">Từ 200K - 500K</option>
-                                    <option value="500000-1000000">Từ 500K - 1 Triệu</option>
-                                    <option value="1000000-5000000">Trên 1 Triệu</option>
-                                    <option value="5000000-10000000">Trên 5 Triệu</option>
-                                    <option value="10000000">Trên 10 Triệu</option>
-                                </select>
-                            </div>
+                        <div class="input-group">
+                            <label class="form-label">
+                                Giá tiền
+                            </label>
+                            <select name="price_data" class="price">
+                                <option value="" selected="">Chọn giá tiền</option>
+                                <option value="0-50000">Dưới 50K</option>
+                                <option value="50000-200000">Từ 50K - 200K</option>
+                                <option value="200000-500000">Từ 200K - 500K</option>
+                                <option value="500000-1000000">Từ 500K - 1 Triệu</option>
+                                <option value="1000000-5000000">Trên 1 Triệu</option>
+                                <option value="5000000-10000000">Trên 5 Triệu</option>
+                                <option value="10000000">Trên 10 Triệu</option>
+                            </select>
+                        </div>
 
-                            <div class="input-group">
-                                <label class="form-label">
-                                    Trạng thái
-                                </label>
-                                <select name="status_data" class="" id="">
-                                    <option value="" selected="">Chọn trạng thái</option>
-                                    <option value="1">Chưa bán</option>
-                                    <option value="2">Đã bán</option>
-                                </select>
-                            </div>
+                        <div class="input-group">
+                            <label class="form-label">
+                                Trạng thái
+                            </label>
+                            <select name="status_data" class="" id="">
+                                <option value="" selected="">Chọn trạng thái</option>
+                                <option value="1">Chưa bán</option>
+                                <option value="2">Đã bán</option>
+                            </select>
                         </div>
-                        <div class="modal-footer c-mt-24 c-mt-lg-16 p-3">
-                            <a href="javascript:void(0)" class="btn ghost js-reset-form">Xoá tìm kiếm</a>
-                            <button type="submit" class="btn primary js-submit-form">Xem kết quả</button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer c-mt-24 c-mt-lg-16 p-3">
+                        <a href="javascript:void(0)" class="btn ghost js-reset-form">Xoá tìm kiếm</a>
+                        <button type="submit" class="btn primary js-submit-form">Xem kết quả</button>
+                    </div>
+                </form>
             </div>
         </div>
-    }
-
-    <!-- Start Danh mục game khác -->
-    @Html.Action("DanhMucGameKhac", "Game", new { id = danhMuc.Id, area = "" })
-    <!-- End Danh mục game khác -->
-    <div id="binhLuanContainer">
-        @Html.Action("DanhSach", "BinhLuan", new { doiTuongId = danhMuc.Id, loaiDoiTuong = "DanhMucGame", area = "" })
     </div>
+}
+
+<!-- Start Danh mục game khác -->
+<div class="container">
+    @Html.Action("DanhMucGameKhac", "Game", new { id = danhMuc.Id, area = "" })
+</div>
+<!-- End Danh mục game khác -->
+<div id="binhLuanContainer" class="container">
+    @Html.Action("DanhSach", "BinhLuan", new { doiTuongId = danhMuc.Id, loaiDoiTuong = "DanhMucGame", area = "" })
 </div>
 
 <!-- Form filter + sort gom chung -->

@@ -14,5 +14,6 @@ namespace Hinet.Service.DonHangGiaTriThuocTinhService
     {
         PageListResultBO<DonHangGiaTriThuocTinhDto> GetDaTaByPage(DonHangGiaTriThuocTinhSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         DonHangGiaTriThuocTinh GetById(long id);
+        void DeleteByDonHangId(long donHangId);
     }
 }

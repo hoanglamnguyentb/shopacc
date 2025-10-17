@@ -1,4 +1,5 @@
-﻿using Hinet.Service.AppUserService;
+﻿using BotDetect;
+using Hinet.Service.AppUserService;
 using Hinet.Service.Constant;
 using Hinet.Service.DanhMucGameService;
 using Hinet.Service.DanhMucGameService.Dto;
@@ -143,6 +144,20 @@ namespace Hinet.Web.Controllers
             ViewData["Game"] = game;
             return PartialView("_TaiKhoanList", result);
         }
+
+        public PartialViewResult PartialChiTietTaiKhoan(int id)
+        {
+            var tk = _gameService.GetTaiKhoanById(id);
+            var giaoDich = _giaoDichService
+                .FindBy(x => x.DoiTuongId == tk.Id && x.TrangThai == TrangThaiGiaoDichConstant.DATHANHTOAN)
+                .FirstOrDefault();
+            if(CurrentUserId != giaoDich.NguoiGiaoDich)
+            {
+                return null;
+            }
+            return PartialView("_PartialChiTietTaiKhoan", tk);
+        }
+
         #endregion
 
         #region Partial

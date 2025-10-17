@@ -6,6 +6,7 @@ using Hinet.Service.Common;
 using Hinet.Service.Constant;
 using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.DonHangGiaTriThuocTinhService;
+using Hinet.Service.DonHangService;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.GiaoDichService.Dto;
 using Hinet.Service.GiaTriThuocTinhService;
@@ -39,10 +40,11 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
         private readonly IDonHangGiaTriThuocTinhService _donHangGiaTriThuocTinhService;
         private readonly ITelegramService _telegramService;
         private readonly INotificationService _notificationService;
+        private readonly IDonHangService _donHangService;
 
         public GiaoDichController(IGiaoDichService GiaoDichService, ILog Ilog,
             IDM_DulieuDanhmucService dM_DulieuDanhmucService,
-            IMapper mapper, IAppUserService appUserService, IGiaTriThuocTinhService giaTriThuocTinhService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService, ITelegramService telegramService, INotificationService notificationService)
+            IMapper mapper, IAppUserService appUserService, IGiaTriThuocTinhService giaTriThuocTinhService, IDonHangGiaTriThuocTinhService donHangGiaTriThuocTinhService, ITelegramService telegramService, INotificationService notificationService, IDonHangService donHangService)
         {
             _GiaoDichService = GiaoDichService;
             _Ilog = Ilog;
@@ -53,6 +55,7 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
             _donHangGiaTriThuocTinhService = donHangGiaTriThuocTinhService;
             _telegramService = telegramService;
             _notificationService = notificationService;
+            _donHangService = donHangService;
         }
 
         // GET: GiaoDichArea/GiaoDich
@@ -250,6 +253,16 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
                 giaoDich.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
                 giaoDich.NgayXuLy = DateTime.Now;
                 _GiaoDichService.Update(giaoDich);
+                //Cập nhật đơn hàng
+                if(giaoDich.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                {
+                    var donHang = _donHangService.GetById(giaoDich.DoiTuongId);
+                    if(donHang != null)
+                    {
+                        donHang.TrangThai = TrangThaiDonHangConstant.DATHANHTOAN;
+                        _donHangService.Update(donHang);
+                    }
+                }
                 _telegramService.SendTelegramMessage(giaoDich);
                 _notificationService.CreateNoti(giaoDich.NguoiGiaoDich, url, message);
             }
