@@ -11,5 +11,7 @@ namespace Hinet.Model.Entities
         public string KieuDuLieu { get; set; } //text, number, dropdown, boolean
         public string NhomDanhmucCode { get; set; } //Danh mục
         public long? NhomDanhMucId { get; set; } //Danh mục
+        public bool? IsRequired { get; set; }
+        public string PlaceHolder { get; set; }
     }
 }

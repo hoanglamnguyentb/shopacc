@@ -15,5 +15,6 @@ namespace Hinet.Service.GiaoDichService
         PageListResultBO<GiaoDichDto> GetDaTaByPage(GiaoDichSearchDto searchModel, int pageIndex = 1, int pageSize = 20);
         GiaoDich GetById(long id);
         List<TopNapTheVM> GetTopNapTheThang(int top = 5);
+        GiaoDichDto GetDtoById(long id);
     }
 }

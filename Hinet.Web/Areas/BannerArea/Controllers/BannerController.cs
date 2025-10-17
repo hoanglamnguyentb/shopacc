@@ -42,7 +42,7 @@ namespace Hinet.Web.Areas.BannerArea.Controllers
 		}
 
 		// GET: BannerArea/Banner
-		//[PermissionAccess(Code = permissionIndex)]
+		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult Index()
 		{
 			var listData = _BannerService.GetDaTaByPage(null);

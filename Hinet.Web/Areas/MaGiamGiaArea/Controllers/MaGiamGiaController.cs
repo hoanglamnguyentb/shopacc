@@ -45,7 +45,7 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
             _gianHangService = gianHangService;
         }
         // GET: MaGiamGiaArea/MaGiamGia
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
 

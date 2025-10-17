@@ -124,14 +124,14 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                 currentUser.Balance += existingTrans.Amount;
                 var newTrans = new GiaoDich()
                 {
-                    UserId = currentUser.Id,
+                    NguoiGiaoDich = currentUser.Id,
                     DoiTuongId = 2,
                     LoaiDoiTuong = "NapTien",
                     LoaiGiaoDich = LoaiGiaoDichConstant.NAPTHUONG,
                     TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                     PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                     NgayGiaoDich = now,
-                    NgayThanhToan = now,
+                    NgayXuLy = now,
                     SoTien = (int)existingTrans.Amount,
                     NoiDung = transaction.Content
                 };
@@ -144,14 +144,14 @@ namespace Hinet.Web.Areas.DepositArea.Controllers
                 // Tạo thêm dữ liệu giao dịch
                 var giaoDich = new GiaoDich
                 {
-                    UserId = currentUser.Id,
+                    NguoiGiaoDich = currentUser.Id,
                     DoiTuongId = existingTrans.Id,
                     LoaiDoiTuong = nameof(Deposit),
                     LoaiGiaoDich = LoaiGiaoDichConstant.NAPTHUONG,
                     TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                     PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                     NgayGiaoDich = now,
-                    NgayThanhToan = now,
+                    NgayXuLy = now,
                     SoTien = (int)existingTrans.Amount,
                 };
 

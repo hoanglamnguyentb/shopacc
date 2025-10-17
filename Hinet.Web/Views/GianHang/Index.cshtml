@@ -99,22 +99,22 @@
                                 @* Kiểu dữ liệu *@
                                 @if (thuocTinh.KieuDuLieu == "TEXT")
                                 {
-                                    <input type="text" placeholder="@thuocTinh.TenThuocTinh" name="GiaTriThuocTinhs[@i].GiaTri" />
+                                    <input type="text" placeholder="@thuocTinh.PlaceHolder" name="GiaTriThuocTinhs[@i].GiaTri"/>
                                 }
                                 else if (thuocTinh.KieuDuLieu == "NUMBER")
                                 {
-                                    <input type="number" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.TenThuocTinh" />
+                                    <input type="number" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.PlaceHolder" />
                                 }
                                 else if (thuocTinh.KieuDuLieu == "BOOLEAN")
                                 {
-                                    <input type="checkbox" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.TenThuocTinh" value="true" />
+                                    <input type="checkbox" name="GiaTriThuocTinhs[@i].GiaTri" placeholder="@thuocTinh.PlaceHolder" value="true" />
                                 }
                                 else if (thuocTinh.KieuDuLieu == "DROPDOWN")
                                 {
                                     <select name="GiaTriThuocTinhs[@i].GiaTri" class="px-2"
                                             data-text-field="true"
                                             data-index="@i">
-                                        <option value="">-- Chọn --</option>
+                                        <option value="">-- @thuocTinh.PlaceHolder --</option>
                                         @foreach (var opt in thuocTinh.ListDuLieuDanhMuc)
                                         {
                                             <option value="@opt.Id">@opt.Name</option>
@@ -124,7 +124,7 @@
                                 }
                                 else
                                 {
-                                    <input type="text" placeholder="@thuocTinh.TenThuocTinh" name="GiaTriThuocTinhs[@i].GiaTri" />
+                                    <input type="text" placeholder="@thuocTinh.PlaceHolder" name="GiaTriThuocTinhs[@i].GiaTri" />
                                 }
                             </div>
                         }

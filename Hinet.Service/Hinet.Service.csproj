@@ -322,6 +322,8 @@
     <Compile Include="UserOperationService\Dto\UserOperationSearchDto.cs" />
     <Compile Include="UserOperationService\IUserOperationService.cs" />
     <Compile Include="UserOperationService\UserOperationService.cs" />
+    <Compile Include="TelegramService\ITelegramService.cs" />
+    <Compile Include="TelegramService\TelegramService.cs" />
     <Compile Include="UserRoleService\IUserRoleService.cs" />
     <Compile Include="UserRoleService\UserRoleService.cs" />
     <Compile Include="VatPhamService\Dto\VatPhamDto.cs" />

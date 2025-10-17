@@ -1,17 +1,17 @@
 ﻿@using Newtonsoft.Json
-@model Hinet.Web.Areas.DashboardArea.Models.DashboardDto
 
 @{
     ViewBag.Title = "Trang chủ";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    var jsonData = JsonConvert.SerializeObject(Model);
+    ViewBag.ModuleName = "Trang chủ";
+    ViewBag.PageName = "Báo cáo thống kê";
 }
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="d-flex">
-    <div class="col-sm-12 mx-auto p-6">
+<div class="row">
+    <div class="col-sm-12 mx-auto py-6">
         <div id="pending-orders-container">
             @{ Html.RenderAction("PendingOrders", "Dashboard", new { area = "DashboardArea" }); }
         </div>
@@ -40,18 +40,6 @@
         });
     }
 
-    // Gọi lần đầu khi load trang
-    $(document).ready(function () {
-        //loadPendingOrders();
-
-        // Tìm kiếm theo từ khóa
-        $('#pendingSearch').on('keypress', function (e) {
-            if (e.key === 'Enter') {
-                loadPendingOrders(1, this.value);
-            }
-        });
-    });
-
     function loadRevenueChart(months = 12) {
         $.ajax({
             url: '@Url.Action("RevenueChart", "Dashboard", new { area = "DashboardArea" })',
@@ -73,7 +61,7 @@
             success: function (html) {
                 $('#topcharts-container').html(html);
                 // Gắn lại sự kiện cho filter sau khi load
-                attachTopChartEvents();
+                //attachTopChartEvents();
             },
             error: function () {
                 alert('Không thể tải Top Charts');
@@ -81,14 +69,18 @@
         });
     }
 
-    function attachTopChartEvents() {
-        $('.top-filter').off('change').on('change', function () {
-            const days = parseInt($(this).val());
-            loadTopCharts(days);
-        });
-    }
+    $(document).on('keypress', '#pendingSearch', function (e) {
+        if (e.key === 'Enter') {
+            loadPendingOrders(1, this.value);
+        }
+    });
 
     $(document).on('change', '#rangeSelect', function () {
         loadRevenueChart(parseInt(this.value));
+    });
+
+    $(document).on('change', '#topchartFilter', function (e) {
+        const days = parseInt($(this).val());
+        loadTopCharts(days);
     });
 </script>

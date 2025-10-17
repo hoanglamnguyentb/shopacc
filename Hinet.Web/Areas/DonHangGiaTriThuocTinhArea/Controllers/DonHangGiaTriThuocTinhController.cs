@@ -1,32 +1,15 @@
 using AutoMapper;
-using CommonHelper.String;
-using CommonHelper.Upload;
-using log4net;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Hinet.Model.IdentityEntities;
 using Hinet.Model.Entities;
 using Hinet.Service.Common;
-using Hinet.Service.Constant;
-using Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Models;
-using Hinet.Web.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.Mvc;
-using Hinet.Web.Filters;
+using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.DonHangGiaTriThuocTinhService;
 using Hinet.Service.DonHangGiaTriThuocTinhService.Dto;
-using CommonHelper.Excel;
-using CommonHelper.ObjectExtention;
-using Hinet.Web.Common;
-using System.IO;
-using System.Web.Configuration;
-using CommonHelper;
-using Hinet.Service.DM_DulieuDanhmucService;
+using Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Models;
+using Hinet.Web.Filters;
+using log4net;
+using System;
+using System.Web;
+using System.Web.Mvc;
 
 
 
@@ -44,19 +27,19 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
         public const string permissionExport = "DonHangGiaTriThuocTinh_export";
         public const string searchKey = "DonHangGiaTriThuocTinhPageSearchModel";
         private readonly IDonHangGiaTriThuocTinhService _DonHangGiaTriThuocTinhService;
-	private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
+        private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
 
 
         public DonHangGiaTriThuocTinhController(IDonHangGiaTriThuocTinhService DonHangGiaTriThuocTinhService, ILog Ilog,
 
-		IDM_DulieuDanhmucService dM_DulieuDanhmucService,
+        IDM_DulieuDanhmucService dM_DulieuDanhmucService,
             IMapper mapper
             )
         {
             _DonHangGiaTriThuocTinhService = DonHangGiaTriThuocTinhService;
             _Ilog = Ilog;
             _mapper = mapper;
-		_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
+            _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
 
         }
         // GET: DonHangGiaTriThuocTinhArea/DonHangGiaTriThuocTinh
@@ -124,8 +107,8 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
         {
             var myModel = new EditVM();
 
-            var obj= _DonHangGiaTriThuocTinhService.GetById(id);
-            if (obj== null)
+            var obj = _DonHangGiaTriThuocTinhService.GetById(id);
+            if (obj == null)
             {
                 throw new HttpException(404, "Không tìm thấy thông tin");
             }
@@ -150,9 +133,9 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
                         throw new Exception("Không tìm thấy thông tin");
                     }
 
-                    obj= _mapper.Map(model, obj);
+                    obj = _mapper.Map(model, obj);
                     _DonHangGiaTriThuocTinhService.Update(obj);
-                    
+
                 }
             }
             catch (Exception ex)
@@ -175,14 +158,14 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
                 searchModel = new DonHangGiaTriThuocTinhSearchDto();
                 searchModel.pageSize = 20;
             }
-			searchModel.DonHangIdFilter = form.DonHangIdFilter;
-			searchModel.ThuocTinhIdFilter = form.ThuocTinhIdFilter;
-			searchModel.ThuocTinhTxtFilter = form.ThuocTinhTxtFilter;
-			searchModel.GiaTriFilter = form.GiaTriFilter;
-			searchModel.GiaTriTxtFilter = form.GiaTriTxtFilter;
-			searchModel.KieuDuLieuFilter = form.KieuDuLieuFilter;
+            searchModel.DonHangIdFilter = form.DonHangIdFilter;
+            searchModel.ThuocTinhIdFilter = form.ThuocTinhIdFilter;
+            searchModel.ThuocTinhTxtFilter = form.ThuocTinhTxtFilter;
+            searchModel.GiaTriFilter = form.GiaTriFilter;
+            searchModel.GiaTriTxtFilter = form.GiaTriTxtFilter;
+            searchModel.KieuDuLieuFilter = form.KieuDuLieuFilter;
 
-            SessionManager.SetValue((searchKey) , searchModel);
+            SessionManager.SetValue((searchKey), searchModel);
 
             var data = _DonHangGiaTriThuocTinhService.GetDaTaByPage(searchModel, 1, searchModel.pageSize);
             return Json(data);
@@ -209,7 +192,7 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
             return Json(result);
         }
 
-        
+
         public ActionResult Detail(long id)
         {
             var model = new DetailVM();
@@ -218,6 +201,6 @@ namespace Hinet.Web.Areas.DonHangGiaTriThuocTinhArea.Controllers
         }
 
 
-        
+
     }
 }

@@ -8,7 +8,7 @@
     var dropdownListNhomDanhMuc = ViewBag.dropdownListNhomDanhMuc as List<SelectListItem>;
 }
 
-<div class="modal-dialog" style="width: 45%;">
+<div class="modal-dialog" style="width: 65%;">
     @using (Ajax.BeginForm("ThongTinNap", "GianHang", new { @area = "GianHangArea" }, new AjaxOptions()
     {
         HttpMethod = "POST",
@@ -32,9 +32,11 @@
                             <table class="table table-bordered table-striped" id="thuocTinhTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 35%;">Tên thuộc tính</th>
-                                        <th style="width: 25%;">Kiểu dữ liệu</th>
-                                        <th style="width: 25%;">Nhóm danh mục</th>
+                                        <th style="width: 20%;">Tên thuộc tính</th>
+                                        <th style="width: 20%;">Kiểu dữ liệu</th>
+                                        <th style="width: 20%;">Nhóm danh mục</th>
+                                        <th style="width: 10%;">Bắt buộc</th>
+                                        <th style="width: 20%;">Placeholder</th>
                                         <th style="width: 10%;">Hành động</th>
                                     </tr>
                                 </thead>
@@ -64,6 +66,15 @@
                                                         "-- Chọn nhóm --",
                                                         new { @class = "form-control lua-chon select2" })
                                                 </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="checkbox" name="ThuocTinhs[@i].IsRequired"
+                                                       value="true" @(Model.ThuocTinhs[i].IsRequired == true ? "checked" : "") />
+                                            </td>
+                                            <td>
+                                                <input type="text" name="ThuocTinhs[@i].PlaceHolder"
+                                                       value="@Model.ThuocTinhs[i].PlaceHolder"
+                                                       class="form-control" placeholder="Placeholder" />
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-danger btn-xs" onclick="removeThuocTinh(this)">
@@ -121,6 +132,12 @@
                     <div class="wrap-nhom" style="display:none">
                         ${selectNhom}
                     </div>
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" name="ThuocTinhs[${idx}].IsRequired" value="true" />
+                </td>
+                <td>
+                    <input type="text" name="ThuocTinhs[${idx}].PlaceHolder" class="form-control" placeholder="Placeholder" />
                 </td>
                 <td class="text-center">
                     <button type="button" class="btn btn-danger btn-xs" onclick="removeThuocTinh(this)">

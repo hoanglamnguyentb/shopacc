@@ -21,8 +21,8 @@ namespace Hinet.Web.Areas.DashboardArea.Models
     {
         public decimal RevenueToday { get; set; }
         public int OrderCount { get; set; }
-        public int MarginPercent { get; set; }
-        public int DisputesCount { get; set; }
+        public int AccountsSoldCount { get; set; }
+        public int TopupCount { get; set; }
     }
 
     public class MonthlyChartDto

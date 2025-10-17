@@ -8,15 +8,16 @@ using Hinet.Service.SiteConfigService.Dto;
 using Hinet.Web.Areas.SiteConfigArea.Models;
 using Hinet.Web.Filters;
 using log4net;
+using Newtonsoft.Json;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Linq;
 
 namespace Hinet.Web.Areas.SiteConfigArea.Controllers
 {
@@ -46,7 +47,7 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
 
         }
         // GET: SiteConfigArea/SiteConfig
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
             var listData = _SiteConfigService.GetDaTaByPage(null);
@@ -84,7 +85,6 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
                 Value = b.code,
                 Text = b.name
             }).ToList();
-
             ViewBag.BankList = bankSelectList;
             return PartialView("_CreatePartial", myModel);
         }
@@ -116,7 +116,7 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
                     }
                     var EntityModel = _mapper.Map<SiteConfig>(model);
                     _SiteConfigService.Create(EntityModel);
-
+                    ClearSiteConfigCache();
                 }
 
             }
@@ -181,7 +181,7 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
                         obj.OgImage = FileHelper.SaveUploadedFile(model.FileOgImage, "~/Uploads/SiteConfig");
                     }
                     _SiteConfigService.Update(obj);
-
+                    ClearSiteConfigCache();
                 }
             }
             catch (Exception ex)
@@ -225,15 +225,23 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
             var result = new JsonResultBO(true, "Xóa  thành công");
             try
             {
-                var user = _SiteConfigService.GetById(id);
-                if (user == null)
+                var totalConfigs = _SiteConfigService.GetAll().Count();
+                if (totalConfigs <= 1)
+                {
+                    result.MessageFail("Không thể xóa vì hệ thống phải có ít nhất 1 cấu hình!");
+                    return Json(result);
+                }
+
+                var config = _SiteConfigService.GetById(id);
+                if (config == null)
                 {
                     throw new Exception("Không tìm thấy thông tin để xóa");
                 }
-                FileHelper.DeleteFile(user.Logo);
-                FileHelper.DeleteFile(user.Favicon);
-                FileHelper.DeleteFile(user.OgImage);
-                _SiteConfigService.Delete(user);
+                FileHelper.DeleteFile(config.Logo);
+                FileHelper.DeleteFile(config.Favicon);
+                FileHelper.DeleteFile(config.OgImage);
+                _SiteConfigService.Delete(config);
+                ClearSiteConfigCache();
             }
             catch (Exception ex)
             {
@@ -263,6 +271,11 @@ namespace Hinet.Web.Areas.SiteConfigArea.Controllers
                 }
                 return new List<Bank>();
             }
+        }
+
+        private void ClearSiteConfigCache()
+        {
+            MemoryCache.Default.Remove("SiteConfig");
         }
     }
     public class Bank

@@ -12,7 +12,7 @@ namespace Hinet.Service.GiaoDichService.Dto
 {
     public class GiaoDichDto : GiaoDich
     {
-        public string NguoiGiaoDich { get; set; }
+        public string NguoiGiaoDichTxt { get; set; }
         public string TaiKhoanTxt { get; set; }
         public string LoaiDoiTuongTxt { get {
                 return
@@ -53,5 +53,10 @@ namespace Hinet.Service.GiaoDichService.Dto
 					ConstantExtension.GetName<PhuongThucThanhToanConstant>(PhuongThucThanhToan);
 			}
 		}
+        public TaiKhoan TaiKhoan { get; set; }
+        public VatPham VatPham { get; set; }
+        public GianHang GianHang { get; set; }
+        public List<GiaTriThuocTinh> ListGTTT { get; set; }
+        public List<DonHangGiaTriThuocTinh> ListDonHangGTTT { get; set; }
     }
 }

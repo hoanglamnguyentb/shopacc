@@ -29,8 +29,8 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
         private IDM_DulieuDanhmucService _dm_DulieuDanhmucService;
         private ILog _ILog;
         private readonly IMapper _mapper;
-        private const string SessionSearchString = "NhomDanhmucSearch";
         public const string permissionIndex = "DMNhomDanhMuc_index";
+        private const string SessionSearchString = "NhomDanhmucSearch";
         public const string permissionCreate = "DMNhomDanhMuc_create";
         public const string permissionEdit = "DMNhomDanhMuc_edit";
         public const string permissionDelete = "DMNhomDanhMuc_delete";
@@ -57,7 +57,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult GetData(int indexPage, string sortQuery, int pageSize)
         {
             var searchModel = SessionManager.GetValue(SessionSearchString) as DM_NhomDanhmucSearchDTO;
@@ -78,7 +77,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
             return Json(data);
         }
 
-        [PermissionAccess(Code = permissionCreate)]
         public PartialViewResult Create()
         {
             var model = new CreateVM();
@@ -86,7 +84,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionCreate)]
         public JsonResult Create(CreateVM model)
         {
             var result = new JsonResultBO(true);
@@ -114,7 +111,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
             return Json(result);
         }
 
-        [PermissionAccess(Code = permissionEdit)]
         public PartialViewResult Edit(long id)
         {
             var model = new EditVM();
@@ -133,7 +129,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionEdit)]
         public JsonResult Edit(EditVM model)
         {
             var result = new JsonResultBO(true);
@@ -184,7 +179,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult SearchData(FormCollection form)
         {
             var searchModel = SessionManager.GetValue(SessionSearchString) as DM_NhomDanhmucSearchDTO;
@@ -203,7 +197,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionDelete)]
         public JsonResult Delete(long id)
         {
             JsonResultBO result = new JsonResultBO(true);
@@ -237,7 +230,6 @@ namespace Hinet.Web.Areas.DmNhomDanhmucArea.Controllers
             return Json(result);
         }
 
-        [PermissionAccess(Code = permissionExport)]
         public ActionResult Import()
         {
             var model = new ImportVM();

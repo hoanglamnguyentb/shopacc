@@ -61,7 +61,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult GetData(int indexPage, string sortQuery, int pageSize)
         {
             var searchModel = SessionManager.GetValue("ModuleSearch") as ModuleSearchDTO;
@@ -82,7 +81,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
             return Json(data);
         }
 
-        [PermissionAccess(Code = permissionEdit)]
         public PartialViewResult Edit(long id = 0)
         {
             var viewModel = new ModuleEditViewModel();
@@ -102,7 +100,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
             return PartialView("_EditPartial", viewModel);
         }
 
-        [PermissionAccess(Code = permissionIndex)]
         public PartialViewResult ChuyenModule(int id)
         {
             var viewModel = new ChuyenModuleVM();
@@ -113,7 +110,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult ChuyenModule(ChuyenModuleVM model)
         {
             var result = new JsonResultBO(true);
@@ -139,7 +135,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult SearchData(FormCollection form)
         {
             var searchModel = SessionManager.GetValue("ModuleSearch") as ModuleSearchDTO;
@@ -162,7 +157,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult Save(ModuleEditViewModel model, HttpPostedFileBase file)
         {
             var result = new JsonResultBO(true);
@@ -240,7 +234,6 @@ namespace Hinet.Web.Areas.ModuleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionDelete)]
         public JsonResult Delete(int id)
         {
             JsonResultBO result = new JsonResultBO(true);

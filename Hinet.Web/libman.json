@@ -9,6 +9,14 @@
     {
       "library": "tailwindcss@4.1.13",
       "destination": "assets/tailwindcss/"
+    },
+    {
+      "library": "tippy.js@6.3.7",
+      "destination": "assets/plugins/tippy.js/"
+    },
+    {
+      "library": "popper.js@2.11.8",
+      "destination": "assets/plugins/popper.js/"
     }
   ]
 }

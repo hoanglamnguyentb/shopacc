@@ -5,14 +5,11 @@ namespace Hinet.Web
     public class SessionManager
     {
         public const string USER_INFO = "UserInfo";
-        public const string COMPANY_INFOMATION = "CompanyInfomationDto";
         public const string LIST_PERMISSTION = "LIST_PERMISSTION";
         public const string HOST_COMPLAIN = "HOST_COMPLAIN";
         public const string HOST_REPORT = "HOST_REPORT";
         public const string USER_ROLE = "USER_ROLE";
-        public const string TRANGTHAI_TINBAI = "TRANGTHAI_TINBAI";
-        public const string TRANGTHAI_ANPHAM = "TRANGTHAI_ANPHAM";
-        public const string LOAI_HOP_DONG = "LOAI_HOP_DONG";
+        public const string SITE_CONFIG = "SITE_CONFIG";
 
         public static void SetValue(string Key, object Value)
         {
@@ -56,12 +53,6 @@ namespace Hinet.Web
             return context.Session[USER_INFO];
         }
 
-        public static object GetCompanyOWNInfo()
-        {
-            HttpContext context = HttpContext.Current;
-            return context.Session[COMPANY_INFOMATION];
-        }
-
         public static object GetHostComplain()
         {
             HttpContext context = HttpContext.Current;
@@ -80,22 +71,10 @@ namespace Hinet.Web
             return context.Session[LIST_PERMISSTION];
         }
 
-        public static object GetListTrangThaiTinBai()
+        public static object GetSiteConfig()
         {
             HttpContext context = HttpContext.Current;
-            return context.Session[TRANGTHAI_TINBAI];
-        }
-
-        public static object GetListTrangThaiAnPham()
-        {
-            HttpContext context = HttpContext.Current;
-            return context.Session[TRANGTHAI_ANPHAM];
-        }
-
-        public static object GetListLoaiHopDong()
-        {
-            HttpContext context = HttpContext.Current;
-            return context.Session[LOAI_HOP_DONG];
+            return context.Session[SITE_CONFIG];
         }
     }
 }

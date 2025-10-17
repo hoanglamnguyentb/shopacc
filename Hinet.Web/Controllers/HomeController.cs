@@ -93,6 +93,7 @@ namespace Hinet.Web.Controllers
         }
 
         //nạp thẻ
+        [Route("~/nap-tien")]
         public ActionResult Recharge()
         {
             RefreshSession();
@@ -143,20 +144,6 @@ namespace Hinet.Web.Controllers
             return View(viewData);
         }
 
-        private void RefreshSession()
-        {
-            try
-            {
-                SessionManager.Remove(SessionManager.USER_INFO);
-                var userDto = _appUserService.GetDtoById(CurrentUserId.Value);
-                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
-            }
-            catch
-            {
-
-            }
-        }
-
         public ActionResult NotificationsPartial(int page = 1, int pageSize = 10)
         {
             var searchModel = new NotificationSearchDto
@@ -187,6 +174,12 @@ namespace Hinet.Web.Controllers
         {
             var listTop = _danhMucGameService.FindBy(x => x.NoiBat == true).ToList();
             return PartialView("_DichVuNoiBatPartial", listTop);
+        }
+
+
+        public ActionResult UnAuthor()
+        {
+            return View();
         }
 
         

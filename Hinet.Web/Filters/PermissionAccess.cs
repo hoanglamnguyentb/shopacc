@@ -14,7 +14,6 @@ namespace Hinet.Web.Filters
 
 		void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			return;
 			if (string.IsNullOrEmpty(Code))
 			{
 				return;

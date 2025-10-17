@@ -1,0 +1,264 @@
+﻿@{
+    var config = ViewBag.SiteConfig as Hinet.Model.Entities.SiteConfig;
+    var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
+}
+<!DOCTYPE html>
+ <html lang="vi">
+ <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <meta name="viewport"
+           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+     <title>
+         @config.SiteTitle
+     </title>
+     <meta property="og:title"
+           content="@config.OgTitle" />
+     <meta name="description"
+           content="@config.Description" />
+     <meta property="og:description"
+           content="@config.OgDescription" />
+
+     <meta property="og:image"
+           content="@config.OgImage" />
+     <meta name="keywords"
+           content="@config.Keywords" />
+     <link rel="shortcut icon"
+           href="@config.Favicon"
+           type="image/x-icon" />
+     <meta property="og:url" content="@config.OgUrl" />
+
+     <link rel="canonical" href="@config.OgUrl" />
+
+     <meta name="robots" content="index,follow" />
+     <meta name="csrf-token"
+           content="vJMaGltL4nUhcWb01yj4QVAWZWPsejV8sUJjlxVT" />
+     <meta name="path" content="" />
+
+     <meta name="jwt" content="" />
+
+     <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300..700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="/assets/wwwroot/css/all.css" />
+     <link href="/assets/wwwroot/css/css2"
+           rel="stylesheet" />
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/sw2.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/bootstrap.min.css" />
+     <!--    swiper-->
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/swiper.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/animate.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/owl.carousel.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/bootstrap-datetimepicker.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/jquery.fancybox.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/fancybox.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/toastr.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/jquery-steps.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/select-nice.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/select3.css" />
+     <!-- select2-bootstrap4-theme -->
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/nouislider.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/toctoc.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/cashback.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/order.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/login_modal.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/modal-custom.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/dichvunoibat.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/sale_voucher.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/cell.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/style.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/normalize.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/main.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/style-custom.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/style(1).css" />
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/instruct.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/flash_sale.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/notification.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/style(2).css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/header.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/article.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/menu-category.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/menu-bottom.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/nick-detail.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/slide-banner.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/change-password.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/rSlider.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/service-mobile.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/component-style.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/components.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/lock_money.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/plugin_fb.css" />
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/banner_sale.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/select2.min.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/home.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/news.css" />
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/deposit.css" />
+     <link href="~/assets/wwwroot/css/responsive.css" rel="stylesheet" />
+     <link href="~/assets/wwwroot/css/app.css" rel="stylesheet" />
+     <script id="facebook-jssdk"
+             src="/assets/wwwroot/js/xfbml.customerchat.js"></script>
+     <script type="text/javascript"
+             async=""
+             charset="utf-8"
+             src="/assets/wwwroot/js/recaptcha__vi.js"
+             crossorigin="anonymous"
+             integrity="sha384-MBVHG794VYNV4c6RzpBODhaRSD4uVu0to8oWxVAbHPuemz53rOGdIpF7vzzSuswR"></script>
+     <script async=""
+             src="/assets/wwwroot/js/gtm.js"></script>
+     <script src="/assets/wwwroot/js/jquery.min.js"></script>
+     <script src="/assets/wwwroot/js/lazyload.min.js"></script>
+     <script src="/assets/wwwroot/js/login_modal.js"></script>
+     <script src="/assets/wwwroot/js/main.js"></script>
+     <script src="/assets/wwwroot/js/account_info.js"></script>
+     <script src="/assets/wwwroot/js/search.js"></script>
+     <script src="/assets/wwwroot/js/api.js"
+             async=""
+             defer=""></script>
+
+     <script src="/assets/wwwroot/js/buyaccrandomhome.js"></script>
+     <script src="/assets/wwwroot/js/charge.js"></script>
+     <script src="/assets/wwwroot/js/loading.js"></script>
+
+     <!-- js chứa các hàm cần load trước tiên -->
+     <script src="/assets/wwwroot/js/preload.js"></script>
+     @*<script src="/assets/wwwroot/js/captcha.js"></script>*@
+
+     <link rel="stylesheet"
+           href="/assets/wwwroot/css/top_charge.css" />
+     <link href="~/assets/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+     <!-- Google Tag Manager -->
+     <script>
+         ; (function (w, d, s, l, i) {
+             w[l] = w[l] || []
+             w[l].push({
+                 'gtm.start': new Date().getTime(),
+                 event: 'gtm.js',
+             })
+             var f = d.getElementsByTagName(s)[0],
+                 j = d.createElement(s),
+                 dl = l != 'dataLayer' ? '&l=' + l : ''
+             j.async = true
+             j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+             f.parentNode.insertBefore(j, f)
+         })(
+             window,
+             document,
+             'script',
+             'dataLayer',
+             '&lt;!-- Google Tag Manager --&gt; &lt;script&gt;(function(w,d,s,l,i){w[l]=w[l]'
+         )
+     </script>
+ </head>
+
+ <body>
+     <div class="layout">
+         @RenderBody()
+     </div>
+    
+     <!-- Start Cấu hình -->
+     <style>
+         :root {
+        --primary-color: @config.PrimaryColor;
+        --secondary-color: @config.SecondaryColor;
+        --primary-hover-color: @config.PrimaryHoverColor;
+        --text-title-color: @config.TextTitleColor;
+        --text-color: @config.TextColor;
+        --link-color: @config.LinkColor;
+        --link-hover-color: @config.LinkHoverColor;
+         }
+     </style>
+     <!-- End Cấu hình -->
+
+     <script src="/assets/wwwroot/js/bootstrap.min.js"></script>
+     <script src="/assets/wwwroot/js/wNumb.min.js"></script>
+     <script src="/assets/wwwroot/js/toastr.min.js"></script>
+     <script src="/assets/wwwroot/js/sw2.js"></script>
+     <script src="/assets/wwwroot/js/select-nice.js"></script>
+     <script src="/assets/wwwroot/js/select3.js"></script>
+     <script src="/assets/wwwroot/js/popper.min.js"></script>
+     <script src="/assets/wwwroot/js/tippy-bundle.umd.js"></script>
+     <script src="/assets/wwwroot/js/jquery-steps.js"></script>
+     <script src="/assets/wwwroot/js/easing.js"></script>
+     <script src="/assets/wwwroot/js/nouislider.min.js"></script>
+     <script src="/assets/wwwroot/js/fancybox.umd.js"></script>
+     <script src="/assets/wwwroot/js/jquery.fancybox.min.js"></script>
+     <script src="/assets/wwwroot/js/OwlCarousel2.min.js"></script>
+     <script src="/assets/wwwroot/js/slick.min.js"></script>
+     <script src="/assets/wwwroot/js/swiper.min.js"></script>
+     <script src="/assets/wwwroot/js/swiper-slider-conf.js"></script>
+     <script src="/assets/wwwroot/js/moment.js"></script>
+     <script src="/assets/wwwroot/js/bootstrap-datetimepicker.js"></script>
+     <script src="/assets/wwwroot/js/validate.js"></script>
+     <script src="/assets/wwwroot/js/form-validate.js"></script>
+     <script src="/assets/wwwroot/js/vi.js"></script>
+     <script src="/assets/wwwroot/js/main(1).js"></script>
+     <script src="/assets/wwwroot/js/header.js"></script>
+     <script src="/assets/wwwroot/js/thegioididong.js"></script>
+     <script src="/assets/wwwroot/js/notify.js"></script>
+     <script src="/assets/wwwroot/js/instruct.js"></script>
+     <script src="/assets/wwwroot/js/swiper-banner.js"></script>
+     <script src="/assets/wwwroot/js/main(2).js"></script>
+     <script src="/assets/wwwroot/js/handle.js"></script>
+     <script src="/assets/wwwroot/js/style.js"></script>
+     <script src="/assets/wwwroot/js/select2.min.js"></script>
+     <script src="/assets/wwwroot/js/toctoc.js"></script>
+     <script src="/assets/wwwroot/js/openitemchest.js"></script>
+     <script src="/assets/wwwroot/js/notification.js"></script>
+     <script src="/assets/wwwroot/js/store-card.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <script src="~/assets/wwwroot/js/giao-dich.js"></script>
+    
+ </body>
+</html>

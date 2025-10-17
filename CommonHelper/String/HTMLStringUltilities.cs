@@ -126,9 +126,20 @@ namespace CommonHelper.String.HTML
             }
             return MvcHtmlString.Create($"<div></div>");
         }
-    }
 
-    public class ShowStatusDto
+        public static bool HasRealContent(string html)
+        {
+            if (string.IsNullOrWhiteSpace(html)) return false;
+
+            // Loại bỏ toàn bộ thẻ HTML
+            var textOnly = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty).Trim();
+
+            return !string.IsNullOrWhiteSpace(textOnly);
+        }
+
+}
+
+public class ShowStatusDto
     {
         public string Code { get; set; }
         public string Name { get; set; }

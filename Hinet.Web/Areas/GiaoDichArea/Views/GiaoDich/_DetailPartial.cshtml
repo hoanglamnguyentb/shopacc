@@ -1,0 +1,173 @@
+@using Hinet.Model.IdentityEntities
+@using Hinet.Model.Entities
+@using Hinet.Web.Areas.GiaoDichArea.Models
+@using Hinet.Service.Constant;
+@using CommonHelper.Number;
+
+@model Hinet.Service.GiaoDichService.Dto.GiaoDichDto
+
+<div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="center">
+                    <h4 class="modal-title">Thông tin chi tiết giao dịch</h4>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">Thông tin chung</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 250px;">Người giao dịch (UserId)</th>
+                                        <td>@Model.NguoiGiaoDichTxt #@(Model.NguoiGiaoDich)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Loại giao dịch</th>
+                                        <td>@Model.LoaiGiaoDichTxt</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Loại đối tượng</th>
+                                        <td>@Model.LoaiDoiTuongTxt #@(Model.DoiTuongId)</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Trạng thái</th>
+                                        <td>
+                                            @Html.Raw(Model.TrangThaiHTML)
+                                        </td>
+                                    </tr>
+
+                                    <!-- Thông tin thanh toán -->
+                                    <tr>
+                                        <th>Phương thức thanh toán</th>
+                                        <td>@Model.PhuongThucThanhToanTxt</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ngày giao dịch</th>
+                                        <td>@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Số tiền giao dịch</th>
+                                        <td class="text-success bolder">@NumberHelper.FormatMoneyVN(Model.SoTien)</td>
+                                    </tr>
+                                    <!-- Thông tin mã giao dịch / đối tác -->
+                                    <tr>
+                                        <th>Mã giao dịch</th>
+                                        <td class="bolder">@Model.MaGiaoDich</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nội dung chuyển khoản</th>
+                                        <td class="bolder">@Model.NoiDungChuyenKhoan</td>
+                                    </tr>
+                                    <!-- Thông tin tài khoản nạp -->
+                                    @if (Model.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACCRANDOM || Model.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACC)
+                                    {
+                                        <tr>
+                                            <th colspan="2">Thông tin tài khoản</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Tên tài khoản cần nạp</th>
+                                            <td>
+                                                @Model.TenTaiKhoanCanNap
+                                                @if (!string.IsNullOrEmpty(Model.TenTaiKhoanCanNap))
+                                                {
+                                                    <span class="text-muted">@Model.TenTaiKhoanCanNap</span>
+                                                }
+                                                else
+                                                {
+                                                    <i class="text-danger">Chưa có thông tin</i>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mật khẩu tài khoản nạp</th>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(Model.MatKhauTaiKhoanNap))
+                                                {
+                                                    <span class="text-muted">@Model.MatKhauTaiKhoanNap</span>
+                                                }
+                                                else
+                                                {
+                                                    <i class="text-danger">Chưa có thông tin</i>
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Thông tin sau khi nạp</th>
+                                            <td>
+                                                @if (Model.TaiKhoan != null)
+                                                {
+                                                    if (CommonHelper.String.HTML.HTMLStringUltilities.HasRealContent(Model.TaiKhoan.ThongTinSauThanhToan))
+                                                    {
+                                                        @Html.Raw(Model.TaiKhoan.ThongTinSauThanhToan)
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="text-danger">Chưa có thông tin</i>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <i class="text-danger">Chưa có thông tin</i>
+                                                }
+                                            </td>
+                                        </tr>
+                                        if (Model.ListGTTT.Any())
+                                        {
+                                            foreach (var item in Model.ListGTTT)
+                                            {
+                                                <tr>
+                                                    <th>@item.ThuocTinhTxt</th>
+                                                    <td>
+                                                        @if (!string.IsNullOrEmpty(item.GiaTriTxt))
+                                                        {
+                                                            <span>@item.GiaTriTxt</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="text-danger">Chưa có thông tin</i>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                    else if (Model.LoaiGiaoDich == LoaiGiaoDichConstant.NAPTOPUP)
+                                    {
+                                        <tr>
+                                            <th colspan="2">Thông tin tài khoản xử lý nạp topup</th>
+                                        </tr>
+                                        if (Model.ListDonHangGTTT.Any())
+                                        {
+                                            foreach (var item in Model.ListDonHangGTTT)
+                                            {
+                                                <tr>
+                                                    <th>@item.ThuocTinhTxt</th>
+                                                    <td>
+                                                        @item.GiaTriTxt
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer center">
+                @*<button type="submit" class="btn btn-primary">Hoàn thành</button>*@
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")

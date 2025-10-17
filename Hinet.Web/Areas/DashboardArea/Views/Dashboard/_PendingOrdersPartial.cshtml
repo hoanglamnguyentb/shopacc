@@ -1,38 +1,58 @@
 ﻿@model Hinet.Service.Common.PageListResultBO<Hinet.Service.GiaoDichService.Dto.GiaoDichDto>
+@{
+    var index = 0;
+}
 
-<section class="bg-white rounded-2xl p-5 shadow border border-slate-200 mt-6">
+
+<section class="bg-white rounded-2xl p-5 border border-slate-200">
     <div class="flex items-center justify-between mb-3">
-        <h2 class="font-semibold">Giao dịch chờ xử lý</h2>
+        <h2 class="font-semibold text-uppercase" style="position: relative">
+            Giao dịch chờ xử lý
+            <span class="badge badge-important" style="position: absolute; top: -15px; right: -20px">
+                <span>@Model.Count</span>
+            </span>
+        </h2>
         <input id="pendingSearch"
-               class="px-3 py-2 form-control"
+               class="px-3 py-2 form-control input-sm"
                placeholder="Tìm theo mã đơn, KH..."
-               value="@Request.QueryString["search"]" style="max-width: 250px" />
+               value="@Request.QueryString["search"]" style="max-width: 250px" 
+               autocomplete="off"/>
     </div>
 
     <div class="overflow-auto">
         <table class="hinet-table table table-striped table-hover" style="table-layout: auto">
             <thead class="sticky top-0 bg-slate-100">
                 <tr>
+                    <th class="p-2 w-0">STT</th>
                     <th class="p-2 w-0">Mã</th>
                     <th class="p-2">Loại giao dịch</th>
-                    <th class="p-2">Khách</th>
-                    <th class="p-2">Tổng</th>
+                    <th class="p-2">Người giao dịch</th>
+                    <th class="p-2">Số tiền</th>
                     <th class="p-2">Nội dung</th>
                     <th class="p-2">Trạng thái</th>
                     <th class="p-2">Ngày</th>
+                    <th class="p-2" style="width: 100px">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var o in Model.ListItem)
                 {
+                    index++;
                     <tr>
+                        <td class="p-2 w-0 text-center">@index</td>
                         <td class="p-2 w-0">#@o.Id</td>
                         <td class="p-2">@o.LoaiGiaoDichTxt</td>
-                        <td class="p-2">@o.CreatedBy</td>
+                        <td class="p-2">@o.NguoiGiaoDichTxt #@(o.NguoiGiaoDich)</td>
                         <td class="p-2">@String.Format("{0:N0}₫", o.SoTien)</td>
                         <td class="p-2">@o.MaGiaoDich</td>
                         <td class="p-2">@Html.Raw(o.TrangThaiHTML)</td>
                         <td class="p-2">@o.CreatedDate.ToString("dd/MM/yyyy hh:mm")</td>
+                        <td class="p-2 text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info tippy-btn" data-tippy-content="Xem chi tiết" onclick="DetailAction('/GiaoDichArea/GiaoDich/Detail/@o.Id')"><i class="bi bi-eye"></i></button>
+                                <button class="btn btn-xs btn-success tippy-btn" data-tippy-content="Xử lý giao dịch" onclick="EditAction('/GiaoDichArea/GiaoDich/XuLy/@o.Id')"><i class="bi bi-pencil-square"></i></button>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -56,29 +76,29 @@
 
                 @if (start > 1)
                 {
-                <li data-page="1"><a href="javascript:void(0)">1</a></li>
-                if (start > 2)
-                {
-                <li><span>...</span></li>
-                }
+                    <li data-page="1"><a href="javascript:void(0)">1</a></li>
+                    if (start > 2)
+                    {
+                        <li><span>...</span></li>
+                    }
                 }
 
                 @for (int i = start; i <= end; i++)
                 {
-                <li class="@(i == Model.CurrentPage ? "active" : "")" data-page="@i">
-                    <a href="javascript:void(0)">@i</a>
-                </li>
+                    <li class="@(i == Model.CurrentPage ? "active" : "")" data-page="@i">
+                        <a href="javascript:void(0)">@i</a>
+                    </li>
                 }
 
                 @if (end < Model.TotalPage)
                 {
-                if (end < Model.TotalPage - 1)
-                {
-                <li><span>...</span></li>
-                }
-                <li data-page="@Model.TotalPage">
-                    <a href="javascript:void(0)">@Model.TotalPage</a>
-                </li>
+                    if (end < Model.TotalPage - 1)
+                    {
+                        <li><span>...</span></li>
+                    }
+                    <li data-page="@Model.TotalPage">
+                        <a href="javascript:void(0)">@Model.TotalPage</a>
+                    </li>
                 }
 
                 @if (Model.CurrentPage < Model.TotalPage)
@@ -91,7 +111,9 @@
         </div>
     }
 </section>
-
+<link href="~/assets/plugins/tippy.js/tippy.min.css" rel="stylesheet" />
+<script src="~/assets/plugins/popper.js/umd/popper.min.js"></script>
+<script src="~/assets/plugins/tippy.js/tippy-bundle.umd.js"></script>
 <script>
     // Bắt sự kiện click vào nút phân trang
     document.querySelectorAll('[data-page]').forEach(btn => {
@@ -107,5 +129,11 @@
         if (e.key === 'Enter') {
             loadPendingOrders(1, this.value);
         }
+    });
+
+    tippy('.tippy-btn', {
+        placement: 'top',
+        animation: 'shift-away',
+        delay: [100, 50]
     });
 </script>

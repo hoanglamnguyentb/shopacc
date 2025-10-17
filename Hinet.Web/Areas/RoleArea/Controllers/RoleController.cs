@@ -54,7 +54,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult GetData(int indexPage, string sortQuery, int pageSize)
         {
             var searchModel = SessionManager.GetValue("RoleSearch") as RoleSearchDTO;
@@ -75,7 +74,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
             return Json(data);
         }
 
-        [PermissionAccess(Code = permissionEdit)]
         public PartialViewResult Edit(long id = 0)
         {
             var viewModel = new RoleEditViewModel();
@@ -89,7 +87,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
             return PartialView("_EditPartial", viewModel);
         }
 
-        [PermissionAccess(Code = permissionDetail)]
         public PartialViewResult Detail(long id = 0)
         {
             var viewModel = new RoleEditViewModel();
@@ -105,7 +102,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult SearchData(FormCollection form)
         {
             var searchModel = SessionManager.GetValue("RoleSearch") as RoleSearchDTO;
@@ -124,7 +120,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult Save(RoleEditViewModel model)
         {
             var result = new JsonResultBO(true);
@@ -167,7 +162,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
         }
 
         [HttpPost]
-        [PermissionAccess(Code = permissionDelete)]
         public JsonResult Delete(int id)
         {
             JsonResultBO result = new JsonResultBO(true);
@@ -194,7 +188,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
             return Json(result);
         }
 
-        [PermissionAccess(Code = permissionIndex)]
         public ActionResult ConfigureOperation(int roleId)
         {
             RoleOperationConfigViewModel viewModel = new RoleOperationConfigViewModel()
@@ -206,7 +199,6 @@ namespace Hinet.Web.Areas.RoleArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [PermissionAccess(Code = permissionIndex)]
         public JsonResult SaveConfigureOperation(FormCollection form)
         {
             JsonResultBO result = new JsonResultBO(true);

@@ -82,7 +82,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult getData(int indexPage, string sortQuery, int pageSize)
 		{
 			var searchModel = SessionManager.GetValue("UserPageSearchModel") as AppUserSearchDto;
@@ -103,7 +102,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(data);
 		}
 
-		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult ConfigureOperation(long id)
 		{
 			ViewBag.isRemoveChecked = CurrentUserInfo.ListOperations.Any(t => t.Code == permissionRemoveChecked);
@@ -115,7 +113,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult SaveConfigureOperation(FormCollection form)
 		{
 			JsonResultBO result = new JsonResultBO(true);
@@ -148,7 +145,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionCreate)]
 		public PartialViewResult Create(long? IdDoiTuong, string TypeAccount)
 		{
 			var myModel = new CreateVM();
@@ -162,7 +158,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return PartialView("_CreatePartial", myModel);
 		}
 
-		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult MyProfile()
 		{
 			var model = new DetailVM();
@@ -172,7 +167,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return View(model);
 		}
 
-		[PermissionAccess(Code = permissionEdit)]
 		public PartialViewResult Edit(long id)
 		{
 			var user = _appUserService.GetById(id);
@@ -199,7 +193,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult SendMailInfo(long id)
 		{
 			var result = new JsonResultBO(true);
@@ -228,7 +221,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PermissionAccess(Code = permissionEdit)]
 		public JsonResult Edit(EditVM model, List<long> lstLinhVuc)
 		{
 			ViewBag.ListTypeDashBoard = ConstantExtension.GetDropdownData<TypeDashboardConstant>();
@@ -276,7 +268,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionEdit)]
 		public PartialViewResult EditProfile(long id)
 		{
 			var user = _appUserService.GetById(id);
@@ -299,7 +290,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PermissionAccess(Code = permissionEdit)]
 		public JsonResult EditProfile(EditVM model)
 		{
 			var result = new JsonResultBO(true);
@@ -340,7 +330,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PermissionAccess(Code = permissionCreate)]
 		public JsonResult Create(CreateVM model)
 		{
 			//ViewBag.ListTinh = _TINHService.GetDropdown("TenTinh", "MaTinh", string.Empty);
@@ -401,7 +390,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionIndex)]
 		private string getErrorString(IdentityResult identityResult)
 		{
 			var strMessage = string.Empty;
@@ -414,7 +402,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult searchData(AppUserSearchDto form)
 		{
 			var searchModel = SessionManager.GetValue("UserPageSearchModel") as AppUserSearchDto;
@@ -436,7 +423,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionDelete)]
 		public JsonResult Delete(long id)
 		{
 			var result = new JsonResultBO(true, "Xóa tài khoản thành công");
@@ -457,7 +443,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult SetupRole(long id)
 		{
 			var user = _appUserService.GetById(id);
@@ -473,7 +458,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 
 		[ValidateAntiForgeryToken]
 		[HttpPost]
-		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult SaveSetupRole(List<int> ListRoleUser, long userId)
 		{
 			var result = new JsonResultBO(true, "Thiết lập vai trò thành công");
@@ -490,7 +474,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionDetail)]
 		public ActionResult Detail(int id)
 		{
 			var model = new DetailVM();
@@ -498,7 +481,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return View(model);
 		}
 
-		[PermissionAccess(Code = permissionEdit)]
 		public PartialViewResult EditAvatar(long id)
 		{
 			var model = new DetailVM();
@@ -506,7 +488,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return PartialView("_EditAvatarPartial", model);
 		}
 
-		[PermissionAccess(Code = permissionIndex)]
 		public PartialViewResult DsQuyenTruyCap(long id)
 		{
 			var model = new DetailVM();
@@ -515,7 +496,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionEdit)]
 		public ActionResult EditAvatar(FormCollection collection, HttpPostedFileBase File)
 		{
 			var id = collection["ID"].ToIntOrZero();
@@ -546,7 +526,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionEdit)]
 		public JsonResult ResetPassword(long id)
 		{
 			var result = new JsonResultBO(true);
@@ -577,7 +556,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpGet]
-		[PermissionAccess(Code = permissionEdit)]
 		public string ResetPasswordEndUser(string id)
 		{
 			var result = new JsonResultBO(true);
@@ -607,7 +585,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return "Thành công";
 		}
 
-		[PermissionAccess(Code = "EndUserChangeEmail")]
 		public PartialViewResult UpdateEmailEnduser(long id)
 		{
 			var model = new UpdateEnduserVM();
@@ -620,7 +597,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return PartialView(model);
 		}
 
-		[PermissionAccess(Code = "EndUserChangeEmail")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public JsonResult UpdateEmailEnduser(UpdateEnduserVM model)
@@ -637,7 +613,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = "EndUserChangePass")]
 		public PartialViewResult UpdatePassEnduser(long id)
 		{
 			var model = new UpdateEnduserPasswordVM();
@@ -650,7 +625,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return PartialView(model);
 		}
 
-		[PermissionAccess(Code = "EndUserChangePass")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public JsonResult UpdatePassEnduser(UpdateEnduserPasswordVM model)
@@ -691,7 +665,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult LockUser(long? id, bool islock)
 		{
 			var result = new JsonResultBO(true);
@@ -726,7 +699,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionExport)]
 		public ActionResult Import()
 		{
 			var model = new ImportVM();
@@ -736,7 +708,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionExport)]
 		public ActionResult CheckImport(FormCollection collection, HttpPostedFileBase fileImport)
 		{
 			JsonResultImportBO<AppUserImportDto> result = new JsonResultImportBO<AppUserImportDto>(true);
@@ -806,7 +777,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionExport)]
 		public JsonResult GetExportError(List<List<string>> lstData)
 		{
 			ExportExcelHelper<AppUserImportDto> exPro = new ExportExcelHelper<AppUserImportDto>();
@@ -823,7 +793,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result);
 		}
 
-		[PermissionAccess(Code = permissionExport)]
 		public FileResult ExportExcel()
 		{
 			var searchModel = SessionManager.GetValue("UserPageSearchModel") as AppUserSearchDto;
@@ -845,7 +814,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpPost]
-		[PermissionAccess(Code = permissionExport)]
 		public JsonResult SaveImportData(List<AppUserImportDto> Data)
 		{
 			var result = new JsonResultBO(true);
@@ -882,7 +850,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		[PermissionAccess(Code = permissionIndex)]
 		public JsonResult GenUser()
 		{
 			var result = new JsonResultBO(true, "Tạo người dùng thành công");
@@ -901,7 +868,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 			return Json(result, JsonRequestBehavior.AllowGet);
 		}
 
-		[PermissionAccess(Code = permissionDSQuyen)]
 		public ActionResult DSQuyenNguoiDung(long id)
 		{
 			var viewModel = _userOperationService.GetConfigureOperation(id);
@@ -909,7 +875,6 @@ namespace Hinet.Web.Areas.UserArea.Controllers
 		}
 
 		[HttpGet]
-		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult Checked(long id)
 		{
 			List<UserOperation> obsoluteData = _userOperationService.FindBy(x => x.UserId == id).ToList();

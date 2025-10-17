@@ -45,7 +45,7 @@ namespace Hinet.Web.Areas.VatPhamArea.Controllers
 
         }
         // GET: VatPhamArea/VatPham
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index(int id)
         {
             var searchModel = new VatPhamSearchDto

@@ -1,22 +1,49 @@
 ﻿@using CommonHelper.Number;
 @model Hinet.Web.Areas.DashboardArea.Models.SummaryDataDto
 
-<!-- KPI Cards -->
 <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-        <p class="text-slate-500">Doanh thu hôm nay</p>
-        <p id="kpiRevenue" class="text-2xl font-semibold mt-1">@NumberHelper.FormatNumberVN(Model.RevenueToday)</p>
+    <!-- Doanh thu hôm nay -->
+    <article class="rounded-2xl p-5 shadow text-white bg-gradient-to-r from-emerald-500 to-green-600">
+        <div class="flex items-center">
+            <i class="bi bi-cash-stack text-white me-2 fs-5"></i>
+            <p class="mb-0 text-white">Doanh thu hôm nay</p>
+        </div>
+        <p id="kpiRevenue" class="text-2xl font-semibold mt-1">
+            @NumberHelper.FormatMoneyVN(Model.RevenueToday)
+        </p>
     </article>
-    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-        <p class="text-slate-500">Số lượt giao dịch</p>
-        <p id="kpiOrders" class="text-2xl font-semibold mt-1">@Model.OrderCount</p>
+
+    <!-- Số lượt giao dịch -->
+    <article class="rounded-2xl p-5 shadow text-white bg-gradient-to-r from-blue-500 to-indigo-600">
+        <div class="flex items-center">
+            <i class="bi bi-receipt text-white me-2 fs-5"></i>
+            <p class="mb-0 text-white">Số lượt giao dịch</p>
+        </div>
+        <p id="kpiOrders" class="text-2xl font-semibold mt-1">
+            @Model.OrderCount
+        </p>
     </article>
-    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-        <p class="text-slate-500">Số acc bán ra</p>
-        <p id="kpiMargin" class="text-2xl font-semibold mt-1">@Model.MarginPercent</p>
+
+    <!-- Số acc bán ra -->
+    <article class="rounded-2xl p-5 shadow text-white bg-gradient-to-r from-amber-400 to-orange-500">
+        <div class="flex items-center">
+            <i class="bi bi-person-badge text-white me-2 fs-5"></i>
+            <p class="mb-0 text-white">Số acc bán ra</p>
+        </div>
+        <p id="kpiMargin" class="text-2xl font-semibold mt-1">
+            @Model.AccountsSoldCount
+        </p>
     </article>
-    <article class="bg-white rounded-2xl p-5 shadow border border-slate-200">
-        <p class="text-slate-500">Số lượt nạp topup</p>
-        <p id="kpiDisputes" class="text-2xl font-semibold mt-1">@Model.DisputesCount</p>
+
+    <!-- Số lượt nạp topup -->
+    <article class="rounded-2xl p-5 shadow text-white bg-gradient-to-r from-sky-400 to-cyan-600">
+        <div class="flex items-center">
+            <i class="bi bi-wallet2 text-white me-2 fs-5"></i>
+            <p class="mb-0 text-white">Số lượt nạp topup</p>
+        </div>
+        <p id="kpiDisputes" class="text-2xl font-semibold mt-1">
+            @Model.TopupCount
+        </p>
     </article>
 </section>
+

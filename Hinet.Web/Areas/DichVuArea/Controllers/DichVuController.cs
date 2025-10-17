@@ -41,7 +41,7 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
 		}
 
 		// GET: DichVuArea/DichVu
-		//[PermissionAccess(Code = permissionIndex)]
+		[PermissionAccess(Code = permissionIndex)]
 		public ActionResult Index()
 		{
 			var listData = _DichVuService.GetDaTaByPage(null);

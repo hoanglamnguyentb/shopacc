@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using CommonHelper.Number;
-using DocumentFormat.OpenXml.Office2016.Presentation.Command;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Hinet.Model;
 using Hinet.Model.Entities;
 using Hinet.Service.AppUserService;
@@ -13,6 +11,7 @@ using Hinet.Service.GiaoDichService;
 using Hinet.Service.NotificationService;
 using Hinet.Service.SiteConfigService;
 using Hinet.Service.TaiKhoanService;
+using Hinet.Service.TelegramService;
 using Hinet.Web.Common;
 using Hinet.Web.Filters;
 using Hinet.Web.HubControl;
@@ -20,9 +19,6 @@ using Hinet.Web.Models;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
@@ -41,9 +37,10 @@ namespace Hinet.Web.Controllers
         private readonly IMapper _mapper;
         private readonly ISiteConfigService _siteConfigService;
         private readonly IDonHangService _donHangService;
+        private readonly ITelegramService _telegramService;
         private readonly static string SePayApiKey = WebConfigurationManager.AppSettings["SePayApiKey"];
 
-        public GiaoDichController(IGiaoDichService giaoDichService, ITaiKhoanService taiKhoanService, IAppUserService appUserService, INotificationService notificationService, IDanhMucGameService danhMucGameService, IMapper mapper, ISiteConfigService siteConfigService, IDonHangService donHangService)
+        public GiaoDichController(IGiaoDichService giaoDichService, ITaiKhoanService taiKhoanService, IAppUserService appUserService, INotificationService notificationService, IDanhMucGameService danhMucGameService, IMapper mapper, ISiteConfigService siteConfigService, IDonHangService donHangService, ITelegramService telegramService)
         {
             _giaoDichService = giaoDichService;
             _taiKhoanService = taiKhoanService;
@@ -53,6 +50,7 @@ namespace Hinet.Web.Controllers
             _mapper = mapper;
             _siteConfigService = siteConfigService;
             _donHangService = donHangService;
+            _telegramService = telegramService;
         }
 
         [HttpPost]
@@ -92,15 +90,15 @@ namespace Hinet.Web.Controllers
 
                     var giaoDich = new GiaoDich
                     {
-                        UserId = CurrentUserId.GetValueOrDefault(),
+                        NguoiGiaoDich = CurrentUserId.GetValueOrDefault(),
                         DoiTuongId = id,
                         LoaiDoiTuong = nameof(TaiKhoan),
                         LoaiGiaoDich = LoaiGiaoDichConstant.MUAACC,
                         TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                         PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                         NgayGiaoDich = DateTime.Now,
-                        NgayThanhToan = DateTime.Now,
-                        SoTien = - giaBan,
+                        NgayXuLy = DateTime.Now,
+                        SoTien = -giaBan,
                         NoiDung = $"Mua tài khoản #{taiKhoan.Code}",
                         NoiDungChuyenKhoan = $"MUANGAY#{taiKhoan.Code}",
                         MaGiaoDich = $"MUANGAY#{taiKhoan.Code}",
@@ -114,7 +112,7 @@ namespace Hinet.Web.Controllers
                     );
                     transaction.Commit();
 
-                    SendTelegramMessage(giaoDich);
+                    _telegramService.SendTelegramMessage(giaoDich);
 
                     return Json(new { success = true, message = "Thanh toán thành công!" });
                 }
@@ -163,14 +161,14 @@ namespace Hinet.Web.Controllers
 
                     var giaoDich = new GiaoDich
                     {
-                        UserId = CurrentUserId.GetValueOrDefault(),
+                        NguoiGiaoDich = CurrentUserId.GetValueOrDefault(),
                         DoiTuongId = id,
                         LoaiDoiTuong = nameof(TaiKhoan),
                         LoaiGiaoDich = LoaiGiaoDichConstant.MUAACC,
                         TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                         PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
                         NgayGiaoDich = DateTime.Now,
-                        NgayThanhToan = DateTime.Now,
+                        NgayXuLy = DateTime.Now,
                         SoTien = -giaBan,
                         NoiDung = $"Mua tài khoản {taiKhoan.Code}",
                     };
@@ -201,7 +199,7 @@ namespace Hinet.Web.Controllers
                 var siteConfig = _siteConfigService.GetActiveConfig();
                 var maGiaoDich = $"{giaoDich.LoaiGiaoDich}W{giaoDich.DoiTuongId}W{CurrentUserId}";
                 var giaoDichExists = _giaoDichService.FindBy(x => x.MaGiaoDich == maGiaoDich).FirstOrDefault();
-                if(giaoDichExists != null)
+                if (giaoDichExists != null)
                 {
                     var qrUrlRes = $"https://img.vietqr.io/image/{siteConfig.BankCode}-{siteConfig.AccountNumber}-compact2.png?amount={giaoDichExists.SoTien}&addInfo={HttpUtility.UrlEncode(giaoDichExists.NoiDungChuyenKhoan)}&accountName={HttpUtility.UrlEncode(siteConfig.AccountName)}";
                     var giaoDichRes = new GiaoDichVM
@@ -214,14 +212,14 @@ namespace Hinet.Web.Controllers
                 }
 
                 var kiemTraResult = KiemTraGiaoDich(giaoDich);
-                if(kiemTraResult.Status == false)
+                if (kiemTraResult.Status == false)
                 {
                     return ApiResponse.ErrorResponse("Tạo giao dịch thất bại", kiemTraResult.Message);
                 }
 
                 var newGiaoDich = new GiaoDich
                 {
-                    UserId = CurrentUserId.GetValueOrDefault(),
+                    NguoiGiaoDich = CurrentUserId.GetValueOrDefault(),
                     DoiTuongId = giaoDich.DoiTuongId,
                     LoaiDoiTuong = giaoDich.LoaiDoiTuong,
                     LoaiGiaoDich = giaoDich.LoaiGiaoDich,
@@ -256,12 +254,11 @@ namespace Hinet.Web.Controllers
             }
         }
 
-
         [HttpDelete]
         public async Task HuyGiaoDich(string maGiaoDich)
         {
             var giaoDich = _giaoDichService.FindBy(x => x.MaGiaoDich == maGiaoDich).FirstOrDefault();
-            if(giaoDich != null && giaoDich.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
+            if (giaoDich != null && giaoDich.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
             {
                 _giaoDichService.Delete(giaoDich);
             }
@@ -297,7 +294,7 @@ namespace Hinet.Web.Controllers
                 {
                     return ApiResponse.ErrorResponse("Không tìm thấy giao dịch");
                 }
-                if(transaction.TransferAmount < giaoDich.SoTien)
+                if (transaction.TransferAmount < giaoDich.SoTien)
                 {
                     return ApiResponse.SuccessResponse(null, "Giao dịch nhận được số tiền không đủ, vui lòng kiểm tra lại");
                 }
@@ -306,7 +303,7 @@ namespace Hinet.Web.Controllers
                 if (giaoDich.TrangThai == TrangThaiGiaoDichConstant.KHOITAO)
                 {
                     giaoDich.TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN;
-                    giaoDich.NgayThanhToan = DateTime.Now;
+                    giaoDich.NgayXuLy = DateTime.Now;
                     giaoDich.MaGiaoDichDoiTac = transaction.Id.ToString();
                     giaoDich.SoTien = (int)transaction.TransferAmount;
                     _giaoDichService.Update(giaoDich);
@@ -346,25 +343,26 @@ namespace Hinet.Web.Controllers
                 {
                     taiKhoan.TrangThai = TrangThaiTaiKhoanConstant.DABAN;
                     _taiKhoanService.Update(taiKhoan);
-                    //Xóa giao dịch cũ
-                    _giaoDichService.Delete(giaoDich);
 
                     // Tạo giao dịch mua acc random cho user
                     var newGiaoDich = new GiaoDich
                     {
-                        UserId = userId,
+                        NguoiGiaoDich = userId,
                         DoiTuongId = taiKhoan.Id,
                         LoaiDoiTuong = nameof(TaiKhoan),
                         LoaiGiaoDich = LoaiGiaoDichConstant.MUAACCRANDOM,
                         TrangThai = TrangThaiGiaoDichConstant.DATHANHTOAN,
                         PhuongThucThanhToan = PhuongThucThanhToanConstant.NGANHANG,
-                        NgayGiaoDich = DateTime.Now,
-                        NgayThanhToan = DateTime.Now,
+                        NgayGiaoDich = giaoDich.NgayGiaoDich,
+                        NgayXuLy = DateTime.Now,
                         SoTien = giaoDich.SoTien,
                         MaGiaoDich = giaoDich.MaGiaoDich,
                         NoiDungChuyenKhoan = code,
                         NoiDung = $"Mua tài khoản ngẫu nhiên #DM_{giaoDich.DoiTuongId} #TK_CODE_{taiKhoan.Code}",
                     };
+                    //Xóa giao dịch cũ
+                    _giaoDichService.Delete(giaoDich);
+                    //Tạo giao dịch mới
                     _giaoDichService.Create(newGiaoDich);
                 }
                 message = $"🎉 Giao dịch thành công! Bạn đã sở hữu tài khoản <strong>#{taiKhoan.Code}</strong>. Hãy kiểm tra ngay nhé.";
@@ -393,7 +391,8 @@ namespace Hinet.Web.Controllers
                 }
                 message = $"💰 Nạp tiền thành công! Tài khoản của bạn đã được cộng <strong>+{NumberHelper.FormatNumberVN(giaoDich.SoTien)} VNĐ</strong>";
                 url = "/lich-su-nap-tien";
-            } else if(loaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTOPUP, StringComparison.OrdinalIgnoreCase))
+            }
+            else if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTOPUP, StringComparison.OrdinalIgnoreCase))
             {
                 message = $"📌 Đơn hàng <strong>#{giaoDich.MaGiaoDich}</strong> đã được thanh toán thành công và đang trong quá trình xử lý " +
                              "Hệ thống sẽ hoàn tất trong ít phút, vui lòng kiểm tra trạng thái trong lịch sử giao dịch.";
@@ -403,7 +402,7 @@ namespace Hinet.Web.Controllers
                 _giaoDichService.Update(giaoDich);
                 //Cập nhật trạng thái đơn hàng thành đã xử lý
                 var donHang = _donHangService.FindBy(x => x.MaGiaoDich == giaoDich.MaGiaoDich).FirstOrDefault();
-                if(donHang != null)
+                if (donHang != null)
                 {
                     donHang.TrangThai = TrangThaiDonHangConstant.DATHANHTOAN;
                     _donHangService.Update(donHang);
@@ -417,77 +416,7 @@ namespace Hinet.Web.Controllers
                 url = url,
             });
             _notificationService.CreateNoti(userId, url, message);
-            SendTelegramMessage(giaoDich);
-        }
-
-        [HttpGet]
-        public ActionResult CheckTransactionStatus(string code)
-        {
-            var success = _giaoDichService
-                .FindBy(x => x.NoiDung.Trim().ToUpper() == code && x.TrangThai == TrangThaiGiaoDichConstant.DATHANHTOAN)
-                .Any();
-            return Json(new { success }, JsonRequestBehavior.AllowGet);
-        }
-
-        private async Task SendTelegramMessage(GiaoDich giaoDich)
-        {
-            var baseInfo = $"- Giao dịch ID: {giaoDich.Id}\n" +
-                           $"- UserId: {giaoDich.UserId}\n" +
-                           $"- Số tiền: {giaoDich.SoTien:N0} VNĐ\n" +
-                           $"- Nội dung chuyển khoản: {giaoDich.NoiDungChuyenKhoan}\n" +
-                           $"- Thời gian: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n" +
-                           $"- Mã giao dịch đối tác: {giaoDich.MaGiaoDichDoiTac}";
-
-            string message = "";
-
-            if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACC, StringComparison.OrdinalIgnoreCase) ||
-                giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.MUAACCRANDOM, StringComparison.OrdinalIgnoreCase))
-            {
-                message = $"[ADMIN THÔNG BÁO]\n" +
-                          $"💎 MUA ACC thành công!\n" +
-                          $"- Loại: {(giaoDich.LoaiGiaoDich == LoaiGiaoDichConstant.MUAACCRANDOM ? "Random" : "Mua ngay")}\n"
-                          + baseInfo;
-            }
-            else if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTHUONG, StringComparison.OrdinalIgnoreCase))
-            {
-                message = $"[ADMIN THÔNG BÁO]\n" +
-                          $"💰 NẠP TIỀN thành công!\n"
-                          + baseInfo;
-            }
-            else if (giaoDich.LoaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTOPUP, StringComparison.OrdinalIgnoreCase))
-            {
-                message = $"[ADMIN THÔNG BÁO]\n" +
-                          $"⚡ GIAO DỊCH NẠP TOPUP\n" +
-                          $"🕒 Trạng thái: Đang chờ xử lý\n" +
-                          $"{baseInfo}";
-            }
-            else
-            {
-                message = $"[ADMIN THÔNG BÁO]\n" +
-                          $"🔔 Giao dịch khác được thực hiện\n"
-                          + baseInfo;
-            }
-
-            // Gọi helper thực tế để gửi telegram
-            await SendTelegramMessageAsync(message);
-        }
-
-        private async Task SendTelegramMessageAsync(string message)
-        {
-            try
-            {
-                var siteConfig = _siteConfigService.GetTelegramInfo();
-                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
-                using (var httpClient = new HttpClient())
-                {
-                    var encodedMsg = System.Net.WebUtility.UrlEncode(message);
-                    var url = $"https://api.telegram.org/bot{siteConfig.TelegramBotToken}/sendMessage?chat_id={siteConfig.TelegramChatId}&text={encodedMsg}";
-                    await httpClient.GetAsync(url);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
+            _telegramService.SendTelegramMessage(giaoDich);
         }
 
         public CheckerResult KiemTraGiaoDich(GiaoDich giaoDich)

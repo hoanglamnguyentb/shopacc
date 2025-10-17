@@ -20,7 +20,5 @@ namespace Hinet.Web.Areas.GiaoDichArea.Models
 		[Required(ErrorMessage = "Vui lòng nhập thông tin này")]
 		public DateTime NgayGiaoDich { get; set; }
 		public DateTime? NgayThanhToan { get; set; }
-
-        
     }
 }

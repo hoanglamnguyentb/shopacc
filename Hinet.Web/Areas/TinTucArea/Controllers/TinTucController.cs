@@ -47,7 +47,7 @@ namespace Hinet.Web.Areas.TinTucArea.Controllers
         }
 
         // GET: TinTucArea/TinTuc
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
 		{
 			var listData = _TinTucService.GetDaTaByPage(null);

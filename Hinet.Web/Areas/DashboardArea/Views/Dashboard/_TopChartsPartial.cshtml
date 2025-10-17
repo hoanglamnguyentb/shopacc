@@ -5,8 +5,8 @@
     <!-- Top Game -->
     <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
         <div class="flex items-center justify-between mb-3">
-            <h2 class="font-semibold">Top game bán chạy</h2>
-            <select class="px-3 py-2 border rounded-xl topchart-filter">
+            <h2 class="font-semibold text-uppercase">Top game bán chạy</h2>
+            <select class="px-3 py-2 border rounded-xl topchart-filter input-sm" id="topchartFilter" >
                 <option value="7" @(Model.Days == 7 ? "selected" : "")>7 ngày</option>
                 <option value="30" @(Model.Days == 30 ? "selected" : "")>30 ngày</option>
                 <option value="90" @(Model.Days == 90 ? "selected" : "")>90 ngày</option>
@@ -19,7 +19,7 @@
     <!-- Top Dịch vụ -->
     <div class="bg-white rounded-2xl p-5 shadow border border-slate-200">
         <div class="flex items-center justify-between mb-3">
-            <h2 class="font-semibold">Top dịch vụ bán chạy</h2>
+            <h2 class="font-semibold text-uppercase">Top dịch vụ bán chạy</h2>
         </div>
         <canvas id="topItemsChart" height="100"></canvas>
     </div>

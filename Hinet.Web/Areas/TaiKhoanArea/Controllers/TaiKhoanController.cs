@@ -65,7 +65,7 @@ namespace Hinet.Web.Areas.TaiKhoanArea.Controllers
         }
 
         // GET: TaiKhoanArea/TaiKhoan
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index(int? id = null)
 		{
 			var searchModel = new TaiKhoanSearchDto

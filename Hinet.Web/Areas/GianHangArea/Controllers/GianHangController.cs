@@ -52,7 +52,7 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
             _thuocTinhGianHangService = thuocTinhGianHangService;
         }
         // GET: GianHangArea/GianHang
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
 
@@ -193,6 +193,8 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
                         KieuDuLieu = tt.KieuDuLieu,
                         NhomDanhmucCode = nhomDanhMuc?.GroupCode,
                         NhomDanhMucId = nhomDanhMuc?.Id,
+                        IsRequired = tt.IsRequired,
+                        PlaceHolder = tt.PlaceHolder,
                     };
                     listThuocTinhAdd.Add(thuocTinh);
                 }

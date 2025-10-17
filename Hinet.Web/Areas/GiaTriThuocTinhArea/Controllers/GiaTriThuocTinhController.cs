@@ -1,32 +1,15 @@
 using AutoMapper;
-using CommonHelper.String;
-using CommonHelper.Upload;
-using log4net;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Hinet.Model.IdentityEntities;
 using Hinet.Model.Entities;
 using Hinet.Service.Common;
-using Hinet.Service.Constant;
-using Hinet.Web.Areas.GiaTriThuocTinhArea.Models;
-using Hinet.Web.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Hosting;
-using System.Web.Mvc;
-using Hinet.Web.Filters;
+using Hinet.Service.DM_DulieuDanhmucService;
 using Hinet.Service.GiaTriThuocTinhService;
 using Hinet.Service.GiaTriThuocTinhService.Dto;
-using CommonHelper.Excel;
-using CommonHelper.ObjectExtention;
-using Hinet.Web.Common;
-using System.IO;
-using System.Web.Configuration;
-using CommonHelper;
-using Hinet.Service.DM_DulieuDanhmucService;
+using Hinet.Web.Areas.GiaTriThuocTinhArea.Models;
+using Hinet.Web.Filters;
+using log4net;
+using System;
+using System.Web;
+using System.Web.Mvc;
 
 
 
@@ -44,19 +27,19 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
         public const string permissionExport = "GiaTriThuocTinh_export";
         public const string searchKey = "GiaTriThuocTinhPageSearchModel";
         private readonly IGiaTriThuocTinhService _GiaTriThuocTinhService;
-	private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
+        private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
 
 
         public GiaTriThuocTinhController(IGiaTriThuocTinhService GiaTriThuocTinhService, ILog Ilog,
 
-		IDM_DulieuDanhmucService dM_DulieuDanhmucService,
+        IDM_DulieuDanhmucService dM_DulieuDanhmucService,
             IMapper mapper
             )
         {
             _GiaTriThuocTinhService = GiaTriThuocTinhService;
             _Ilog = Ilog;
             _mapper = mapper;
-		_dM_DulieuDanhmucService = dM_DulieuDanhmucService;
+            _dM_DulieuDanhmucService = dM_DulieuDanhmucService;
 
         }
         // GET: GiaTriThuocTinhArea/GiaTriThuocTinh
@@ -124,8 +107,8 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
         {
             var myModel = new EditVM();
 
-            var obj= _GiaTriThuocTinhService.GetById(id);
-            if (obj== null)
+            var obj = _GiaTriThuocTinhService.GetById(id);
+            if (obj == null)
             {
                 throw new HttpException(404, "Không tìm thấy thông tin");
             }
@@ -150,9 +133,9 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
                         throw new Exception("Không tìm thấy thông tin");
                     }
 
-                    obj= _mapper.Map(model, obj);
+                    obj = _mapper.Map(model, obj);
                     _GiaTriThuocTinhService.Update(obj);
-                    
+
                 }
             }
             catch (Exception ex)
@@ -175,13 +158,13 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
                 searchModel = new GiaTriThuocTinhSearchDto();
                 searchModel.pageSize = 20;
             }
-			searchModel.TaiKhoanIdFilter = form.TaiKhoanIdFilter;
-			searchModel.ThuocTinhIdFilter = form.ThuocTinhIdFilter;
-			searchModel.ThuocTinhTxtFilter = form.ThuocTinhTxtFilter;
-			searchModel.GiaTriFilter = form.GiaTriFilter;
-			searchModel.GiaTriTextFilter = form.GiaTriTextFilter;
+            searchModel.TaiKhoanIdFilter = form.TaiKhoanIdFilter;
+            searchModel.ThuocTinhIdFilter = form.ThuocTinhIdFilter;
+            searchModel.ThuocTinhTxtFilter = form.ThuocTinhTxtFilter;
+            searchModel.GiaTriFilter = form.GiaTriFilter;
+            searchModel.GiaTriTextFilter = form.GiaTriTextFilter;
 
-            SessionManager.SetValue((searchKey) , searchModel);
+            SessionManager.SetValue((searchKey), searchModel);
 
             var data = _GiaTriThuocTinhService.GetDaTaByPage(searchModel, 1, searchModel.pageSize);
             return Json(data);
@@ -208,7 +191,7 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
             return Json(result);
         }
 
-        
+
         public ActionResult Detail(long id)
         {
             var model = new DetailVM();
@@ -217,6 +200,6 @@ namespace Hinet.Web.Areas.GiaTriThuocTinhArea.Controllers
         }
 
 
-        
+
     }
 }

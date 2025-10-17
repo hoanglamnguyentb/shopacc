@@ -89,7 +89,7 @@ namespace Hinet.Web.Controllers
             var giaoDich = _giaoDichService
                 .FindBy(x => x.DoiTuongId == tk.Id && x.TrangThai == TrangThaiGiaoDichConstant.DATHANHTOAN)
                 .FirstOrDefault();
-            tk.IdNguoiMuaAcc = giaoDich?.UserId ?? null;
+            tk.IdNguoiMuaAcc = giaoDich?.NguoiGiaoDich ?? null;
             ViewBag.MenuBottom = "mua-acc";
             return View(tk);
         }
@@ -170,20 +170,6 @@ namespace Hinet.Web.Controllers
         }
 
         #endregion Partial
-
-        private void RefreshSession()
-        {
-            try
-            {
-                SessionManager.Remove(SessionManager.USER_INFO);
-                var userDto = _appUserService.GetDtoById(CurrentUserId.Value);
-                SessionManager.SetValue(SessionManager.USER_INFO, userDto);
-            }
-            catch
-            {
-
-            }
-        }
 
     }
 }

@@ -59,7 +59,7 @@ namespace Hinet.Web.Areas.GameArea.Controllers
             _thuocTinhService = thuocTinhService;
         }
         // GET: GameArea/Game
-        //[PermissionAccess(Code = permissionIndex)]
+        [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
             var listData = _GameService.GetDaTaByPage(null);

@@ -133,6 +133,18 @@
     <Compile Include="Migrations\202510151602131_alter_tbl_gianHang_9.Designer.cs">
       <DependentUpon>202510151602131_alter_tbl_gianHang_9.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510170444596_alter_tbl_tables.cs" />
+    <Compile Include="Migrations\202510170444596_alter_tbl_tables.Designer.cs">
+      <DependentUpon>202510170444596_alter_tbl_tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510170453047_alter_tbl_tables_1.cs" />
+    <Compile Include="Migrations\202510170453047_alter_tbl_tables_1.Designer.cs">
+      <DependentUpon>202510170453047_alter_tbl_tables_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510170719034_alter_tbl_tables_2.cs" />
+    <Compile Include="Migrations\202510170719034_alter_tbl_tables_2.Designer.cs">
+      <DependentUpon>202510170719034_alter_tbl_tables_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -197,6 +209,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510151602131_alter_tbl_gianHang_9.resx">
       <DependentUpon>202510151602131_alter_tbl_gianHang_9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510170444596_alter_tbl_tables.resx">
+      <DependentUpon>202510170444596_alter_tbl_tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510170453047_alter_tbl_tables_1.resx">
+      <DependentUpon>202510170453047_alter_tbl_tables_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510170719034_alter_tbl_tables_2.resx">
+      <DependentUpon>202510170719034_alter_tbl_tables_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -144,7 +144,7 @@ namespace Hinet.Service.SiteConfigService
         }
 
         //[OutputCache(Duration = 31536000, VaryByParam = "none")]
-        public SiteConfig GetActiveConfig()
+        public SiteConfigDto GetActiveConfig()
         {
             var query = from SiteConfigtbl in _SiteConfigRepository.GetAllAsQueryable().Where(x => x.KichHoat == true)
 

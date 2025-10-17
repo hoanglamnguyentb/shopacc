@@ -144,7 +144,9 @@ namespace Hinet.Service.ThuocTinhGianHangService
                             NhomDanhmucCode = ThuocTinhtbl.NhomDanhmucCode,
                             NhomDanhMucId = ThuocTinhtbl.NhomDanhMucId,
                             Id = ThuocTinhtbl.Id,
-                            ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.GroupId == ThuocTinhtbl.NhomDanhMucId).ToList()
+                            ListDuLieuDanhMuc = queryDanhMuc.Where(x => x.GroupId == ThuocTinhtbl.NhomDanhMucId).ToList(),
+                            IsRequired = ThuocTinhtbl.IsRequired,
+                            PlaceHolder = ThuocTinhtbl.PlaceHolder,
                         };
             return query.ToList();
         }
