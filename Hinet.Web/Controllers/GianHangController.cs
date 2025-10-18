@@ -70,8 +70,9 @@ namespace Hinet.Web.Controllers
         public ActionResult Index()
         {
             var gianHangs = _gianHangService
-                .FindBy(x => x.TrangThai == TrangThaiGianHangConstant.BAT)
+                .FindBy(x => x.KichHoat == true)
                 .OrderBy(x => x.STT).ToList();
+            ViewBag.MenuBottom = "nap-topup";
             return View(gianHangs);
         }
 
@@ -87,6 +88,7 @@ namespace Hinet.Web.Controllers
                 ListVatPhat = _vatPhamService.FindBy(x => x.GianHangId == gianHang.Id).ToList(),
                 ThuocTinhs = _thuocTinhGianHangService.GetDaTaByGianHangId(gianHang.Id),
             };
+            ViewBag.MenuBottom = "nap-topup";
             return View(vm);
         }
 
@@ -132,6 +134,7 @@ namespace Hinet.Web.Controllers
             var siteConfig = _siteConfigService.GetActiveConfig();
             var donHang = _donHangService.GetDtoById(id);
             ViewBag.PhuongThucThanhToan = phuongThucThanhToan ?? "QUETMAQR";
+            ViewBag.MenuBottom = "nap-topup";
             return View(donHang);
         }
 

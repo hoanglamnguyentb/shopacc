@@ -88,7 +88,7 @@ namespace Hinet.Web.Controllers
                 .OrderByDescending(x => x.CreatedDate).Take(10).ToList();
             homeVM.SiteConfig = _siteConfigService.FindBy(x => x.KichHoat == true).FirstOrDefault();
             homeVM.ListGianHang = _gianHangService
-                .FindBy(x => x.TrangThai == TrangThaiGianHangConstant.BAT)
+                .FindBy(x => x.KichHoat == true)
                 .OrderBy(x => x.STT).ToList();
             ViewBag.MenuBottom = "home";
             return View(homeVM);
@@ -107,6 +107,7 @@ namespace Hinet.Web.Controllers
         public ActionResult NapTopup()
         {
             ViewBag.ListGame = _gameService.GetAll().ToList();
+            ViewBag.MenuBottom = "recharge";
             return View();
         }
 
@@ -181,6 +182,7 @@ namespace Hinet.Web.Controllers
 
         public ActionResult UnAuthor()
         {
+            ViewBag.MenuBottom = "home";
             return View();
         }
 

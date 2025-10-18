@@ -1,8 +1,8 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    ViewBag.ModuleName = "Quản lý ";
-    ViewBag.PageName = "Danh sách ";
+    ViewBag.ModuleName = "Quản lý gian hàng";
+    ViewBag.PageName = "Danh sách gian hàng";
     ViewBag.ModuleCode = "GianHang_index";
 
 }
@@ -20,11 +20,11 @@
 
 @section ActionBarRight{
     <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
-        Tìm kiếm
+        <i class="bi bi-search"></i> Tìm kiếm
     </a>
-
-    <a href="javascript:void(0)" onclick="CreateAction('/GianHangArea/GianHang/Create')" class="btn btn-primary btn-sm">Thêm mới</a>
+    <a href="javascript:void(0)" onclick="CreateAction('/GianHangArea/GianHang/Create')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
 }
+
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 @Html.Partial("_SearchPartial")
 
@@ -71,10 +71,10 @@
                                <button data-toggle="dropdown" class="btn btn-xs btn-primary btn-white dropdown-toggle" aria-expanded="false">Thao tác<i class="ace-icon fa fa-angle-down icon-on-right"></i>
                                </button>
                                <ul class="dropdown-menu">`;
-                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/GianHangArea/GianHang/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='glyphicon glyphicon-edit'> </i> Sửa thông tin</a> </li>";
+                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/GianHangArea/GianHang/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa thông tin</a> </li>";
                            result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/GianHangArea/GianHang/ThongTinNap/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-card-checklist'> </i> Thông tin nạp</a> </li>";
                            result += `<li><a href='/VatPhamArea/VatPham/Index/${data.Id}'   title = 'Quản lý vật phẩm'><i class="bi bi-joystick"></i> Quản lý vật phẩm</a> </li>`;
-                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/GianHangArea/GianHang/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' glyphicon glyphicon-remove' style='color:red'> </i> Xóa</a></li>";
+                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/GianHangArea/GianHang/Delete/" + data.Id + "\")'  title = 'Xóa'><i class='bi bi-x-lg' style='color:red'> </i> Xóa</a></li>";
                            result += "</ul></div>";
                            return result;
                        }
@@ -85,7 +85,12 @@
                     content: function (data) {
                         var trangThai = data.TrangThai == "BAT" ? "<i class='fa fa-check green'></i> Bật" : "<i class='fa fa-close red'></i> Tắt";
                         return `<div>
-                                <div class="text-center">${trangThai}</div>
+                                <div class="text-center">
+                                    <label class="switch" onClick="toggleKichHoat(${data.Id}, this)">
+                                        <input type="checkbox" value="true" ${data.KichHoat ? "checked" : ""} disabled>
+                                       <span class="slider round"></span>
+                                  </label>
+                                </div>
                                 <div class="text-title">${data.Name}</div>
                                 <div class="image-upload-box aspect-video" style="width: 200px; padding: 2px">
                                     <img src="${data.AnhBia}" alt="" class="image-preview has-image mb-0 aspect-video h-full object-cover" />
@@ -135,7 +140,7 @@
                 pageSizeList:{size:[20,50,100,-1],label:['20','50','100','Tất cả']},
                 pagecount: @Model.TotalPage,
                 recordCount: @Model.Count,
-                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="fa fa-search"></i> Tìm kiếm</a>',
+                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
                 getData:getdatafunc,
                 listItem:lstData,
                 config:conf
@@ -146,6 +151,7 @@
         function AfterSussessActionAjaxform(){
             $(moduleTableSelector).hinetTable("reload");
         }
+
         function AjaxSearchSuccess(rs) {
             $(moduleTableSelector).hinetTable("data", {
                 pageIndex: 1,
@@ -154,7 +160,37 @@
                 listItem: rs.ListItem,
             });
         }
+
         pagefunction();
+        function toggleKichHoat(id, checkbox) {
+            var newState = checkbox.checked;
+            onConfirmCall(
+                function () {
+                    $.ajax({
+                        url: '/GianHangArea/GianHang/UpdateKichHoat',
+                        type: 'POST',
+                        data: { id: id, kichHoat: newState },
+                        success: function (rs) {
+                            if (rs.Status) {
+                                NotiSuccess("Thành công", "Cập nhật trạng thái thành công");
+                                $(moduleTableSelector).hinetTable("reload");
+                            } else {
+                                NotiError("Thất bại", rs.Message);
+                                checkbox.checked = !newState;
+                            }
+                        },
+                        error: function () {
+                            NotiError("Thất bại", "Không kết nối được server");
+                            checkbox.checked = !newState;
+                        }
+                    });
+                },
+                "Xác nhận",
+                "Bạn có chắc muốn " + (newState ? "kích hoạt" : "hủy kích hoạt") + " gian hàng này?"
+            );
+
+            setTimeout(() => { checkbox.checked = !newState; }, 10);
+        }
         var quill;
         var quillLuuY;
     </script>

@@ -1,23 +1,24 @@
-using log4net;
-using Hinet.Model.IdentityEntities;
+using AutoMapper;
 using Hinet.Model.Entities;
+using Hinet.Model.IdentityEntities;
 using Hinet.Repository;
+using Hinet.Repository.AppUserRepository;
+using Hinet.Repository.DonHangRepository;
 using Hinet.Repository.GiaoDichRepository;
-using Hinet.Service.GiaoDichService.Dto;
+using Hinet.Repository.TaiKhoanRepository;
+using Hinet.Repository.VatPhamRepository;
 using Hinet.Service.Common;
-using System.Linq.Dynamic;
+using Hinet.Service.Constant;
+using Hinet.Service.GiaoDichService.Dto;
+using log4net;
+using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
-using PagedList;
-using AutoMapper;
-using Hinet.Service.Constant;
-using Hinet.Repository.AppUserRepository;
-using Hinet.Repository.TaiKhoanRepository;
-using Hinet.Repository.DonHangRepository;
-using Hinet.Repository.VatPhamRepository;
 
 
 
@@ -102,6 +103,7 @@ namespace Hinet.Service.GiaoDichService
                             NoiDungChuyenKhoan = GiaoDichtbl.NoiDungChuyenKhoan,
                             MaGiaoDich = GiaoDichtbl.MaGiaoDich,
                         };
+            query = query.Where(x => x.TrangThai != TrangThaiGiaoDichConstant.KHOITAO);
 
             if (searchModel != null)
             {
@@ -135,19 +137,26 @@ namespace Hinet.Service.GiaoDichService
                 }
                 if (searchModel.NgayGiaoDichFilter != null)
                 {
-                    query = query.Where(x => x.NgayGiaoDich == searchModel.NgayGiaoDichFilter);
+                    var date = searchModel.NgayGiaoDichFilter.Value.Date;
+                    query = query.Where(x => DbFunctions.TruncateTime(x.NgayGiaoDich) == date);
                 }
-                if (searchModel.NgayThanhToanFilter != null)
+
+                if (searchModel.NgayXuLyFilter != null)
                 {
-                    query = query.Where(x => x.NgayXuLy == searchModel.NgayThanhToanFilter);
+                    var date = searchModel.NgayXuLyFilter.Value.Date;
+                    query = query.Where(x => x.NgayXuLy.HasValue &&
+                                             DbFunctions.TruncateTime(x.NgayXuLy.Value) == date);
                 }
                 if (searchModel.TuNgayFilter != null)
                 {
-                    query = query.Where(x => x.NgayGiaoDich >= searchModel.TuNgayFilter);
+                    var tuNgay = searchModel.TuNgayFilter.Value.Date;
+                    query = query.Where(x => DbFunctions.TruncateTime(x.NgayGiaoDich) >= tuNgay);
                 }
+
                 if (searchModel.DenNgayFilter != null)
                 {
-                    query = query.Where(x => x.NgayGiaoDich <= searchModel.DenNgayFilter);
+                    var denNgay = searchModel.DenNgayFilter.Value.Date;
+                    query = query.Where(x => DbFunctions.TruncateTime(x.NgayGiaoDich) <= denNgay);
                 }
                 if (!string.IsNullOrEmpty(searchModel.KeyWord))
                 {

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Hinet.Model.Entities;
 using Hinet.Repository;
+using Hinet.Repository.AppUserRepository;
 using Hinet.Repository.DanhMucGameRepository;
 using Hinet.Repository.DichVuRepository;
 using Hinet.Repository.GameRepository;
@@ -13,6 +14,7 @@ using log4net;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Dynamic;
 
@@ -31,6 +33,7 @@ namespace Hinet.Service.TinTucService
         IDichVuRepository _dichVuRepository;
         IGameRepository _gameRepository;
         IDanhMucGameRepository _danhMucGameRepository;
+        IAppUserRepository _appUserRepository;
 
         public TinTucService(IUnitOfWork unitOfWork,
                 ITinTucRepository TinTucRepository,
@@ -39,7 +42,8 @@ namespace Hinet.Service.TinTucService
                 ITaiKhoanRepository taiKhoanRepository,
                 IDichVuRepository dichVuRepository,
                 IDanhMucGameRepository danhMucGameRepository,
-                IGameRepository gameRepository)
+                IGameRepository gameRepository,
+                IAppUserRepository appUserRepository)
             : base(unitOfWork, TinTucRepository)
         {
             _unitOfWork = unitOfWork;
@@ -50,6 +54,7 @@ namespace Hinet.Service.TinTucService
             _dichVuRepository = dichVuRepository;
             _danhMucGameRepository = danhMucGameRepository;
             _gameRepository = gameRepository;
+            _appUserRepository = appUserRepository;
         }
 
         public PageListResultBO<TinTucDto> GetDaTaByPage(TinTucSearchDto searchModel, int pageIndex = 1, int pageSize = 20)
@@ -102,10 +107,9 @@ namespace Hinet.Service.TinTucService
                 }
                 if (searchModel.ThoiGianXuatBanFilter != null)
                 {
-                    query = query.Where(x => x.ThoiGianXuatBan == searchModel.ThoiGianXuatBanFilter);
+                    var date = searchModel.ThoiGianXuatBanFilter.Value.Date;
+                    query = query.Where(x => DbFunctions.TruncateTime(x.ThoiGianXuatBan) == date);
                 }
-
-
                 if (!string.IsNullOrEmpty(searchModel.sortQuery))
                 {
                     query = query.OrderBy(searchModel.sortQuery);

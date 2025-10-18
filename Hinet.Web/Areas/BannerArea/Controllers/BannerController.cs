@@ -215,7 +215,7 @@ namespace Hinet.Web.Areas.BannerArea.Controllers
 					result.MessageFail("Không tìm thấy thông tin");
                     return Json(result);
                 }
-                obj.KichHoat = !obj.KichHoat;
+                obj.KichHoat = !(obj.KichHoat ?? false);
                 _BannerService.Update(obj);
             }
             catch (Exception ex)

@@ -175,7 +175,7 @@
                 <div class="swiper-wrapper">
                     @foreach (var item in Model.ListTinTuc)
                     {
-                        <div class="swiper-slide" style="width: 296px; margin-right: 16px">
+                        <div class="swiper-slide mr-4">
                             <div class="card news block cursor-pointer bg-white p-3 rounded-lg shadow-sm">
                                 <a href="/tin-tuc/@item.Slug" class="news-link scale-thumb">
                                     <div class="card-body">
@@ -221,14 +221,12 @@
                     <!-- Nút toggle -->
                     <div class="card-footer bg-white text-center">
                         <div class="d-flex align-items-center justify-content-center flex-wrap">
-                            <div class="flex-grow-1 border-top d-none d-sm-block"></div>
                             <button id="toggleBtn"
-                                    class="btn btn-light rounded-pill d-flex align-items-center justify-content-center flex-row mx-3 my-2"
-                                    style="min-width: 180px;">
+                                    class="btn-link rounded-pill d-flex align-items-center justify-content-center flex-row mx-3 my-2"
+                                    style="min-width: 100px;">
                                 <span id="toggleContent">Hiện thêm </span>
                                 <i id="toggleIcon" class="ml-1 bi bi-chevron-down"></i>
                             </button>
-                            <div class="flex-grow-1 border-top d-none d-sm-block"></div>
                         </div>
                     </div>
                 </div>
@@ -239,7 +237,7 @@
 
     <div class="container mt-10 section-about">
         <div class="box-product c-mt-md-18">
-            <div class="grid grid-cols-12 lg:grid-cols-15 gap-8">
+            <div class="grid grid-cols-12 lg:grid-cols-12 gap-8">
 
                 <!-- Item 1 -->
                 <div class="col-span-6 lg:col-span-3 md:col-span-3 sm:col-span-4">

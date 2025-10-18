@@ -1,12 +1,9 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using Hinet.Service.Constant;
+﻿using Hinet.Service.Constant;
 using Hinet.Service.GiaoDichService;
 using Hinet.Service.GiaoDichService.Dto;
 using Hinet.Service.NotificationService;
 using Hinet.Service.NotificationService.Dto;
-using Hinet.Service.TaiKhoanService.Dto;
 using Hinet.Web.Filters;
-using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace Hinet.Web.Controllers
@@ -122,7 +119,7 @@ namespace Hinet.Web.Controllers
         public void MarkAsRead(long id)
         {
             var noti = _notificationService.GetById(id);
-            if(noti != null)
+            if (noti != null)
             {
                 noti.IsRead = true;
                 _notificationService.Update(noti);

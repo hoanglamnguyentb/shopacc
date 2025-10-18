@@ -186,7 +186,9 @@ namespace Hinet.Web.Areas.GiaoDichArea.Controllers
             searchModel.TrangThaiFilter = form.TrangThaiFilter;
             searchModel.PhuongThucThanhToanFilter = form.PhuongThucThanhToanFilter;
             searchModel.NgayGiaoDichFilter = form.NgayGiaoDichFilter;
-            searchModel.NgayThanhToanFilter = form.NgayThanhToanFilter;
+            searchModel.NgayXuLyFilter = form.NgayXuLyFilter;
+            searchModel.TuNgayFilter = form.TuNgayFilter;
+            searchModel.DenNgayFilter = form.DenNgayFilter;
             searchModel.ListLoaiGiaoDichFilter = form.ListLoaiGiaoDichFilter;
 
 

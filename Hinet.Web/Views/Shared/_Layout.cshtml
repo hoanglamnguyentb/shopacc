@@ -147,6 +147,7 @@
      <link rel="stylesheet"
            href="/assets/wwwroot/css/deposit.css" />
      <link href="~/assets/wwwroot/css/responsive.css" rel="stylesheet" />
+     @*<script src="https://cdn.tailwindcss.com"></script>*@
      <link href="~/assets/wwwroot/css/app.css" rel="stylesheet" />
      <script id="facebook-jssdk"
              src="/assets/wwwroot/js/xfbml.customerchat.js"></script>
@@ -219,7 +220,8 @@
      <div style="background-color: #F2F4F7">
          @RenderBody()
      </div>
-     <div class="pt-5" style="background-color: #F2F4F7"></div>
+     <div class="pt-5 d-none d-lg-block" style="background-color: #F2F4F7"></div>
+     <div style="background-color: #F2F4F7; height: 110px" class="d-block d-lg-none"></div>
      <!-- Start Footer -->
      @Html.Partial("~/Views/Shared/Components/_FooterPartial.cshtml")
      <!-- End Footer -->

@@ -1,8 +1,8 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    ViewBag.ModuleName = "Quản lý ";
-    ViewBag.PageName = "Danh sách ";
+    ViewBag.ModuleName = "Quản lý mã giảm giá";
+    ViewBag.PageName = "Danh sách mã giảm giá";
     ViewBag.ModuleCode = "MaGiamGia_index";
 
 }
@@ -16,35 +16,32 @@
     var lstData = Html.Raw(JsonConvert.SerializeObject(Model.ListItem));
 }
 
-
-
 @section ActionBarRight{
     <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
-        Tìm kiếm
+        <i class="bi bi-search"></i> Tìm kiếm
     </a>
-    <a href="javascript:void(0)" onclick="CreateAction('/MaGiamGiaArea/MaGiamGia/Create')" class="btn btn-primary btn-sm">Thêm mới</a>
+    <a href="javascript:void(0)" onclick="CreateAction('/MaGiamGiaArea/MaGiamGia/Create')" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
 }
 @Html.Partial("_SearchPartial")
 
 <div id="tbl-MaGiamGia" class="hntbl-cover table-scroll">
-	<div class="table-wrap">
-    <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th class="fixed-side">#</th>
-                <th class="fixed-side">Thao tác</th>
-				<th>Số lượng</th>
-				<th>Thời gian áp dụng</th>
-				<th>Áp dụng toàn hệ thống</th>
-				<th>Trạng thái</th>
-				<th>Thông tin</th>
-				<th>Gian hàng áp dụng</th>
-
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+    <div class="table-wrap">
+        <table class="hinet-table table table-striped table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th class="fixed-side">#</th>
+                    <th class="fixed-side">Thao tác</th>
+                    <th>Số lượng</th>
+                    <th>Gian hàng áp dụng</th>
+                    <th>Thời gian áp dụng</th>
+                    <th>Áp dụng toàn hệ thống</th>
+                    <th>Trạng thái</th>
+                    <th>Thông tin</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </div>
 
 @section scripts{
@@ -73,8 +70,8 @@
                                </button>
 
                                <ul class="dropdown-menu">`;
-                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/MaGiamGiaArea/MaGiamGia/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='glyphicon glyphicon-edit'> </i> Sửa thông tin</a> </li>";
-                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/MaGiamGiaArea/MaGiamGia/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' glyphicon glyphicon-remove' style='color:red'> </i> Xóa</a></li>";
+                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/MaGiamGiaArea/MaGiamGia/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa thông tin</a> </li>";
+                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/MaGiamGiaArea/MaGiamGia/Delete/" + data.Id + "\")'  title = 'Xóa'><i class='bi bi-x-lg' style='color:red'> </i> Xóa</a></li>";
                            result += "</ul></div>";
                            return result;
                        }
@@ -85,26 +82,46 @@
 					content: function (data) {
 					return data.SoLuong
 				}
-				},
+                },
+                {
+                    isSort: true,
+                    nameModel: 'GianHangApDung',
+                    content: function (data) {
+                        let result = "";
+                        if (data.ListGianHang && data.ListGianHang.length > 0) {
+                            result = "<ul style='padding-left:16px; margin:0;'>";
+                            data.ListGianHang.forEach((item) => {
+                                result += `<li>${item.Name}</li>`;
+                            });
+                            result += "</ul>";
+                        }
+                        return result;
+                    }
+                },
 				{
 					isSort:true,
 					nameModel:'TuNgay',
 					content: function (data) {
-                        return `${ToDate(data.TuNgay)}-${ToDate(data.DenNgay) }` 
+                        return `${ToDate(data.TuNgay)} → ${ToDate(data.DenNgay) }` 
 				}
 				},
 				{
 					isSort:true,
 					nameModel:'ToanHeThong',
 					content: function (data) {
-                    return data.ToanHeThong ? "<i class='fa fa-check green'></i>" : ""
-				}
+                        return `<label class="switch">
+                                    <input type="checkbox" value="true" ${data.ToanHeThong ? "checked" : ""} disabled>
+                                   <span class="slider round"></span>
+                              </label>`				}
 				},
 				{
 					isSort:true,
 					nameModel:'TrangThai',
 					content: function (data) {
-                        return data.TrangThai ? "<i class='fa fa-check green'></i>" : ""
+                        return `<label class="switch" onClick="toggleKichHoat(${data.Id}, this)">
+                                    <input type="checkbox" value="true" ${data.TrangThai ? "checked" : ""} disabled>
+                                   <span class="slider round"></span>
+                              </label>`
 				}
 				},
 				{
@@ -112,13 +129,6 @@
 					nameModel:'ThongTin',
 					content: function (data) {
 					return data.ThongTin
-				}
-				},
-				{
-					isSort:true,
-					nameModel:'GianHangApDung',
-					content: function (data) {
-					return data.GianHangApDung
 				}
 				},
             ];
@@ -149,7 +159,7 @@
                 pageSizeList:{size:[20,50,100,-1],label:['20','50','100','Tất cả']},
                 pagecount: @Model.TotalPage,
                 recordCount: @Model.Count,
-                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="fa fa-search"></i> Tìm kiếm</a>',
+                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
                 getData:getdatafunc,
                 listItem:lstData,
                 config:conf
@@ -169,5 +179,35 @@
             });
         }
         pagefunction();
+
+        function toggleKichHoat(id, checkbox) {
+            var newState = checkbox.checked;
+            onConfirmCall(
+                function () {
+                    $.ajax({
+                        url: '/MaGiamGiaArea/MaGiamGia/UpdateKichHoat',
+                        type: 'POST',
+                        data: { id: id, kichHoat: newState },
+                        success: function (rs) {
+                            if (rs.Status) {
+                                NotiSuccess("Thành công", "Cập nhật trạng thái thành công");
+                                $(moduleTableSelector).hinetTable("reload");
+                            } else {
+                                NotiError("Thất bại", rs.Message);
+                                checkbox.checked = !newState;
+                            }
+                        },
+                        error: function () {
+                            NotiError("Thất bại", "Không kết nối được server");
+                            checkbox.checked = !newState;
+                        }
+                    });
+                },
+                "Xác nhận",
+                "Bạn có chắc muốn " + (newState ? "kích hoạt" : "hủy kích hoạt") + " mã giảm giá này?"
+            );
+
+            setTimeout(() => { checkbox.checked = !newState; }, 10);
+        }
     </script>
 }

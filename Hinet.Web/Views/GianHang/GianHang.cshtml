@@ -67,7 +67,6 @@
                                     Giá <br>
                                     <span class="text-red-500 text-base">
                                         @NumberHelper.FormatMoneyVN(item.GiaGoc)
-                                        VNĐ
                                     </span>
                                 </div>
                             </div>
@@ -203,7 +202,7 @@
                     </label>
                     <input type="text" id="email" name="email" value="" placeholder="Địa chỉ email" class="border border-gray-300 w-full outline-none p-2 px-3 rounded-lg focus:border-gray-400 transition duration-150 ease-in-out">
                     <div class="flex justify-between place-items-end">
-                        <span class="text-red-500 text-xl" id="total">0 VNĐ</span>
+                        <span class="text-red-500 text-xl" id="total">0 đ</span>
                         @if (currentUser == null)
                         {
                             <button type="button" class="bg-blue-500 p-2 px-3 rounded-lg mt-4 text-white text-base" onclick="openLoginModal()">
@@ -285,7 +284,7 @@
         // 🧠 Hàm tính tổng tiền hiển thị
         function updateTotal() {
             var total = getCurrentTotal();
-            $('#total').text(total.toLocaleString('vi-VN') + ' VNĐ');
+            $('#total').text(total.toLocaleString('vi-VN') + ' đ');
         }
 
         // 🧮 Hàm tính tổng tiền hiện tại (có giảm giá)

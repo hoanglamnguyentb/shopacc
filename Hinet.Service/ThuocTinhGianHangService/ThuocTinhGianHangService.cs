@@ -85,8 +85,6 @@ namespace Hinet.Service.ThuocTinhGianHangService
                 {
                     query = query.Where(x => x.NhomDanhmucCode.Contains(searchModel.NhomDanhmucCodeFilter));
                 }
-
-
                 if (!string.IsNullOrEmpty(searchModel.sortQuery))
                 {
                     query = query.OrderBy(searchModel.sortQuery);

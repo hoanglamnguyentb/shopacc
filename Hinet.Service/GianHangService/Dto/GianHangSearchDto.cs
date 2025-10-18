@@ -9,14 +9,10 @@ namespace Hinet.Service.GianHangService.Dto
 {
     public class GianHangSearchDto : SearchBase
     {
-		public int STTFilter { get; set; }
 		public string NameFilter { get; set; }
 		public string MoTaFilter { get; set; }
-		public string TrangThaiFilter { get; set; }
-		public string ViTriHienThiFilter { get; set; }
+		public bool? KichHoatFilter { get; set; }
 		public string SlugFilter { get; set; }
 		public string AnhBiaFilter { get; set; }
-
-
     }
 }

@@ -14,8 +14,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-
-
 namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
 {
     public class MaGiamGiaController : BaseController
@@ -47,7 +45,6 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
         [PermissionAccess(Code = permissionIndex)]
         public ActionResult Index()
         {
-
             var listData = _MaGiamGiaService.GetDaTaByPage(null);
             SessionManager.SetValue(searchKey, null);
             ViewBag.dropdownListGianHangId = _gianHangService.GetDropdown("Name", "Id");
@@ -83,7 +80,6 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public JsonResult Create(CreateVM model)
         {
             var result = new JsonResultBO(true, "Tạo  thành công");
@@ -127,7 +123,6 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public JsonResult Edit(EditVM model)
         {
             var result = new JsonResultBO(true);
@@ -203,7 +198,6 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
             return Json(result);
         }
 
-
         public ActionResult Detail(int id)
         {
             var model = new DetailVM();
@@ -211,7 +205,27 @@ namespace Hinet.Web.Areas.MaGiamGiaArea.Controllers
             return View(model);
         }
 
-
+        public JsonResult UpdateKichHoat(int id)
+        {
+            var result = new JsonResultBO(true, "Cập nhật trạng thái thành công");
+            try
+            {
+                var obj = _MaGiamGiaService.GetById(id);
+                if (obj == null)
+                {
+                    result.MessageFail("Không tìm thấy thông tin");
+                    return Json(result);
+                }
+                obj.TrangThai = !obj.TrangThai;
+                _MaGiamGiaService.Update(obj);
+            }
+            catch (Exception ex)
+            {
+                result.MessageFail("Lỗi: " + ex.Message);
+                return Json(result);
+            }
+            return Json(result);
+        }
 
     }
 }

@@ -145,6 +145,14 @@
     <Compile Include="Migrations\202510170719034_alter_tbl_tables_2.Designer.cs">
       <DependentUpon>202510170719034_alter_tbl_tables_2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202510180112247_alter_tbls_3.cs" />
+    <Compile Include="Migrations\202510180112247_alter_tbls_3.Designer.cs">
+      <DependentUpon>202510180112247_alter_tbls_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202510180119046_alter_tbls_4.cs" />
+    <Compile Include="Migrations\202510180119046_alter_tbls_4.Designer.cs">
+      <DependentUpon>202510180119046_alter_tbls_4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Seed\InitAccountSeed.cs" />
@@ -218,6 +226,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202510170719034_alter_tbl_tables_2.resx">
       <DependentUpon>202510170719034_alter_tbl_tables_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510180112247_alter_tbls_3.resx">
+      <DependentUpon>202510180112247_alter_tbls_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202510180119046_alter_tbls_4.resx">
+      <DependentUpon>202510180119046_alter_tbls_4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

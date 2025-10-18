@@ -151,6 +151,17 @@
                 <span class="menu-bottom_text fz-12">Tin tức</span>
             </a>
         </li>
+
+        <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "nap-topup" ? "is-active" : "" )">
+            <a href="/gian-hang"
+               class="d-flex justify-content-center c-p-5 fz-13 fw-400 flex-column align-items-center">
+                <span class="menu-bottom_icon c-pt-6 c-pb-2 text-center c-mb-4 brs-24">
+                    <i class="bi bi-box-fill fz-16 text-color"></i>
+                </span>
+
+                <span class="menu-bottom_text fz-12">Nạp topup</span>
+            </a>
+        </li>
         @if (currentUser != null)
         {
             <li class="menu-bottom-item px-0 @(ViewBag.MenuBottom == "tai-khoan" ? "is-active" : "" )">

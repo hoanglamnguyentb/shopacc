@@ -33,7 +33,6 @@ namespace Hinet.Web.Areas.VatPhamArea.Controllers
 
 
         public VatPhamController(IVatPhamService VatPhamService, ILog Ilog,
-
         IDM_DulieuDanhmucService dM_DulieuDanhmucService,
             IMapper mapper
             )
@@ -177,13 +176,8 @@ namespace Hinet.Web.Areas.VatPhamArea.Controllers
                 searchModel = new VatPhamSearchDto();
                 searchModel.pageSize = 20;
             }
-            searchModel.GianHangIdFilter = form.GianHangIdFilter;
             searchModel.GiaGocFilter = form.GiaGocFilter;
-            searchModel.STTFilter = form.STTFilter;
             searchModel.NameFilter = form.NameFilter;
-            searchModel.DuongDanAnhFilter = form.DuongDanAnhFilter;
-            searchModel.MoTaFilter = form.MoTaFilter;
-            searchModel.SlugFilter = form.SlugFilter;
 
             SessionManager.SetValue((searchKey), searchModel);
 

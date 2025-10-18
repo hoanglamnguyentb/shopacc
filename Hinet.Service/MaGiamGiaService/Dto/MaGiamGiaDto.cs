@@ -10,6 +10,6 @@ namespace Hinet.Service.MaGiamGiaService.Dto
 {
     public class MaGiamGiaDto : MaGiamGia
     {
-
+        public List<GianHang> ListGianHang { get; set; }
     }
 }

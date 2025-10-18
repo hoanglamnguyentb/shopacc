@@ -214,7 +214,7 @@ namespace Hinet.Web.Areas.DichVuArea.Controllers
                     result.MessageFail("Không tìm thấy thông tin");
                     return Json(result);
                 }
-                obj.KichHoat = !obj.KichHoat;
+                obj.KichHoat = !(obj.KichHoat ?? false);
                 _DichVuService.Update(obj);
             }
             catch (Exception ex)

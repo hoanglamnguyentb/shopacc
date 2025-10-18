@@ -1,8 +1,8 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    ViewBag.ModuleName = "Quản lý ";
-    ViewBag.PageName = "Danh sách ";
+    ViewBag.ModuleName = "Quản lý cấu hình hệ thống";
+    ViewBag.PageName = "Danh sách cấu hình hệ thống";
     ViewBag.ModuleCode = "SiteConfig_index";
 
 }
@@ -69,8 +69,8 @@
                                </button>
 
                                <ul class="dropdown-menu">`;
-                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/SiteConfigArea/SiteConfig/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='glyphicon glyphicon-edit'> </i> Sửa thông tin</a> </li>";
-                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/SiteConfigArea/SiteConfig/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' glyphicon glyphicon-remove' style='color:red'> </i> Xóa</a></li>";
+                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/SiteConfigArea/SiteConfig/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa thông tin</a> </li>";
+                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/SiteConfigArea/SiteConfig/Delete/" + data.Id + "\")'  title = 'Xóa'><i class='bi bi-x-lg' style='color:red'> </i> Xóa</a></li>";
                            result += "</ul></div>";
                            return result;
                        }

@@ -10,71 +10,33 @@
             }, new { }))
         {
             @Html.AntiForgeryToken()
-        <div class="row row-block">
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Gian hàng id</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="GianHangIdFilter" />
-			</div>
-		</div>
+            <div class="row row-block">
+                <div class="col-md-6 row-block">
+                    <div class="col-md-4 txt-label">Giá gốc</div>
+                    <div class="col-md-8">
+                        <input type="number" class="form-control width100" name="GiaGocFilter" />
+                    </div>
+                </div>
+                <div class="col-md-6 row-block">
+                    <div class="col-md-4 txt-label">Tên vật phẩm</div>
+                    <div class="col-md-8">
+                        <input class="form-control width100" type="text" name="NameFilter" />
+                    </div>
+                </div>
+                <div class="col-md-12 center" style=" margin-top:20px;">
+                    <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
+                        <span class="btn-label">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
+                        Tìm kiếm
+                    </button>
 
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Giá gốc</div>
-			<div class="col-md-8">
-				<input type="number" class="form-control width100" name="GiaGocFilter" />
-			</div>
-		</div>
-
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">STT</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="STTFilter" />
-			</div>
-		</div>
-
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Tên vật phẩm</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="NameFilter" />
-			</div>
-		</div>
-
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Đường dẫn ảnh</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="DuongDanAnhFilter" />
-			</div>
-		</div>
-
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Mô tả</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="MoTaFilter" />
-			</div>
-		</div>
-
-		<div class="col-md-6 row-block">
-			<div class="col-md-4 txt-label">Slug</div>
-			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="SlugFilter" />
-			</div>
-		</div>
-
-
-            <div class="col-md-12 center" style=" margin-top:20px;">
-                <button id="btnSearch" type="submit" class="btn btn-labeled btn-primary btn-sm">
-                    <span class="btn-label">
-                        <i class="glyphicon glyphicon-search"></i>
-                    </span>
-                    Tìm kiếm
-                </button>
-
-                <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
-                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
-                    Đóng
-                </a>
+                    <a aria-expanded="false" href="#collapseDiv" data-toggle="collapse" role="button" class="btn btn-labeled btn-danger btn-sm">
+                        <span class="btn-label"><i class="bi bi-x-lg"></i></span>
+                        Đóng
+                    </a>
+                </div>
             </div>
-        </div>
 
         }
     </div>

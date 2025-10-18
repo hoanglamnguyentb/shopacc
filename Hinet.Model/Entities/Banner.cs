@@ -9,7 +9,6 @@ namespace Hinet.Model.Entities
 		[Required]
 		[StringLength(250)]
 		public string Name { get; set; }
-
 		public string DuongDanAnh { get; set; }
 		public string Link { get; set; }
 		public bool? KichHoat { get; set; }

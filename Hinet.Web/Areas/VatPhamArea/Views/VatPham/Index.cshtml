@@ -1,8 +1,8 @@
 @{
     ViewBag.Title = "";
     Layout = "~/Views/Shared/_LayoutAce.cshtml";
-    ViewBag.ModuleName = "Quản lý ";
-    ViewBag.PageName = "Danh sách ";
+    ViewBag.ModuleName = "Quản lý vật phẩm";
+    ViewBag.PageName = "Danh sách vật phẩm";
     ViewBag.ModuleCode = "VatPham_index";
 
 }
@@ -50,9 +50,9 @@
 
 @section ActionBarRight{
     <a href="#collapseDiv" class="btn btn-sm btn-primary" aria-controls="collapsePanel" data-toggle="collapse" role="button">
-        Tìm kiếm
+        <i class="bi bi-search"></i> Tìm kiếm
     </a>
-    <a href="javascript:void(0)" onclick="CreateAction('/VatPhamArea/VatPham/Create/'+ @gianHangId)" class="btn btn-primary btn-sm">Thêm mới</a>
+    <a href="javascript:void(0)" onclick="CreateAction('/VatPhamArea/VatPham/Create/'+ @gianHangId)" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg"></i> Thêm mới</a>
 }
 @Html.Partial("_SearchPartial")
 
@@ -98,8 +98,8 @@
                                </button>
 
                                <ul class="dropdown-menu">`;
-                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/VatPhamArea/VatPham/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='glyphicon glyphicon-edit'> </i> Sửa thông tin</a> </li>";
-                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/VatPhamArea/VatPham/Delete/" + data.Id + "\")'  title = 'Xóa'><i class=' glyphicon glyphicon-remove' style='color:red'> </i> Xóa</a></li>";
+                           result += "<li><a href='javascript:void(0)' onclick='EditAction(\"/VatPhamArea/VatPham/Edit/" + data.Id + "\")'   title = 'Chỉnh sửa'><i class='bi bi-pencil-square'> </i> Sửa thông tin</a> </li>";
+                           result += "<li><a href='javascript:void(0)' onclick='DeleteAction(\"/VatPhamArea/VatPham/Delete/" + data.Id + "\")'  title = 'Xóa'><i class='bi bi-x-lg' style='color:red'> </i> Xóa</a></li>";
                            result += "</ul></div>";
                            return result;
                        }
@@ -113,7 +113,7 @@
                                     <div class="mt-2 font-weight-bold">${data.Name}</div>
                                     <div class="price-section">
                                       <div>Giá</div>
-                                      <div class="price">${formatMoney(data.GiaGoc)} VNĐ</div>
+                                      <div class="price">${formatMoney(data.GiaGoc)} đ</div>
                                     </div>
                                   </div>`
 				}
@@ -152,7 +152,7 @@
                 pageSizeList:{size:[20,50,100,-1],label:['20','50','100','Tất cả']},
                 pagecount: @Model.TotalPage,
                 recordCount: @Model.Count,
-                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="fa fa-search"></i> Tìm kiếm</a>',
+                actionToolBar:'<a href=\"#collapseDiv\" aria-controls=\"collapsePanel\" data-toggle=\"collapse\" role=\"button\" class="btn btn-primary btn-xs"><i class="bi bi-search"></i> Tìm kiếm</a>',
                 getData:getdatafunc,
                 listItem:lstData,
                 config:conf

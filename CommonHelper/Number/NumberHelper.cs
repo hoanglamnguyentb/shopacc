@@ -95,7 +95,7 @@ namespace CommonHelper.Number
 
             string formattedNumber = FormatNumberVN(so, 0);
 
-            return $"{formattedNumber}đ";
+            return $"{formattedNumber} đ";
         }
 
 

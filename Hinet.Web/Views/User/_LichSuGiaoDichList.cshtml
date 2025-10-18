@@ -2,7 +2,7 @@
 @using Hinet.Service.Constant;
 @model Hinet.Service.Common.PageListResultBO<Hinet.Service.GiaoDichService.Dto.GiaoDichDto>
 @{
-    var loaiGiaoDich = ViewData["LoaiGiaoDich"] ?? null;
+    var loaiGiaoDich = ViewData["LoaiGiaoDich"] as string;
     var currentUser = (Hinet.Service.AppUserService.Dto.UserDto)SessionManager.GetUserInfo();
     var index = (Model.CurrentPage - 1) * 10;
 }

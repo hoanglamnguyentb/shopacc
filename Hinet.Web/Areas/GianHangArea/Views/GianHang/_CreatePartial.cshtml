@@ -42,10 +42,12 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Trạng thái </label>
+                        <label class="control-label col-sm-4">Kích hoạt </label>
                         <div class="col-sm-8">
-                            @Html.DropDownListFor(m => m.TrangThai, dropdownListTrangThai, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.TrangThai, "", new { @class = "text-danger" })
+                            <label class="switch">
+                                <input type="checkbox" checked value="true" id="KichHoat" name="KichHoat">
+                                <span class="slider round"></span>
+                            </label>
                         </div>
                     </div>
                     <div class="form-group">

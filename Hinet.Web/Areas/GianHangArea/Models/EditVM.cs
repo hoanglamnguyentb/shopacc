@@ -15,12 +15,13 @@ namespace Hinet.Web.Areas.GianHangArea.Models
 		public string Name { get; set; }
         public string LuuY { get; set; }
         public string MoTa { get; set; }
-		public string TrangThai { get; set; }
 		public string ViTriHienThi { get; set; }
 		public string Slug { get; set; }
 		public string AnhBia { get; set; }
         public HttpPostedFileBase FileAnh { get; set; }
         public List<ThuocTinhGianHang> ThuocTinhs { get; set; } = new List<ThuocTinhGianHang>();
+        public bool? KichHoat { get; set; }
+
 
     }
 }

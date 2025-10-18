@@ -55,8 +55,7 @@ namespace Hinet.Service.GianHangService
 							STT = GianHangtbl.STT,
 							Name = GianHangtbl.Name,
 							MoTa = GianHangtbl.MoTa,
-							TrangThai = GianHangtbl.TrangThai,
-							ViTriHienThi = GianHangtbl.ViTriHienThi,
+							KichHoat = GianHangtbl.KichHoat,
 							Slug = GianHangtbl.Slug,
 							AnhBia = GianHangtbl.AnhBia,
 							CreatedBy = GianHangtbl.CreatedBy,
@@ -74,10 +73,6 @@ namespace Hinet.Service.GianHangService
 
             if (searchModel != null)
             {
-		if (searchModel.STTFilter!=null)
-		{
-			query = query.Where(x => x.STT==searchModel.STTFilter);
-		}
 		if (!string.IsNullOrEmpty(searchModel.NameFilter))
 		{
 			query = query.Where(x => x.Name.Contains(searchModel.NameFilter));
@@ -86,13 +81,9 @@ namespace Hinet.Service.GianHangService
 		{
 			query = query.Where(x => x.MoTa.Contains(searchModel.MoTaFilter));
 		}
-		if (!string.IsNullOrEmpty(searchModel.TrangThaiFilter))
+		if (searchModel.KichHoatFilter != null)
 		{
-			query = query.Where(x => x.TrangThai.Contains(searchModel.TrangThaiFilter));
-		}
-		if (!string.IsNullOrEmpty(searchModel.ViTriHienThiFilter))
-		{
-			query = query.Where(x => x.ViTriHienThi.Contains(searchModel.ViTriHienThiFilter));
+			query = query.Where(x => x.KichHoat == searchModel.KichHoatFilter);
 		}
 		if (!string.IsNullOrEmpty(searchModel.SlugFilter))
 		{
@@ -139,7 +130,6 @@ namespace Hinet.Service.GianHangService
         {
             return _GianHangRepository.GetById(id);
         }
-    
 
     }
 }

@@ -49,7 +49,7 @@
 		<div class="col-md-6 row-block">
 			<div class="col-md-4 txt-label">Thời gian xuất bản</div>
 			<div class="col-md-8">
-				<input class="form-control width100" type="text" name="ThoiGianXuatBanFilter" id="ThoiGianXuatBanFilter"/>
+				<input class="form-control width100" type="text" name="ThoiGianXuatBanFilter" id="ThoiGianXuatBanFilter" autocomplete="off"/>
 			</div>
 		</div>
 
@@ -74,9 +74,10 @@
 <script>
 	$("#TrangThaiFilter").select2();
     $('#ThoiGianXuatBanFilter').datepicker({
-        format: 'yyyy-mm-dd',
         autoclose: true,
-        todayHighlight: true
+        todayBtn: true,
+        todayHighlight: true,
+        format: 'dd/mm/yyyy',
     });
 </script>
 

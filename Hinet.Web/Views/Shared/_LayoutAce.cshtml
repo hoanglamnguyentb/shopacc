@@ -100,8 +100,14 @@
                     <!-- /.ace-settings-container -->
                     <div class="page-header">
                         <div class="bcca-breadcrumb">
-                            <div class="bcca-breadcrumb-item">@ViewBag.PageName</div>
-                            <div class="bcca-breadcrumb-item">@ViewBag.ModuleName</div>
+                            @if (!string.IsNullOrEmpty(ViewBag.PageName))
+                            {
+                                <div class="bcca-breadcrumb-item">@ViewBag.PageName</div>
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.ModuleName))
+                            {
+                                <div class="bcca-breadcrumb-item">@ViewBag.ModuleName</div>
+                            }
                             <div class="bcca-breadcrumb-item">
                                 <a href="#" style="color: #393939"><i class="bi bi-house-fill"></i></a>
                             </div>

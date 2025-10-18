@@ -8,7 +8,6 @@ using Hinet.Service.DM_NhomDanhmucService;
 using Hinet.Service.GianHangService;
 using Hinet.Service.GianHangService.Dto;
 using Hinet.Service.ThuocTinhGianHangService;
-using Hinet.Service.ThuocTinhService;
 using Hinet.Web.Areas.GianHangArea.Models;
 using Hinet.Web.Filters;
 using log4net;
@@ -35,13 +34,13 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
         public const string searchKey = "GianHangPageSearchModel";
         private readonly IGianHangService _GianHangService;
         private readonly IDM_DulieuDanhmucService _dM_DulieuDanhmucService;
-        private readonly IThuocTinhGianHangService _thuocTinhGianHangService; 
+        private readonly IThuocTinhGianHangService _thuocTinhGianHangService;
         private readonly IDM_NhomDanhmucService _dM_NhomDanhmucService;
 
-        public GianHangController(IGianHangService GianHangService, 
+        public GianHangController(IGianHangService GianHangService,
             ILog Ilog,
             IDM_DulieuDanhmucService dM_DulieuDanhmucService,
-            IMapper mapper, IDM_NhomDanhmucService dM_NhomDanhmucService, 
+            IMapper mapper, IDM_NhomDanhmucService dM_NhomDanhmucService,
             IThuocTinhGianHangService thuocTinhGianHangService)
         {
             _GianHangService = GianHangService;
@@ -222,11 +221,9 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
                 searchModel = new GianHangSearchDto();
                 searchModel.pageSize = 20;
             }
-            searchModel.STTFilter = form.STTFilter;
             searchModel.NameFilter = form.NameFilter;
             searchModel.MoTaFilter = form.MoTaFilter;
-            searchModel.TrangThaiFilter = form.TrangThaiFilter;
-            searchModel.ViTriHienThiFilter = form.ViTriHienThiFilter;
+            searchModel.KichHoatFilter = form.KichHoatFilter;
             searchModel.SlugFilter = form.SlugFilter;
             searchModel.AnhBiaFilter = form.AnhBiaFilter;
 
@@ -266,6 +263,28 @@ namespace Hinet.Web.Areas.GianHangArea.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult UpdateKichHoat(int id)
+        {
+            var result = new JsonResultBO(true, "Cập nhật trạng thái thành công");
+            try
+            {
+                var obj = _GianHangService.GetById(id);
+                if (obj == null)
+                {
+                    result.MessageFail("Không tìm thấy thông tin");
+                    return Json(result);
+                }
+                obj.KichHoat = !(obj.KichHoat ?? false);
+                _GianHangService.Update(obj);
+            }
+            catch (Exception ex)
+            {
+                result.MessageFail("Lỗi: " + ex.Message);
+                return Json(result);
+            }
+            return Json(result);
+        }
 
     }
 }

@@ -389,7 +389,7 @@ namespace Hinet.Web.Controllers
                     user.Balance += giaoDich.SoTien;
                     _appUserService.Update(user);
                 }
-                message = $"💰 Nạp tiền thành công! Tài khoản của bạn đã được cộng <strong>+{NumberHelper.FormatNumberVN(giaoDich.SoTien)} VNĐ</strong>";
+                message = $"💰 Nạp tiền thành công! Tài khoản của bạn đã được cộng <strong>+{NumberHelper.FormatMoneyVN(giaoDich.SoTien)}</strong>";
                 url = "/lich-su-nap-tien";
             }
             else if (loaiGiaoDich.Equals(LoaiGiaoDichConstant.NAPTOPUP, StringComparison.OrdinalIgnoreCase))

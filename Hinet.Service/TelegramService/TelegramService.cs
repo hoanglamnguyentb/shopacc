@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CommonHelper.Number;
 using Hinet.Model.Entities;
 using Hinet.Repository;
 using Hinet.Repository.RoleRepository;
@@ -34,7 +35,7 @@ namespace Hinet.Service.TelegramService
         {
             var baseInfo = $"- Giao dịch ID: {giaoDich.Id}\n" +
                            $"- UserId: {giaoDich.NguoiGiaoDich}\n" +
-                           $"- Số tiền: {giaoDich.SoTien:N0} VNĐ\n" +
+                           $"- Số tiền: {NumberHelper.FormatMoneyVN(giaoDich.SoTien)}\n" +
                            $"- Nội dung chuyển khoản: {giaoDich.NoiDungChuyenKhoan}\n" +
                            $"- Thời gian: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n" +
                            $"- Mã giao dịch đối tác: {giaoDich.MaGiaoDichDoiTac}";
